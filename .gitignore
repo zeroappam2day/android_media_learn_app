@@ -1,0 +1,75 @@
+*.iml
+.gradle
+.kotlin
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+.env
+debug.keystore
+
+# Protected archives and generated evidence
+00_archive/
+
+# Logs and log data
+*.log
+*.log.*
+*.jsonl
+*.ndjson
+logs/
+log/
+log-data/
+
+# Screenshots and captures (directories only — not source files)
+screenshots/
+screenshot/
+
+# Videos and recordings (media files only — not source code)
+*.mp4
+*.m4v
+*.mov
+*.avi
+*.mkv
+*.webm
+
+# Secrets and credentials (security baseline)
+.env.*
+*.pem
+*.key
+!gradlew.bat
+*.crt
+*.p12
+*.pfx
+secrets/
+credentials/
+tokens/
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Project-local agent and repository metadata (local only)
+.claude/
+.codex/
+AGENTS.md
+README.md
+.mcp.json
+
+# e2e-flow intelligence artifacts (local only, regenerable)
+BLUEPRINT.md
+graphify-out/
+.repowise/
+
+# State and analysis (local only)
+state/
+uat/

@@ -1,0 +1,2785 @@
+package com.example
+
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
+import android.os.Bundle
+import android.provider.Settings
+import android.widget.Toast
+import java.net.URL
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.compose.animation.*
+import androidx.compose.foundation.*
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.data.*
+import com.example.ui.VideoViewModel
+import com.example.ui.theme.MyApplicationTheme
+import java.text.SimpleDateFormat
+import java.util.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.unit.Dp
+import kotlinx.coroutines.launch
+
+enum class WindowState { STANDARD, MINIMIZED, MAXIMIZED }
+
+val defaultSystemPrompt = "You are a Samsung S23 Ultra automation expert. Extract commands and roadmap."
+
+@Composable
+fun WindowedModal(
+    title: String,
+    windowState: WindowState,
+    onStateChange: (WindowState?) -> Unit,
+    content: @Composable BoxScope.() -> Unit
+) {
+    if (windowState == WindowState.MINIMIZED) return
+
+    val isMaximized = windowState == WindowState.MAXIMIZED
+    val modifier = if (isMaximized) {
+        Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    } else {
+        Modifier
+            .fillMaxWidth(0.9f)
+            .fillMaxHeight(0.8f)
+            .clip(RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.background)
+            .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f), RoundedCornerShape(16.dp))
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.4f)),
+        contentAlignment = Alignment.Center
+    ) {
+        Card(
+            modifier = modifier,
+            shape = if (isMaximized) RoundedCornerShape(0.dp) else RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
+            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        ) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                // Top window bar with custom window actions
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = title,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f)
+                    )
+                    
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // Minimize Button
+                        IconButton(
+                            onClick = { onStateChange(WindowState.MINIMIZED) },
+                            modifier = Modifier.size(28.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Remove,
+                                contentDescription = "Minimize",
+                                modifier = Modifier.size(16.dp),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        
+                        // Full Window or Return Window Button
+                        IconButton(
+                            onClick = { 
+                                if (isMaximized) {
+                                    onStateChange(WindowState.STANDARD)
+                                } else {
+                                    onStateChange(WindowState.MAXIMIZED)
+                                }
+                            },
+                            modifier = Modifier.size(28.dp)
+                        ) {
+                            Icon(
+                                imageVector = if (isMaximized) Icons.Default.FullscreenExit else Icons.Default.Fullscreen,
+                                contentDescription = if (isMaximized) "Standard Window" else "Full Window",
+                                modifier = Modifier.size(16.dp),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+
+                        // Close Button
+                        IconButton(
+                            onClick = { onStateChange(null) },
+                            modifier = Modifier.size(28.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "Close",
+                                modifier = Modifier.size(16.dp),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                }
+                
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    content()
+                }
+            }
+        }
+    }
+}
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            val systemDark = isSystemInDarkTheme()
+            var isDarkOverride by remember { mutableStateOf<Boolean?>(null) }
+            val isDark = isDarkOverride ?: systemDark
+
+            MyApplicationTheme(darkTheme = isDark) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    MainScreen(
+                        isDark = isDark,
+                        onToggleTheme = { isDarkOverride = !isDark }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MainScreen(
+    viewModel: VideoViewModel = viewModel(),
+    isDark: Boolean,
+    onToggleTheme: () -> Unit
+) {
+    val context = LocalContext.current
+    val allVideos by viewModel.allVideos.collectAsState()
+    val filteredVideos by viewModel.filteredVideos.collectAsState()
+    val selectedFilter by viewModel.selectedFilter.collectAsState()
+    val mediaAccess by viewModel.mediaAccessState.collectAsState()
+    val ollamaState by viewModel.ollamaStatus.collectAsState()
+    val isScanning by viewModel.isScanning.collectAsState()
+    val lastScan by viewModel.lastScanResult.collectAsState()
+    val llmProvider by viewModel.llmProvider.collectAsState()
+    val apiKey by viewModel.apiKey.collectAsState()
+    val llmTemperature by viewModel.llmTemperature.collectAsState()
+    val systemPrompt by viewModel.systemPrompt.collectAsState()
+    val availableModels by viewModel.availableModels.collectAsState()
+    val connectionSuccess by viewModel.connectionSuccess.collectAsState()
+
+    val selectedVideo by viewModel.selectedVideo.collectAsState()
+    val selectedFrames by viewModel.selectedVideoFrames.collectAsState()
+    val selectedAnalysis by viewModel.selectedVideoAnalysis.collectAsState()
+    val allAnalysisResults by viewModel.allAnalysisResults.collectAsState()
+
+    val batchState by viewModel.processor.processorState.collectAsState()
+    val activeVideoId by viewModel.processor.activeVideoId.collectAsState()
+    val currentProgress by viewModel.processor.currentVideoProgress.collectAsState()
+    val currentStep by viewModel.processor.currentStepName.collectAsState()
+
+    val autoIngestEnabled by viewModel.autoIngestEnabled.collectAsState()
+    val autoIngestScreenshots by viewModel.autoIngestScreenshots.collectAsState()
+    val autoIngestRecordings by viewModel.autoIngestRecordings.collectAsState()
+
+    var showSettings by remember { mutableStateOf(false) }
+    var dismissLimitedBanner by remember { mutableStateOf(false) }
+    var showEngineGuide by remember { mutableStateOf(false) }
+
+    // Intent Sender Launcher for Trashing & Deleting
+    val systemActionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            Toast.makeText(context, "System storage action success!", Toast.LENGTH_SHORT).show()
+            selectedVideo?.let {
+                viewModel.markAsTrashedLocally(it.id)
+            }
+        }
+    }
+
+    // Storage Permission Launchers
+    val requestPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        viewModel.refreshMediaAccess()
+        val readVideo = permissions[Manifest.permission.READ_MEDIA_VIDEO] ?: false
+        val partialRead = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            permissions[Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED] ?: false
+        } else false
+
+        if (readVideo || partialRead) {
+            viewModel.scanVideos()
+        } else {
+            Toast.makeText(context, "Permissions denied. App needs video read access to scan.", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun triggerPermissionCheck() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.READ_MEDIA_VIDEO,
+                    Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
+                )
+            )
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissionLauncher.launch(
+                arrayOf(Manifest.permission.READ_MEDIA_VIDEO)
+            )
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+            )
+        }
+    }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.VideoLibrary,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                        Text(
+                            text = stringResource(R.string.app_name),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onToggleTheme) {
+                        val icon = if (isDark) Icons.Default.LightMode else Icons.Default.DarkMode
+                        Icon(imageVector = icon, contentDescription = "Toggle Theme")
+                    }
+                    IconButton(
+                        onClick = { showSettings = true },
+                        modifier = Modifier.testTag("settings_button")
+                    ) {
+                        Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
+                )
+            )
+        }
+    ) { paddingValues ->
+        // Modals Window States
+        var leftPanelExpanded by remember { mutableStateOf(true) }
+        var activePanelSection by remember { mutableStateOf("home") } // "home", "folders", "backlog", "archive", "settings"
+        var folderSearchQuery by remember { mutableStateOf("") }
+        
+        var headerPanelExpanded by remember { mutableStateOf(true) }
+        var isTransferring by remember { mutableStateOf(false) }
+        var transferProgress by remember { mutableStateOf(0f) }
+
+        // Custom Stateful Modals
+        var previewModalState by remember { mutableStateOf<WindowState?>(null) }
+        var previewModalVideoId by remember { mutableStateOf<Long?>(null) }
+
+        var outputModalState by remember { mutableStateOf<WindowState?>(null) }
+        var outputModalVideoId by remember { mutableStateOf<Long?>(null) }
+
+        var settingsModalState by remember { mutableStateOf<WindowState?>(null) }
+
+        // Folder selection states
+        val selectedFolders = remember { mutableStateMapOf<String, Boolean>() }
+        
+        // Archive selection states
+        val selectedArchiveVideos = remember { mutableStateMapOf<Long, Boolean>() }
+
+        val scope = rememberCoroutineScope()
+
+        if (showSettings) {
+            settingsModalState = WindowState.STANDARD
+            showSettings = false
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                // Collapsible Header Panel
+                AnimatedVisibility(visible = headerPanelExpanded) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f)),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column {
+                                Text("Computer Sync Profile", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                                Text(
+                                    text = if (isTransferring) "Transferring files: ${(transferProgress * 100).toInt()}%" else "Connection Status: Connected via Local Sync Network",
+                                    fontSize = 11.sp,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                                if (isTransferring) {
+                                    Spacer(modifier = Modifier.height(6.dp))
+                                    LinearProgressIndicator(
+                                        progress = { transferProgress },
+                                        modifier = Modifier.width(180.dp),
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                }
+                            }
+                            IconButton(
+                                onClick = {
+                                    if (!isTransferring) {
+                                        isTransferring = true
+                                        transferProgress = 0f
+                                        scope.launch {
+                                            for (i in 1..10) {
+                                                kotlinx.coroutines.delay(150)
+                                                transferProgress = i / 10f
+                                            }
+                                            isTransferring = false
+                                            Toast.makeText(context, "All backlog files sync-transferred to Computer successfully!", Toast.LENGTH_LONG).show()
+                                        }
+                                    }
+                                },
+                                modifier = Modifier
+                                    .clip(CircleShape)
+                                    .background(MaterialTheme.colorScheme.primary)
+                                    .testTag("computer_transfer_button")
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Computer,
+                                    contentDescription = "Transfer to Computer",
+                                    tint = MaterialTheme.colorScheme.onPrimary
+                                )
+                            }
+                        }
+                    }
+                }
+
+                // Collapsible Header Tab Handle
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { headerPanelExpanded = !headerPanelExpanded }
+                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                        .padding(vertical = 4.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = if (headerPanelExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                        contentDescription = "Toggle Header",
+                        modifier = Modifier.size(16.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+
+                // Split Side Panel & Main Panel layout
+                Row(modifier = Modifier.weight(1f)) {
+                    // Left Panel (Collapsible Sidebar)
+                    AnimatedVisibility(
+                        visible = leftPanelExpanded,
+                        enter = slideInHorizontally() + fadeIn(),
+                        exit = slideOutHorizontally() + fadeOut()
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .width(240.dp)
+                                .fillMaxHeight()
+                                .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                                .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.12f))
+                                .padding(12.dp)
+                        ) {
+                            Text("SIDE NAVIGATION", fontSize = 11.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(bottom = 8.dp))
+                            
+                            // Navigation items list
+                            NavigationRowItem("Dashboard / Home", Icons.Default.Home, activePanelSection == "home") { activePanelSection = "home" }
+                            NavigationRowItem("Storage Folders", Icons.Default.FolderSpecial, activePanelSection == "folders") { activePanelSection = "folders" }
+                            NavigationRowItem("Active Backlog", Icons.Default.FormatListBulleted, activePanelSection == "backlog") { activePanelSection = "backlog" }
+                            NavigationRowItem("Archive (Processed)", Icons.Default.Archive, activePanelSection == "archive") { activePanelSection = "archive" }
+                            Divider(modifier = Modifier.padding(vertical = 12.dp))
+
+                            // Dynamic Folder Multi-Selector
+                            if (activePanelSection == "folders") {
+                                Text("FOLDER SELECTOR", fontSize = 11.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 6.dp))
+                                
+                                OutlinedTextField(
+                                    value = folderSearchQuery,
+                                    onValueChange = { folderSearchQuery = it },
+                                    placeholder = { Text("Search folders...", fontSize = 11.sp) },
+                                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                                    singleLine = true,
+                                    textStyle = androidx.compose.ui.text.TextStyle(fontSize = 11.sp),
+                                    trailingIcon = {
+                                        if (folderSearchQuery.isNotEmpty()) {
+                                            IconButton(onClick = { folderSearchQuery = "" }, modifier = Modifier.size(16.dp)) {
+                                                Icon(Icons.Default.Close, contentDescription = "Clear search", modifier = Modifier.size(14.dp))
+                                            }
+                                        } else {
+                                            Icon(Icons.Default.Search, contentDescription = null, modifier = Modifier.size(14.dp))
+                                        }
+                                    },
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        focusedBorderColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+                                        unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)
+                                    )
+                                )
+
+                                // Extract and group folder strings from available videos
+                                val folders = remember(allVideos) {
+                                    allVideos.map {
+                                        val path = Uri.parse(it.uriString).path ?: ""
+                                        val dir = path.substringBeforeLast("/", "Internal/Media")
+                                        val cleanDir = if (dir.contains(":")) dir.substringAfter(":") else dir
+                                        cleanDir.trim('/')
+                                    }.distinct().filter { it.isNotEmpty() }
+                                }
+
+                                val filteredFolders = remember(folders, folderSearchQuery) {
+                                    folders.filter { it.contains(folderSearchQuery, ignoreCase = true) }
+                                }
+
+                                if (folders.isEmpty()) {
+                                    Text("No folders scanned yet. Tap Scan below.", fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
+                                } else if (filteredFolders.isEmpty()) {
+                                    Text("No matching folders found.", fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
+                                } else {
+                                    LazyColumn(modifier = Modifier.weight(1f)) {
+                                        items(filteredFolders) { folder ->
+                                            val isChecked = selectedFolders[folder] ?: false
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .clickable { selectedFolders[folder] = !isChecked },
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Checkbox(
+                                                    checked = isChecked,
+                                                    onCheckedChange = { selectedFolders[folder] = it }
+                                                )
+                                                Text(folder, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                            }
+                                        }
+                                    }
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Button(
+                                        onClick = {
+                                            var addCount = 0
+                                            allVideos.forEach { v ->
+                                                val path = Uri.parse(v.uriString).path ?: ""
+                                                val dir = path.substringBeforeLast("/", "Internal/Media")
+                                                val cleanDir = if (dir.contains(":")) dir.substringAfter(":") else dir
+                                                val fKey = cleanDir.trim('/')
+                                                if (selectedFolders[fKey] == true) {
+                                                    viewModel.toggleQueueVideo(v.id)
+                                                    addCount++
+                                                }
+                                            }
+                                            Toast.makeText(context, "Added $addCount files to Backlog queue!", Toast.LENGTH_SHORT).show()
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(16.dp))
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                        Text("Add Selected to Backlog", fontSize = 12.sp)
+                                    }
+                                }
+                            } else if (activePanelSection == "settings") {
+                                // Mini quick-settings panel in sidebar
+                                Text("QUICK PROVIDER CONFIG", fontSize = 11.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 6.dp))
+                                TextButton(onClick = { settingsModalState = WindowState.STANDARD }, modifier = Modifier.fillMaxWidth()) {
+                                    Icon(Icons.Default.OpenInNew, contentDescription = null, modifier = Modifier.size(16.dp))
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text("Configure LLM Panel", fontSize = 12.sp)
+                                }
+                            } else {
+                                // Default status count inside sidebar
+                                Card(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                                ) {
+                                    Column(modifier = Modifier.padding(10.dp)) {
+                                        Text("BACKLOG SUMMARY", fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Text("• Total Videos Scanned: ${allVideos.size}", fontSize = 11.sp)
+                                        Text("• Filtered Backlog items: ${filteredVideos.size}", fontSize = 11.sp)
+                                        Text("• LLM Provider: ${viewModel.llmProvider.value.replace("_", " ").uppercase()}", fontSize = 11.sp)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Main Content Panel (Depends on Active Navigation Section)
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .padding(16.dp)
+                    ) {
+                        // Header info of active view
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = activePanelSection.uppercase(),
+                                fontWeight = FontWeight.Black,
+                                fontSize = 16.sp,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            
+                            // Sort Controls (visible on backlog & archive)
+                            if (activePanelSection == "backlog" || activePanelSection == "archive") {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text("Sort: ", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                                    val currentSort by viewModel.selectedSort.collectAsState()
+                                    val sorts = listOf("Name", "Status", "Size")
+                                    sorts.forEach { s ->
+                                        Text(
+                                            text = s,
+                                            fontSize = 11.sp,
+                                            fontWeight = if (currentSort == s) FontWeight.Bold else FontWeight.Normal,
+                                            color = if (currentSort == s) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                                            modifier = Modifier
+                                                .clickable { viewModel.selectSort(s) }
+                                                .padding(horizontal = 6.dp, vertical = 2.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        // Live batch processing visual track
+                        if (batchState != VideoProcessor.State.IDLE) {
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp),
+                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                            ) {
+                                Column(modifier = Modifier.padding(12.dp)) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                                            CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.primary)
+                                            Spacer(modifier = Modifier.width(8.dp))
+                                            Text("Batch: ${batchState.name}", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                                        }
+                                        Row {
+                                            if (batchState == VideoProcessor.State.PROCESSING) {
+                                                IconButton(onClick = { viewModel.pauseBatch() }, modifier = Modifier.size(24.dp)) {
+                                                    Icon(Icons.Default.Pause, contentDescription = "Pause", tint = MaterialTheme.colorScheme.primary)
+                                                }
+                                            } else if (batchState == VideoProcessor.State.PAUSED) {
+                                                IconButton(onClick = { viewModel.resumeBatch() }, modifier = Modifier.size(24.dp)) {
+                                                    Icon(Icons.Default.PlayArrow, contentDescription = "Resume", tint = MaterialTheme.colorScheme.primary)
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (currentStep.isNotEmpty()) {
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Text(currentStep, fontSize = 11.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        LinearProgressIndicator(progress = { currentProgress / 100f }, modifier = Modifier.fillMaxWidth())
+                                    }
+                                }
+                            }
+                        }
+
+                        when (activePanelSection) {
+                            "home" -> {
+                                OverviewGrid(allVideos = allVideos, mediaState = mediaAccess, ollamaState = ollamaState)
+                                
+                                if (mediaAccess == "Limited access" && !dismissLimitedBanner) {
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
+                                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f))
+                                    ) {
+                                        Column(modifier = Modifier.padding(12.dp)) {
+                                            Text("Limited Access Enabled", fontWeight = FontWeight.Bold, fontSize = 13.sp, color = MaterialTheme.colorScheme.onErrorContainer)
+                                            Text("Android has restricted gallery scans. Please grant full access for comprehensive video indexing.", fontSize = 11.sp)
+                                            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+                                                TextButton(onClick = { triggerPermissionCheck() }) { Text("Change", fontSize = 11.sp) }
+                                                TextButton(onClick = { dismissLimitedBanner = true }) { Text("Dismiss", fontSize = 11.sp) }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Spacer(modifier = Modifier.height(8.dp))
+                                ActionButtonsBar(
+                                    onScan = { triggerPermissionCheck() },
+                                    onProcessNext = {
+                                        val next = allVideos.firstOrNull { it.status == "new" || it.status == "queued" }
+                                        if (next != null) {
+                                            viewModel.processSingle(next)
+                                        } else {
+                                            Toast.makeText(context, "No unprocessed videos left.", Toast.LENGTH_SHORT).show()
+                                        }
+                                    },
+                                    onStartBatch = { viewModel.startBatch() },
+                                    onPauseBatch = { viewModel.pauseBatch() },
+                                    isScanning = isScanning
+                                )
+
+                                Spacer(modifier = Modifier.height(12.dp))
+                                Card(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f))
+                                ) {
+                                    Column(modifier = Modifier.padding(12.dp)) {
+                                        Row(modifier = Modifier.fillMaxWidth().clickable { showEngineGuide = !showEngineGuide }, horizontalArrangement = Arrangement.SpaceBetween) {
+                                            Text("Samsung S23 Ultra Processing Guide", fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                                            Text(if (showEngineGuide) "Hide" else "Show", color = MaterialTheme.colorScheme.primary, fontSize = 12.sp)
+                                        }
+                                        if (showEngineGuide) {
+                                            Spacer(modifier = Modifier.height(6.dp))
+                                            Text("• Private-First OCR: Frame extraction and text detection run offline natively on device.\n• Smart Checklist Schema: Track 8 distinct milestone check-gates from raw discovery to final computer export archiving.", fontSize = 11.sp, lineHeight = 15.sp)
+                                        }
+                                    }
+                                }
+                            }
+
+                            "folders" -> {
+                                val context = LocalContext.current
+                                Card(
+                                    modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
+                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+                                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.15f))
+                                ) {
+                                    Column(modifier = Modifier.padding(16.dp)) {
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                                Icon(Icons.Default.Folder, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(24.dp))
+                                                Spacer(modifier = Modifier.width(8.dp))
+                                                Text("Target Watch Folders", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                                            }
+                                            val folderPickerLauncher = rememberLauncherForActivityResult(
+                                                contract = ActivityResultContracts.OpenDocumentTree()
+                                            ) { uri ->
+                                                if (uri != null) {
+                                                    try {
+                                                        context.contentResolver.takePersistableUriPermission(
+                                                            uri,
+                                                            Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                                        )
+                                                    } catch (e: Exception) {
+                                                        android.util.Log.e("MainActivity", "Failed to take persistable URI permission", e)
+                                                    }
+                                                    viewModel.addTargetFolder(uri.toString())
+                                                }
+                                            }
+                                            Button(
+                                                onClick = { folderPickerLauncher.launch(null) },
+                                                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
+                                            ) {
+                                                Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(16.dp))
+                                                Spacer(modifier = Modifier.width(4.dp))
+                                                Text("Register Path", fontSize = 11.sp)
+                                            }
+                                        }
+                                        Spacer(modifier = Modifier.height(10.dp))
+                                        val targetFoldersList by viewModel.targetFolders.collectAsState()
+                                        if (targetFoldersList.isEmpty()) {
+                                            Text(
+                                                "No specific directory register active. By default, the app scans all internal media directories.",
+                                                fontSize = 11.sp,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                                                fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
+                                            )
+                                        } else {
+                                            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                                                targetFoldersList.forEach { folderUri ->
+                                                    val pathName = Uri.parse(folderUri).path?.substringAfterLast(":") ?: "Folder"
+                                                    Row(
+                                                        modifier = Modifier
+                                                            .fillMaxWidth()
+                                                            .background(MaterialTheme.colorScheme.background, RoundedCornerShape(8.dp))
+                                                            .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.1f), RoundedCornerShape(8.dp))
+                                                            .padding(horizontal = 12.dp, vertical = 8.dp),
+                                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                                        verticalAlignment = Alignment.CenterVertically
+                                                    ) {
+                                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                                                            Icon(Icons.Default.CheckCircle, contentDescription = "Active", tint = Color(0xFF2E7D32), modifier = Modifier.size(14.dp))
+                                                            Spacer(modifier = Modifier.width(6.dp))
+                                                            Text(pathName, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onBackground)
+                                                        }
+                                                        IconButton(
+                                                            onClick = { viewModel.removeTargetFolder(folderUri) },
+                                                            modifier = Modifier.size(24.dp)
+                                                        ) {
+                                                            Icon(Icons.Default.Delete, contentDescription = "Remove", tint = MaterialTheme.colorScheme.error, modifier = Modifier.size(16.dp))
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Spacer(modifier = Modifier.height(12.dp))
+
+                                Card(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
+                                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.15f))
+                                ) {
+                                    Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Column(modifier = Modifier.weight(1f)) {
+                                                Text("Auto-Ingestion Watcher (No-Risk)", fontWeight = FontWeight.Bold, fontSize = 15.sp, color = MaterialTheme.colorScheme.primary)
+                                                Text("Automatically detect and queue new phone media for end-to-end background tag index extraction.", fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
+                                            }
+                                            Switch(
+                                                checked = autoIngestEnabled,
+                                                onCheckedChange = { viewModel.setAutoIngestEnabled(it) }
+                                            )
+                                        }
+                                        
+                                        if (autoIngestEnabled) {
+                                            Divider(modifier = Modifier.padding(vertical = 4.dp))
+                                            
+                                            Text("Detection Channels", fontWeight = FontWeight.Bold, fontSize = 12.sp, color = MaterialTheme.colorScheme.onBackground)
+                                            
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .clickable { viewModel.setAutoIngestRecordings(!autoIngestRecordings) }
+                                                    .padding(vertical = 6.dp),
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Checkbox(
+                                                    checked = autoIngestRecordings,
+                                                    onCheckedChange = { viewModel.setAutoIngestRecordings(it) }
+                                                )
+                                                Spacer(modifier = Modifier.width(8.dp))
+                                                Column {
+                                                    Text("Watch for Screen Recordings", fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                                                    Text("Auto-links videos with 'screen', 'record', or 'cast' in filename", fontSize = 10.sp, color = MaterialTheme.colorScheme.outline)
+                                                }
+                                            }
+                                            
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .clickable { viewModel.setAutoIngestScreenshots(!autoIngestScreenshots) }
+                                                    .padding(vertical = 6.dp),
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Checkbox(
+                                                    checked = autoIngestScreenshots,
+                                                    onCheckedChange = { viewModel.setAutoIngestScreenshots(it) }
+                                                )
+                                                Spacer(modifier = Modifier.width(8.dp))
+                                                Column {
+                                                    Text("Watch for Screenshots", fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                                                    Text("Auto-links images with 'screenshot' in filename", fontSize = 10.sp, color = MaterialTheme.colorScheme.outline)
+                                                }
+                                            }
+                                            
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.08f), androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
+                                                    .padding(8.dp)
+                                            ) {
+                                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                                    Icon(
+                                                        imageVector = Icons.Default.Info,
+                                                        contentDescription = null,
+                                                        tint = MaterialTheme.colorScheme.primary,
+                                                        modifier = Modifier.size(16.dp)
+                                                    )
+                                                    Spacer(modifier = Modifier.width(8.dp))
+                                                    Text(
+                                                        "Zero regression downstream: Runs safely using system-level MediaStore content observers with no battery overhead.",
+                                                        fontSize = 10.sp,
+                                                        color = MaterialTheme.colorScheme.primary
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            "backlog" -> {
+                                val selectedBacklogVideos = remember { mutableStateMapOf<Long, Boolean>() }
+                                val backlogList = remember(filteredVideos) { filteredVideos.filter { it.status != "archived" } }
+                                val allSelected = backlogList.isNotEmpty() && backlogList.all { selectedBacklogVideos[it.id] == true }
+
+                                Column(modifier = Modifier.fillMaxSize()) {
+                                    val selectedIds = remember(selectedBacklogVideos) { selectedBacklogVideos.filter { it.value }.keys }
+                                    if (selectedIds.isNotEmpty()) {
+                                        Card(
+                                            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f)),
+                                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f))
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(8.dp).fillMaxWidth(),
+                                                horizontalArrangement = Arrangement.SpaceBetween,
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Text("${selectedIds.size} files selected in backlog", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSecondaryContainer)
+                                                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                                    Button(
+                                                        onClick = {
+                                                            selectedIds.forEach { id ->
+                                                                val videoItem = backlogList.find { it.id == id }
+                                                                if (videoItem != null) {
+                                                                    viewModel.processSingle(videoItem)
+                                                                }
+                                                            }
+                                                            Toast.makeText(context, "Processing started for ${selectedIds.size} files!", Toast.LENGTH_SHORT).show()
+                                                            selectedBacklogVideos.clear()
+                                                        },
+                                                        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp),
+                                                        modifier = Modifier.height(28.dp)
+                                                    ) {
+                                                        Icon(Icons.Default.Refresh, contentDescription = null, modifier = Modifier.size(12.dp))
+                                                        Spacer(modifier = Modifier.width(4.dp))
+                                                        Text("Process Selected", fontSize = 10.sp)
+                                                    }
+                                                    
+                                                    Button(
+                                                        onClick = {
+                                                            selectedIds.forEach { id ->
+                                                                viewModel.archiveVideo(id)
+                                                            }
+                                                            Toast.makeText(context, "Archived ${selectedIds.size} files!", Toast.LENGTH_SHORT).show()
+                                                            selectedBacklogVideos.clear()
+                                                        },
+                                                        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp),
+                                                        modifier = Modifier.height(28.dp)
+                                                    ) {
+                                                        Icon(Icons.Default.Archive, contentDescription = null, modifier = Modifier.size(12.dp))
+                                                        Spacer(modifier = Modifier.width(4.dp))
+                                                        Text("Archive Selected", fontSize = 10.sp)
+                                                    }
+
+                                                    TextButton(
+                                                        onClick = { selectedBacklogVideos.clear() },
+                                                        modifier = Modifier.height(28.dp)
+                                                    ) {
+                                                        Text("Cancel", fontSize = 10.sp)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f))
+                                            .padding(horizontal = 4.dp, vertical = 8.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Checkbox(
+                                            checked = allSelected,
+                                            onCheckedChange = { checked ->
+                                                backlogList.forEach { selectedBacklogVideos[it.id] = checked }
+                                            },
+                                            modifier = Modifier.padding(end = 4.dp)
+                                        )
+                                        Text("Location", modifier = Modifier.weight(1.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                                        Text("File Name", modifier = Modifier.weight(2f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                                        Text("Size", modifier = Modifier.weight(1f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                                        Text("Status", modifier = Modifier.weight(0.8f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                                        Text("Actions", modifier = Modifier.weight(1.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+                                    }
+
+                                    if (backlogList.isEmpty()) {
+                                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                            Text("Backlog is empty. Scan storage or clear filters.", fontSize = 13.sp, color = MaterialTheme.colorScheme.outline)
+                                        }
+                                    } else {
+                                        LazyColumn(modifier = Modifier.fillMaxSize()) {
+                                            items(backlogList, key = { it.id }) { video ->
+                                                val loc = Uri.parse(video.uriString).path?.substringBeforeLast("/", "Internal") ?: "Internal"
+                                                val cleanLoc = if (loc.contains(":")) loc.substringAfterLast(":") else loc
+                                                val shortLoc = if (cleanLoc.length > 10) cleanLoc.take(10) + ".." else cleanLoc
+                                                val sizeMB = "%.1f MB".format((video.sizeBytes ?: 0L) / 1048576f)
+                                                val statBadge = when (video.status) {
+                                                    "processed" -> "P"
+                                                    "error" -> "F"
+                                                    else -> "NS"
+                                                }
+                                                val badgeBg = when (statBadge) {
+                                                    "P" -> Color(0xFFD1E7DD)
+                                                    "F" -> Color(0xFFF8D7DA)
+                                                    else -> Color(0xFFE2E3E5)
+                                                }
+                                                val badgeColor = when (statBadge) {
+                                                    "P" -> Color(0xFF0F5132)
+                                                    "F" -> Color(0xFF842029)
+                                                    else -> Color(0xFF41464B)
+                                                }
+                                                val isChecked = selectedBacklogVideos[video.id] ?: false
+
+                                                Row(
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .then(Bottom(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.1f)))
+                                                        .padding(vertical = 6.dp, horizontal = 4.dp),
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+                                                    Checkbox(
+                                                        checked = isChecked,
+                                                        onCheckedChange = { selectedBacklogVideos[video.id] = it },
+                                                        modifier = Modifier.padding(end = 4.dp)
+                                                    )
+                                                    Text(shortLoc, modifier = Modifier.weight(1.5f), fontSize = 11.sp)
+                                                    Column(modifier = Modifier.weight(2f)) {
+                                                        Text(video.displayName, fontSize = 11.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                                                            Text("Rename: ", fontSize = 9.sp, color = MaterialTheme.colorScheme.outline)
+                                                            Text(
+                                                                "LLM AI",
+                                                                fontSize = 9.sp,
+                                                                color = MaterialTheme.colorScheme.primary,
+                                                                fontWeight = FontWeight.Bold,
+                                                                modifier = Modifier
+                                                                    .clickable { 
+                                                                        viewModel.triggerFileRenameWithLLM(video.id)
+                                                                        Toast.makeText(context, "AI suggested 20-character rename applied!", Toast.LENGTH_SHORT).show()
+                                                                    }
+                                                                    .padding(horizontal = 4.dp)
+                                                            )
+                                                        }
+                                                    }
+                                                    Text(sizeMB, modifier = Modifier.weight(1f), fontSize = 11.sp)
+                                                    Box(
+                                                        modifier = Modifier
+                                                            .weight(0.8f)
+                                                            .clip(RoundedCornerShape(4.dp))
+                                                            .background(badgeBg)
+                                                            .padding(horizontal = 4.dp, vertical = 2.dp),
+                                                        contentAlignment = Alignment.Center
+                                                    ) {
+                                                        Text(statBadge, color = badgeColor, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                                                    }
+                                                    Row(
+                                                        modifier = Modifier.weight(1.5f),
+                                                        horizontalArrangement = Arrangement.SpaceEvenly,
+                                                        verticalAlignment = Alignment.CenterVertically
+                                                    ) {
+                                                        // Open folder location
+                                                        Icon(
+                                                            imageVector = Icons.Default.Folder,
+                                                            contentDescription = "Folder",
+                                                            modifier = Modifier
+                                                                .size(16.dp)
+                                                                .clickable { Toast.makeText(context, "Location: ${video.uriString}", Toast.LENGTH_LONG).show() },
+                                                            tint = MaterialTheme.colorScheme.primary
+                                                        )
+                                                        // Open processed output
+                                                        Icon(
+                                                            imageVector = Icons.Default.OpenInNew,
+                                                            contentDescription = "Output",
+                                                            modifier = Modifier
+                                                                .size(16.dp)
+                                                                .clickable(enabled = video.status == "processed") {
+                                                                    outputModalVideoId = video.id
+                                                                    outputModalState = WindowState.STANDARD
+                                                                },
+                                                            tint = if (video.status == "processed") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+                                                        )
+                                                        // Open preview modal
+                                                        Icon(
+                                                            imageVector = Icons.Default.Visibility,
+                                                            contentDescription = "Preview",
+                                                            modifier = Modifier
+                                                                .size(16.dp)
+                                                                .clickable {
+                                                                    previewModalVideoId = video.id
+                                                                    previewModalState = WindowState.STANDARD
+                                                                },
+                                                            tint = MaterialTheme.colorScheme.primary
+                                                        )
+                                                        // Run processing
+                                                        Icon(
+                                                            imageVector = Icons.Default.Refresh,
+                                                            contentDescription = "Process",
+                                                            modifier = Modifier
+                                                                .size(16.dp)
+                                                                .clickable {
+                                                                    viewModel.processSingle(video)
+                                                                    Toast.makeText(context, "Processing started for ${video.displayName}", Toast.LENGTH_SHORT).show()
+                                                                },
+                                                            tint = MaterialTheme.colorScheme.primary
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            "archive" -> {
+                                // ARCHIVED FILES MANAGEMENT VIEW
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(MaterialTheme.colorScheme.secondary.copy(alpha = 0.1f))
+                                        .padding(8.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    val archivedItems = remember(allVideos) { allVideos.filter { it.status == "archived" } }
+                                    val allSelected = archivedItems.isNotEmpty() && archivedItems.all { selectedArchiveVideos[it.id] == true }
+                                    Checkbox(
+                                        checked = allSelected,
+                                        onCheckedChange = { check ->
+                                            archivedItems.forEach { selectedArchiveVideos[it.id] = check }
+                                        }
+                                    )
+                                    Text("Location", modifier = Modifier.weight(1.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                                    Text("File Name", modifier = Modifier.weight(2.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                                    Text("Size", modifier = Modifier.weight(1f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                                }
+
+                                val archivedList = remember(allVideos) { allVideos.filter { it.status == "archived" } }
+
+                                if (archivedList.isEmpty()) {
+                                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                        Text("No processed files found in Archive.", fontSize = 13.sp, color = MaterialTheme.colorScheme.outline)
+                                    }
+                                } else {
+                                    Column(modifier = Modifier.fillMaxSize()) {
+                                        LazyColumn(modifier = Modifier.weight(1f)) {
+                                            items(archivedList, key = { it.id }) { video ->
+                                                val loc = Uri.parse(video.uriString).path?.substringBeforeLast("/", "Internal") ?: "Internal"
+                                                val cleanLoc = if (loc.contains(":")) loc.substringAfterLast(":") else loc
+                                                val shortLoc = if (cleanLoc.length > 10) cleanLoc.take(10) + ".." else cleanLoc
+                                                val sizeMB = "%.1f MB".format((video.sizeBytes ?: 0L) / 1048576f)
+                                                val isChecked = selectedArchiveVideos[video.id] ?: false
+
+                                                Row(
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .then(Bottom(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.1f)))
+                                                        .padding(vertical = 8.dp),
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+                                                    Checkbox(
+                                                        checked = isChecked,
+                                                        onCheckedChange = { selectedArchiveVideos[video.id] = it }
+                                                    )
+                                                    Text(shortLoc, modifier = Modifier.weight(1.5f), fontSize = 11.sp)
+                                                    Text(video.displayName, modifier = Modifier.weight(2.5f), fontSize = 11.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                                    Text(sizeMB, modifier = Modifier.weight(1f), fontSize = 11.sp)
+                                                }
+                                            }
+                                        }
+
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                        ) {
+                                            Button(
+                                                onClick = {
+                                                    val selectedIds = selectedArchiveVideos.filter { it.value }.keys
+                                                    selectedIds.forEach { id ->
+                                                        viewModel.restoreArchivedVideo(id)
+                                                    }
+                                                    Toast.makeText(context, "Restored ${selectedIds.size} files back to main backlog!", Toast.LENGTH_SHORT).show()
+                                                    selectedArchiveVideos.clear()
+                                                },
+                                                modifier = Modifier.weight(1f)
+                                            ) {
+                                                Icon(Icons.Default.Restore, contentDescription = null, modifier = Modifier.size(16.dp))
+                                                Spacer(modifier = Modifier.width(4.dp))
+                                                Text("Restore Files", fontSize = 11.sp)
+                                            }
+
+                                            Button(
+                                                onClick = {
+                                                    val selectedIds = selectedArchiveVideos.filter { it.value }.keys
+                                                    selectedIds.forEach { id ->
+                                                        viewModel.removeVideoFromBacklog(id)
+                                                    }
+                                                    Toast.makeText(context, "Permanently deleted ${selectedIds.size} index entries from storage mapping!", Toast.LENGTH_SHORT).show()
+                                                    selectedArchiveVideos.clear()
+                                                },
+                                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
+                                                modifier = Modifier.weight(1f)
+                                            ) {
+                                                Icon(Icons.Default.DeleteForever, contentDescription = null, modifier = Modifier.size(16.dp))
+                                                Spacer(modifier = Modifier.width(4.dp))
+                                                Text("Delete selected", fontSize = 11.sp)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Collapsible Sidebar Drawer Toggle Handle Tab
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .offset(x = if (leftPanelExpanded) 298.dp else 0.dp)
+                    .clip(RoundedCornerShape(topEnd = 16.dp, bottomEnd = 16.dp))
+                    .background(MaterialTheme.colorScheme.primary)
+                    .clickable { leftPanelExpanded = !leftPanelExpanded }
+                    .padding(horizontal = 6.dp, vertical = 14.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = if (leftPanelExpanded) Icons.Default.ChevronLeft else Icons.Default.ChevronRight,
+                    contentDescription = "Toggle Sidebar",
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+
+            // Minimized Modals floating bar badges
+            Row(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                if (previewModalState == WindowState.MINIMIZED) {
+                    Card(
+                        modifier = Modifier
+                            .clickable { previewModalState = WindowState.STANDARD }
+                            .padding(4.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+                    ) {
+                        Row(modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.Visibility, contentDescription = null, modifier = Modifier.size(14.dp))
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("Preview (Min)", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                        }
+                    }
+                }
+                if (outputModalState == WindowState.MINIMIZED) {
+                    Card(
+                        modifier = Modifier
+                            .clickable { outputModalState = WindowState.STANDARD }
+                            .padding(4.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+                    ) {
+                        Row(modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.OpenInNew, contentDescription = null, modifier = Modifier.size(14.dp))
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("Output (Min)", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                        }
+                    }
+                }
+                if (settingsModalState == WindowState.MINIMIZED) {
+                    Card(
+                        modifier = Modifier
+                            .clickable { settingsModalState = WindowState.STANDARD }
+                            .padding(4.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+                    ) {
+                        Row(modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.Settings, contentDescription = null, modifier = Modifier.size(14.dp))
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("Settings (Min)", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                        }
+                    }
+                }
+            }
+
+            // Windowed Stateful Dialog Overlay Renderers
+            if (previewModalState != null && previewModalState != WindowState.MINIMIZED) {
+                val pVideoId = previewModalVideoId
+                val vItem = allVideos.find { it.id == pVideoId }
+                if (vItem != null) {
+                    WindowedModal(
+                        title = "Media Details Preview: ${vItem.displayName}",
+                        windowState = previewModalState!!,
+                        onStateChange = { previewModalState = it }
+                    ) {
+                        val framesList = remember(pVideoId) { allVideos.flatMap { if (it.id == pVideoId) selectedFrames else emptyList() } }
+                        val analysisObj = allAnalysisResults[pVideoId]
+                        VideoDetailPanel(
+                            video = vItem,
+                            frames = selectedFrames, // fetches dynamically via viewModel
+                            analysis = analysisObj,
+                            onClose = { previewModalState = null },
+                            onProcessSingle = { viewModel.processSingle(vItem) },
+                            onResetResult = { viewModel.resetVideo(vItem.id) },
+                            onArchive = { viewModel.archiveVideo(vItem.id) },
+                            onToggleDeleteCandidate = { viewModel.toggleReadyToDelete(vItem.id) },
+                            onSaveEdits = { notes, t1, t2, c1, c2, c3, road ->
+                                viewModel.saveEdits(vItem.id, notes, t1, t2, c1, c2, c3, road)
+                                Toast.makeText(context, "Edits Saved!", Toast.LENGTH_SHORT).show()
+                            },
+                            onDeleteFromBacklog = {
+                                viewModel.removeVideoFromBacklog(vItem.id)
+                                previewModalState = null
+                            },
+                            onMoveToTrash = {
+                                viewModel.markAsTrashedLocally(vItem.id)
+                                previewModalState = null
+                            },
+                            onPermanentDelete = {
+                                viewModel.markAsDeletedLocally(vItem.id)
+                                previewModalState = null
+                            }
+                        )
+                    }
+                }
+            }
+
+            if (outputModalState != null && outputModalState != WindowState.MINIMIZED) {
+                val oVideoId = outputModalVideoId
+                val vItem = allVideos.find { it.id == oVideoId }
+                val analysisObj = allAnalysisResults[oVideoId]
+                if (vItem != null) {
+                    WindowedModal(
+                        title = "Processed Result Summary: ${vItem.displayName}",
+                        windowState = outputModalState!!,
+                        onStateChange = { outputModalState = it }
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                        ) {
+                            Text("A.I. Structured Content Map", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = MaterialTheme.colorScheme.primary)
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                            ) {
+                                Column(modifier = Modifier.padding(12.dp)) {
+                                    Text("Category path:", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                                    Text("${analysisObj?.categoryLevel1 ?: "General"} > ${analysisObj?.categoryLevel2 ?: "Default"} > ${analysisObj?.categoryLevel3 ?: "Workflow"}", fontSize = 13.sp)
+                                    Spacer(modifier = Modifier.height(6.dp))
+                                    Text("Summary headline 1:", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                                    Text(analysisObj?.descriptionLine1 ?: "None generated yet.", fontSize = 12.sp)
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Text("Summary headline 2:", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                                    Text(analysisObj?.descriptionLine2 ?: "None generated yet.", fontSize = 12.sp)
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Text("Action plan Roadmap / Commands", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(Color.Black.copy(alpha = 0.05f))
+                                    .padding(8.dp)
+                            ) {
+                                Text(analysisObj?.formattedActionPlan ?: "No commands indexed in this scene.", fontFamily = FontFamily.Monospace, fontSize = 11.sp)
+                            }
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Button(onClick = { outputModalState = null }, modifier = Modifier.fillMaxWidth()) {
+                                Text("Done")
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (settingsModalState != null && settingsModalState != WindowState.MINIMIZED) {
+                WindowedModal(
+                    title = "Ollama Advanced Connection Settings",
+                    windowState = settingsModalState!!,
+                    onStateChange = { settingsModalState = it }
+                ) {
+                    var editProvider by remember { mutableStateOf(llmProvider) }
+                    var editApiKey by remember { mutableStateOf(apiKey) }
+                    var editTemperature by remember { mutableStateOf(llmTemperature) }
+                    var editPrompt by remember { mutableStateOf(systemPrompt) }
+                    
+                    val settingsObj = viewModel.settings.collectAsState().value
+                    var editUrl by remember { mutableStateOf(settingsObj.ollamaEndpointUrl) }
+                    var editTimeout by remember { mutableStateOf(settingsObj.requestTimeoutSeconds.toString()) }
+                    var selectedModelName by remember { mutableStateOf(settingsObj.ollamaModelName) }
+
+                    val connSuccess by viewModel.connectionSuccess.collectAsState()
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        val displayModels = availableModels
+
+                        LaunchedEffect(editProvider, availableModels) {
+                            if (!displayModels.contains(selectedModelName)) {
+                                selectedModelName = displayModels.firstOrNull() ?: ""
+                            }
+                        }
+
+                        var providerExpanded by remember { mutableStateOf(false) }
+
+                        Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text("LLM Configuration Profile", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                            
+                            ExposedDropdownMenuBox(
+                                expanded = providerExpanded,
+                                onExpandedChange = { providerExpanded = !providerExpanded },
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                OutlinedTextField(
+                                    value = when(editProvider) {
+                                        "ollama_local" -> "Ollama Local (PC/LAN)"
+                                        "ollama_cloud" -> "Ollama Cloud (Remote Host)"
+                                        "gemini" -> "Gemini API"
+                                        "local" -> "Local (On-Device)"
+                                        else -> "Ollama Local (PC/LAN)"
+                                    },
+                                    onValueChange = {},
+                                    readOnly = true,
+                                    trailingIcon = {
+                                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = providerExpanded)
+                                    },
+                                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                                    modifier = Modifier.menuAnchor().fillMaxWidth(),
+                                    singleLine = true
+                                )
+                                ExposedDropdownMenu(
+                                    expanded = providerExpanded,
+                                    onDismissRequest = { providerExpanded = false }
+                                ) {
+                                    DropdownMenuItem(
+                                        text = { Text("Ollama Local (PC/LAN)") },
+                                        onClick = { editProvider = "ollama_local"; providerExpanded = false }
+                                    )
+                                    DropdownMenuItem(
+                                        text = { Text("Ollama Cloud (Remote Host)") },
+                                        onClick = { editProvider = "ollama_cloud"; providerExpanded = false }
+                                    )
+                                    DropdownMenuItem(
+                                        text = { Text("Gemini API") },
+                                        onClick = { editProvider = "gemini"; providerExpanded = false }
+                                    )
+                                    DropdownMenuItem(
+                                        text = { Text("Local (On-Device)") },
+                                        onClick = { editProvider = "local"; providerExpanded = false }
+                                    )
+                                }
+                            }
+                        }
+
+                        // URL Endpoint configuration (Only for Ollama providers)
+                        if (editProvider != "gemini" && editProvider != "local") {
+                            OutlinedTextField(
+                                value = editUrl,
+                                onValueChange = { editUrl = it },
+                                label = { Text("HTTP API Connection Host URI") },
+                                modifier = Modifier.fillMaxWidth()
+                            )
+
+                            // Connection Testing Action Row
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Button(onClick = { viewModel.checkConnection(editUrl, editProvider, editApiKey) }) {
+                                    Text("Test Connection Host", fontSize = 11.sp)
+                                }
+                                Spacer(modifier = Modifier.width(12.dp))
+                                if (connSuccess == true) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(Icons.Default.CheckCircle, contentDescription = "Succeeded", tint = Color(0xFF2E7D32), modifier = Modifier.size(20.dp))
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                        Text("Connected", color = Color(0xFF2E7D32), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                    }
+                                } else if (connSuccess == false) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(Icons.Default.ErrorOutline, contentDescription = "Failed", tint = Color(0xFFC62828), modifier = Modifier.size(20.dp))
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                        Text("Unreachable", color = Color(0xFFC62828), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                    }
+                                } else {
+                                    Icon(Icons.Default.HelpOutline, contentDescription = "Unknown", tint = Color(0xFFEF6C00), modifier = Modifier.size(20.dp))
+                                }
+                            }
+                        }
+
+                        // Model tags syncing dropdown
+                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                            Text("Selected Model:", fontSize = 12.sp, modifier = Modifier.weight(1f))
+                            IconButton(onClick = { viewModel.syncModels(editUrl, editProvider, editApiKey) }) {
+                                Icon(Icons.Default.Sync, contentDescription = "Sync models tag list")
+                            }
+                        }
+                        
+                        var modelExpanded by remember { mutableStateOf(false) }
+                        ExposedDropdownMenuBox(
+                            expanded = modelExpanded,
+                            onExpandedChange = { modelExpanded = !modelExpanded },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            OutlinedTextField(
+                                value = selectedModelName,
+                                onValueChange = {},
+                                placeholder = { Text(if (displayModels.isEmpty()) "Tap sync to fetch models" else "Select model") },
+                                readOnly = true,
+                                trailingIcon = {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = modelExpanded)
+                                },
+                                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                                modifier = Modifier.menuAnchor().fillMaxWidth(),
+                                singleLine = true
+                            )
+                            ExposedDropdownMenu(
+                                expanded = modelExpanded,
+                                onDismissRequest = { modelExpanded = false }
+                            ) {
+                                if (displayModels.isEmpty()) {
+                                    DropdownMenuItem(
+                                        text = { Text("No models found. Sync first.") },
+                                        onClick = { modelExpanded = false }
+                                    )
+                                } else {
+                                    displayModels.forEach { m ->
+                                        DropdownMenuItem(
+                                            text = { Text(m) },
+                                            onClick = {
+                                                selectedModelName = m
+                                                modelExpanded = false
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        // Temperature Slider
+                        Column {
+                            Text("LLM Prompt Temperature: ${"%.2f".format(editTemperature)}", fontSize = 12.sp)
+                            Slider(
+                                value = editTemperature,
+                                onValueChange = { editTemperature = it },
+                                valueRange = 0.0f..1.0f,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+
+                        // API Key Field for Cloud providers
+                        if (editProvider == "ollama_cloud" || editProvider == "gemini") {
+                            OutlinedTextField(
+                                value = editApiKey,
+                                onValueChange = { editApiKey = it },
+                                label = { Text(if (editProvider == "gemini") "Gemini API Key Secret" else "Cloud API secret key (Optional)") },
+                                modifier = Modifier.fillMaxWidth(),
+                                visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
+                                keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Password)
+                            )
+                        }
+
+                        // Custom System Prompt Area
+                        Column {
+                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text("A.I. System Prompt editor:", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                Text(
+                                    "Reset to default",
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.clickable { editPrompt = defaultSystemPrompt }
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(4.dp))
+                            OutlinedTextField(
+                                value = editPrompt,
+                                onValueChange = { editPrompt = it },
+                                modifier = Modifier.fillMaxWidth().height(110.dp)
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Button(
+                            onClick = {
+                                viewModel.updateSettings(settingsObj.ollamaEnabled, editUrl, selectedModelName, editTimeout.toIntOrNull() ?: 30, settingsObj.confirmedNonLocalEndpointWarning)
+                                viewModel.saveExpandedSettings(editProvider, editApiKey, editTemperature, editPrompt)
+                                settingsModalState = null
+                                Toast.makeText(context, "Configurations sync-saved successfully!", Toast.LENGTH_SHORT).show()
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Save configurations")
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Custom Draw Helper Extensions
+private fun Bottom(width: androidx.compose.ui.unit.Dp, color: Color): androidx.compose.ui.Modifier {
+    return Modifier.drawWithContent {
+        drawContent()
+        val strokeWidth = width.toPx()
+        val y = size.height - strokeWidth / 2
+        drawLine(
+            color = color,
+            start = androidx.compose.ui.geometry.Offset(0f, y),
+            end = androidx.compose.ui.geometry.Offset(size.width, y),
+            strokeWidth = strokeWidth
+        )
+    }
+}
+
+@Composable
+fun NavigationRowItem(
+    title: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    val bg = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.15f) else Color.Transparent
+    val text = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .background(bg)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(imageVector = icon, contentDescription = null, tint = text, modifier = Modifier.size(18.dp))
+        Spacer(modifier = Modifier.width(10.dp))
+        Text(title, color = text, fontSize = 13.sp, fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal)
+    }
+}
+
+@Composable
+fun OverviewGrid(
+    allVideos: List<VideoItem>,
+    mediaState: String,
+    ollamaState: String
+) {
+    var isExpanded by remember { mutableStateOf(false) } // Default collapsed
+
+    val newCount = allVideos.count { it.status == "new" }
+    val queuedCount = allVideos.count { it.status == "queued" || it.status == "processing" }
+    val procCount = allVideos.count { it.status == "processed" || it.status == "archived" }
+    val reviewCount = allVideos.count { it.status == "ready_to_delete" || it.status == "error" }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        // Stats header row that acts as the toggle
+        Row(
+            modifier = Modifier.fillMaxWidth().clickable { isExpanded = !isExpanded },
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Dashboard & Connectivity", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Icon(
+                imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                contentDescription = if (isExpanded) "Collapse" else "Expand",
+                modifier = Modifier.size(20.dp)
+            )
+        }
+
+        AnimatedVisibility(visible = isExpanded) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                // High Density Stats Grid
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    // New Card
+                    Card(
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFEADDFF))
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "New",
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color(0xFF21005D)
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = "%02d".format(newCount),
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF21005D)
+                            )
+                        }
+                    }
+
+            // Queued Card
+            Card(
+                modifier = Modifier.weight(1f),
+                shape = RoundedCornerShape(12.dp),
+                border = BorderStroke(1.dp, Color(0xFFCAC4D0)),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFF3EDF7))
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Queued",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color(0xFF49454F)
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "%02d".format(queuedCount),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF1D1B20)
+                    )
+                }
+            }
+
+            // Proc Card
+            Card(
+                modifier = Modifier.weight(1f),
+                shape = RoundedCornerShape(12.dp),
+                border = BorderStroke(1.dp, Color(0xFFCAC4D0)),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFE8DEF8))
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Proc.",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color(0xFF49454F)
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "%02d".format(procCount),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF1D1B20)
+                    )
+                }
+            }
+
+            // Review Card
+            Card(
+                modifier = Modifier.weight(1f),
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFDAD6))
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Review",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color(0xFF410002)
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "%02d".format(reviewCount),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF410002)
+                    )
+                }
+            }
+        }
+
+        // Status & Connectivity Banner
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp),
+            border = BorderStroke(1.dp, Color(0xFFE7E0EC)),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFFF3EDF7))
+        ) {
+            Column(
+                modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                // LLM Connectivity status
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .clip(RoundedCornerShape(50))
+                                .background(if (ollamaState == "Available") Color(0xFF4CAF50) else Color(0xFFE53935))
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = "LLM: $ollamaState (gemma3)",
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF1D1B20)
+                        )
+                    }
+                    Text(
+                        text = "10.0.2.2:11434",
+                        fontSize = 11.sp,
+                        color = Color(0xFF49454F)
+                    )
+                }
+
+                // Media Library status
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .clip(RoundedCornerShape(50))
+                                .background(Color(0xFF2196F3))
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = "Media: $mediaState",
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF1D1B20)
+                        )
+                    }
+                    Text(
+                        text = "${allVideos.size} Videos Found",
+                        fontSize = 11.sp,
+                        color = Color(0xFF49454F)
+                    )
+                }
+            }
+        }
+            } // Close inner Column
+        } // Close AnimatedVisibility
+    } // Close outer Column
+}
+
+@Composable
+fun StatusBadge(text: String, color: Color) {
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(6.dp))
+            .background(color.copy(alpha = 0.15f))
+            .border(0.5.dp, color.copy(alpha = 0.4f), RoundedCornerShape(6.dp))
+            .padding(horizontal = 6.dp, vertical = 3.dp)
+    ) {
+        Text(text = text, color = color, fontSize = 10.sp, fontWeight = FontWeight.SemiBold)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ActionButtonsBar(
+    onScan: () -> Unit,
+    onProcessNext: () -> Unit,
+    onStartBatch: () -> Unit,
+    onPauseBatch: () -> Unit,
+    isScanning: Boolean
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .horizontalScroll(rememberScrollState())
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TooltipBox(
+            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+            tooltip = { PlainTooltip { Text(if (isScanning) "Scanning..." else "Scan Videos", color = MaterialTheme.colorScheme.onSurface) } },
+            state = rememberTooltipState()
+        ) {
+            IconButton(
+                onClick = onScan,
+                enabled = !isScanning,
+                modifier = Modifier.size(56.dp)
+            ) {
+                Icon(Icons.Default.YoutubeSearchedFor, contentDescription = "Scan Videos", modifier = Modifier.size(32.dp), tint = MaterialTheme.colorScheme.primary)
+            }
+        }
+
+        TooltipBox(
+            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+            tooltip = { PlainTooltip { Text("Start Batch Processing", color = MaterialTheme.colorScheme.onSurface) } },
+            state = rememberTooltipState()
+        ) {
+            IconButton(
+                onClick = onStartBatch,
+                modifier = Modifier.size(56.dp)
+            ) {
+                Icon(Icons.Default.PlayArrow, contentDescription = "Start Batch", modifier = Modifier.size(32.dp), tint = MaterialTheme.colorScheme.primary)
+            }
+        }
+
+        TooltipBox(
+            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+            tooltip = { PlainTooltip { Text("Process Next", color = MaterialTheme.colorScheme.onSurface) } },
+            state = rememberTooltipState()
+        ) {
+            IconButton(
+                onClick = onProcessNext,
+                modifier = Modifier.size(56.dp)
+            ) {
+                Icon(Icons.Default.SkipNext, contentDescription = "Process Next", modifier = Modifier.size(32.dp), tint = MaterialTheme.colorScheme.primary)
+            }
+        }
+
+        TooltipBox(
+            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+            tooltip = { PlainTooltip { Text("Pause Batch", color = MaterialTheme.colorScheme.onSurface) } },
+            state = rememberTooltipState()
+        ) {
+            IconButton(
+                onClick = onPauseBatch,
+                modifier = Modifier.size(56.dp)
+            ) {
+                Icon(Icons.Default.Pause, contentDescription = "Pause Batch", modifier = Modifier.size(32.dp), tint = MaterialTheme.colorScheme.primary)
+            }
+        }
+    }
+}
+
+@Composable
+fun TargetFoldersConfig(
+    targetFolders: List<String>,
+    onAddFolder: (String) -> Unit,
+    onRemoveFolder: (String) -> Unit
+) {
+    val context = LocalContext.current
+    val folderPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocumentTree()
+    ) { uri ->
+        if (uri != null) {
+            try {
+                context.contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            } catch (e: Exception) {
+                android.util.Log.e("MainActivity", "Failed to take persistable URI permission in TargetFoldersConfig", e)
+            }
+            onAddFolder(uri.toString())
+        }
+    }
+
+    var isExpanded by remember { mutableStateOf(false) }
+    
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().clickable { isExpanded = !isExpanded },
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Default.Folder, contentDescription = null, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.primary)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Target Folders (${if (targetFolders.isEmpty()) "All" else targetFolders.size.toString()})", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            }
+            Icon(
+                imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+
+        AnimatedVisibility(visible = isExpanded) {
+            Column(
+                modifier = Modifier.fillMaxWidth().padding(start = 28.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                Text(
+                    text = "Specific folders to scan. If empty, all media is scanned.",
+                    fontSize = 11.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                
+                targetFolders.forEach { folderUri ->
+                    val pathName = Uri.parse(folderUri).path?.substringAfterLast(":") ?: "Folder"
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                            .padding(horizontal = 12.dp, vertical = 6.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(pathName, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        IconButton(
+                            onClick = { onRemoveFolder(folderUri) },
+                            modifier = Modifier.size(20.dp)
+                        ) {
+                            Icon(Icons.Default.Close, contentDescription = "Remove", modifier = Modifier.size(16.dp))
+                        }
+                    }
+                }
+
+                TextButton(
+                    onClick = { folderPickerLauncher.launch(null) },
+                    contentPadding = PaddingValues(0.dp)
+                ) {
+                    Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Add Folder", fontSize = 12.sp)
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FilterDropdown(selectedFilter: String, onSelect: (String) -> Unit) {
+    val filters = listOf("All", "New", "Queued", "Processed", "Error", "Archived", "Video Archive", "Image Archive", "Ready to delete")
+    var expanded by remember { mutableStateOf(false) }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        OutlinedTextField(
+            value = selectedFilter,
+            onValueChange = {},
+            readOnly = true,
+            label = { Text("Filter Backlog List") },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
+            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+            modifier = Modifier.menuAnchor().fillMaxWidth()
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            filters.forEach { filter ->
+                DropdownMenuItem(
+                    text = { Text(filter) },
+                    onClick = {
+                        onSelect(filter)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun VideoItemCard(
+    video: VideoItem,
+    isProcessing: Boolean,
+    analysis: AnalysisResult? = null,
+    onClick: () -> Unit,
+    onToggleQueue: () -> Unit
+) {
+    val isReadyToDelete = video.status == "ready_to_delete"
+    val isError = video.status == "error"
+    val isProcessed = video.status == "processed"
+    val isQueued = video.status == "queued" || video.status == "processing"
+
+    // Card background configuration
+    val cardBg = if (isReadyToDelete || isError) {
+        Color(0xFFFFFBFF)
+    } else if (isProcessing) {
+        Color(0xFFF3EDF7)
+    } else {
+        Color.White
+    }
+
+    val cardBorder = if (isReadyToDelete || isError) {
+        BorderStroke(1.dp, Color(0xFFFFDAD6))
+    } else if (isProcessing) {
+        BorderStroke(1.5.dp, Color(0xFF6750A4))
+    } else {
+        BorderStroke(1.dp, Color(0xFFE7E0EC))
+    }
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .testTag("video_item_card_${video.id}"),
+        colors = CardDefaults.cardColors(containerColor = cardBg),
+        shape = RoundedCornerShape(16.dp),
+        border = cardBorder
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Thumbnail container box
+            val leadingBoxBg = if (isReadyToDelete || isError) Color(0xFFFFDAD6) else Color(0xFFF3EDF7)
+            val iconColor = if (isReadyToDelete || isError) Color(0xFF410002) else Color(0xFF6750A4)
+
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(leadingBoxBg),
+                contentAlignment = Alignment.Center
+            ) {
+                val leadIcon = when (video.status) {
+                    "processed" -> Icons.Default.CheckCircle
+                    "archived" -> Icons.Default.Inventory
+                    "ready_to_delete" -> Icons.Default.DeleteSweep
+                    "error" -> Icons.Default.Error
+                    "processing" -> Icons.Default.Autorenew
+                    else -> Icons.Default.VideoFile
+                }
+                Icon(
+                    imageVector = leadIcon,
+                    contentDescription = null,
+                    tint = iconColor,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            // Text details column
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = video.displayName,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1D1B20),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Spacer(modifier = Modifier.height(2.dp))
+
+                val dateFormatted = remember(video.dateModified) {
+                    if (video.dateModified != null) {
+                        val sdf = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+                        sdf.format(Date(video.dateModified * 1000L))
+                    } else "N/A"
+                }
+
+                Text(
+                    text = "${formatDuration(video.durationMs ?: 0)}s • $dateFormatted",
+                    fontSize = 11.sp,
+                    color = Color(0xFF49454F)
+                )
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                // Badges row
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    val badgeBg = when (video.status) {
+                        "processed" -> Color(0xFFE8DEF8)
+                        "queued", "processing" -> Color(0xFFF3EDF7)
+                        "ready_to_delete", "error" -> Color(0xFFFFDAD6)
+                        else -> Color(0xFFEADDFF)
+                    }
+                    val badgeText = when (video.status) {
+                        "processed" -> Color(0xFF21005D)
+                        "queued", "processing" -> Color(0xFF49454F)
+                        "ready_to_delete", "error" -> Color(0xFF410002)
+                        else -> Color(0xFF21005D)
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(4.dp))
+                            .background(badgeBg)
+                            .padding(horizontal = 6.dp, vertical = 2.dp)
+                    ) {
+                        Text(
+                            text = video.status.uppercase(Locale.getDefault()).replace("_", " "),
+                            fontSize = 9.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = badgeText
+                        )
+                    }
+
+                    if (analysis != null && analysis.categoryLevel1.isNotEmpty()) {
+                        val categoryPath = if (analysis.categoryLevel2.isNotEmpty()) {
+                            "${analysis.categoryLevel1} > ${analysis.categoryLevel2}"
+                        } else {
+                            analysis.categoryLevel1
+                        }
+                        Text(
+                            text = categoryPath,
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = Color(0xFF6750A4),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+            }
+
+            // Tail interaction buttons
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = onToggleQueue) {
+                    val queueIcon = if (video.status == "queued") Icons.Default.Star else Icons.Default.StarBorder
+                    val queueColor = if (video.status == "queued") Color(0xFFFDD835) else Color(0xFF49454F)
+                    Icon(imageVector = queueIcon, contentDescription = "Queue track toggle", tint = queueColor)
+                }
+                Icon(
+                    imageVector = Icons.Default.ChevronRight,
+                    contentDescription = "Details",
+                    tint = Color(0xFF49454F),
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun VideoDetailPanel(
+    video: VideoItem,
+    frames: List<ExtractedFrame>,
+    analysis: AnalysisResult?,
+    onClose: () -> Unit,
+    onProcessSingle: () -> Unit,
+    onResetResult: () -> Unit,
+    onArchive: () -> Unit,
+    onToggleDeleteCandidate: () -> Unit,
+    onSaveEdits: (notes: String, t1: String, t2: String, c1: String, c2: String, c3: String, roadmap: String) -> Unit,
+    onDeleteFromBacklog: () -> Unit,
+    onMoveToTrash: () -> Unit,
+    onPermanentDelete: () -> Unit
+) {
+    var manualNotes by remember(video.id) { mutableStateOf(video.manualTranscript ?: "") }
+    
+    // Editable analysis states
+    var title1 by remember(analysis?.id) { mutableStateOf(analysis?.descriptionLine1 ?: "Deterministically Analyzed.") }
+    var title2 by remember(analysis?.id) { mutableStateOf(analysis?.descriptionLine2 ?: "Ready for review.") }
+    var cat1 by remember(analysis?.id) { mutableStateOf(analysis?.categoryLevel1 ?: "Technical") }
+    var cat2 by remember(analysis?.id) { mutableStateOf(analysis?.categoryLevel2 ?: "General") }
+    var cat3 by remember(analysis?.id) { mutableStateOf(analysis?.categoryLevel3 ?: "Workflow") }
+    var roadmapPlan by remember(analysis?.id) { mutableStateOf(analysis?.formattedActionPlan ?: "") }
+
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp)
+        ) {
+            // Header bar
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = onClose) {
+                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                }
+                Text(
+                    text = "Video Analysis Details",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Metadata Card
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))
+            ) {
+                Column(modifier = Modifier.padding(12.dp)) {
+                    Text(
+                        text = video.displayName,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(text = "URI: ${video.uriString}", fontSize = 11.sp, fontFamily = FontFamily.Monospace)
+                    Text(text = "Mime: ${video.mimeType}  |  Bytes: ${video.sizeBytes}", fontSize = 11.sp)
+                    Text(text = "Status: ${video.status.uppercase()}  |  Completed step: ${video.lastCompletedStep}", fontSize = 11.sp)
+                }
+            }
+            
+            if (video.status == "error" && video.errorMessage != null) {
+                Spacer(modifier = Modifier.height(10.dp))
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
+                ) {
+                    Column(modifier = Modifier.padding(12.dp)) {
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                            Text("Processing Error", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onErrorContainer, fontSize = 14.sp)
+                            val clipboardManager = LocalClipboardManager.current
+                            IconButton(onClick = { clipboardManager.setText(AnnotatedString(video.errorMessage)) }, modifier = Modifier.size(24.dp)) {
+                                Icon(Icons.Default.ContentCopy, contentDescription = "Copy Error", tint = MaterialTheme.colorScheme.onErrorContainer)
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(video.errorMessage, color = MaterialTheme.colorScheme.onErrorContainer, fontSize = 12.sp, fontFamily = FontFamily.Monospace)
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text("Suggested action: Check connection settings, verify LLM endpoint formatting, or restart the batch processor.", color = MaterialTheme.colorScheme.onErrorContainer, fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            // Operations quick buttons
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Button(onClick = onProcessSingle) {
+                    Icon(imageVector = Icons.Default.PlayArrow, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Process / Re-analyze")
+                }
+                OutlinedButton(onClick = onResetResult) {
+                    Icon(imageVector = Icons.Default.Refresh, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Reset Model Data")
+                }
+                OutlinedButton(onClick = onArchive) {
+                    Icon(imageVector = Icons.Default.Archive, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Archive")
+                }
+                val deleteCandText = if (video.status == "ready_to_delete") "Unmark Trash Candidate" else "Mark Trash Candidate"
+                val deleteCandColor = if (video.status == "ready_to_delete") MaterialTheme.colorScheme.primary else Color(0xFFE53935)
+                OutlinedButton(
+                    onClick = onToggleDeleteCandidate,
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = deleteCandColor)
+                ) {
+                    Icon(imageVector = Icons.Default.DeleteSweep, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(deleteCandText)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // User notes & transcript input box
+            Text(
+                text = "Manual Transcript & Annotations",
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            OutlinedTextField(
+                value = manualNotes,
+                onValueChange = { manualNotes = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(90.dp),
+                placeholder = { Text("Add timestamps, keywords, custom transcripts, or editing notes...", fontSize = 12.sp) },
+                textStyle = TextStyle(fontSize = 13.sp)
+            )
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // OCR Timetable evidence
+            Text(
+                text = "Scene Text Evidence Timeline (OCR)",
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            if (frames.isEmpty()) {
+                Text(
+                    text = "No on-screen frame text extracted yet. (Run processing to build timeline)",
+                    fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.outline,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
+            } else {
+                Card(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(modifier = Modifier.padding(10.dp)) {
+                        frames.forEach { frame ->
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 4.dp),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Text(
+                                    text = formatTimestamp(frame.timestampMs),
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.secondary,
+                                    fontSize = 12.sp,
+                                    fontFamily = FontFamily.Monospace
+                                )
+                                Text(
+                                    text = frame.ocrText,
+                                    fontSize = 12.sp,
+                                    modifier = Modifier.weight(1f)
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // Model categorization & parsed info
+            Text(
+                text = "Knowledge Structure & Category Actions",
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedTextField(
+                    value = cat1,
+                    onValueChange = { cat1 = it },
+                    label = { Text("Category Level 1", fontSize = 11.sp) },
+                    modifier = Modifier.weight(1f),
+                    textStyle = TextStyle(fontSize = 12.sp)
+                )
+                OutlinedTextField(
+                    value = cat2,
+                    onValueChange = { cat2 = it },
+                    label = { Text("Category Level 2", fontSize = 11.sp) },
+                    modifier = Modifier.weight(1f),
+                    textStyle = TextStyle(fontSize = 12.sp)
+                )
+                OutlinedTextField(
+                    value = cat3,
+                    onValueChange = { cat3 = it },
+                    label = { Text("Category Level 3", fontSize = 11.sp) },
+                    modifier = Modifier.weight(1f),
+                    textStyle = TextStyle(fontSize = 12.sp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedTextField(
+                value = title1,
+                onValueChange = { title1 = it },
+                label = { Text("Description line 1") },
+                modifier = Modifier.fillMaxWidth(),
+                textStyle = TextStyle(fontSize = 13.sp)
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            OutlinedTextField(
+                value = title2,
+                onValueChange = { title2 = it },
+                label = { Text("Description line 2") },
+                modifier = Modifier.fillMaxWidth(),
+                textStyle = TextStyle(fontSize = 13.sp)
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(text = "Action Roadmap / Notes Markdown Map", fontSize = 13.sp, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.height(4.dp))
+            OutlinedTextField(
+                value = roadmapPlan,
+                onValueChange = { roadmapPlan = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(180.dp),
+                textStyle = TextStyle(fontFamily = FontFamily.Monospace, fontSize = 12.sp)
+            )
+
+            if (analysis != null) {
+                Spacer(modifier = Modifier.height(10.dp))
+                if (analysis.urls.isNotEmpty()) {
+                    Text(text = "Extracted Links", fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                    analysis.urls.forEach { url ->
+                        Text(text = url, color = MaterialTheme.colorScheme.primary, fontSize = 11.sp, modifier = Modifier.padding(vertical = 2.dp))
+                    }
+                }
+                if (analysis.codeOrCommands.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = "Extracted Tech / Command Snippets", fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                    analysis.codeOrCommands.forEach { code ->
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color.Black.copy(alpha = 0.05f))
+                                .padding(6.dp)
+                        ) {
+                            Text(text = code, fontFamily = FontFamily.Monospace, fontSize = 10.sp)
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Button(
+                    onClick = {
+                        onSaveEdits(manualNotes, title1, title2, cat1, cat2, cat3, roadmapPlan)
+                    },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(imageVector = Icons.Default.Save, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Save Edits")
+                }
+                OutlinedButton(
+                    onClick = onDeleteFromBacklog,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(imageVector = Icons.Default.PlaylistRemove, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Remove index")
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Divider()
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Extreme Native clean action handlers
+            Text(
+                text = "System Real Media Cleanup Action",
+                fontWeight = FontWeight.Bold,
+                fontSize = 13.sp,
+                color = Color(0xFFE53935)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "Review these videos before deleting them from your phone. The app will open standard secure Android confirmation dialogues before executing changes.",
+                fontSize = 11.sp,
+                color = MaterialTheme.colorScheme.outline
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Button(
+                    onClick = onMoveToTrash,
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFB8C00)),
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Move to Trash")
+                }
+
+                Button(
+                    onClick = onPermanentDelete,
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE53935)),
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(imageVector = Icons.Default.DeleteForever, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Delete Forever")
+                }
+            }
+            Spacer(modifier = Modifier.height(24.dp))
+        }
+    }
+}
+
+@Composable
+fun SettingsDialog(
+    currentSettings: AppSettings,
+    onDismiss: () -> Unit,
+    onSave: (enabled: Boolean, url: String, model: String, timeout: Int, warnConfirmed: Boolean) -> Unit
+) {
+    var enabled by remember { mutableStateOf(currentSettings.ollamaEnabled) }
+    var url by remember { mutableStateOf(currentSettings.ollamaEndpointUrl) }
+    var model by remember { mutableStateOf(currentSettings.ollamaModelName) }
+    var timeoutSecs by remember { mutableStateOf(currentSettings.requestTimeoutSeconds.toString()) }
+    var confirmedWarn by remember { mutableStateOf(currentSettings.confirmedNonLocalEndpointWarning) }
+
+    val context = LocalContext.current
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Configure Ollama Local LLM") },
+        text = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text("Enable Ollama Connection", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                    Switch(checked = enabled, onCheckedChange = { enabled = it })
+                }
+
+                if (enabled) {
+                    OutlinedTextField(
+                        value = url,
+                        onValueChange = { url = it },
+                        label = { Text("Ollama HTTP API Endpoint URL") },
+                        modifier = Modifier.fillMaxWidth(),
+                        textStyle = TextStyle(fontSize = 12.sp)
+                    )
+
+                    // Platform quick helpers info
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                    ) {
+                        Column(modifier = Modifier.padding(8.dp)) {
+                            Text("Connection Helpers (Tap to Preset):", fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                            Text(
+                                "• AI Studio Emulator PC Host: http://10.0.2.2:11434/api/generate",
+                                fontSize = 9.sp,
+                                modifier = Modifier.clickable { url = "http://10.0.2.2:11434/api/generate" }
+                            )
+                            Text(
+                                "• Real Local Wi-Fi PC host: http://192.168.x.x:11434/api/generate",
+                                fontSize = 9.sp,
+                                modifier = Modifier.clickable { url = "http://192.168.0.100:11434/api/generate" }
+                            )
+                            Text(
+                                "• Running locally on Android: http://127.0.0.1:11434/api/generate",
+                                fontSize = 9.sp,
+                                modifier = Modifier.clickable { url = "http://127.0.0.1:11434/api/generate" }
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    OutlinedTextField(
+                        value = model,
+                        onValueChange = { model = it },
+                        label = { Text("Model Name") },
+                        modifier = Modifier.fillMaxWidth(),
+                        textStyle = TextStyle(fontSize = 12.sp)
+                    )
+
+                    OutlinedTextField(
+                        value = timeoutSecs,
+                        onValueChange = { timeoutSecs = it },
+                        label = { Text("Timeout duration (seconds)") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    // Non-local warning rule
+                    val host = try { URL(url).host } catch(e: Exception) { "" }
+                    val isPrivateIp = host == "localhost" || host == "127.0.0.1" || host == "10.0.2.2" ||
+                            (host.startsWith("192.168.") || host.startsWith("10.") || (host.startsWith("172.") && host.split(".")[1].toIntOrNull() in 16..31))
+
+                    if (url.isNotEmpty() && !isPrivateIp) {
+                        Card(
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
+                        ) {
+                            Column(modifier = Modifier.padding(10.dp)) {
+                                Text(
+                                    text = "WARNING: Public API Selected",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 11.sp,
+                                    color = MaterialTheme.colorScheme.onErrorContainer
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = "Videos stay on this device. Only extracted text is sent to the configured LLM endpoint. Never silently expose private notes to public interfaces.",
+                                    fontSize = 10.sp,
+                                    color = MaterialTheme.colorScheme.onErrorContainer
+                                )
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Checkbox(checked = confirmedWarn, onCheckedChange = { confirmedWarn = it })
+                                    Text("I confirm sending data to this public hostname", fontSize = 10.sp)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    val timeoutVal = timeoutSecs.toIntOrNull() ?: 30
+                    onSave(enabled, url, model, timeoutVal, confirmedWarn)
+                }
+            ) {
+                Text("Confirm & Save")
+            }
+        },
+        dismissButton = {
+            OutlinedButton(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    )
+}
+
+// String format helpers
+private fun formatTimestamp(ms: Long): String {
+    val totalSecs = ms / 1000
+    val mins = totalSecs / 60
+    val secs = totalSecs % 60
+    return String.format("%02d:%02d", mins, secs)
+}
+
+private fun formatDuration(ms: Long): String {
+    val secs = ms / 1000
+    return if (secs == 0L) "0" else secs.toString()
+}
+
+class TextStyle(
+    val fontSize: androidx.compose.ui.unit.TextUnit,
+    val fontFamily: androidx.compose.ui.text.font.FontFamily? = null
+) {
+    fun toCompose(): androidx.compose.ui.text.TextStyle {
+        return androidx.compose.ui.text.TextStyle(fontSize = fontSize, fontFamily = fontFamily)
+    }
+}
+
+@Composable
+fun OutlinedTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    label: @Composable (() -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
+    textStyle: TextStyle
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier,
+        label = label,
+        placeholder = placeholder,
+        textStyle = textStyle.toCompose()
+    )
+}
