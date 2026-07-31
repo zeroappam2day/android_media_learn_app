@@ -403,35 +403,52 @@ class VideoRepository(private val context: Context) {
 
             if (isValid && securityCleared) {
                 try {
+                    val provider = prefs.getString("llm_provider", "") ?: "ollama_local"
+                    val apiKey = securePrefs.getString("llm_api_key", "") ?: ""
+                    val timeout = if (provider == "ollama_cloud") 15L else settings.requestTimeoutSeconds.toLong()
+
                     val client = OkHttpClient.Builder()
-                        .connectTimeout(settings.requestTimeoutSeconds.toLong(), TimeUnit.SECONDS)
-                        .readTimeout(settings.requestTimeoutSeconds.toLong(), TimeUnit.SECONDS)
-                        .writeTimeout(settings.requestTimeoutSeconds.toLong(), TimeUnit.SECONDS)
+                        .connectTimeout(timeout, TimeUnit.SECONDS)
+                        .readTimeout(timeout, TimeUnit.SECONDS)
+                        .writeTimeout(timeout, TimeUnit.SECONDS)
                         .build()
 
                     var targetUrl = settings.ollamaEndpointUrl.trim()
-                    if (targetUrl.isNotEmpty()) {
-                        if (!targetUrl.endsWith("/api/generate") && !targetUrl.endsWith("/api/generate/")) {
-                            if (targetUrl.endsWith("/")) {
-                                targetUrl += "api/generate"
-                            } else {
-                                targetUrl += "/api/generate"
-                            }
-                        }
-                    }
+                    if (targetUrl.endsWith("/api/generate")) targetUrl = targetUrl.removeSuffix("/api/generate")
+                    if (targetUrl.endsWith("/api/generate/")) targetUrl = targetUrl.removeSuffix("/api/generate/")
+                    if (targetUrl.endsWith("/v1/chat/completions")) targetUrl = targetUrl.removeSuffix("/v1/chat/completions")
+                    if (targetUrl.endsWith("/v1/chat/completions/")) targetUrl = targetUrl.removeSuffix("/v1/chat/completions/")
+                    if (targetUrl.endsWith("/")) targetUrl = targetUrl.removeSuffix("/")
+                    
+                    val isV1 = targetUrl.endsWith("/v1")
+                    targetUrl = if (isV1) "$targetUrl/chat/completions" else "$targetUrl/api/generate"
 
-                    val jsonReq = JSONObject().apply {
-                        put("model", settings.ollamaModelName)
-                        put("prompt", promptText)
-                        put("stream", false)
-                        put("format", "json")
+                    val jsonReq = JSONObject()
+                    if (isV1) {
+                        jsonReq.put("model", settings.ollamaModelName)
+                        val messagesArray = JSONArray()
+                        val msgObj = JSONObject()
+                        msgObj.put("role", "user")
+                        msgObj.put("content", promptText)
+                        messagesArray.put(msgObj)
+                        jsonReq.put("messages", messagesArray)
+                        val formatObj = JSONObject()
+                        formatObj.put("type", "json_object")
+                        jsonReq.put("response_format", formatObj)
+                        jsonReq.put("stream", false)
+                    } else {
+                        jsonReq.put("model", settings.ollamaModelName)
+                        jsonReq.put("prompt", promptText)
+                        jsonReq.put("stream", false)
+                        jsonReq.put("format", "json")
                     }
 
                     val requestBody = jsonReq.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
-                    val request = Request.Builder()
-                        .url(targetUrl)
-                        .post(requestBody)
-                        .build()
+                    val reqBuilder = Request.Builder().url(targetUrl).post(requestBody)
+                    if (provider == "ollama_cloud" && apiKey.isNotBlank()) {
+                        reqBuilder.addHeader("Authorization", "Bearer $apiKey")
+                    }
+                    val request = reqBuilder.build()
 
                     client.newCall(request).execute().use { response ->
                         if (response.isSuccessful) {
@@ -457,9 +474,19 @@ class VideoRepository(private val context: Context) {
     }
 
     private fun parseOllamaResponse(videoId: Long, jsonResponse: String): AnalysisResult {
-        // Ollama formats response inside {"response": "{...}"} or directly
         val root = JSONObject(jsonResponse)
-        val rawResponseString = if (root.has("response")) root.getString("response") else jsonResponse
+        var rawResponseString = if (root.has("response")) root.getString("response") else jsonResponse
+
+        // Handle OpenAI format: {"choices": [{"message": {"content": "{...}"}}]}
+        if (root.has("choices")) {
+            val choices = root.optJSONArray("choices")
+            if (choices != null && choices.length() > 0) {
+                val msg = choices.getJSONObject(0).optJSONObject("message")
+                if (msg != null && msg.has("content")) {
+                    rawResponseString = msg.getString("content")
+                }
+            }
+        }
 
         val responseJson = JSONObject(rawResponseString)
         val descArr = responseJson.optJSONArray("description")

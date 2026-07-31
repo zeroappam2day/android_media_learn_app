@@ -73,3 +73,11 @@ graphify-out/
 # State and analysis (local only)
 state/
 uat/
+
+# Scratch/analysis artifacts (session-local, not project source)
+HEAD_MainActivity.kt
+diff_dump.txt
+replaced_log.txt
+replacements.txt
+tool_calls.json
+tool_calls_mainactivity.txt

@@ -18,11 +18,13 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.*
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -290,6 +292,10 @@ fun MainScreen(
         }
     }
 
+    var isTransferring by remember { mutableStateOf(false) }
+    var transferProgress by remember { mutableStateOf(0f) }
+    val scope = rememberCoroutineScope()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -306,6 +312,47 @@ fun MainScreen(
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp
                         )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        
+                        val infiniteTransition = rememberInfiniteTransition()
+                        val pulseAlpha by infiniteTransition.animateFloat(
+                            initialValue = 0.5f,
+                            targetValue = 1f,
+                            animationSpec = infiniteRepeatable(
+                                animation = tween(1000, easing = LinearEasing),
+                                repeatMode = RepeatMode.Reverse
+                            ),
+                            label = "pulseAlpha"
+                        )
+                        
+                        IconButton(
+                            onClick = {
+                                if (!isTransferring) {
+                                    isTransferring = true
+                                    transferProgress = 0f
+                                    scope.launch {
+                                        for (i in 1..10) {
+                                            kotlinx.coroutines.delay(150)
+                                            transferProgress = i / 10f
+                                        }
+                                        isTransferring = false
+                                        Toast.makeText(context, "All backlog files sync-transferred to Computer successfully!", Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                            },
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .background(if (isTransferring) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primary.copy(alpha = pulseAlpha))
+                                .size(32.dp)
+                                .testTag("computer_transfer_button")
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Computer,
+                                contentDescription = "Computer Sync",
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.size(16.dp)
+                            )
+                        }
                     }
                 },
                 actions = {
@@ -332,8 +379,6 @@ fun MainScreen(
         var folderSearchQuery by remember { mutableStateOf("") }
         
         var headerPanelExpanded by remember { mutableStateOf(true) }
-        var isTransferring by remember { mutableStateOf(false) }
-        var transferProgress by remember { mutableStateOf(0f) }
 
         // Custom Stateful Modals
         var previewModalState by remember { mutableStateOf<WindowState?>(null) }
@@ -348,9 +393,8 @@ fun MainScreen(
         val selectedFolders = remember { mutableStateMapOf<String, Boolean>() }
         
         // Archive selection states
+        // Archive selection states
         val selectedArchiveVideos = remember { mutableStateMapOf<Long, Boolean>() }
-
-        val scope = rememberCoroutineScope()
 
         if (showSettings) {
             settingsModalState = WindowState.STANDARD
@@ -363,85 +407,6 @@ fun MainScreen(
                 .padding(paddingValues)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
-                // Collapsible Header Panel
-                AnimatedVisibility(visible = headerPanelExpanded) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f)),
-                        shape = RoundedCornerShape(12.dp)
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(12.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Column {
-                                Text("Computer Sync Profile", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                                Text(
-                                    text = if (isTransferring) "Transferring files: ${(transferProgress * 100).toInt()}%" else "Connection Status: Connected via Local Sync Network",
-                                    fontSize = 11.sp,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                if (isTransferring) {
-                                    Spacer(modifier = Modifier.height(6.dp))
-                                    LinearProgressIndicator(
-                                        progress = { transferProgress },
-                                        modifier = Modifier.width(180.dp),
-                                        color = MaterialTheme.colorScheme.primary
-                                    )
-                                }
-                            }
-                            IconButton(
-                                onClick = {
-                                    if (!isTransferring) {
-                                        isTransferring = true
-                                        transferProgress = 0f
-                                        scope.launch {
-                                            for (i in 1..10) {
-                                                kotlinx.coroutines.delay(150)
-                                                transferProgress = i / 10f
-                                            }
-                                            isTransferring = false
-                                            Toast.makeText(context, "All backlog files sync-transferred to Computer successfully!", Toast.LENGTH_LONG).show()
-                                        }
-                                    }
-                                },
-                                modifier = Modifier
-                                    .clip(CircleShape)
-                                    .background(MaterialTheme.colorScheme.primary)
-                                    .testTag("computer_transfer_button")
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Computer,
-                                    contentDescription = "Transfer to Computer",
-                                    tint = MaterialTheme.colorScheme.onPrimary
-                                )
-                            }
-                        }
-                    }
-                }
-
-                // Collapsible Header Tab Handle
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { headerPanelExpanded = !headerPanelExpanded }
-                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
-                        .padding(vertical = 4.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = if (headerPanelExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                        contentDescription = "Toggle Header",
-                        modifier = Modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-
                 // Split Side Panel & Main Panel layout
                 Row(modifier = Modifier.weight(1f)) {
                     // Left Panel (Collapsible Sidebar)
@@ -952,147 +917,162 @@ fun MainScreen(
                                         }
                                     }
 
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f))
-                                            .padding(horizontal = 4.dp, vertical = 8.dp),
-                                        verticalAlignment = Alignment.CenterVertically
+                                    // Modern Table Format for Backlog
+                                    androidx.compose.material3.Card(
+                                        modifier = Modifier.fillMaxSize().padding(horizontal = 4.dp),
+                                        shape = RoundedCornerShape(8.dp),
+                                        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)),
+                                        colors = androidx.compose.material3.CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                                     ) {
-                                        Checkbox(
-                                            checked = allSelected,
-                                            onCheckedChange = { checked ->
-                                                backlogList.forEach { selectedBacklogVideos[it.id] = checked }
-                                            },
-                                            modifier = Modifier.padding(end = 4.dp)
-                                        )
-                                        Text("Location", modifier = Modifier.weight(1.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                                        Text("File Name", modifier = Modifier.weight(2f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                                        Text("Size", modifier = Modifier.weight(1f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                                        Text("Status", modifier = Modifier.weight(0.8f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                                        Text("Actions", modifier = Modifier.weight(1.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
-                                    }
+                                        Column(modifier = Modifier.fillMaxSize()) {
+                                            // Table Header
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                                                    .then(Bottom(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)))
+                                                    .padding(horizontal = 8.dp, vertical = 10.dp),
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Checkbox(
+                                                    checked = allSelected,
+                                                    onCheckedChange = { checked ->
+                                                        backlogList.forEach { selectedBacklogVideos[it.id] = checked }
+                                                    },
+                                                    modifier = Modifier.size(24.dp).padding(end = 8.dp)
+                                                )
+                                                Text("Location", modifier = Modifier.weight(1.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                                Text("File Name", modifier = Modifier.weight(2f), fontWeight = FontWeight.Bold, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                                Text("Size", modifier = Modifier.weight(1f), fontWeight = FontWeight.Bold, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                                Text("Status", modifier = Modifier.weight(0.8f), fontWeight = FontWeight.Bold, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                                Text("Actions", modifier = Modifier.weight(1.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp, textAlign = androidx.compose.ui.text.style.TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                            }
 
-                                    if (backlogList.isEmpty()) {
-                                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                                            Text("Backlog is empty. Scan storage or clear filters.", fontSize = 13.sp, color = MaterialTheme.colorScheme.outline)
-                                        }
-                                    } else {
-                                        LazyColumn(modifier = Modifier.fillMaxSize()) {
-                                            items(backlogList, key = { it.id }) { video ->
-                                                val loc = Uri.parse(video.uriString).path?.substringBeforeLast("/", "Internal") ?: "Internal"
-                                                val cleanLoc = if (loc.contains(":")) loc.substringAfterLast(":") else loc
-                                                val shortLoc = if (cleanLoc.length > 10) cleanLoc.take(10) + ".." else cleanLoc
-                                                val sizeMB = "%.1f MB".format((video.sizeBytes ?: 0L) / 1048576f)
-                                                val statBadge = when (video.status) {
-                                                    "processed" -> "P"
-                                                    "error" -> "F"
-                                                    else -> "NS"
+                                            if (backlogList.isEmpty()) {
+                                                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                                    Text("Backlog is empty. Scan storage or clear filters.", fontSize = 13.sp, color = MaterialTheme.colorScheme.outline)
                                                 }
-                                                val badgeBg = when (statBadge) {
-                                                    "P" -> Color(0xFFD1E7DD)
-                                                    "F" -> Color(0xFFF8D7DA)
-                                                    else -> Color(0xFFE2E3E5)
-                                                }
-                                                val badgeColor = when (statBadge) {
-                                                    "P" -> Color(0xFF0F5132)
-                                                    "F" -> Color(0xFF842029)
-                                                    else -> Color(0xFF41464B)
-                                                }
-                                                val isChecked = selectedBacklogVideos[video.id] ?: false
-
-                                                Row(
-                                                    modifier = Modifier
-                                                        .fillMaxWidth()
-                                                        .then(Bottom(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.1f)))
-                                                        .padding(vertical = 6.dp, horizontal = 4.dp),
-                                                    verticalAlignment = Alignment.CenterVertically
-                                                ) {
-                                                    Checkbox(
-                                                        checked = isChecked,
-                                                        onCheckedChange = { selectedBacklogVideos[video.id] = it },
-                                                        modifier = Modifier.padding(end = 4.dp)
-                                                    )
-                                                    Text(shortLoc, modifier = Modifier.weight(1.5f), fontSize = 11.sp)
-                                                    Column(modifier = Modifier.weight(2f)) {
-                                                        Text(video.displayName, fontSize = 11.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                                                        Row(verticalAlignment = Alignment.CenterVertically) {
-                                                            Text("Rename: ", fontSize = 9.sp, color = MaterialTheme.colorScheme.outline)
-                                                            Text(
-                                                                "LLM AI",
-                                                                fontSize = 9.sp,
-                                                                color = MaterialTheme.colorScheme.primary,
-                                                                fontWeight = FontWeight.Bold,
-                                                                modifier = Modifier
-                                                                    .clickable { 
-                                                                        viewModel.triggerFileRenameWithLLM(video.id)
-                                                                        Toast.makeText(context, "AI suggested 20-character rename applied!", Toast.LENGTH_SHORT).show()
-                                                                    }
-                                                                    .padding(horizontal = 4.dp)
-                                                            )
+                                            } else {
+                                                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                                                    itemsIndexed(backlogList, key = { _, video -> video.id }) { index, video ->
+                                                        val loc = Uri.parse(video.uriString).path?.substringBeforeLast("/", "Internal") ?: "Internal"
+                                                        val cleanLoc = if (loc.contains(":")) loc.substringAfterLast(":") else loc
+                                                        val shortLoc = if (cleanLoc.length > 10) cleanLoc.take(10) + ".." else cleanLoc
+                                                        val sizeMB = "%.1f MB".format((video.sizeBytes ?: 0L) / 1048576f)
+                                                        val statBadge = when (video.status) {
+                                                            "processed" -> "P"
+                                                            "error" -> "F"
+                                                            else -> "NS"
                                                         }
-                                                    }
-                                                    Text(sizeMB, modifier = Modifier.weight(1f), fontSize = 11.sp)
-                                                    Box(
-                                                        modifier = Modifier
-                                                            .weight(0.8f)
-                                                            .clip(RoundedCornerShape(4.dp))
-                                                            .background(badgeBg)
-                                                            .padding(horizontal = 4.dp, vertical = 2.dp),
-                                                        contentAlignment = Alignment.Center
-                                                    ) {
-                                                        Text(statBadge, color = badgeColor, fontSize = 9.sp, fontWeight = FontWeight.Bold)
-                                                    }
-                                                    Row(
-                                                        modifier = Modifier.weight(1.5f),
-                                                        horizontalArrangement = Arrangement.SpaceEvenly,
-                                                        verticalAlignment = Alignment.CenterVertically
-                                                    ) {
-                                                        // Open folder location
-                                                        Icon(
-                                                            imageVector = Icons.Default.Folder,
-                                                            contentDescription = "Folder",
+                                                        val badgeBg = when (statBadge) {
+                                                            "P" -> Color(0xFFD1E7DD)
+                                                            "F" -> Color(0xFFF8D7DA)
+                                                            else -> Color(0xFFE2E3E5)
+                                                        }
+                                                        val badgeColor = when (statBadge) {
+                                                            "P" -> Color(0xFF0F5132)
+                                                            "F" -> Color(0xFF842029)
+                                                            else -> Color(0xFF41464B)
+                                                        }
+                                                        val isChecked = selectedBacklogVideos[video.id] ?: false
+                                                        
+                                                        val rowBg = if (index % 2 == 0) Color.Transparent else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.02f)
+
+                                                        Row(
                                                             modifier = Modifier
-                                                                .size(16.dp)
-                                                                .clickable { Toast.makeText(context, "Location: ${video.uriString}", Toast.LENGTH_LONG).show() },
-                                                            tint = MaterialTheme.colorScheme.primary
-                                                        )
-                                                        // Open processed output
-                                                        Icon(
-                                                            imageVector = Icons.Default.OpenInNew,
-                                                            contentDescription = "Output",
-                                                            modifier = Modifier
-                                                                .size(16.dp)
-                                                                .clickable(enabled = video.status == "processed") {
-                                                                    outputModalVideoId = video.id
-                                                                    outputModalState = WindowState.STANDARD
-                                                                },
-                                                            tint = if (video.status == "processed") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
-                                                        )
-                                                        // Open preview modal
-                                                        Icon(
-                                                            imageVector = Icons.Default.Visibility,
-                                                            contentDescription = "Preview",
-                                                            modifier = Modifier
-                                                                .size(16.dp)
-                                                                .clickable {
-                                                                    previewModalVideoId = video.id
-                                                                    previewModalState = WindowState.STANDARD
-                                                                },
-                                                            tint = MaterialTheme.colorScheme.primary
-                                                        )
-                                                        // Run processing
-                                                        Icon(
-                                                            imageVector = Icons.Default.Refresh,
-                                                            contentDescription = "Process",
-                                                            modifier = Modifier
-                                                                .size(16.dp)
-                                                                .clickable {
-                                                                    viewModel.processSingle(video)
-                                                                    Toast.makeText(context, "Processing started for ${video.displayName}", Toast.LENGTH_SHORT).show()
-                                                                },
-                                                            tint = MaterialTheme.colorScheme.primary
-                                                        )
+                                                                .fillMaxWidth()
+                                                                .background(rowBg)
+                                                                .then(Bottom(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.1f)))
+                                                                .padding(vertical = 8.dp, horizontal = 8.dp),
+                                                            verticalAlignment = Alignment.CenterVertically
+                                                        ) {
+                                                            Checkbox(
+                                                                checked = isChecked,
+                                                                onCheckedChange = { selectedBacklogVideos[video.id] = it },
+                                                                modifier = Modifier.size(24.dp).padding(end = 8.dp)
+                                                            )
+                                                            Text(shortLoc, modifier = Modifier.weight(1.5f), fontSize = 11.sp)
+                                                            Column(modifier = Modifier.weight(2f)) {
+                                                                Text(video.displayName, fontSize = 11.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                                                    Text("Rename: ", fontSize = 9.sp, color = MaterialTheme.colorScheme.outline)
+                                                                    Text(
+                                                                        "LLM AI",
+                                                                        fontSize = 9.sp,
+                                                                        color = MaterialTheme.colorScheme.primary,
+                                                                        fontWeight = FontWeight.Bold,
+                                                                        modifier = Modifier
+                                                                            .clickable { 
+                                                                                viewModel.triggerFileRenameWithLLM(video.id)
+                                                                                Toast.makeText(context, "AI suggested 20-character rename applied!", Toast.LENGTH_SHORT).show()
+                                                                            }
+                                                                            .padding(horizontal = 4.dp)
+                                                                    )
+                                                                }
+                                                            }
+                                                            Text(sizeMB, modifier = Modifier.weight(1f), fontSize = 11.sp)
+                                                            Box(
+                                                                modifier = Modifier
+                                                                    .weight(0.8f)
+                                                                    .clip(RoundedCornerShape(4.dp))
+                                                                    .background(badgeBg)
+                                                                    .padding(horizontal = 4.dp, vertical = 2.dp),
+                                                                contentAlignment = Alignment.Center
+                                                            ) {
+                                                                Text(statBadge, color = badgeColor, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                                                            }
+                                                            Row(
+                                                                modifier = Modifier.weight(1.5f),
+                                                                horizontalArrangement = Arrangement.SpaceEvenly,
+                                                                verticalAlignment = Alignment.CenterVertically
+                                                            ) {
+                                                                // Open folder location
+                                                                Icon(
+                                                                    imageVector = Icons.Default.Folder,
+                                                                    contentDescription = "Folder",
+                                                                    modifier = Modifier
+                                                                        .size(16.dp)
+                                                                        .clickable { Toast.makeText(context, "Location: ${video.uriString}", Toast.LENGTH_LONG).show() },
+                                                                    tint = MaterialTheme.colorScheme.primary
+                                                                )
+                                                                // Open processed output
+                                                                Icon(
+                                                                    imageVector = Icons.Default.OpenInNew,
+                                                                    contentDescription = "Output",
+                                                                    modifier = Modifier
+                                                                        .size(16.dp)
+                                                                        .clickable(enabled = video.status == "processed") {
+                                                                            outputModalVideoId = video.id
+                                                                            outputModalState = WindowState.STANDARD
+                                                                        },
+                                                                    tint = if (video.status == "processed") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+                                                                )
+                                                                // Open preview modal
+                                                                Icon(
+                                                                    imageVector = Icons.Default.Visibility,
+                                                                    contentDescription = "Preview",
+                                                                    modifier = Modifier
+                                                                        .size(16.dp)
+                                                                        .clickable {
+                                                                            previewModalVideoId = video.id
+                                                                            previewModalState = WindowState.STANDARD
+                                                                        },
+                                                                    tint = MaterialTheme.colorScheme.primary
+                                                                )
+                                                                // Run processing
+                                                                Icon(
+                                                                    imageVector = Icons.Default.Refresh,
+                                                                    contentDescription = "Process",
+                                                                    modifier = Modifier
+                                                                        .size(16.dp)
+                                                                        .clickable {
+                                                                            viewModel.processSingle(video)
+                                                                            Toast.makeText(context, "Processing started for ${video.displayName}", Toast.LENGTH_SHORT).show()
+                                                                        },
+                                                                    tint = MaterialTheme.colorScheme.primary
+                                                                )
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }

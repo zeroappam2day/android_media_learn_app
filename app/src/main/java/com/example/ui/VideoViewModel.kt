@@ -427,6 +427,9 @@ class VideoViewModel(private val application: Application) : AndroidViewModel(ap
                             val success = response.isSuccessful
                             _connectionSuccess.value = success
                             _ollamaStatus.value = if (success) "Available" else "Unavailable"
+                            if (success) {
+                                syncModels(testProvider = provider, testApiKey = apiKey)
+                            }
                         }
                     } catch (e: Exception) {
                         _connectionSuccess.value = false
@@ -438,26 +441,37 @@ class VideoViewModel(private val application: Application) : AndroidViewModel(ap
 
             val s = repo.getOrInitializeSettings()
             var hostUrl = (testUrl ?: s.ollamaEndpointUrl).trim()
-            if (hostUrl.endsWith("/api/generate")) {
-                hostUrl = hostUrl.removeSuffix("/api/generate")
-            } else if (hostUrl.endsWith("/api/generate/")) {
-                hostUrl = hostUrl.removeSuffix("/api/generate/")
-            }
-            if (hostUrl.endsWith("/")) {
-                hostUrl = hostUrl.removeSuffix("/")
-            }
+            if (hostUrl.endsWith("/api/generate")) hostUrl = hostUrl.removeSuffix("/api/generate")
+            if (hostUrl.endsWith("/api/generate/")) hostUrl = hostUrl.removeSuffix("/api/generate/")
+            if (hostUrl.endsWith("/v1/chat/completions")) hostUrl = hostUrl.removeSuffix("/v1/chat/completions")
+            if (hostUrl.endsWith("/v1/chat/completions/")) hostUrl = hostUrl.removeSuffix("/v1/chat/completions/")
+            if (hostUrl.endsWith("/")) hostUrl = hostUrl.removeSuffix("/")
+            
+            val testEndpoint = if (hostUrl.endsWith("/v1")) "$hostUrl/models" else hostUrl
+            
+            val apiKey = testApiKey ?: repo.securePrefs.getString("llm_api_key", "") ?: ""
+
             withContext(Dispatchers.IO) {
                 try {
+                    val timeout = if (provider == "ollama_cloud") 15L else 4L
                     val client = okhttp3.OkHttpClient.Builder()
-                        .connectTimeout(4, java.util.concurrent.TimeUnit.SECONDS)
+                        .connectTimeout(timeout, java.util.concurrent.TimeUnit.SECONDS)
+                        .readTimeout(timeout, java.util.concurrent.TimeUnit.SECONDS)
                         .build()
-                    val req = okhttp3.Request.Builder().url(hostUrl).build()
+                    
+                    val reqBuilder = okhttp3.Request.Builder().url(testEndpoint)
+                    if (provider == "ollama_cloud" && apiKey.isNotBlank()) {
+                        reqBuilder.addHeader("Authorization", "Bearer $apiKey")
+                    }
+                    val req = reqBuilder.build()
+                    
                     client.newCall(req).execute().use { response ->
                         val code = response.code
-                        val success = response.isSuccessful || code == 404 || code == 400 || code == 200 || code == 405
+                        val success = response.isSuccessful || code == 404 || code == 400 || code == 200 || code == 405 || code == 401
                         _connectionSuccess.value = success
                         if (success) {
                             _ollamaStatus.value = "Available"
+                            syncModels(testUrl = hostUrl, testProvider = provider, testApiKey = apiKey)
                         } else {
                             _ollamaStatus.value = "Unavailable"
                         }
@@ -531,37 +545,56 @@ class VideoViewModel(private val application: Application) : AndroidViewModel(ap
 
             val s = repo.getOrInitializeSettings()
             var baseUrl = (testUrl ?: s.ollamaEndpointUrl).trim()
-            if (baseUrl.endsWith("/api/generate")) {
-                baseUrl = baseUrl.removeSuffix("/api/generate")
-            } else if (baseUrl.endsWith("/api/generate/")) {
-                baseUrl = baseUrl.removeSuffix("/api/generate/")
-            }
-            if (baseUrl.endsWith("/")) {
-                baseUrl = baseUrl.removeSuffix("/")
-            }
-            val tagsUrl = "$baseUrl/api/tags"
+            if (baseUrl.endsWith("/api/generate")) baseUrl = baseUrl.removeSuffix("/api/generate")
+            if (baseUrl.endsWith("/api/generate/")) baseUrl = baseUrl.removeSuffix("/api/generate/")
+            if (baseUrl.endsWith("/v1/chat/completions")) baseUrl = baseUrl.removeSuffix("/v1/chat/completions")
+            if (baseUrl.endsWith("/v1/chat/completions/")) baseUrl = baseUrl.removeSuffix("/v1/chat/completions/")
+            if (baseUrl.endsWith("/")) baseUrl = baseUrl.removeSuffix("/")
+            
+            val isV1 = baseUrl.endsWith("/v1")
+            val tagsUrl = if (isV1) "$baseUrl/models" else "$baseUrl/api/tags"
+            val apiKey = testApiKey ?: repo.securePrefs.getString("llm_api_key", "") ?: ""
 
             withContext(Dispatchers.IO) {
                 try {
+                    val timeout = if (provider == "ollama_cloud") 15L else 4L
                     val client = okhttp3.OkHttpClient.Builder()
-                        .connectTimeout(4, java.util.concurrent.TimeUnit.SECONDS)
+                        .connectTimeout(timeout, java.util.concurrent.TimeUnit.SECONDS)
+                        .readTimeout(timeout, java.util.concurrent.TimeUnit.SECONDS)
                         .build()
-                    val req = okhttp3.Request.Builder().url(tagsUrl).build()
+                        
+                    val reqBuilder = okhttp3.Request.Builder().url(tagsUrl)
+                    if (provider == "ollama_cloud" && apiKey.isNotBlank()) {
+                        reqBuilder.addHeader("Authorization", "Bearer $apiKey")
+                    }
+                    val req = reqBuilder.build()
+                    
                     client.newCall(req).execute().use { response ->
                         if (response.isSuccessful) {
                             val respBody = response.body?.string() ?: ""
                             val json = org.json.JSONObject(respBody)
-                            val modelsArray = json.optJSONArray("models")
                             val modelNames = mutableListOf<String>()
-                            if (modelsArray != null) {
-                                for (i in 0 until modelsArray.length()) {
-                                    val modelObj = modelsArray.getJSONObject(i)
-                                    val name = modelObj.optString("name")
-                                    if (name.isNotEmpty()) {
-                                        modelNames.add(name)
+                            
+                            if (isV1) {
+                                val dataArray = json.optJSONArray("data")
+                                if (dataArray != null) {
+                                    for (i in 0 until dataArray.length()) {
+                                        val modelObj = dataArray.getJSONObject(i)
+                                        val name = modelObj.optString("id")
+                                        if (name.isNotEmpty()) modelNames.add(name)
+                                    }
+                                }
+                            } else {
+                                val modelsArray = json.optJSONArray("models")
+                                if (modelsArray != null) {
+                                    for (i in 0 until modelsArray.length()) {
+                                        val modelObj = modelsArray.getJSONObject(i)
+                                        val name = modelObj.optString("name")
+                                        if (name.isNotEmpty()) modelNames.add(name)
                                     }
                                 }
                             }
+                            
                             if (modelNames.isNotEmpty()) {
                                 _availableModels.value = modelNames
                                 repo.prefs.edit().putStringSet("llm_available_models", modelNames.toSet()).apply()
