@@ -1,0 +1,56 @@
+{
+  "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+  "serial": "emulator-5554",
+  "api": 36,
+  "native_setting": "full",
+  "grants": {
+    "READ_MEDIA_IMAGES": true,
+    "READ_MEDIA_VIDEO": true,
+    "READ_MEDIA_VISUAL_USER_SELECTED": true
+  },
+  "actions": [
+    {
+      "screen_sha256": "a60758177d857c31b5f79dc110962d8952adbbe2b9d0210ad04741e862a25240"
+    },
+    {
+      "screen_sha256": "a60758177d857c31b5f79dc110962d8952adbbe2b9d0210ad04741e862a25240"
+    },
+    {
+      "click": "Permissions",
+      "bounds": [
+        68,
+        1485,
+        391,
+        1551
+      ]
+    },
+    {
+      "screen_sha256": "49b16521a3ca271b15b7b3e2bf9338aa480001e035dab3a6501b379c4b44fec8"
+    },
+    {
+      "click": "Photos and videos",
+      "bounds": [
+        203,
+        1523,
+        665,
+        1599
+      ]
+    },
+    {
+      "screen_sha256": "f39c550c6744d5138984d16d67d253bb1d36c21888a2bdb7ced216d3ac325cad"
+    },
+    {
+      "click": "Always allow all",
+      "bounds": [
+        202,
+        1332,
+        599,
+        1408
+      ]
+    },
+    {
+      "screen_sha256": "9ac94595068c56051733d43564c670f23c68a338004b9039299761150fc6ffa5"
+    }
+  ],
+  "package_manager_mutations": false
+}

@@ -1,0 +1,7 @@
+{
+  "observation": "Rendered inventory text is exactly 2 available items \u2022 230 B; assertTextContains used its default whole-string match",
+  "hypothesis": "Use substring=true to check the independent expected count while allowing the displayed byte total",
+  "evidence": [
+    "docs/QA_evaluation/session-20261027/folder-final.log"
+  ]
+}

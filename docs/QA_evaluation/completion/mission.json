@@ -1,0 +1,34 @@
+{
+  "mission_id": "complete-visible-ui-20261027-v2",
+  "workspace": "/mnt/ubuntu-projects/46_android_media_learn_app",
+  "goals": [
+    "complete-ui-audit/v2"
+  ],
+  "steps": [
+    {
+      "id": "complete-ui",
+      "provides": [
+        "complete-ui-audit/v2"
+      ],
+      "requires": [],
+      "effects": "write",
+      "idempotent": true,
+      "dependencies_complete": false,
+      "inputs": [
+        "docs/QA_evaluation/completion/verify.py"
+      ],
+      "outputs": [
+        "docs/QA_evaluation/completion/final-report.json"
+      ],
+      "skill": "/home/sejal/.agents/skills/reverse-engineer-anything/SKILL.md",
+      "verify": [
+        "python3",
+        "docs/QA_evaluation/completion/verify.py"
+      ],
+      "resources": [
+        "android:emulator-5554"
+      ],
+      "timeout_seconds": 3600
+    }
+  ]
+}

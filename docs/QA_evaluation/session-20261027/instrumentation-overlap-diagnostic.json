@@ -1,0 +1,8 @@
+{
+  "observation": "The 16-test run was still at test 13 when a second instrumentation command was launched; the first then ended Process crashed at test 14",
+  "hypothesis": "Concurrent instrumentation replaced the shared application process; discard the first batch and rerun serially after the current batch exits",
+  "evidence": [
+    "docs/QA_evaluation/session-20261027/final-focused.log",
+    "docs/QA_evaluation/session-20261027/final-regression.log"
+  ]
+}

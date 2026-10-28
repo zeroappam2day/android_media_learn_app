@@ -1,0 +1,198 @@
+{
+  "date": "2026-10-27",
+  "package": "com.aistudio.videoknowledgesorter.fkvbwy.preview",
+  "version": "1.0-preview",
+  "sha256": "8f5f5d629e174dc9be74da5ba10f265cd9166d1ee04cd35bd40adc57f2ec6c1b",
+  "apk_summary_evidence": "ev_9689205888db3c59e4dbc34f0796700db7bebeb976c28af01260793a2cdf5a68",
+  "manifest_parent": "ev_22faaf9f021d240bf4cf91064b55c9912f6450e4e5eed2595287d0bf7f1cb588",
+  "class_evidence_id": "ev_9e908e7d87048ba39cc177e8fd4d0d363da7c63ceaf694cc86673f403cdbd25b",
+  "public_ui_methods": [
+    "<clinit>",
+    "ActionButtonsBar",
+    "BinScreen",
+    "DecisionSelector",
+    "FilterDropdown",
+    "InventoryMetric",
+    "MainScreen",
+    "MainScreen$requestStorageAction",
+    "MainScreen$triggerPermissionCheck",
+    "MediaManagementNavigation",
+    "MediaSourcesScreen",
+    "MediaThumb",
+    "NavigationRowItem",
+    "OffCanvasPanelLayout",
+    "OutlinedTextField",
+    "OverviewGrid",
+    "PresetRow",
+    "RuleDialog",
+    "RulesScreen",
+    "SettingsDialog",
+    "TagsScreen",
+    "TargetFoldersConfig",
+    "ToolHead",
+    "VideoDetailPanel",
+    "VideoItemCard",
+    "WindowedModal",
+    "destinationLabel",
+    "formatDuration",
+    "formatMediaBytes",
+    "formatTimestamp",
+    "getDefaultSystemPrompt",
+    "m6987BottomcXLIe8U",
+    "m6988StatusBadgeRPmYEkk",
+    "m6989access$BottomcXLIe8U",
+    "sourceIcon"
+  ],
+  "policy": {
+    "evidence_id": "ev_a5a027d7a6f2df9c4c62ad1d455785dde8b565eb22d0de7a12c196eba327fa5c",
+    "subject": {
+      "name": "qa-installed.apk",
+      "digest": {
+        "sha256": "8f5f5d629e174dc9be74da5ba10f265cd9166d1ee04cd35bd40adc57f2ec6c1b"
+      },
+      "local_path": "/tmp/qa-installed.apk",
+      "format": "apk",
+      "architecture": null
+    },
+    "provider": {
+      "id": "jadx",
+      "name": "JADX headless",
+      "version": "0.7.1"
+    },
+    "analysis_profile": null,
+    "predicate_type": "rea.analysis",
+    "operation": "inspect_android_method",
+    "parameters": {
+      "path": "/tmp/qa-installed.apk",
+      "class_name": "com.example.data.MediaAnalysisPolicy",
+      "method_name": "canAnalyze",
+      "overload_index": 0
+    },
+    "raw_result": {
+      "server": {
+        "name": "rea-jadx-bridge",
+        "version": "1"
+      },
+      "bridge_sha256": "40c6972bc7e1689e09979b64ba49ba04b9c05e49976b838315d63d6415e762ba",
+      "jar_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "loaded": {
+        "state": "LOADED",
+        "apk_path": "/mnt/ubuntu-projects/00_caches/tmp/rea-android-7MZo4C/target.apk",
+        "class_count": 24235,
+        "resource_count": 534,
+        "threads": 1,
+        "resources": "full"
+      },
+      "calls": [
+        {
+          "operation": "rea_jvm_status",
+          "input": {},
+          "response": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\"engine_reported_version\":\"0.7.1\",\"metadata_scope\":\"parsed_members\",\"max_heap_bytes\":32178700288,\"java_version\":\"21.0.12.1\",\"available_processors\":32}"
+              }
+            ],
+            "isError": false
+          }
+        },
+        {
+          "operation": "load_apk",
+          "input": {
+            "path": "/mnt/ubuntu-projects/00_caches/tmp/rea-android-7MZo4C/target.apk",
+            "threads": 1,
+            "resources": "full"
+          },
+          "response": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\"state\":\"LOADED\",\"apk_path\":\"/mnt/ubuntu-projects/00_caches/tmp/rea-android-7MZo4C/target.apk\",\"class_count\":24235,\"raw_class_count\":24235,\"resource_count\":534,\"load_duration_ms\":6368,\"decompile_timeout_ms\":90000,\"threads\":1,\"code_cache_size\":64,\"resources\":\"full\"}"
+              }
+            ]
+          }
+        },
+        {
+          "operation": "get_class_summary",
+          "input": {
+            "class_name": "com.example.data.MediaAnalysisPolicy"
+          },
+          "response": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\"full_name\":\"com.example.data.MediaAnalysisPolicy\",\"field_count\":2,\"fields\":[{\"name\":\"$stable\",\"type\":\"int\",\"def_pos\":0},{\"name\":\"INSTANCE\",\"type\":\"com.example.data.MediaAnalysisPolicy\",\"def_pos\":0}],\"methods\":[{\"name\":\"\\u003cclinit\\u003e\",\"is_constructor\":false,\"dex_descriptor\":\"()V\",\"signature\":\"\\u003cclinit\\u003e(): void\",\"def_pos\":0},{\"name\":\"\\u003cinit\\u003e\",\"is_constructor\":true,\"dex_descriptor\":\"()V\",\"signature\":\"\\u003cinit\\u003e(): void\",\"def_pos\":0},{\"name\":\"canAnalyze\",\"is_constructor\":false,\"dex_descriptor\":\"(Lcom/example/data/VideoItem;)Z\",\"signature\":\"canAnalyze(com.example.data.VideoItem): boolean\",\"def_pos\":0},{\"name\":\"canAnalyze\",\"is_constructor\":false,\"dex_descriptor\":\"(Ljava/lang/String;)Z\",\"signature\":\"canAnalyze(java.lang.String): boolean\",\"def_pos\":0},{\"name\":\"eligible\",\"is_constructor\":false,\"dex_descriptor\":\"(Ljava/lang/Iterable;)Ljava/util/List;\",\"signature\":\"eligible(java.lang.Iterable\\u003ccom.example.data.VideoItem\\u003e): java.util.List\\u003ccom.example.data.VideoItem\\u003e\",\"def_pos\":0},{\"name\":\"emitEligibleIdsInAttemptOrder\",\"is_constructor\":false,\"dex_descriptor\":\"(Ljava/lang/Iterable;Lkotlin/jvm/functions/Function1;)V\",\"signature\":\"emitEligibleIdsInAttemptOrder(java.lang.Iterable\\u003ccom.example.data.VideoItem\\u003e, kotlin.jvm.functions.Function1\\u003c? super java.lang.Long, kotlin.Unit\\u003e): void\",\"def_pos\":0}],\"method_count\":6,\"inner_class_count\":0,\"inner_classes\":[],\"name\":\"MediaAnalysisPolicy\"}"
+              }
+            ],
+            "isError": false
+          }
+        },
+        {
+          "operation": "get_method_body",
+          "input": {
+            "class_name": "com.example.data.MediaAnalysisPolicy",
+            "method_name": "canAnalyze",
+            "overload_index": 0,
+            "smali_fallback": true
+          },
+          "response": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\"body\":\"    public final boolean canAnalyze(VideoItem item) {\\n        Intrinsics.checkNotNullParameter(item, \\\"item\\\");\\n        return canAnalyze(item.getReviewDecision()) \\u0026\\u0026 item.isCurrentlyAvailable() \\u0026\\u0026 !item.isPending() \\u0026\\u0026 !item.isTrashed();\\n    }\",\"overload_count\":2,\"method_name\":\"canAnalyze\",\"markers\":[],\"mode\":\"java\",\"full_name\":\"com.example.data.MediaAnalysisPolicy.canAnalyze\",\"class_name\":\"com.example.data.MediaAnalysisPolicy\",\"overload_index\":0,\"fell_back\":false}"
+              }
+            ],
+            "isError": false
+          }
+        }
+      ]
+    },
+    "normalized_result": {
+      "engine": {
+        "name": "jadx-headless-mcp",
+        "version": "0.7.1",
+        "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+        "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+        "worker_count": 1,
+        "heap_limit_mib": 30688
+      },
+      "class_name": "com.example.data.MediaAnalysisPolicy",
+      "method": {
+        "name": "canAnalyze",
+        "reported_signature": "canAnalyze(com.example.data.VideoItem): boolean",
+        "overload_index": 0,
+        "is_constructor": false,
+        "dex_descriptor": "(Lcom/example/data/VideoItem;)Z"
+      },
+      "overload_count": 2,
+      "representation": "java",
+      "body_status": "available",
+      "fell_back": false,
+      "markers": [],
+      "source": {
+        "status": "complete",
+        "text": "    public final boolean canAnalyze(VideoItem item) {\n        Intrinsics.checkNotNullParameter(item, \"item\");\n        return canAnalyze(item.getReviewDecision()) && item.isCurrentlyAvailable() && !item.isPending() && !item.isTrashed();\n    }",
+        "reported_total_bytes": null
+      }
+    },
+    "confidence": "derived",
+    "authority": "shipped-artifact",
+    "environment": null,
+    "limitations": [
+      "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+      "Method signatures use provider display types; DEX prototypes come from frozen JADX metadata. Display names may be aliases, and overload indices are local to this engine and artifact.",
+      "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+      "Incoming reference totals count JADX using nodes. Direct invoke entries within a using method report raw DEX code-unit offsets and method indexes, but coverage is limited to those nodes and directly matched invokes; it does not establish every possible dynamic or reflective call site.",
+      "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+    ],
+    "relationship_coverage": null,
+    "locations": [],
+    "evidence_links": []
+  },
+  "limitations": [
+    "Static inspection does not prove runtime execution.",
+    "Installed APK and workspace APK hashes match; exact source-to-build provenance not established.",
+    "Debug evidence activities exist; these are not ordinary user navigation."
+  ]
+}

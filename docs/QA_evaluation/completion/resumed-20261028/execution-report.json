@@ -1,0 +1,23 @@
+{
+  "test_execution": {
+    "android_inventory": 193,
+    "android_methods_with_passing_receipts": 191,
+    "blocked_direct_cloud_account": 1,
+    "not_applicable_on_api36": 1,
+    "unit_tests_passed": 55,
+    "host_tests_passed": 17,
+    "unresolved_method_failures": 0,
+    "includes_valid_evidence_reuse": true,
+    "final_installed_apk_verified": true
+  },
+  "scenario_summary": {
+    "Passed": 161,
+    "Partial": 71,
+    "Retired": 2,
+    "Not applicable on API36": 1,
+    "Unavailable legacy/debug surface": 2
+  },
+  "all_237_accepted": false,
+  "blocked_test": "com.example.LiveCloudInferenceTest#generatedImageReceivesRealCloudAnalysisWithoutCredentialInspection",
+  "full_report": "../final-report.json"
+}

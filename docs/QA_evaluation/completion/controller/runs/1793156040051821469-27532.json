@@ -1,0 +1,6 @@
+{
+  "status": "BLOCKED",
+  "reason": "RECONCILE_REQUIRED:complete-ui",
+  "provider_calls": 0,
+  "steps": []
+}

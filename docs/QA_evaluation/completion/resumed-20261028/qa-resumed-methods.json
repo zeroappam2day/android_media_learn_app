@@ -1,0 +1,1348 @@
+{
+  "com.example.StorageCompletionTest#t216_returnFromOtherAppAndCancelPendingDeleteSafely": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t032_t034_t035_chooseSameWatchFolderTwiceThenRemoveOnlyChoice": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t160_exportActualSaveWritesReadableJsonAndPreservesImage": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t091_cancelActualDeleteConfirmationPreservesBytesAndRow": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t090_confirmTrashAffectsOnlyChosenOwnedImage": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t230_t237_observeActualPickerSortAndViewWithoutChangingMedia": [
+    {
+      "code": -2,
+      "log": "qa-resumed-storage.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-targeted-clean.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-native-final.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-targeted.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-isolated.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-native-empty.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t233_t234_t235_t236_createCancelValidateAndDuplicateFolderInActualPicker": [
+    {
+      "code": -2,
+      "log": "qa-resumed-storage.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-targeted-clean.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-native-final.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-targeted.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-isolated.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-native-empty.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t161_cancelActualExportCreatesNoFile": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t185_olderAndroidActionUnavailableBranchNotApplicableOnApi36": [
+    {
+      "code": -4,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t158_t159_deleteAllIncludesOnlyAvailableOwnedBinFiles": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t229_topLevelWatchFolderCannotBeSelected": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t092_confirmDeleteAffectsOnlyChosenOwnedImage": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t182_restoreOwnedAndroidTrashAndFindItAfterProductionRefresh": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t157_cancelDeleteAllTwiceKeepsOwnedFilesAndBin": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t033_cancelWatchFolderPickerDoesNotAddFolder": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t214_t215_recoverRestoredPhysicalFileAndRepeatedTapKeepsPriorDecision": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t162_emptyInventoryExportContainsEmptyMediaArray": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t036_reselectOwnedFolderAfterItsReadGrantIsRevoked": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t163_existingFilenameRequiresObservedReplacementDecision": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.StorageCompletionTest#t089_cancelActualTrashConfirmationPreservesBytesAndRow": [
+    {
+      "code": 0,
+      "log": "qa-resumed-storage.log"
+    }
+  ],
+  "com.example.PersistenceCompletionTest#phasedSavedFieldsFlagsAndSystemThemeSurviveHostForceStop": [
+    {
+      "code": -2,
+      "log": "qa-resumed-persistence-v2-verify.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-persistence-v3-cleanup.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-persistence-seed.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-persistence-cleanup-failed-seed.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-persistence-v3-verify.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-persistence-v2-seed.log"
+    }
+  ],
+  "com.example.RenameAuthorizationCompletionTest#t056_t205_cancelThenAllowActualRenameMaintainsIdentityEveryViewAndExportCopy": [
+    {
+      "code": -2,
+      "log": "qa-resumed-targeted-clean.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-native-final.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-targeted.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-isolated.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-native-empty.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.CloudUiCompletionTest#unauthorizedCloudDiscoveryShowsUnreachableThenSuccessfulRetryIsFresh": [
+    {
+      "code": -2,
+      "log": "qa-resumed-targeted-clean.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-isolated.log"
+    }
+  ],
+  "com.example.CloudUiCompletionTest#cloudDiscoverySaveHiddenDraftAndActualProcessingUseInterceptedCloudBranch": [
+    {
+      "code": -2,
+      "log": "qa-resumed-targeted-clean.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-isolated.log"
+    }
+  ],
+  "com.example.CloudUiCompletionTest#untrustedCloudHostIsRejectedBeforeEitherFactoryCanReceiveCredential": [
+    {
+      "code": -2,
+      "log": "qa-resumed-targeted-clean.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-isolated.log"
+    }
+  ],
+  "com.example.OwnedStorageCleanupTest#removeScanOnlyRowsFromNewQaIndex": [
+    {
+      "code": -2,
+      "log": "qa-resumed-scan-cleanup.log"
+    }
+  ],
+  "com.example.OwnedStorageCleanupTest#removeInterruptedStorageFixturesOnly": [
+    {
+      "code": 0,
+      "log": "qa-resumed-scan-cleanup.log"
+    }
+  ],
+  "com.example.SelectedMediaPermissionTest#systemConsentControlsActualSharedMediaVisibility": [
+    {
+      "code": 0,
+      "log": "qa-resumed-permission-denied.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-permission-limited_video.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-permission-limited.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-permission-full.log"
+    }
+  ],
+  "com.example.EditingCompletionTest#archiveRestoreVideoKeepsNotesAnalysisAndPhysicalBytes": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.EditingCompletionTest#previewArchiveAndIndexRemovalPreservePhysicalImage": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.EditingCompletionTest#clearAllSevenFieldsDoesNotRestoreDefaults": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.EditingCompletionTest#rotationNeverCommitsDraft": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.SettingsCompletionTest#promptLongDraftSavesExactlyAndCloseDiscardsUnsavedChanges": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SettingsCompletionTest#temperatureEndpointsPersistExactly": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SettingsCompletionTest#minimizeDoesNotCommitUnsavedHostOrTimeout": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SettingsCompletionTest#invalidTimeoutCannotSilentlyOverwriteSavedValue": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SettingsCompletionTest#blankPromptSavesExactlyAndResetProvidesUsableDefault": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SettingsCompletionTest#timeoutBoundaryValuesSaveExactly": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SettingsCompletionTest#providerFieldsExplainDeviceAndCloudWithoutSendingCloudRequests": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-targeted.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SettingsCompletionTest#loopbackConnectionModelsAndSameProviderHostFreshness": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SettingsCompletionTest#switchingToDeviceDoesNotRetainPcModelSelection": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.StateFaultCompletionTest#noKeepItemsFinishWithoutAnalysisOrReviewMutation": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.StateFaultCompletionTest#queuedItemChangedToLaterIsSkippedUntilKeptAgain": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.StateFaultCompletionTest#pausedVisibleWorkCancelsRequestWithoutFabricatingResultAndResumesOnce": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.StateFaultCompletionTest#rejectedMalformedEmptyAndTimeoutResponsesFallBackThenExplicitResetRetries": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.StateFaultCompletionTest#activeDecisionAndNotesEditsSurviveCompletionWithoutRewritingOriginalMedia": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.StateFaultCompletionTest#repeatedScanIsSingleFlightAndSourceFailureCanBeRetried": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.DiscoveryCleanupCompletionTest#copiesNoMatchLeavesDifferentNamesOutsideBin": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.DiscoveryCleanupCompletionTest#automaticChannelsAdmitOnlyEnabledNewCaptureKindsWithoutAnalysis": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.DiscoveryCleanupCompletionTest#flagsPersistAcrossActivityReopenAndObserverFindsLaterCapture": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.DiscoveryCleanupCompletionTest#unavailableBinItemDisablesDeleteAndRecoversAfterOwnedAvailabilityRepair": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.DiscoveryCleanupCompletionTest#obscureBoundaryPreviewRunAndRecoverRetainsObscuredTag": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.DiscoveryCleanupCompletionTest#automaticOffRequiresManualRefreshAndManualIgnoresChannelSwitches": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.DiscoveryCleanupCompletionTest#copiesRunTwiceAndRecoverRestoresPriorKeepExactlyOnce": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.DiscoveryCleanupCompletionTest#pendingScreenshotIsNotAdmittedUntilPublished": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.DiscoveryCleanupCompletionTest#copiesPreviewShowsHeuristicLimitsWithoutChangingAnyDecision": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t021_t038_t050_t073_t155_t173_t178_emptyScreensAndToolBackAreHonest": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t030_t170_androidBackDismissesReviewMenuWithoutChangingNew": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t051_t052_unfinishedOutputDisabledAndLocationIdentifiesExactOwnedFile": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t007_menuClosesWithoutChangingHomeOrSavedRows": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t012_overviewCountsAvailableStatesAndSidebarTotalsIndependently": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t008_bothThemesKeepOrdinaryNavigationAndControlsOperableSemantically": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t070_archiveDeselectLeavesRestoreDisabledAndMediaUnchanged": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t046_t048_queueSortAndSelectAllThenDeselectPreserveSavedRows": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t039_selectedFolderQueuesOnlyKeptAndNeverUnselectedRows": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t024_t025_sourceCategoryAndSubcategoryFiltersShowOnlyEligiblePresetRows": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t037_folderSearchNoMatchAndClearRestoreExactGroups": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t010_t011_overviewAndGuideExpandAndCollapseWithoutMutation": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t026_t027_t028_t029_t031_reviewChoicesPersistAcrossNavigationAndKeepCountsDistinct": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t169_rulesTagsAndBinAndroidBackReturnToSourcesWithoutMutation": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.NavigationCompletionTest#t018_dismissLimitedBannerDoesNotChangeAccessOrRows": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.QueueCompletionTest#t169_t170_t171_t172_t173_toolsAndReviewCancelPreserveOwnedMedia": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.QueueCompletionTest#t051_folderClickReportsExactOwnedUriWithoutChangingMedia": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.QueueCompletionTest#t174_t175_savedOutputDoneAndPreviewEvidenceMinimizeAreReadOnly": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.QueueCompletionTest#t037_t038_t039_folderSearchUsesFullPathAndQueuesOnlySelectedKeep": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.QueueCompletionTest#t055_noOcrUnicodeOriginalGetsBoundedSuggestionAndKeepsExtension": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.QueueCompletionTest#t047_t048_selectCancelSelectAllAndDeselectNeverChangeRowsOrHiddenArchive": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.QueueCompletionTest#t054_actualRenameUsesStoredOcrWordsAndPreservesIdentityAndPhysicalBytes": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.QueueCompletionTest#t049_processSelectedFinishesOnlyKeepUsingDeviceFallback": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.QueueCompletionTest#t052_t053_nonKeepCannotProcessThroughQueueOrPreviewAndHasNoOutput": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.QueueCompletionTest#t050_emptyQueueHasHonestGuidanceAndNoSelectionAction": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.QueueCompletionTest#t046_queueSortUsesNameSizeAndUnderlyingStatusWithoutMutation": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t200_scoreFilteringIsVisibleAndCancelKeepsDatabaseUnchanged": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t123_copySpacesNameRejected": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t142_tagCreateSurvivesReturn": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t203_arabicEmojiTagTrimsOuterSpacesOnly": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t150_tagRenameAndCancel": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t119_emptyRulesAndBack": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t145_fortyCharacterTagSaved": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t141_deleteOwnedRuleRemovesOnlyRule": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t126_scoreZeroSaved": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t143_emptyTagRejected": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t130_periodScoreRejected": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t146_fortyOneCharacterTagRejected": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t129_emptyScoreRejected": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t228_outsideTapDiscardsOwnedRuleDraft": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t125_copyFortyOneCharacterNameRejected": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t151_duplicateRenameKeepsSeparateTags": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t131_aboveOneScoreRejected": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t134_disabledRuleStillAllowsPreview": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t149_hideAndReopenTagMediaPreservesAssignment": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t132_twoPeriodsScoreRejected": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t144_spacesTagRejected": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t120_copyCreateSurvivesReturn": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t152_deleteOwnedTagPreservesOtherTag": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t133_editScorePersistsNewRevision": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t199_duplicateRuleNamesRemainIndependentlyEditable": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t128_scoreHalfSaved": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t147_duplicateTagRejectedWithFeedback": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t121_cancelCreateAndEditDoesNotPersistDraft": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t127_scoreOneSaved": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t148_t201_assignFilterRemoveAndKeepFinalAssignment": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t124_copyFortyCharacterNameSaved": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t122_copyEmptyNameRejected": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t217_overlongRenamePreservesOriginalWithFeedback": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.RuleTagCompletionTest#t202_cancelBlankTagRenameKeepsOriginal": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.FailureUiCompletionTest#unqueryableStorageReconciliationShowsUnverifiedMessageAndKeepsRow": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.FailureUiCompletionTest#unwritableExportReturnsFailureThenOwnedWritableFileReceivesValidDocument": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.FailureUiCompletionTest#previewPermanentDeleteRequestFailureIsVisibleAndOwnedMediaSurvives": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.FailureUiCompletionTest#previewTrashRequestFailureIsVisibleAndOwnedMediaSurvives": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.FailureUiCompletionTest#binDeleteFailureIsVisibleWithoutDroppingRowThenRepairCanCreateAndCancelRequest": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.TagBinCompletionTest#deletingAttachedTagPreservesMediaReviewNotesAndAnalysis": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.TagBinCompletionTest#removingTaggedIndexEntryUpdatesCountAndKeepsOtherOwnedRecordAndAllBytes": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.TagBinCompletionTest#tagsAssignmentListsOnlyAvailablePublishedUntrashedMedia": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.TagBinCompletionTest#corruptedBinThumbnailRepairsAtSameUriAndRecoverRetainsPriorChoiceAndTag": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.MediaEdgeCompletionTest#t088_t211_corruptVideoCopiesVisibleErrorThenSameUriRepairReachesOutput": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.MediaEdgeCompletionTest#t210_twoHundredCharacterNameAtLargeFontTargetsExactOwnedImage": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.MediaEdgeCompletionTest#t212_blackSilentVideoProducesNoFabricatedOcrAndExplicitDeviceFallback": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.MediaEdgeCompletionTest#t213_optionalDocumentedAnimatedGifFirstFrameAndTextJpeg": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.MediaEdgeCompletionTest#t087_realOcrShowsObservedUrlCommandAndTimelineWithoutExternalNavigation": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.SettingsFaultCompletionTest#t193_modelProvenanceNormalizesGenerateAndV1PathsButSeparatesHosts": [
+    {
+      "code": -2,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SettingsFaultCompletionTest#t100_blankMistypedAndUnreachableHostCanBeCorrectedThroughActualUi": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SettingsFaultCompletionTest#t192_sameEndpointFailedSyncRetainsKnownChoicesAndSelectedModel": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SettingsFaultCompletionTest#t103_successfulEmptyModelsHasVisibleExplanationAndCannotInventSelection": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SettingsFaultCompletionTest#publicPcConsentSavesOnlyWhenChosenAndChangingHostClearsTheDraftPermission": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SettingsFaultCompletionTest#t118_oldSlowConnectionSuccessCannotOverrideNewHostUnreachable": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SettingsFaultCompletionTest#t118_oldSlowModelResponseCannotReplaceFastNewHostModels": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SourceOriginCompletionTest#actualSourceMatrixInferredFiltersAndPendingPublicationRemainInventoryOnly": [
+    {
+      "code": -2,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.ProcessingLifecycleCompletionTest#t058_t059_processNextRequiresKeepThenActualSourceChoiceEnablesOneSummary": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.ProcessingLifecycleCompletionTest#t062_pauseCancelsHeldRequestAndActualResumeProducesOneFinalSavedAnalysis": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.ProcessingLifecycleCompletionTest#t060_t061_t063_repeatedStartWhileHeldProcessesMixedKeepMediaOnceAndLeavesOthersUntouched": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.ProcessingLifecycleCompletionTest#t194_t195_slowWithinFiveSecondsSucceedsAndDroppedConnectionFallbackNeedsExplicitResetRetry": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.ProcessingLifecycleCompletionTest#t064_androidHomeAndReopenSameMainActivityPreserveHeldWorkAndCompletedOutput": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.LocalCredentialIsolationTest#pcVmMetadataAndModelDiscoveryUseOpaquePresenceWithoutReadingACloudKey": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.LocalCredentialIsolationTest#deviceVmAndFallbackNeverReadCloudKeyOrIssueAnyRequestDespitePresence": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.LocalCredentialIsolationTest#pcInferenceUsesControlledOllamaResponseWithoutReadingOrSendingCloudKey": [
+    {
+      "code": 0,
+      "log": "qa-resumed-main.log"
+    }
+  ],
+  "com.example.PrivateActivityBoundaryTest#normalLauncherHasNoExternallyLaunchableMutationHelpers": [
+    {
+      "code": -2,
+      "log": "qa-resumed-main.log"
+    },
+    {
+      "code": 0,
+      "log": "qa-resumed-targeted.log"
+    },
+    {
+      "code": -2,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.LiveOllamaUiCompletionTest#photoPreviewProcessAndOutputUseRealDeepSeekCloudThroughLocalOllama": [
+    {
+      "code": 0,
+      "log": "qa-resumed-live.log"
+    }
+  ],
+  "com.example.LiveOllamaUiCompletionTest#videoPreviewProcessAndOutputUseRealDeepSeekCloudThroughLocalOllama": [
+    {
+      "code": 0,
+      "log": "qa-resumed-live.log"
+    }
+  ],
+  "com.example.LiveLocalInferenceTest#videoFramesReachRealLocalModelAndPersistGroundedAnalysis": [
+    {
+      "code": 0,
+      "log": "qa-resumed-live.log"
+    }
+  ],
+  "com.example.LiveLocalInferenceTest#imageOcrReachesRealLocalModelAndPersistsGroundedAnalysis": [
+    {
+      "code": 0,
+      "log": "qa-resumed-live.log"
+    }
+  ],
+  "com.example.ModalInteractionTest#maximizeMinimizeRestoreAndCloseRemainOperable": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.ModalInteractionTest#androidBackClosesSettingsAndKeepsActivityVisible": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.ModalInteractionTest#settingsDraftSurvivesMinimizeButCloseDiscardsIt": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.ProviderSecurityTest#cloudCredentialCannotBeSentToAnUnsafeAddressOrRemovedProvider": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.ProviderSecurityTest#publicUiStateDoesNotExposeTheSavedKey": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.ProviderSecurityTest#providerMenuContainsOnlyPcCloudAndDevice": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.ArchiveWiringTest#archiveSortChangesVisibleOrder": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.ArchiveWiringTest#queueActionIconsOpenTheirNamedWindow": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.ArchiveWiringTest#restoreOnlyUsesSelectionsInCurrentArchive": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.ArchiveWiringTest#addingFolderTwiceKeepsItsItemQueued": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.ArchiveWiringTest#previewDraftSurvivesMinimizeWithoutSaving": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.ArchiveWiringTest#backlogSelectionShowsActionsAndCancelClearsThem": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.FolderScopeTest#chosenFolderIncludesChildrenExcludesSiblingAndPreservesSavedNotes": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.FolderScopeTest#volumeBoundariesAndUnsupportedFoldersNeverWidenSearch": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.SourceFilterWiringTest#subcategoryFiltersRowsAndSecondTapShowsAll": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.BatchStateUiTest#finishedBatchDoesNotKeepSpinning": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.ExampleInstrumentedTest#useAppContext": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.VideoProcessorCancellationTest#pauseCancelsHttpRequeuesTheItemAndResumeCompletesTheSameItem": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.UxEvidenceAccessibilityTest#runtimeAccessibilityTreeHasUniqueOperableNonOverlappingControls": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.EmulatorWorkflowTest#ruleCreationRevisionPreviewAndDeletionPreservePhysicalMedia": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.EmulatorWorkflowTest#generatedVideoRunsRealFrameSamplingOcrAndLocalFallback": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.EmulatorWorkflowTest#keptImageRunsRealOcrAndSavesLocalFallbackAnalysis": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.EmulatorWorkflowTest#savedSettingsImmediatelyReachTheProductionFlowAndSurviveRecreation": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.EmulatorWorkflowTest#binRecoveryRestoresPriorDecisionAndKeepsPhysicalImage": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.EmulatorWorkflowTest#storageReconciliationRequiresProviderAbsenceAndPreservesSavedMetadata": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.EmulatorWorkflowTest#everyProductionNavigationDestinationOpensAndMenuCloses": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.EmulatorWorkflowTest#renameChangesBothPhysicalMediaStoreNameAndRoomWhilePreservingContents": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.EmulatorWorkflowTest#exportWritesActualStructuredJsonContainingTheIndexedMedia": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.EmulatorWorkflowTest#bothThemesKeepSystemBarsAndHeaderReadable": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.EmulatorWorkflowTest#realMediaScanReviewAndTagAssignmentPersistWithoutAnalysis": [
+    {
+      "code": 0,
+      "log": "qa-resumed-regression.log"
+    }
+  ],
+  "com.example.EditingCompletionTest#unicodeTenThousandCharactersAndActualExportBytes": [
+    {
+      "code": 0,
+      "log": "qa-final-main-suite.log"
+    }
+  ],
+  "com.example.EditingCompletionTest#closeDiscardsUnsavedDraftAndMinimizeDoesNotSave": [
+    {
+      "code": 0,
+      "log": "qa-final-main-suite.log"
+    }
+  ],
+  "com.example.EditingCompletionTest#markAndUnmarkTrashCandidateDoesNotDeleteOriginal": [
+    {
+      "code": 0,
+      "log": "qa-final-main-suite.log"
+    }
+  ],
+  "com.example.EditingCompletionTest#saveBeforeProcessingDoesNotMarkItemProcessed": [
+    {
+      "code": 0,
+      "log": "qa-final-main-suite.log"
+    }
+  ],
+  "com.example.EditingCompletionTest#saveSevenFieldsReopenAndOutput": [
+    {
+      "code": 0,
+      "log": "qa-final-main-suite.log"
+    }
+  ],
+  "com.example.EditingCompletionTest#removeIndexEntryFromPreviewPreservesPhysicalImage": [
+    {
+      "code": 0,
+      "log": "qa-final-main-suite.log"
+    }
+  ],
+  "com.example.EditingCompletionTest#threeMinimizedWindowsRestoreTheirOwnVisibleContentWithoutSaving": [
+    {
+      "code": 0,
+      "log": "qa-final-main-suite.log"
+    }
+  ],
+  "com.example.EditingCompletionTest#resetExplicitlyClearsSavedNotesAndAnalysis": [
+    {
+      "code": 0,
+      "log": "qa-final-main-suite.log"
+    }
+  ],
+  "com.example.EditingCompletionTest#outputAndPreviewBadgesRestoreTheirOwnWindow": [
+    {
+      "code": 0,
+      "log": "qa-final-main-suite.log"
+    }
+  ],
+  "com.example.EditingCompletionTest#archiveRestoreImageKeepsNotesAnalysisAndPhysicalBytes": [
+    {
+      "code": 0,
+      "log": "qa-final-main-suite.log"
+    }
+  ]
+}

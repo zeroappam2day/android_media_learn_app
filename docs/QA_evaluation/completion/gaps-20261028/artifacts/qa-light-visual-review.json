@@ -1,0 +1,36 @@
+{
+  "reviewer": "root actual screenshot inspection",
+  "candidate_app_sha256": "8978f9d32f22a8a16c572ef3f26bc092992b71f97034929581826136971c3a47",
+  "reviewed_files": [
+    "/tmp/qa-visual-final/VisualGapQA567799607727-large-light-sources.png",
+    "/tmp/qa-visual-final/VisualGapQA567799607727-large-light-queue-rename-before-layout-assert.png",
+    "/tmp/qa-visual-final/VisualGapQA567799607727-large-light-queue-identities.png",
+    "/tmp/qa-visual-final/VisualGapQA567799607727-large-light-queue-actions.png",
+    "/tmp/qa-visual-final/VisualGapQA567799607727-large-light-preview.png",
+    "/tmp/qa-visual-final/VisualGapQA576061981404-light-home.png",
+    "/tmp/qa-visual-final/VisualGapQA576061981404-light-folders.png",
+    "/tmp/qa-visual-final/VisualGapQA576061981404-light-sources.png",
+    "/tmp/qa-visual-final/VisualGapQA576061981404-light-queue.png",
+    "/tmp/qa-visual-final/VisualGapQA576061981404-light-videos.png",
+    "/tmp/qa-visual-final/VisualGapQA576061981404-light-images.png",
+    "/tmp/qa-visual-final/VisualGapQA576061981404-light-preview-top.png",
+    "/tmp/qa-visual-final/VisualGapQA576061981404-light-preview-fields.png",
+    "/tmp/qa-visual-final/VisualGapQA576061981404-light-output.png",
+    "/tmp/qa-visual-final/VisualGapQA576061981404-light-rules.png",
+    "/tmp/qa-visual-final/VisualGapQA576061981404-light-rule-copy.png",
+    "/tmp/qa-visual-final/VisualGapQA576061981404-light-rule-obscured.png",
+    "/tmp/qa-visual-final/VisualGapQA576061981404-light-tags.png",
+    "/tmp/qa-visual-final/VisualGapQA576061981404-light-bin.png"
+  ],
+  "findings": [
+    "All14 ordinary light destinations/dialog/tool frames match their labels with navigation closed and readable content",
+    "Bin filename and Recover clear the collapsed drawer handle",
+    "All5 large-light frames inspected; target filename fully represented in details, action icons separate and visible"
+  ],
+  "limitations": [
+    "Horizontal list viewport intentionally clips long identities; frozenT210 permits truncation when chosen details/location/actions remain exact",
+    "Collapsed handle partly covers a static neighboring Rename prefix; actual Rename control remains clear",
+    "Home Overview is collapsed in current captures; expanded capture still required",
+    "Protected Settings geometry/semantics receipt still required; black captures are not readability proof"
+  ]
+}

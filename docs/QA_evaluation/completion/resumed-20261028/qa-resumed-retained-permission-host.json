@@ -1,0 +1,41 @@
+{
+  "serial": "emulator-5554",
+  "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+  "events": [
+    {
+      "operation": [
+        "am",
+        "force-stop",
+        "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview"
+      ],
+      "exit_code": 0
+    },
+    {
+      "operation": [
+        "pm",
+        "revoke",
+        "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+        "android.permission.READ_MEDIA_IMAGES"
+      ],
+      "exit_code": 0
+    },
+    {
+      "operation": [
+        "pm",
+        "revoke",
+        "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+        "android.permission.READ_MEDIA_VIDEO"
+      ],
+      "exit_code": 0
+    },
+    {
+      "operation": [
+        "pm",
+        "revoke",
+        "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+        "android.permission.READ_MEDIA_VISUAL_USER_SELECTED"
+      ],
+      "exit_code": 0
+    }
+  ]
+}

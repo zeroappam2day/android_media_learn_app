@@ -1,0 +1,86 @@
+{
+  "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+  "serial": "emulator-5554",
+  "api": 36,
+  "native_setting": "full",
+  "grants": {
+    "READ_MEDIA_IMAGES": true,
+    "READ_MEDIA_VIDEO": true,
+    "READ_MEDIA_VISUAL_USER_SELECTED": true
+  },
+  "actions": [
+    {
+      "screen_sha256": "aa4effd51b6cb7e10e81136086ac9a80d107eeac5098112e042282335ca6ea60"
+    },
+    {
+      "screen_sha256": "aa4effd51b6cb7e10e81136086ac9a80d107eeac5098112e042282335ca6ea60"
+    },
+    {
+      "click": "Navigate up",
+      "bounds": [
+        0,
+        68,
+        158,
+        226
+      ]
+    },
+    {
+      "screen_sha256": "5364bc03ee83b287ab04a238083dcd526c2e3e4583fef0ba43c00c0c5f3b7186"
+    },
+    {
+      "screen_sha256": "5364bc03ee83b287ab04a238083dcd526c2e3e4583fef0ba43c00c0c5f3b7186"
+    },
+    {
+      "click": "Navigate up",
+      "bounds": [
+        0,
+        68,
+        158,
+        226
+      ]
+    },
+    {
+      "screen_sha256": "c96f7e2c28e225360217a436b1d446ef6547e989f257648fc5079d0ddf3cf3c5"
+    },
+    {
+      "screen_sha256": "c96f7e2c28e225360217a436b1d446ef6547e989f257648fc5079d0ddf3cf3c5"
+    },
+    {
+      "click": "Permissions",
+      "bounds": [
+        68,
+        1485,
+        391,
+        1551
+      ]
+    },
+    {
+      "screen_sha256": "a53b21c3e574b83099ff5980f30baec6a0d5118b30f9708fb37efbc8cc6e788e"
+    },
+    {
+      "click": "Photos and videos",
+      "bounds": [
+        203,
+        1523,
+        665,
+        1599
+      ]
+    },
+    {
+      "screen_sha256": "aa4effd51b6cb7e10e81136086ac9a80d107eeac5098112e042282335ca6ea60"
+    },
+    {
+      "click": "Always allow all",
+      "bounds": [
+        202,
+        1332,
+        599,
+        1408
+      ]
+    },
+    {
+      "screen_sha256": "9ac94595068c56051733d43564c670f23c68a338004b9039299761150fc6ffa5"
+    }
+  ],
+  "package_manager_mutations": false
+}

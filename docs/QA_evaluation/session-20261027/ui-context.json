@@ -1,0 +1,322 @@
+{
+  "targets": {
+    "app/src/main/java/com/example/MainActivity.kt": {
+      "target": "app/src/main/java/com/example/MainActivity.kt",
+      "type": "file",
+      "title": "File: app/src/main/java/com/example/MainActivity.kt",
+      "summary": "Docs & Tooling module MainActivity defining WindowState, WindowedModal, OffCanvasPanelLayout. `app/src/main/java/com/example/MainActivity.kt` is a kotlin source file in the Docs & Tooling layer.",
+      "docs": {
+        "symbols": [
+          {
+            "name": "WindowState",
+            "kind": "class",
+            "signature": "class WindowState",
+            "line": 69,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::WindowState"
+          },
+          {
+            "name": "defaultSystemPrompt",
+            "kind": "variable",
+            "signature": "defaultSystemPrompt",
+            "line": 71,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::defaultSystemPrompt"
+          },
+          {
+            "name": "WindowedModal",
+            "kind": "function",
+            "signature": "function WindowedModal( title: String, windowState: WindowState, onStateChange: (WindowState?) -> Unit, content: @Composable BoxScope.() -> Unit )",
+            "line": 73,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::WindowedModal"
+          },
+          {
+            "name": "OffCanvasPanelLayout",
+            "kind": "function",
+            "signature": "function OffCanvasPanelLayout( expanded: Boolean, modifier: Modifier = Modifier, panel: @Composable BoxScope.() -> Unit, content: @Composable BoxScope.() -> Unit )",
+            "line": 201,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::OffCanvasPanelLayout"
+          },
+          {
+            "name": "MainActivity",
+            "kind": "class",
+            "signature": "class MainActivity",
+            "line": 232,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::MainActivity"
+          },
+          {
+            "name": "onCreate",
+            "kind": "method",
+            "signature": "function onCreate(savedInstanceState: Bundle?)",
+            "line": 233,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::MainActivity::onCreate"
+          },
+          {
+            "name": "MainScreen",
+            "kind": "function",
+            "signature": "function MainScreen( viewModel: VideoViewModel = viewModel(), isDark: Boolean, onToggleTheme: () -> Unit )",
+            "line": 262,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::MainScreen"
+          },
+          {
+            "name": "Bottom",
+            "kind": "function",
+            "signature": "function Bottom(width: androidx.compose.ui.unit.Dp, color: Color)",
+            "line": 1717,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::Bottom"
+          },
+          {
+            "name": "MediaManagementNavigation",
+            "kind": "function",
+            "signature": "function MediaManagementNavigation( activeDestination: String, onSelect: (String) -> Unit )",
+            "line": 1731,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::MediaManagementNavigation"
+          },
+          {
+            "name": "destinationLabel",
+            "kind": "function",
+            "signature": "function destinationLabel(destination: String)",
+            "line": 1744,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::destinationLabel"
+          },
+          {
+            "name": "NavigationRowItem",
+            "kind": "function",
+            "signature": "function NavigationRowItem( title: String, icon: androidx.compose.ui.graphics.vector.ImageVector, isSelected: Boolean, onClick: () -> Unit )",
+            "line": 1754,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::NavigationRowItem"
+          },
+          {
+            "name": "OverviewGrid",
+            "kind": "function",
+            "signature": "function OverviewGrid( allVideos: List<VideoItem>, mediaState: String, ollamaState: String, model: String = \"\", endpoint: String = \"\" )",
+            "line": 1779,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::OverviewGrid"
+          },
+          {
+            "name": "StatusBadge",
+            "kind": "function",
+            "signature": "function StatusBadge(text: String, color: Color)",
+            "line": 2009,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::StatusBadge"
+          },
+          {
+            "name": "ActionButtonsBar",
+            "kind": "function",
+            "signature": "function ActionButtonsBar( onScan: () -> Unit, onProcessNext: () -> Unit, onStartBatch: () -> Unit, onPauseBatch: () -> Unit, isScanning: Boolean )",
+            "line": 2022,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::ActionButtonsBar"
+          },
+          {
+            "name": "TargetFoldersConfig",
+            "kind": "function",
+            "signature": "function TargetFoldersConfig( targetFolders: List<String>, onAddFolder: (String) -> Unit, onRemoveFolder: (String) -> Unit )",
+            "line": 2094,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::TargetFoldersConfig"
+          },
+          {
+            "name": "FilterDropdown",
+            "kind": "function",
+            "signature": "function FilterDropdown(selectedFilter: String, onSelect: (String) -> Unit)",
+            "line": 2186,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::FilterDropdown"
+          },
+          {
+            "name": "VideoItemCard",
+            "kind": "function",
+            "signature": "function VideoItemCard( video: VideoItem, isProcessing: Boolean, analysis: AnalysisResult? = null, onClick: () -> Unit, onToggleQueue: () -> Unit )",
+            "line": 2236,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::VideoItemCard"
+          },
+          {
+            "name": "VideoDetailPanel",
+            "kind": "function",
+            "signature": "function VideoDetailPanel( video: VideoItem, frames: List<ExtractedFrame>, analysis: AnalysisResult?, onClose: () -> Unit, onProcessSingle: () -> Unit, onResetResult: () -> Unit, onArchive: () -> Unit, onToggleDeleteCandidate: () -> Unit, onSaveEdits: (notes: String, t1: String, t2: String, c1: String, c2: String, c3: String, roadmap: String) -> Unit, onDeleteFromBacklog: () -> Unit, onMoveToTrash: () -> Unit, onPermanentDelete: () -> Unit )",
+            "line": 2406,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::VideoDetailPanel"
+          },
+          {
+            "name": "SettingsDialog",
+            "kind": "function",
+            "signature": "function SettingsDialog( currentSettings: AppSettings, onDismiss: () -> Unit, onSave: (enabled: Boolean, url: String, model: String, timeout: Int, warnConfirmed: Boolean) -> Unit )",
+            "line": 2751,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::SettingsDialog"
+          },
+          {
+            "name": "PresetRow",
+            "kind": "function",
+            "signature": "function PresetRow(text: String, actionDescription: String, onUse: () -> Unit)",
+            "line": 2879,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::PresetRow"
+          },
+          {
+            "name": "MediaSourcesScreen",
+            "kind": "function",
+            "signature": "function MediaSourcesScreen( totals: MediaInventoryTotals, aggregates: List<SourceAggregate>, selectedCategory: String?, subcategories: List<SubcategoryAggregate>, allMedia: List<VideoItem>, mediaAccess: String, isScanning: Boolean, onScan: () -> Unit, onSelectCategory: (String?) -> Unit, onDecision: (Long, String) -> Unit, onOpenRules: () -> Unit = {}, onOpenTags: () -> Unit = {}, onOpenBin: () -> Unit = {} )",
+            "line": 2892,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::MediaSourcesScreen"
+          },
+          {
+            "name": "InventoryMetric",
+            "kind": "function",
+            "signature": "function InventoryMetric(title: String, count: Long, supporting: String, modifier: Modifier = Modifier)",
+            "line": 3112,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::InventoryMetric"
+          },
+          {
+            "name": "ToolHead",
+            "kind": "function",
+            "signature": "function ToolHead(title: String, onBack: () -> Unit, actions: @Composable RowScope.() -> Unit = {})",
+            "line": 3123,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::ToolHead"
+          },
+          {
+            "name": "RulesScreen",
+            "kind": "function",
+            "signature": "function RulesScreen( rules: List<MediaRuleCard>, message: String?, onBack: () -> Unit, onSave: (MediaRule?, String, String, Double?) -> Unit, onEnable: (MediaRule, Boolean) -> Unit, onPreview: (MediaRule) -> Unit, onRun: (MediaRule) -> Unit, onDelete: (MediaRule) -> Unit )",
+            "line": 3135,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::RulesScreen"
+          },
+          {
+            "name": "RuleDialog",
+            "kind": "function",
+            "signature": "function RuleDialog(rule: MediaRule?, definitionJson: String?, kind: String, onDismiss: () -> Unit, onSave: (String, Double?) -> Unit)",
+            "line": 3202,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::RuleDialog"
+          },
+          {
+            "name": "TagsScreen",
+            "kind": "function",
+            "signature": "function TagsScreen( tags: List<CustomTag>, assignments: List<MediaTagCrossRef>, media: List<VideoItem>, onBack: () -> Unit, onAdd: (String) -> Unit, onRename: (CustomTag, String) -> Unit, onDelete: (CustomTag) -> Unit, onAssign: (Long, Long) -> Unit, onUnassign: (Long, Long) -> Unit )",
+            "line": 3233,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::TagsScreen"
+          },
+          {
+            "name": "BinScreen",
+            "kind": "function",
+            "signature": "function BinScreen( media: List<VideoItem>, onBack: () -> Unit, onRecover: (Long) -> Unit, loadThumbnail: suspend (String) -> android.graphics.Bitmap?, onDeleteAll: () -> Unit )",
+            "line": 3297,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::BinScreen"
+          },
+          {
+            "name": "MediaThumb",
+            "kind": "function",
+            "signature": "function MediaThumb(uri: String, loader: suspend (String) -> android.graphics.Bitmap?, modifier: Modifier = Modifier)",
+            "line": 3329,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::MediaThumb"
+          },
+          {
+            "name": "DecisionSelector",
+            "kind": "function",
+            "signature": "function DecisionSelector( current: String, modifier: Modifier = Modifier, onDecision: (String) -> Unit )",
+            "line": 3343,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::DecisionSelector"
+          },
+          {
+            "name": "sourceIcon",
+            "kind": "function",
+            "signature": "function sourceIcon(category: String)",
+            "line": 3380,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::sourceIcon"
+          },
+          {
+            "name": "formatMediaBytes",
+            "kind": "function",
+            "signature": "function formatMediaBytes(bytes: Long)",
+            "line": 3389,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::formatMediaBytes"
+          },
+          {
+            "name": "formatTimestamp",
+            "kind": "function",
+            "signature": "function formatTimestamp(ms: Long)",
+            "line": 3403,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::formatTimestamp"
+          },
+          {
+            "name": "formatDuration",
+            "kind": "function",
+            "signature": "function formatDuration(ms: Long)",
+            "line": 3410,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::formatDuration"
+          },
+          {
+            "name": "TextStyle",
+            "kind": "class",
+            "signature": "class TextStyle",
+            "line": 3415,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::TextStyle"
+          },
+          {
+            "name": "toCompose",
+            "kind": "method",
+            "signature": "function toCompose()",
+            "line": 3419,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::TextStyle::toCompose"
+          },
+          {
+            "name": "OutlinedTextField",
+            "kind": "function",
+            "signature": "function OutlinedTextField( value: String, onValueChange: (String) -> Unit, modifier: Modifier = Modifier, label: @Composable (() -> Unit)? = null, placeholder: @Composable (() -> Unit)? = null, textStyle: TextStyle )",
+            "line": 3424,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::OutlinedTextField"
+          },
+          {
+            "name": "values",
+            "kind": "method",
+            "signature": "public static WindowState[] values()",
+            "line": 69,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::WindowState::values"
+          },
+          {
+            "name": "valueOf",
+            "kind": "method",
+            "signature": "public static WindowState valueOf(String)",
+            "line": 69,
+            "symbol_id": "app/src/main/java/com/example/MainActivity.kt::WindowState::valueOf"
+          }
+        ]
+      },
+      "layer": "Docs & Tooling",
+      "stale": false,
+      "path": "app/src/main/java/com/example/MainActivity.kt",
+      "callers": [
+        {
+          "file": "app/src/test/java/com/example/MediaInventoryUiTest.kt",
+          "inbound_calls": 3
+        },
+        {
+          "file": "app/src/debug/java/com/example/UxEvidenceActivity.kt",
+          "inbound_calls": 2
+        },
+        {
+          "file": "app/src/debug/java/com/example/InventoryRecreationTestActivity.kt",
+          "inbound_calls": 1
+        },
+        {
+          "file": "app/src/main/java/com/example/ui/theme/Type.kt",
+          "inbound_calls": 1
+        },
+        {
+          "file": "app/src/test/java/com/example/GreetingScreenshotTest.kt",
+          "inbound_calls": 1
+        },
+        {
+          "file": "docs/QA_evaluation/session-20261027/MainActivity.before.kt",
+          "inbound_calls": 1
+        }
+      ],
+      "_call_graph_note": "File-level rollup: importing files plus inbound cross-file call counts. For symbol-precise callers pass 'file.py::Symbol'.",
+      "callees_basis": {
+        "language": "kotlin",
+        "resolved_call_edges": 500,
+        "guessed_share": 0.01,
+        "unresolved_call_sites": null,
+        "note": "Call sites the resolver could not bind are not counted, so an empty list means no resolved edge reaches this symbol, not proof that nothing calls it."
+      }
+    }
+  },
+  "index": {
+    "indexed_commit": "4cc20a8358c6",
+    "live_head": "4cc20a8358c6",
+    "index_age_days": 0
+  }
+}

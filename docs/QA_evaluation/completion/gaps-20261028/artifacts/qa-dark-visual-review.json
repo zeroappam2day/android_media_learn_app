@@ -1,0 +1,199 @@
+{
+  "reviewer": "independent gate_review agent",
+  "candidate_app_sha256": "8978f9d32f22a8a16c572ef3f26bc092992b71f97034929581826136971c3a47",
+  "scope": "Offline direct view_image inspection of all14 dark ordinary nonsecure frames and all5 large-dark frames, plus protected Settings redaction/index/source assertions and all7 dark layout JSONs.",
+  "reviewed": true,
+  "overall": "partial_findings_require_root_disposition",
+  "screens": [
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-dark-home.png",
+      "sha256": "ebf095171276fb76291847e12cf625979eb8e36194fd05cacda9a85561112516"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-dark-folders.png",
+      "sha256": "e80b1df447355f2dcb5718469beddfbf3162ca02a8b6118d11a76053c5193a4b"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-dark-sources.png",
+      "sha256": "2d09f76ce7df667747791a6d016e1ada506cc77f1e0dc6f9cf2c77c26a3bbe68"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-dark-queue.png",
+      "sha256": "9344adde750884b4e457e87ed38530d826ce0615aef9d654ff7e8e7c850f93a6"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-dark-videos.png",
+      "sha256": "5a92716e6096f44e52a47bb07ed95f25171fad920e3c88f8ee4767401f906bfa"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-dark-images.png",
+      "sha256": "00657265dd835cfee1eb95d6b3be7c47115b43146215dfa5dbad9be94e2f7769"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-dark-preview-top.png",
+      "sha256": "0374df5c637dc099cbbfc01c714845547504aec5b02d52a2d35cd110371fd1a4"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-dark-preview-fields.png",
+      "sha256": "263d77a71afe9c7d455d90088865598f1a7cff09c945d8774d36f57d6dd17fa0"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-dark-output.png",
+      "sha256": "e3b08e1bf34d05cbe6dd747ff2005b48b75ff3256459c245e7ecdf7f0691d91d"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-dark-rules.png",
+      "sha256": "a0144bdc68ae64132c827542719d951ffeb73be75c11111454f1b96296468e9a"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-dark-rule-copy.png",
+      "sha256": "5fd0a9754b68f40a9b6a94efe7e7f317cd08e273bbae87d571121f0f3a1e45f0"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-dark-rule-obscured.png",
+      "sha256": "f3096742632bf8d66ebdff4f5f240b815bdafca067d890a878374688603ed3f9"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-dark-tags.png",
+      "sha256": "c80faf9484805048b7f2468c35983961b8d671ce7b72429b0292d32ab822d32e"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-dark-bin.png",
+      "sha256": "09a3eb423f343a7e05158854c9f3ba389340dd54d255cd923f78344e5a567b69"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA567799607727-large-dark-sources.png",
+      "sha256": "ea3c63499684ae43bac1f48af7d2c4c453db34e23c7b30d6b9bc75d7e3c5a728"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA567799607727-large-dark-queue-rename-before-layout-assert.png",
+      "sha256": "2bfaedf6e08078547414683b0124e38115acee395583491800630e1890c7e6d0"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA567799607727-large-dark-queue-identities.png",
+      "sha256": "2f24c0ad3d57d2214bb2998ac55051adb811accdb12c584d6834ae14a05bee1a"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA567799607727-large-dark-queue-actions.png",
+      "sha256": "41b51f10a4014e9d10c1f989058ecd5b529ae2e4bc1ed574c5af620915d0b1a7"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA567799607727-large-dark-preview.png",
+      "sha256": "3b6f4fa1adff7191f19a1162bee15d8bf82f461fa9e2bba1185e4332422df4fc"
+    },
+    {
+      "path": "/tmp/qa-visual-complete/VisualGapQA972120093845-dark-home-overview.png",
+      "sha256": "bb3e20e8f81b74606d7240a29fb62154e25072870b2ff5c67330f7cfe7f7a806"
+    },
+    {
+      "path": "/tmp/qa-visual-complete/VisualGapQA972120093845-light-home-overview.png",
+      "sha256": "c63ee33c6d8d513e49c288a415d71a576b836be4a72ed35eb8b9b4cfc114a411"
+    }
+  ],
+  "findings": [
+    {
+      "surface": "ordinary-dark",
+      "result": "readable_correct_destination_menu_closed",
+      "details": "All14 show intended destinations or appropriate modal/tool content. No open drawer panel. Main title/actions visible. Text/fields/readable Arabic and icon controls legible. Archive disabled actions visibly subdued. Queue viewport visibly clips offscreen columns as its horizontal-scroll hint explains."
+    },
+    {
+      "surface": "dark-bin",
+      "result": "footer_clearance_passed",
+      "details": "d_bin_image.png starts to right of collapsed handle; entire filename and Recover icon visible, mutually separate. Handle overlaps only blank left footer margin."
+    },
+    {
+      "surface": "large-dark-target-controls",
+      "result": "target_readability_and_separation_observed",
+      "details": "Target Rename word readable in both identity/rename frames; four target action icons visible and separated in actions frame. Long target name wraps in Preview without covering close/minimize/full controls. Title and visible headers legible."
+    },
+    {
+      "surface": "large-dark-neighbor-row",
+      "result": "visible_partial_occlusion",
+      "details": "In queue-identities frame neighbor filename prefix is outside current horizontal viewport (only bor.png visible), and collapsed drawer handle covers initial letters of neighbor Rename. In queue-rename-before-layout-assert frame full z_neighbor.png and clickable Rename visible, but handle still covers prefix label Rename:. Large Sources handle partially overlays neighbor thumbnail icon. Do not claim universal no-overlap from these images."
+    },
+    {
+      "surface": "large-dark-layouts",
+      "result": "recorded_target_text_layout_checks_passed",
+      "details": "All7 dark layout JSONs record all_characters_covered/no_ellipsis/glyphs_fit_canvas/height_covered/visible_width_covered=true. Rename has_visual_overflow=true is framework paragraph-width reporting; glyph147.27779px fits149px canvas with all6 chars. These checks concern selected target, not the obscured neighbor label."
+    },
+    {
+      "surface": "protected-settings",
+      "result": "semantics_geometry_contrast_evidence_reviewed",
+      "details": "New four protected receipts record actual FLAG_SECURE true, displayed AI setup156x68px and editable settings_prompt882x309px; prompt text layout279chars/9lines/792x612px, font16sp at1x. Dark body14.4174/supporting10.9204; light body16.3053/supporting8.8919 against surface. Source writer records only public control identity, lengths/counts, geometry, palette and derived contrast; no prompt string or credential value. Fixed110dp TextField allows content taller than viewport; these records establish measured editable content, not a literal screenshot or independent runtime scroll gesture."
+    },
+    {
+      "surface": "expanded-home-both-themes",
+      "result": "repaired_cards_and_banner_readable",
+      "details": "Both added expanded frames directly viewed. New01/Queued00/Proc03/Review00 and LLM/media status text visible and legible, cards do not overlap one another. Queued/Proc/status banner now follow theme. Collapsed drawer handle partly covers initial G of separate Guide label below; no count/status text obscured."
+    }
+  ],
+  "supporting_evidence": [
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA576061981404-index.json",
+      "sha256": "e6dba2e142c958e338f30217f8ce8de866afba3bb66e2f947a1d7cd621694afb"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA567799607727-index.json",
+      "sha256": "402ff01729eab7c10cb6a6482c2963c62d6a998cbaef1d50b3eac068769fa3f9"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA567799607727-layout-heading-actions-dark.json",
+      "sha256": "d0749f9f6c53fcf087a1d9ce1185d7b229321994742a0d603d70a57ebb6a7cdf"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA567799607727-layout-heading-file-dark.json",
+      "sha256": "6e0b3068da892f7c4344497f94674af2768b9c557ac66a37946ceb819712b45d"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA567799607727-layout-heading-location-dark.json",
+      "sha256": "d746dc7d2e0903dc5f8f061e4e10ac99118cd6f95056538bd2a51b45d3a93878"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA567799607727-layout-heading-size-dark.json",
+      "sha256": "6b1f3ff46cca509532cc6e8dcc87a3764b07f10cd90a8dc05fc1cf2a9432797d"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA567799607727-layout-heading-status-dark.json",
+      "sha256": "5b4629683ea42b3962281227336239d26d47a43c603578e0ea495e8fa665c864"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA567799607727-layout-rename-dark.json",
+      "sha256": "cf6092c96ed9b57ebaf9e846606cabad49c27dad9f3968ffc691e71492a88019"
+    },
+    {
+      "path": "/tmp/qa-visual-final/VisualGapQA567799607727-layout-title-dark.json",
+      "sha256": "5c32cb908af648db7701cf1ffc01093d7a8b44579caab170e5e9f2f70cc2ae29"
+    },
+    {
+      "path": "/tmp/qa-visual-complete/VisualGapQA972120093845-protected-dark-settings-prompt.json",
+      "sha256": "36cbf61a8c93fe250a3c05c43bc0dab3aa05cb07695526a7fac429a07505188c"
+    },
+    {
+      "path": "/tmp/qa-visual-complete/VisualGapQA972120093845-protected-dark-settings-top.json",
+      "sha256": "a6e93831b64d9237a20f966f86caa7d882125d3de930ea3b80ea9864390565f7"
+    },
+    {
+      "path": "/tmp/qa-visual-complete/VisualGapQA972120093845-protected-light-settings-prompt.json",
+      "sha256": "6fd8b729dcbb0981f657f2284f99ed24bc92d135cc0a230a814106745d82c236"
+    },
+    {
+      "path": "/tmp/qa-visual-complete/VisualGapQA972120093845-protected-light-settings-top.json",
+      "sha256": "617de7395bea85971a5fe20a9fa629ea3a7a1d6d2935ffb97570f70db46c36db"
+    },
+    {
+      "path": "/tmp/qa-visual-complete/VisualGapQA972120093845-index.json",
+      "sha256": "f24ac0aa5f218fbc8be81eed4b08deaf00b20aa3600e7d2ce391cec486c0a61a"
+    }
+  ],
+  "limitations": [
+    "Screenshot index binds bytes and package but not APK digest itself; bind actual preflight run metadata to candidate hash.",
+    "Light/large-light review assigned to root.",
+    "This is factual partial visual review, not finalT008/T210 or overall acceptance.",
+    "Protected gap closed by measured semantics/geometry/contrast receipts; no black Settings screenshot accepted as readability proof. No independent scroll gesture is established by offline receipts."
+  ],
+  "gap_closures": {
+    "expanded_home_color_repair": true,
+    "protected_settings_semantics_geometry_contrast": true,
+    "credential_or_prompt_contents_exposed_by_added_writer": false
+  }
+}

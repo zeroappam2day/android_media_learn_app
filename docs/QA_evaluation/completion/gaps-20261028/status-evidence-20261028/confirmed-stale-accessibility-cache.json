@@ -1,0 +1,59 @@
+{
+  "phase": "retained_regranted",
+  "requested": "Tags",
+  "orientation": 1,
+  "before_cache_clear": {
+    "root_package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+    "window_bounds": "[0,0][1080,2316]",
+    "public_icons": [
+      {
+        "description": "Open menu",
+        "bounds": "[17,1255][73,1311]",
+        "visible": true,
+        "enabled": true,
+        "clickable": false
+      }
+    ],
+    "phone_inventory_visible": true,
+    "screen_width": 1080,
+    "screen_height": 2316
+  },
+  "clear_cache_succeeded": true,
+  "after_cache_clear": {
+    "root_package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+    "window_bounds": "[0,0][1080,2316]",
+    "public_icons": [
+      {
+        "description": "Refresh inventory",
+        "bounds": "[877,603][928,654]",
+        "visible": true,
+        "enabled": true,
+        "clickable": false
+      },
+      {
+        "description": "Tags",
+        "bounds": "[799,854][867,922]",
+        "visible": true,
+        "enabled": true,
+        "clickable": false
+      },
+      {
+        "description": "Bin",
+        "bounds": "[934,854][1002,922]",
+        "visible": true,
+        "enabled": true,
+        "clickable": false
+      },
+      {
+        "description": "Open menu",
+        "bounds": "[17,1255][73,1311]",
+        "visible": true,
+        "enabled": true,
+        "clickable": false
+      }
+    ],
+    "phone_inventory_visible": true,
+    "screen_width": 1080,
+    "screen_height": 2316
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "status": "BLOCKED",
+  "reason": "COMMAND_FAILED:verify:1",
+  "provider_calls": 1,
+  "steps": []
+}

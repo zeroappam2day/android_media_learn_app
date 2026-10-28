@@ -1,0 +1,9 @@
+{
+  "token": "qa_contrast_20261028_canonical",
+  "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+  "serial": "emulator-5554",
+  "pid": "4609",
+  "observed_at": 1793184137.7308314,
+  "ready_sha256": "7bed5477f01c5d5d810814e3b19d4c0fa6aabc4eee0839b9a54396f099ccd11f",
+  "prefs_sha256": "7f4295e250c70c2c0dab5960f6240ff79ed4473f1b5073bd8911655db7bd2a61"
+}

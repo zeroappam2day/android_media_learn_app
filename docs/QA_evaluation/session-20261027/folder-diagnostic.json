@@ -1,0 +1,8 @@
+{
+  "observation": "Inside, nested, sibling exclusion and note-preservation assertions passed; UI wait for category Inside timed out",
+  "hypothesis": "The source classifier labels the first custom parent folder QAScope..., so the test must look for that exact fixture folder card",
+  "evidence": [
+    "docs/QA_evaluation/session-20261027/folder-after.log",
+    "app/src/main/java/com/example/data/MediaSourceClassifier.kt"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "serial": "emulator-5554",
+  "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+  "token": "qa_interrupt_20261028_01",
+  "observed_phase": "held",
+  "seed_requests": 1,
+  "host_force_stop_exit_code": 0
+}

@@ -1,0 +1,97 @@
+{
+  "setup_only": true,
+  "not_native_ui_proof": true,
+  "events": [
+    {
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "shell",
+        "pm",
+        "revoke",
+        "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+        "android.permission.READ_MEDIA_IMAGES"
+      ],
+      "code": 0,
+      "output": ""
+    },
+    {
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "shell",
+        "pm",
+        "clear-permission-flags",
+        "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+        "android.permission.READ_MEDIA_IMAGES",
+        "user-set",
+        "user-fixed"
+      ],
+      "code": 0,
+      "output": ""
+    },
+    {
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "shell",
+        "pm",
+        "revoke",
+        "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+        "android.permission.READ_MEDIA_VIDEO"
+      ],
+      "code": 0,
+      "output": ""
+    },
+    {
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "shell",
+        "pm",
+        "clear-permission-flags",
+        "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+        "android.permission.READ_MEDIA_VIDEO",
+        "user-set",
+        "user-fixed"
+      ],
+      "code": 0,
+      "output": ""
+    },
+    {
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "shell",
+        "pm",
+        "revoke",
+        "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+        "android.permission.READ_MEDIA_VISUAL_USER_SELECTED"
+      ],
+      "code": 0,
+      "output": ""
+    },
+    {
+      "argv": [
+        "adb",
+        "-s",
+        "emulator-5554",
+        "shell",
+        "pm",
+        "clear-permission-flags",
+        "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+        "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+        "user-set",
+        "user-fixed"
+      ],
+      "code": 0,
+      "output": ""
+    }
+  ],
+  "time": 1793182153.3134964
+}

@@ -1,0 +1,19 @@
+{
+  "indexed_risk": {
+    "app/src/main/java/com/example/data/MediaInventoryScanner.kt": {
+      "risk_summary": "app/src/main/java/com/example/data/MediaInventoryScanner.kt \u2014 hotspot score 0% (stable), 6 direct dependents, high-coupling, uncategorized, 0 co-change partners, owned 0% by unknown",
+      "dependents_count": 6
+    },
+    "app/src/main/java/com/example/data/VideoRepository.kt": {
+      "risk_summary": "app/src/main/java/com/example/data/VideoRepository.kt \u2014 hotspot score 96% (decreasing), 8 direct dependents, churn-heavy, feature-active, 2 co-change partners, owned 100% by Sejal Datta",
+      "dependents_count": 8
+    }
+  },
+  "verified_relationships": [
+    "VideoViewModel.scanVideos -> VideoRepository.scanLocalVideos -> MediaInventoryScanner.scan",
+    "VideoRepository scanner uses FolderScopedInventorySource with getTargetFolders callback",
+    "AndroidMediaInventorySource supplies MediaStore relative path and volume",
+    "MediaInventoryScanner marks excluded old records unavailable without deleting analysis or notes"
+  ],
+  "rollback": "Revert only session-added folder scope adapter and its wiring; preserve all pre-existing changes"
+}

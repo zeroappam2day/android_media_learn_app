@@ -1,0 +1,2509 @@
+{
+  "schema_version": 3,
+  "status": "accepted",
+  "requirements_sha256": "b0c498c388874d6b2de5529ac5553993d745ce3067c9342eca470694bbbca9ce",
+  "candidate": {
+    "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+    "serial": "emulator-5554",
+    "api": 36,
+    "app_sha256": "8978f9d32f22a8a16c572ef3f26bc092992b71f97034929581826136971c3a47",
+    "app_apk": {
+      "path": "artifacts/final-app.apk",
+      "sha256": "8978f9d32f22a8a16c572ef3f26bc092992b71f97034929581826136971c3a47"
+    },
+    "final_install": {
+      "path": "runs/contrast-install.json",
+      "sha256": "b4120b354cce181de27b95ac25c6b7180610307fb1e702328ec2310206960478"
+    }
+  },
+  "runs": {
+    "contrast-abandoned-persistence-cleanup": {
+      "meta": {
+        "path": "runs/contrast-abandoned-persistence-cleanup.meta.json",
+        "sha256": "3c2eae2a0ac1c05774997522f3ff2fff5c0d079fd82e1d1c4b0ea96764116807"
+      },
+      "log": {
+        "path": "runs/contrast-abandoned-persistence-cleanup.log",
+        "sha256": "f2fe6c3ef5c0d2c2bde796c4ba20dab3e4c470c4e9892ec0b451293a5db5082d"
+      }
+    },
+    "contrast-baseline-live-0": {
+      "meta": {
+        "path": "runs/contrast-baseline-live-0.meta.json",
+        "sha256": "a52d0afdbba245d6f9d47209ea5488535a8a25f2c9369ed819a1a885678916cd"
+      },
+      "log": {
+        "path": "runs/contrast-baseline-live-0.log",
+        "sha256": "1304129b0de0c46fb3a69af6b4d04798d7d15fc8890bf2d636a7066943b6e08d"
+      }
+    },
+    "contrast-baseline-live-1": {
+      "meta": {
+        "path": "runs/contrast-baseline-live-1.meta.json",
+        "sha256": "f617b2a1091feb4afaed9dd474bf3ca3da88ea8dc2f5686d2e59a07769f4f8f3"
+      },
+      "log": {
+        "path": "runs/contrast-baseline-live-1.log",
+        "sha256": "6e89d9e0c71ecf7e4ff9ef0b77f510ef161beecf1105ca4bd3df8d8b21211faa"
+      }
+    },
+    "contrast-baseline-live-2": {
+      "meta": {
+        "path": "runs/contrast-baseline-live-2.meta.json",
+        "sha256": "91637b022d4887a534f7e8f89e474386f9beb8a27398a0c607634903593630bc"
+      },
+      "log": {
+        "path": "runs/contrast-baseline-live-2.log",
+        "sha256": "1ebd1783308cae1f775955030b23bb7ca671140714c9442e4ab6231d3556a960"
+      }
+    },
+    "contrast-baseline-live-3": {
+      "meta": {
+        "path": "runs/contrast-baseline-live-3.meta.json",
+        "sha256": "4b67ee6ff8f932639379cfdd54cd16d3399928e8c3fb80f1083822018e7306a5"
+      },
+      "log": {
+        "path": "runs/contrast-baseline-live-3.log",
+        "sha256": "e4aadcfdb88c21861e3bcd49fa8a67b11e00840c0be01bad46d2c61f2ff2ac8b"
+      }
+    },
+    "contrast-baseline-selected-full-reconciled": {
+      "meta": {
+        "path": "runs/contrast-baseline-selected-full-reconciled.meta.json",
+        "sha256": "4a8e815a4d11a0a551671a97e6844649ca52e732505774431123ba6342adf5ca"
+      },
+      "log": {
+        "path": "runs/contrast-baseline-selected-full-reconciled.log",
+        "sha256": "8515e111eb5714e19d90c2c8511d2845b9133c77239559c0c7e62a5d90d6d4ca"
+      }
+    },
+    "contrast-baseline182": {
+      "meta": {
+        "path": "runs/contrast-baseline182.meta.json",
+        "sha256": "db659f45f8a393c8e1e992ac09897150f080b604f000d6171b29d51f5e8d3190"
+      },
+      "log": {
+        "path": "runs/contrast-baseline182.log",
+        "sha256": "ff8d4bfd89324b672e8ab61a4730de16b3ba3a885a59b74ead72be684795c8ab"
+      }
+    },
+    "contrast-baseline75-retry": {
+      "meta": {
+        "path": "runs/contrast-baseline75-retry.meta.json",
+        "sha256": "2303fb6fb1f5194ede1a6fe04861861ec6f5c26b6054c061a10cf6e48b51024c"
+      },
+      "log": {
+        "path": "runs/contrast-baseline75-retry.log",
+        "sha256": "fd25f7cc12f8737b8b6598d0d7d43b01a0474d2389753256d34fdf6bc4dd25e2"
+      }
+    },
+    "contrast-bin-cleanup": {
+      "meta": {
+        "path": "runs/contrast-bin-cleanup.meta.json",
+        "sha256": "6910a3b10fe7ee8df24affe27203ff61f88cff524b397a770cd902c163a87782"
+      },
+      "log": {
+        "path": "runs/contrast-bin-cleanup.log",
+        "sha256": "bfe3019dc17954787327b7e9a4ef0dba11a7e3dbba3f432b27d7c816f3902375"
+      }
+    },
+    "contrast-bin-rechecks": {
+      "meta": {
+        "path": "runs/contrast-bin-rechecks.meta.json",
+        "sha256": "9d8b51cf60f3487320b2a6433289ef68a0bf328a34894b0514e5ff12d8deab62"
+      },
+      "log": {
+        "path": "runs/contrast-bin-rechecks.log",
+        "sha256": "ec9667cf5d44211b87713e5c2ce2d9703380f0c5ee440714c1291f7883eb43ab"
+      }
+    },
+    "contrast-bin-regranted": {
+      "meta": {
+        "path": "runs/contrast-bin-regranted.meta.json",
+        "sha256": "0e566509efa0dc45911e900a4034e06e84ca688cd3c93bd8d128509622d562aa"
+      },
+      "log": {
+        "path": "runs/contrast-bin-regranted.log",
+        "sha256": "a697d7ef6909ac665817324aab11a504b3781f332b0603998c1f2f131c26e227"
+      }
+    },
+    "contrast-bin-revoked": {
+      "meta": {
+        "path": "runs/contrast-bin-revoked.meta.json",
+        "sha256": "17c22cb9a6a6dad1ea027393d3a1dc00b2198cba4dcab7217fc1d20e8381c39a"
+      },
+      "log": {
+        "path": "runs/contrast-bin-revoked.log",
+        "sha256": "df27373252ac00c487adccbcbe46b8bee810affc07d969039c038882d2f447b8"
+      }
+    },
+    "contrast-bin-seed": {
+      "meta": {
+        "path": "runs/contrast-bin-seed.meta.json",
+        "sha256": "0acd52df2415a0b6aecc345f99962fb7e3c14c0b224512953e0d5b76f7e22560"
+      },
+      "log": {
+        "path": "runs/contrast-bin-seed.log",
+        "sha256": "e394033e10554fa170d4bd0d8e16889655c644e79ee9ff13c7ae6d1e25b94fb0"
+      }
+    },
+    "contrast-direct-cleanup": {
+      "meta": {
+        "path": "runs/contrast-direct-cleanup.meta.json",
+        "sha256": "1063790d7591dbc0a37029e3ec9624d4d8f5aa1ef446358af239d1b9effd4419"
+      },
+      "log": {
+        "path": "runs/contrast-direct-cleanup.log",
+        "sha256": "f342c1fe6d514f7a058d7411ccca581149bdec89f0f3eef6139137449213e552"
+      }
+    },
+    "contrast-direct-regranted": {
+      "meta": {
+        "path": "runs/contrast-direct-regranted.meta.json",
+        "sha256": "745122fa21293bbabb68a69e96a409a2f028bcdd1786cd1c880fa792f5bad306"
+      },
+      "log": {
+        "path": "runs/contrast-direct-regranted.log",
+        "sha256": "c11942d24b5f16a6075dcb24ddce3fdd5cfe778c3f06b4ad559edd3e5fbcc6d3"
+      }
+    },
+    "contrast-direct-revoked": {
+      "meta": {
+        "path": "runs/contrast-direct-revoked.meta.json",
+        "sha256": "d4c4c7c24eaffb05e1b487e95084969960b0ccf3a5b889452f9eeb99b5fa1bea"
+      },
+      "log": {
+        "path": "runs/contrast-direct-revoked.log",
+        "sha256": "17869ac3de52d26508ae8aada28059b41c5cd2243e26d528f58a690e438e73d1"
+      }
+    },
+    "contrast-direct-seed": {
+      "meta": {
+        "path": "runs/contrast-direct-seed.meta.json",
+        "sha256": "7e857ed550bb130d7f406331b611d3d8d6b0a797ae13c11c68fc2ddeb6ec37d2"
+      },
+      "log": {
+        "path": "runs/contrast-direct-seed.log",
+        "sha256": "c05eee28309ee6acaa6422eca20e8ff891bf727d96ed24cfc9eb600e025aa857"
+      }
+    },
+    "contrast-editing-cleanup": {
+      "meta": {
+        "path": "runs/contrast-editing-cleanup.meta.json",
+        "sha256": "9cdc1aea91ebd7c1e8b82e8396ff12dca52dfcfa6310f1330c501bf140218bd1"
+      },
+      "log": {
+        "path": "runs/contrast-editing-cleanup.log",
+        "sha256": "7e53612f75e4c44c6f00db7441f913cab54af8d555234c9ea1a8a6cfda0d27ea"
+      }
+    },
+    "contrast-editing-long": {
+      "meta": {
+        "path": "runs/contrast-editing-long.meta.json",
+        "sha256": "9c864235262313465f6085d55d667a69a55442cfda3a929733158cd6ed3e6860"
+      },
+      "log": {
+        "path": "runs/contrast-editing-long.log",
+        "sha256": "db50b6d30ac1730afc2b9cdcc7431e7b4eac89c3963101c565b3c085de40495e"
+      }
+    },
+    "contrast-editing-seed-tagfixed": {
+      "meta": {
+        "path": "runs/contrast-editing-seed-tagfixed.meta.json",
+        "sha256": "9d1c6983b3d8a6f643858baf8aee56c5256fb3e43e429d1ca1acbd0a2e2ddb93"
+      },
+      "log": {
+        "path": "runs/contrast-editing-seed-tagfixed.log",
+        "sha256": "07d6635c3f2931e8e67466d475c91e921d3b6106d5cf666c70e604bb178f9f4c"
+      }
+    },
+    "contrast-editing-short-actual-launcher": {
+      "meta": {
+        "path": "runs/contrast-editing-short-actual-launcher.meta.json",
+        "sha256": "96501e6413bb28b4181ecd73eb48f12b745f5da812db5f6b620aa4986ea2a3c3"
+      },
+      "log": {
+        "path": "runs/contrast-editing-short-actual-launcher.log",
+        "sha256": "afa59ee1e94493ae7990a2fc0d59090f33c83cd83e148f64ac60a32e22016563"
+      }
+    },
+    "contrast-editing-tag-failure-cleanup": {
+      "meta": {
+        "path": "runs/contrast-editing-tag-failure-cleanup.meta.json",
+        "sha256": "a792aa7ea1cb2e56ec399e8eccc795d4c394d7661e37e7ae5cb93dabe21adec3"
+      },
+      "log": {
+        "path": "runs/contrast-editing-tag-failure-cleanup.log",
+        "sha256": "74b61a7da0a9530ac6914a7b7c8cfbc2c57b147a73b002aab7a9862ab339a6a5"
+      }
+    },
+    "contrast-final-back-settle": {
+      "meta": {
+        "path": "runs/contrast-final-back-settle.meta.json",
+        "sha256": "fb4629e5cddc65a5edb35a9b1e63d2ba43a7a6701631ea781bbc730a8103b686"
+      },
+      "log": {
+        "path": "runs/contrast-final-back-settle.log",
+        "sha256": "c59477bc70e029e1561d29e922afd0189c0128b7c4666cf37ea6918a0185a8b6"
+      }
+    },
+    "contrast-interrupt-canonical-verify": {
+      "meta": {
+        "path": "runs/contrast-interrupt-canonical-verify.meta.json",
+        "sha256": "b5aab94ff217a45769d6d2de6a9108d7e0e19e76fb419cb9bb4b8bd5149d82ca"
+      },
+      "log": {
+        "path": "runs/contrast-interrupt-canonical-verify.log",
+        "sha256": "e08850dfb66052e1816aa77f8b7e15409a9804bbc0260ea50cc045abbf3f7a69"
+      }
+    },
+    "contrast-interrupt-verify": {
+      "meta": {
+        "path": "runs/contrast-interrupt-verify.meta.json",
+        "sha256": "f4a359c35e36b4aa2a257cc6eb0b78239cb379a4268fed8908df38d5463aa7e1"
+      },
+      "log": {
+        "path": "runs/contrast-interrupt-verify.log",
+        "sha256": "b4f4513e7598abd454679797129a71f5f4707c5b39dffd1f7594049ac442b170"
+      }
+    },
+    "contrast-live-model-empty-cleanup": {
+      "meta": {
+        "path": "runs/contrast-live-model-empty-cleanup.meta.json",
+        "sha256": "29d28c4b0dfa98e142e0d2a1e99c7176fcc5319822a394cf479adff0ae19a447"
+      },
+      "log": {
+        "path": "runs/contrast-live-model-empty-cleanup.log",
+        "sha256": "85d5d8d57e22ec56b3cede74089648fa46f96d211302e853b768d76191b68d74"
+      }
+    },
+    "contrast-live-scan-metadata-cleanup-visible": {
+      "meta": {
+        "path": "runs/contrast-live-scan-metadata-cleanup-visible.meta.json",
+        "sha256": "536652a77a86ca42b5095dc1cf9a4b67df0c9d2679c2efd99aa8fb7e1e3af327"
+      },
+      "log": {
+        "path": "runs/contrast-live-scan-metadata-cleanup-visible.log",
+        "sha256": "c643ffdbdec2c8cb3750c42f95096fcf3afca43440c5ea393df58459b32ec4c0"
+      }
+    },
+    "contrast-live-settings-cleanup": {
+      "meta": {
+        "path": "runs/contrast-live-settings-cleanup.meta.json",
+        "sha256": "0706499f959093792fc441ab80992f1b4c269fb4bc15a0c0229bbb540e7c9dd9"
+      },
+      "log": {
+        "path": "runs/contrast-live-settings-cleanup.log",
+        "sha256": "4c36c260fb8d413d41551b21343ebc62b1c81ee8ccaeb318ca46466ba116b97d"
+      }
+    },
+    "contrast-live-settings-failed-cleanup": {
+      "meta": {
+        "path": "runs/contrast-live-settings-failed-cleanup.meta.json",
+        "sha256": "f9a4fbe4942d415b53ed560df9814f3fe08976d21c9545008f3416681b9fe104"
+      },
+      "log": {
+        "path": "runs/contrast-live-settings-failed-cleanup.log",
+        "sha256": "500a0b916ae22e47fbfc62da7c936c21350c24e91b21f914654dbe9df5a4d3a5"
+      }
+    },
+    "contrast-live-settings-seed-menu": {
+      "meta": {
+        "path": "runs/contrast-live-settings-seed-menu.meta.json",
+        "sha256": "604e1cbb122f38f357716f4f73b1883ebbd49b453fce76be690d692bffbabd13"
+      },
+      "log": {
+        "path": "runs/contrast-live-settings-seed-menu.log",
+        "sha256": "fa650524f3eac53a9d179ebdbc078ddc4499d81aa8f2f31a056653b267ab3513"
+      }
+    },
+    "contrast-live-settings-verify": {
+      "meta": {
+        "path": "runs/contrast-live-settings-verify.meta.json",
+        "sha256": "b2ff5737057039737db51da83054e73ea14aa029156f0bf1b120c91677ebc27a"
+      },
+      "log": {
+        "path": "runs/contrast-live-settings-verify.log",
+        "sha256": "12330c34e9a9286b788c9b7119acbf2c0bb08ec4086764e76fd3d70b4e8948ad"
+      }
+    },
+    "contrast-native-sort": {
+      "meta": {
+        "path": "runs/contrast-native-sort.meta.json",
+        "sha256": "ce8e839ec3a631fe89d333092a5a60648d7c5ffaf1c9eae7daca1140893aeeab"
+      },
+      "log": {
+        "path": "runs/contrast-native-sort.log",
+        "sha256": "f743dad7cf55348b204e76a448356c562a5942d80e3cb779f5a2a8fab0af2ec9"
+      }
+    },
+    "contrast-observer-seed": {
+      "meta": {
+        "path": "runs/contrast-observer-seed.meta.json",
+        "sha256": "b7c34593796c065c872439ba1c2e1bcff441f66a027feaeb066d72dffafa84b6"
+      },
+      "log": {
+        "path": "runs/contrast-observer-seed.log",
+        "sha256": "9b2716ffc92584ce66d89d0ed253cc0f88c110fc00c97a89836a87110922dbf1"
+      }
+    },
+    "contrast-observer-verify": {
+      "meta": {
+        "path": "runs/contrast-observer-verify.meta.json",
+        "sha256": "07636609c146856b4fa87f873488f38871fb884b614e140b6716434818be1f32"
+      },
+      "log": {
+        "path": "runs/contrast-observer-verify.log",
+        "sha256": "b46bc34dba0440531847845920e33f6a27a62edb48ff3494dea039f57af4e0bf"
+      }
+    },
+    "contrast-owned-cleanup-index": {
+      "meta": {
+        "path": "runs/contrast-owned-cleanup-index.meta.json",
+        "sha256": "b87b38321ab350179dc1fbf7d374d68b9a60ad0fb2e7346989e1e4a616bfcc3a"
+      },
+      "log": {
+        "path": "runs/contrast-owned-cleanup-index.log",
+        "sha256": "8bcca13039ed586aa6f66e6f864c33b2be714649e33a3e89d9a4848afdf689a1"
+      }
+    },
+    "contrast-owned-cleanup-storage": {
+      "meta": {
+        "path": "runs/contrast-owned-cleanup-storage.meta.json",
+        "sha256": "83bc9f60358a03e98850b39d001958e95086e001cc05c6ba7fa1fb9e8728bbd1"
+      },
+      "log": {
+        "path": "runs/contrast-owned-cleanup-storage.log",
+        "sha256": "bbce5605c1f5b9f645163e9773cca82e64beb7fdba3cd26d845d0d5ec80fc03a"
+      }
+    },
+    "contrast-recorded-scan-index-cleanup": {
+      "meta": {
+        "path": "runs/contrast-recorded-scan-index-cleanup.meta.json",
+        "sha256": "819908e11cb75e85c49aa0f010e4fa9ecb4fa68fea6290bd0a11d73fddcc46fc"
+      },
+      "log": {
+        "path": "runs/contrast-recorded-scan-index-cleanup.log",
+        "sha256": "bf27dbb85b1991e471b341385d589887cd78cff8bf958896cc6bc456e622f911"
+      }
+    },
+    "contrast-recovered-persistence-cleanup": {
+      "meta": {
+        "path": "runs/contrast-recovered-persistence-cleanup.meta.json",
+        "sha256": "ede2af2f7c87f9935db2ac429edd398ccbc1d83a537a9c4f615a9da39809e3de"
+      },
+      "log": {
+        "path": "runs/contrast-recovered-persistence-cleanup.log",
+        "sha256": "41dad64f0758a330f6c5f915be16dbe85c868b3bcaecde3c55b560cd5047cbde"
+      }
+    },
+    "contrast-recovered-persistence-seed": {
+      "meta": {
+        "path": "runs/contrast-recovered-persistence-seed.meta.json",
+        "sha256": "70ccc82f94080d4df5fc2ef7ab6f0c4141843cdb5e9fecbac620d2f11b7a651b"
+      },
+      "log": {
+        "path": "runs/contrast-recovered-persistence-seed.log",
+        "sha256": "f81c4ce5333f499717c1bc0653391d55d18bb570ee6543f97c8b148e30e2b3e9"
+      }
+    },
+    "contrast-recovered-persistence-verify": {
+      "meta": {
+        "path": "runs/contrast-recovered-persistence-verify.meta.json",
+        "sha256": "4688a9bdc3d937643885ba7cd3b4c7c3feadc5844bf67214dc84f654dc1a08b4"
+      },
+      "log": {
+        "path": "runs/contrast-recovered-persistence-verify.log",
+        "sha256": "5682fd4e0ccc199cfcd30d386b045fdeebe61a692197947dcd90eed1e61bfd04"
+      }
+    },
+    "contrast-selected-mixed": {
+      "meta": {
+        "path": "runs/contrast-selected-mixed.meta.json",
+        "sha256": "3d9de0fae4295d0697dd53ef8a57c439794b3166281592e4a0f16d9aa02c0644"
+      },
+      "log": {
+        "path": "runs/contrast-selected-mixed.log",
+        "sha256": "5c42a5553d605810f5cab8b6411301e35d24847cacafa917e9e0ffc4e62807a9"
+      }
+    },
+    "contrast-selected-toast": {
+      "meta": {
+        "path": "runs/contrast-selected-toast.meta.json",
+        "sha256": "fd1b95a42dd40999377356f8eda892418cda34c1826fb23f36f844e7e2e3be42"
+      },
+      "log": {
+        "path": "runs/contrast-selected-toast.log",
+        "sha256": "f2bf20a9df541b746274b77dda018d3d552226107d569aa42c4606a57eb6f7db"
+      }
+    },
+    "contrast-support-deny_then_allow": {
+      "meta": {
+        "path": "runs/contrast-support-deny_then_allow.meta.json",
+        "sha256": "077ab658ad8164a7393ebb7464b6fd90a6543e6348a3823232028405e6681733"
+      },
+      "log": {
+        "path": "runs/contrast-support-deny_then_allow.log",
+        "sha256": "fe42a37694af95bbc5400d658113a4bc8f2314ecc0c6b6580d373bcc67ab0ec4"
+      }
+    },
+    "contrast-support-full_mixed": {
+      "meta": {
+        "path": "runs/contrast-support-full_mixed.meta.json",
+        "sha256": "8e7f773d3ea5ba26dc0f7bd0766d457012ae6a434726a8c7b3c517c6e2849555"
+      },
+      "log": {
+        "path": "runs/contrast-support-full_mixed.log",
+        "sha256": "5162997ed154315babda905b1e58e06b27ce52528ffbce0416f56f01f446c632"
+      }
+    },
+    "contrast-support-limited_ui": {
+      "meta": {
+        "path": "runs/contrast-support-limited_ui.meta.json",
+        "sha256": "a07c1baac7d851ab318e58e8be6fb085e52215bb836558f25ae903375def5e0e"
+      },
+      "log": {
+        "path": "runs/contrast-support-limited_ui.log",
+        "sha256": "4f717dd08138381b1417ecefd4ec5fd8e3bbdbe571968cb86d5598461dfc3b1b"
+      }
+    },
+    "contrast-supporting32": {
+      "meta": {
+        "path": "runs/contrast-supporting32.meta.json",
+        "sha256": "73c6d44dd766c91bd2ecc4bb2d521e27000f8ff6ccf21823ba15463c8baeb468"
+      },
+      "log": {
+        "path": "runs/contrast-supporting32.log",
+        "sha256": "15bf11bb83234ad33515b7cec08cefedcaef58b4da73106324291d56022b3669"
+      }
+    },
+    "contrast-visual-complete-evidence": {
+      "meta": {
+        "path": "runs/contrast-visual-complete-evidence.meta.json",
+        "sha256": "bb63dc42f6edf17a78e4ae027f2c816741836948204c55a114b3e4b0bc938d3f"
+      },
+      "log": {
+        "path": "runs/contrast-visual-complete-evidence.log",
+        "sha256": "74b410eda04bb272538e1c8ba6d5baf796655db075a559736bacc8a742e6ff5c"
+      }
+    },
+    "contrast-visual-preflight": {
+      "meta": {
+        "path": "runs/contrast-visual-preflight.meta.json",
+        "sha256": "3b43adf1aa91f3b3b18c2ba8ba738ec788aa48fca2026d1f933a7b199925a51d"
+      },
+      "log": {
+        "path": "runs/contrast-visual-preflight.log",
+        "sha256": "274ccbc242f12ac011f2b6b1e4ee7fa05aebd0181026bab66afbbd694f838bef"
+      }
+    },
+    "contrast-workflow-isolation-recheck": {
+      "meta": {
+        "path": "runs/contrast-workflow-isolation-recheck.meta.json",
+        "sha256": "d96a453c4b423d5c57477962aa5ef5d579ee09cee5dfa386978d90005a6db408"
+      },
+      "log": {
+        "path": "runs/contrast-workflow-isolation-recheck.log",
+        "sha256": "b4d78c5d40d082e08a69e86ba55b7e626c765d63d43354790041542e5ae84b3c"
+      }
+    }
+  },
+  "host_proofs": [
+    {
+      "kind": "native_app_info",
+      "from_run": "contrast-bin-seed",
+      "to_run": "contrast-bin-revoked",
+      "artifact": {
+        "path": "runs/contrast-bin-native-denied/receipt.json",
+        "sha256": "cf7132139defcde88fa090112a2909f07b4f9e7c6fcd1da18f08ff0b98ffe4d2"
+      },
+      "setting": "denied"
+    },
+    {
+      "kind": "native_app_info",
+      "from_run": "contrast-bin-revoked",
+      "to_run": "contrast-bin-regranted",
+      "artifact": {
+        "path": "runs/contrast-bin-native-full/receipt.json",
+        "sha256": "3a175d83281b7e1c977904acbc651e801b6c99889354c83a2a0fa791a8bc142f"
+      },
+      "setting": "full"
+    },
+    {
+      "kind": "native_app_info",
+      "from_run": "contrast-direct-seed",
+      "to_run": "contrast-direct-revoked",
+      "artifact": {
+        "path": "runs/contrast-direct-native-denied/receipt.json",
+        "sha256": "5840e949150ec04925f214bf5bcca1b9b1cee940ea816e27b4f094c5dd6149c8"
+      },
+      "setting": "denied"
+    },
+    {
+      "kind": "native_app_info",
+      "from_run": "contrast-direct-revoked",
+      "to_run": "contrast-direct-regranted",
+      "artifact": {
+        "path": "runs/contrast-direct-native-full/receipt.json",
+        "sha256": "0f6ea7fd4f561070ec3c39de2b8feab33f7b724c8ebea2bd560272c8565cf3f3"
+      },
+      "setting": "full"
+    },
+    {
+      "kind": "force_stop",
+      "from_run": "contrast-editing-seed-tagfixed",
+      "to_run": "contrast-editing-long",
+      "artifact": {
+        "path": "runs/contrast-editing-stop-long.json",
+        "sha256": "8268d9f2ebf6c357e3376970a59c0a3b0c957c576051c85832e35d195992c7da"
+      }
+    },
+    {
+      "kind": "force_stop",
+      "from_run": "contrast-editing-long",
+      "to_run": "contrast-editing-short-actual-launcher",
+      "artifact": {
+        "path": "runs/contrast-editing-stop-short-actual-launcher.json",
+        "sha256": "b03008e29de88de7a685a043e95abb3c3947bd461eedaa309030152e2f591bd5"
+      }
+    },
+    {
+      "kind": "force_stop",
+      "from_run": "contrast-live-settings-seed-menu",
+      "to_run": "contrast-live-settings-verify",
+      "artifact": {
+        "path": "runs/contrast-live-settings-stop.json",
+        "sha256": "d050d7dfaae65b74827fadab01d5a6e2c5f6f09702ce19df0fda64fd0ad60e78"
+      }
+    },
+    {
+      "kind": "force_stop",
+      "from_run": "contrast-observer-seed",
+      "to_run": "contrast-observer-verify",
+      "artifact": {
+        "path": "runs/contrast-observer-stop.json",
+        "sha256": "d66731ba33fa6b4d02aae06277ba0baea7a3b9fa7de488946058b9df8af759c9"
+      }
+    },
+    {
+      "kind": "force_stop",
+      "from_run": "contrast-recovered-persistence-seed",
+      "to_run": "contrast-recovered-persistence-verify",
+      "artifact": {
+        "path": "runs/contrast-recovered-persistence-stop.json",
+        "sha256": "a7a41845371a1ef86cedbb449f38a8d14acf908391aecd82c2c98384ff4ea86d"
+      }
+    }
+  ],
+  "reuse_waivers": [],
+  "regression": {
+    "runs": [
+      "contrast-abandoned-persistence-cleanup",
+      "contrast-baseline-live-0",
+      "contrast-baseline-live-1",
+      "contrast-baseline-live-2",
+      "contrast-baseline-live-3",
+      "contrast-baseline-selected-full-reconciled",
+      "contrast-baseline182",
+      "contrast-baseline75-retry",
+      "contrast-bin-cleanup",
+      "contrast-bin-rechecks",
+      "contrast-bin-regranted",
+      "contrast-bin-revoked",
+      "contrast-bin-seed",
+      "contrast-direct-cleanup",
+      "contrast-direct-regranted",
+      "contrast-direct-revoked",
+      "contrast-direct-seed",
+      "contrast-editing-cleanup",
+      "contrast-editing-long",
+      "contrast-editing-seed-tagfixed",
+      "contrast-editing-short-actual-launcher",
+      "contrast-editing-tag-failure-cleanup",
+      "contrast-final-back-settle",
+      "contrast-interrupt-canonical-verify",
+      "contrast-interrupt-verify",
+      "contrast-live-model-empty-cleanup",
+      "contrast-live-scan-metadata-cleanup-visible",
+      "contrast-live-settings-cleanup",
+      "contrast-live-settings-failed-cleanup",
+      "contrast-live-settings-seed-menu",
+      "contrast-live-settings-verify",
+      "contrast-native-sort",
+      "contrast-observer-seed",
+      "contrast-observer-verify",
+      "contrast-owned-cleanup-index",
+      "contrast-owned-cleanup-storage",
+      "contrast-recorded-scan-index-cleanup",
+      "contrast-recovered-persistence-cleanup",
+      "contrast-recovered-persistence-seed",
+      "contrast-recovered-persistence-verify",
+      "contrast-selected-mixed",
+      "contrast-selected-toast",
+      "contrast-support-deny_then_allow",
+      "contrast-support-full_mixed",
+      "contrast-support-limited_ui",
+      "contrast-supporting32",
+      "contrast-visual-complete-evidence",
+      "contrast-visual-preflight",
+      "contrast-workflow-isolation-recheck"
+    ]
+  },
+  "checks": {
+    "unit": {
+      "path": "artifacts/unit-bound.json",
+      "sha256": "bac3ebba6e9852adfce5d6b516bcb7577d76d7137f932da507033908a6a538c2"
+    },
+    "host": {
+      "path": "artifacts/host-bound.json",
+      "sha256": "01c94505dd9588b8e1446ba286e241922bc80c4764bc63bcf119263b3c3a4aa1"
+    }
+  },
+  "deployment_verified": true,
+  "phone_deployment": false,
+  "scenarios": [
+    {
+      "id": "T001",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T002",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T003",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T004",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T005",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T006",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T007",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T008",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-workflow-isolation-recheck",
+        "contrast-visual-complete-evidence"
+      ],
+      "visual_review": {
+        "path": "artifacts/visual-review.json",
+        "sha256": "5ce9d5b89796114a09aff20bc940e53feb00655094c596178a4998bf598b044d"
+      }
+    },
+    {
+      "id": "T009",
+      "status": "Passed",
+      "proofs": [
+        "contrast-recovered-persistence-cleanup"
+      ]
+    },
+    {
+      "id": "T010",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T011",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T012",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T013",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline-selected-full-reconciled",
+        "contrast-support-full_mixed"
+      ]
+    },
+    {
+      "id": "T014",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T015",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline-selected-full-reconciled",
+        "contrast-support-deny_then_allow"
+      ]
+    },
+    {
+      "id": "T016",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline-selected-full-reconciled",
+        "contrast-support-limited_ui"
+      ]
+    },
+    {
+      "id": "T017",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline-selected-full-reconciled",
+        "contrast-support-limited_ui"
+      ]
+    },
+    {
+      "id": "T018",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T019",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline-selected-full-reconciled",
+        "contrast-bin-seed",
+        "contrast-bin-revoked",
+        "contrast-bin-regranted",
+        "contrast-direct-seed",
+        "contrast-direct-revoked",
+        "contrast-direct-regranted"
+      ]
+    },
+    {
+      "id": "T020",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline-selected-full-reconciled",
+        "contrast-selected-mixed"
+      ]
+    },
+    {
+      "id": "T021",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline-selected-full-reconciled"
+      ]
+    },
+    {
+      "id": "T022",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T023",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline-selected-full-reconciled",
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T024",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T025",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T026",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-workflow-isolation-recheck",
+        "contrast-recovered-persistence-cleanup",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T027",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T028",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T029",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T030",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T031",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T032",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T033",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T034",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T035",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T036",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T037",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T038",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T039",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T040",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T041",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-recovered-persistence-cleanup"
+      ]
+    },
+    {
+      "id": "T042",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T043",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T044",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T045",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T046",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T047",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T048",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T049",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T050",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T051",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T052",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T053",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T054",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T055",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T056",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T057",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-direct-seed",
+        "contrast-direct-revoked",
+        "contrast-direct-regranted"
+      ]
+    },
+    {
+      "id": "T058",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T059",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T060",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T061",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T062",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T063",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T064",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T065",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-interrupt-canonical-verify"
+      ]
+    },
+    {
+      "id": "T066",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T067",
+      "status": "Passed",
+      "proofs": [
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T068",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T069",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T070",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T071",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T072",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T073",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T074",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T075",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T076",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T077",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T078",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T079",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T080",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-recovered-persistence-cleanup",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long"
+      ]
+    },
+    {
+      "id": "T081",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T082",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T083",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T084",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T085",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-bin-rechecks"
+      ]
+    },
+    {
+      "id": "T086",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T087",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T088",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T089",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T090",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T091",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T092",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T093",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T094",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T095",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T096",
+      "status": "Retired",
+      "proofs": []
+    },
+    {
+      "id": "T097",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T098",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T099",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline-live-0",
+        "contrast-baseline-live-1",
+        "contrast-baseline182",
+        "contrast-baseline-live-2",
+        "contrast-baseline-live-3",
+        "contrast-live-settings-seed-menu",
+        "contrast-live-settings-verify"
+      ]
+    },
+    {
+      "id": "T100",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T101",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T102",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T103",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T104",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T105",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T106",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T107",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T108",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T109",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T110",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T111",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T112",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T113",
+      "status": "User descoped",
+      "proofs": []
+    },
+    {
+      "id": "T114",
+      "status": "Retired",
+      "proofs": []
+    },
+    {
+      "id": "T115",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T116",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T117",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T118",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T119",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T120",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T121",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T122",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T123",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T124",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T125",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T126",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T127",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T128",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T129",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T130",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T131",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T132",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T133",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T134",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T135",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T136",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T137",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T138",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T139",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T140",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T141",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T142",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T143",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T144",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T145",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T146",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T147",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T148",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T149",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T150",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T151",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T152",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T153",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T154",
+      "status": "Passed",
+      "proofs": [
+        "contrast-bin-rechecks"
+      ]
+    },
+    {
+      "id": "T155",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T156",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T157",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T158",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T159",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-bin-rechecks"
+      ]
+    },
+    {
+      "id": "T160",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T161",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T162",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T163",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T164",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T165",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-editing-seed-tagfixed"
+      ]
+    },
+    {
+      "id": "T166",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T167",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T168",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T169",
+      "status": "Passed",
+      "proofs": [
+        "contrast-final-back-settle",
+        "contrast-baseline75-retry",
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T170",
+      "status": "Passed",
+      "proofs": [
+        "contrast-final-back-settle",
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T171",
+      "status": "Passed",
+      "proofs": [
+        "contrast-final-back-settle",
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T172",
+      "status": "Passed",
+      "proofs": [
+        "contrast-final-back-settle"
+      ]
+    },
+    {
+      "id": "T173",
+      "status": "Passed",
+      "proofs": [
+        "contrast-final-back-settle",
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T174",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T175",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T176",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T177",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T178",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T179",
+      "status": "User descoped",
+      "proofs": []
+    },
+    {
+      "id": "T180",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-baseline-live-0",
+        "contrast-baseline-live-2",
+        "contrast-live-settings-seed-menu",
+        "contrast-live-settings-verify"
+      ]
+    },
+    {
+      "id": "T181",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-baseline-live-2",
+        "contrast-live-settings-seed-menu",
+        "contrast-live-settings-verify"
+      ]
+    },
+    {
+      "id": "T182",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T183",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T184",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T185",
+      "status": "Not applicable on API36",
+      "proofs": []
+    },
+    {
+      "id": "T186",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T187",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T188",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T189",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-observer-seed",
+        "contrast-observer-verify"
+      ]
+    },
+    {
+      "id": "T190",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T191",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T192",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T193",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T194",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T195",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T196",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T197",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T198",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T199",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T200",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T201",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T202",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T203",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T204",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T205",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T206",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-workflow-isolation-recheck",
+        "contrast-bin-seed",
+        "contrast-bin-revoked",
+        "contrast-bin-regranted",
+        "contrast-direct-seed",
+        "contrast-direct-revoked",
+        "contrast-direct-regranted"
+      ]
+    },
+    {
+      "id": "T207",
+      "status": "Passed",
+      "proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T208",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T209",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T210",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-visual-preflight"
+      ],
+      "visual_review": {
+        "path": "artifacts/visual-review.json",
+        "sha256": "5ce9d5b89796114a09aff20bc940e53feb00655094c596178a4998bf598b044d"
+      }
+    },
+    {
+      "id": "T211",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T212",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-workflow-isolation-recheck"
+      ]
+    },
+    {
+      "id": "T213",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T214",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182",
+        "contrast-bin-seed",
+        "contrast-bin-revoked",
+        "contrast-bin-regranted"
+      ]
+    },
+    {
+      "id": "T215",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T216",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T217",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T218",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T219",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T220",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T221",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T222",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-bin-rechecks"
+      ]
+    },
+    {
+      "id": "T223",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T224",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T225",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T226",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T227",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182",
+        "contrast-recovered-persistence-cleanup",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T228",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline182"
+      ]
+    },
+    {
+      "id": "T229",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T230",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-native-sort"
+      ]
+    },
+    {
+      "id": "T231",
+      "status": "Unavailable legacy/debug surface",
+      "proofs": []
+    },
+    {
+      "id": "T232",
+      "status": "Unavailable legacy/debug surface",
+      "proofs": []
+    },
+    {
+      "id": "T233",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T234",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T235",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T236",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T237",
+      "status": "Passed",
+      "proofs": [
+        "contrast-baseline75-retry",
+        "contrast-native-sort"
+      ]
+    }
+  ],
+  "expected_interruptions": [
+    {
+      "verify_run": "contrast-interrupt-canonical-verify",
+      "seed_meta": {
+        "path": "runs/contrast-interrupt-canonical-seed.meta.json",
+        "sha256": "402daf9c617368a74605cfcaa45745a4720c174bb03bf431205f8567d08c3796"
+      },
+      "seed_log": {
+        "path": "runs/contrast-interrupt-canonical-seed.log",
+        "sha256": "2438eeaa12ecee066e31f13c83e06736e20639df715d70f5ab3ccd98f0d2fc0e"
+      },
+      "ready": {
+        "path": "runs/contrast-interrupt-canonical-ready.json",
+        "sha256": "7bed5477f01c5d5d810814e3b19d4c0fa6aabc4eee0839b9a54396f099ccd11f"
+      },
+      "receipt_preferences": {
+        "path": "runs/contrast-interrupt-canonical-prefs.xml",
+        "sha256": "7f4295e250c70c2c0dab5960f6240ff79ed4473f1b5073bd8911655db7bd2a61"
+      },
+      "readiness_observation": {
+        "path": "runs/contrast-interrupt-canonical-observation.json",
+        "sha256": "cdd31304c290d68bb172e51e32d6ca488f7c139cba7b5274325fd694f024ff93"
+      },
+      "host_stop": {
+        "path": "runs/contrast-interrupt-canonical-stop.json",
+        "sha256": "806351914fed47e68f3196307726329948460c3687fc6d1ca3234b413d99531a"
+      }
+    }
+  ],
+  "preservation": {
+    "path": "runs/final-preservation.json",
+    "sha256": "5a999a7b552c76233e6c1f82f8c7fabc375101c7f19b7eb8623dc43a24d5b5c5"
+  }
+}

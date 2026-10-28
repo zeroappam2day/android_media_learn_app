@@ -1,0 +1,221 @@
+{
+  "report": "/mnt/ubuntu-projects/46_android_media_learn_app/docs/QA_evaluation/completion/gaps-20261028/final-report.json",
+  "result": {
+    "ok": true,
+    "version": 3,
+    "scenarios": 237,
+    "Passed": 230,
+    "exceptions": 7,
+    "original_gaps_closed": 69,
+    "candidate_app_sha256": "8978f9d32f22a8a16c572ef3f26bc092992b71f97034929581826136971c3a47"
+  },
+  "scenario_counts": {
+    "Not applicable on API36": 1,
+    "Passed": 230,
+    "Retired": 2,
+    "Unavailable legacy/debug surface": 2,
+    "User descoped": 2
+  },
+  "missing_or_excluded": [
+    {
+      "excluded_run": "status-evidence-20261028/runs/editing-storage-final.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/editing-storage.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/permission-deny.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/permission-full.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/permission-limited.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/permission-retained-regranted-diagnostic.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/permission-retained-regranted-fresh-cache.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/permission-retained-regranted-observed-source.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/permission-retained-regranted-retry.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/permission-retained-regranted.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/permission-retained-revoked-retry.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/permission-retained-revoked.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/permission-retained-seed.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/permission-selected-mixed.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/processing-final.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/processing.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/remaining-five-retry.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/settings-prompt-retry.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/t210-glyph-final.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/t210-layout-diagnostic.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/ui-settings-final.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "status-evidence-20261028/runs/visual-both-axes.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/contrast-baseline-selected-full.meta.json",
+      "reason": "nonpassing/invalid run"
+    },
+    {
+      "excluded_run": "runs/contrast-editing-seed.meta.json",
+      "reason": "nonpassing/invalid run"
+    },
+    {
+      "excluded_run": "runs/contrast-editing-short-launcher.meta.json",
+      "reason": "nonpassing/invalid run"
+    },
+    {
+      "excluded_run": "runs/contrast-editing-short.meta.json",
+      "reason": "nonpassing/invalid run"
+    },
+    {
+      "excluded_run": "runs/contrast-interrupt-canonical-seed.meta.json",
+      "reason": "nonpassing/invalid run"
+    },
+    {
+      "excluded_run": "runs/contrast-interrupt-seed.meta.json",
+      "reason": "nonpassing/invalid run"
+    },
+    {
+      "excluded_run": "runs/contrast-live-scan-metadata-cleanup.meta.json",
+      "reason": "nonpassing/invalid run"
+    },
+    {
+      "excluded_run": "runs/contrast-live-settings-seed-model.meta.json",
+      "reason": "nonpassing/invalid run"
+    },
+    {
+      "excluded_run": "runs/contrast-live-settings-seed.meta.json",
+      "reason": "nonpassing/invalid run"
+    },
+    {
+      "excluded_run": "runs/contrast-observer-cleanup.meta.json",
+      "reason": "nonpassing/invalid run"
+    },
+    {
+      "excluded_run": "runs/contrast-persistence-seed.meta.json",
+      "reason": "nonpassing/invalid run"
+    },
+    {
+      "excluded_run": "runs/final-bin-cleanup.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/final-bin-regranted.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/final-bin-revoked-buttons.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/final-bin-revoked.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/final-bin-seed.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/final-direct-cleanup.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/final-direct-regranted-settled.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/final-direct-regranted.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/final-direct-revoked.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/final-direct-seed.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/final-editing-partial-owned-cleanup.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/final-editing-seed.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/final-selected-mixed-video.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/final-selected-mixed.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/retained-cleanup-rowbounds-20261028.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/retained-regranted-final-20261028b.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    },
+    {
+      "excluded_run": "runs/retained-regranted-rowbounds-20261028.meta.json",
+      "reason": "old APK run excluded (final-only)"
+    }
+  ]
+}

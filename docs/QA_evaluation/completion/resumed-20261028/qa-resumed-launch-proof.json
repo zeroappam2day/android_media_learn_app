@@ -1,0 +1,12 @@
+{
+  "serial": "emulator-5554",
+  "observed_control": "Close menu",
+  "bounds": [
+    692,
+    1220,
+    748,
+    1276
+  ],
+  "action_exit_code": 0,
+  "target": "QA MainActivity"
+}

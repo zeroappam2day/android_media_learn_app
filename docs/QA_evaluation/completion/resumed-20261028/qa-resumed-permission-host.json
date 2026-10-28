@@ -1,0 +1,354 @@
+{
+  "serial": "emulator-5554",
+  "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+  "events": [
+    {
+      "phase": "denied",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_IMAGES",
+      "exit_code": 0
+    },
+    {
+      "phase": "denied",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_IMAGES",
+      "exit_code": 0
+    },
+    {
+      "phase": "denied",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_VIDEO",
+      "exit_code": 0
+    },
+    {
+      "phase": "denied",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_VIDEO",
+      "exit_code": 0
+    },
+    {
+      "phase": "denied",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+      "exit_code": 0
+    },
+    {
+      "phase": "denied",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+      "exit_code": 0
+    },
+    {
+      "phase": "denied",
+      "passed": true
+    },
+    {
+      "phase": "full",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_IMAGES",
+      "exit_code": 0
+    },
+    {
+      "phase": "full",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_IMAGES",
+      "exit_code": 0
+    },
+    {
+      "phase": "full",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_VIDEO",
+      "exit_code": 0
+    },
+    {
+      "phase": "full",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_VIDEO",
+      "exit_code": 0
+    },
+    {
+      "phase": "full",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+      "exit_code": 0
+    },
+    {
+      "phase": "full",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+      "exit_code": 0
+    },
+    {
+      "phase": "full",
+      "passed": true
+    },
+    {
+      "phase": "limited",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_IMAGES",
+      "exit_code": 0
+    },
+    {
+      "phase": "limited",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_IMAGES",
+      "exit_code": 0
+    },
+    {
+      "phase": "limited",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_VIDEO",
+      "exit_code": 0
+    },
+    {
+      "phase": "limited",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_VIDEO",
+      "exit_code": 0
+    },
+    {
+      "phase": "limited",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+      "exit_code": 0
+    },
+    {
+      "phase": "limited",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+      "exit_code": 0
+    },
+    {
+      "phase": "limited",
+      "passed": true
+    },
+    {
+      "phase": "limited_video",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_IMAGES",
+      "exit_code": 0
+    },
+    {
+      "phase": "limited_video",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_IMAGES",
+      "exit_code": 0
+    },
+    {
+      "phase": "limited_video",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_VIDEO",
+      "exit_code": 0
+    },
+    {
+      "phase": "limited_video",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_VIDEO",
+      "exit_code": 0
+    },
+    {
+      "phase": "limited_video",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+      "exit_code": 0
+    },
+    {
+      "phase": "limited_video",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+      "exit_code": 0
+    },
+    {
+      "phase": "limited_video",
+      "passed": true
+    },
+    {
+      "phase": "revoked",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_IMAGES",
+      "exit_code": 0
+    },
+    {
+      "phase": "revoked",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_IMAGES",
+      "exit_code": 0
+    },
+    {
+      "phase": "revoked",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_VIDEO",
+      "exit_code": 0
+    },
+    {
+      "phase": "revoked",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_VIDEO",
+      "exit_code": 0
+    },
+    {
+      "phase": "revoked",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+      "exit_code": 0
+    },
+    {
+      "phase": "revoked",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+      "exit_code": 0
+    },
+    {
+      "phase": "revoked",
+      "passed": true
+    },
+    {
+      "phase": "images_then_video",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_IMAGES",
+      "exit_code": 0
+    },
+    {
+      "phase": "images_then_video",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_IMAGES",
+      "exit_code": 0
+    },
+    {
+      "phase": "images_then_video",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_VIDEO",
+      "exit_code": 0
+    },
+    {
+      "phase": "images_then_video",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_VIDEO",
+      "exit_code": 0
+    },
+    {
+      "phase": "images_then_video",
+      "operation": [
+        "pm",
+        "revoke"
+      ],
+      "permission": "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+      "exit_code": 0
+    },
+    {
+      "phase": "images_then_video",
+      "operation": [
+        "pm",
+        "clear-permission-flags"
+      ],
+      "permission": "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+      "exit_code": 0
+    },
+    {
+      "phase": "images_then_video",
+      "passed": false
+    }
+  ]
+}

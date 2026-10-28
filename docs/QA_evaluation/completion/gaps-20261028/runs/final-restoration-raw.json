@@ -1,0 +1,20 @@
+{
+  "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+  "serial": "emulator-5554",
+  "api": 36,
+  "observed_at_before_launch": 1793184157.034712,
+  "backup_hashes": {
+    "video_knowledge_sorter_db": "753799c1dd399d2f99b05ab2f298e0d47b74cc809a01386d7cb4745ac2f03e26",
+    "video_knowledge_sorter_db-wal": "3cdbb6cd6e0b33f4ac3006d4797295b69372d2980523c6f7de8533de01de97d1",
+    "video_knowledge_sorter_db-shm": "a341021308ecf63124f6ba836c8e78016c8272ce0964095fb35a5e63f0021582"
+  },
+  "restored_hashes": {
+    "video_knowledge_sorter_db": "753799c1dd399d2f99b05ab2f298e0d47b74cc809a01386d7cb4745ac2f03e26",
+    "video_knowledge_sorter_db-wal": "3cdbb6cd6e0b33f4ac3006d4797295b69372d2980523c6f7de8533de01de97d1",
+    "video_knowledge_sorter_db-shm": "a341021308ecf63124f6ba836c8e78016c8272ce0964095fb35a5e63f0021582"
+  },
+  "temporary_active_database_archive": "databases/qa71-active-final-1793184156",
+  "original_package": "com.aistudio.videoknowledgesorter.fkvbwy.preview",
+  "original_installed_sha256": "d805885199b0264a6b8ae8e641182ed4926eb47b60b5e81d0f5c8d61e9bc55be",
+  "credentials_accessed": false
+}

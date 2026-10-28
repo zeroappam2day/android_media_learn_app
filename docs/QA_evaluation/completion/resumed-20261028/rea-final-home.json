@@ -1,0 +1,41 @@
+{
+  "evidence_id": "ev_b820a96fde786e48ea1aee46ae570fe02dae977bd797d10f8f83f8d1af420e1c",
+  "subject": null,
+  "provider": {
+    "id": "adb",
+    "name": "Android Debug Bridge",
+    "version": "37.0.1-15733141"
+  },
+  "analysis_profile": null,
+  "predicate_type": "rea.analysis",
+  "operation": "capture_adb_screen",
+  "parameters": {
+    "serial": "emulator-5554",
+    "output_directory": "/tmp/qa-resumed-final-home"
+  },
+  "raw_result": null,
+  "normalized_result": {
+    "client": {
+      "binary_path": "adb",
+      "path_source": "path",
+      "version": "37.0.1-15733141",
+      "installed_path": "/mnt/ubuntu-projects/Android/Sdk/platform-tools/adb"
+    },
+    "serial": "emulator-5554",
+    "local_path": "/tmp/qa-resumed-final-home/screen.png",
+    "bytes": 54348,
+    "sha256": "c4e70143ad0cbf9ba6d19ba16065532008315f088c07ad11e2e62f2f90bb47d5",
+    "width": 1080,
+    "height": 2316
+  },
+  "confidence": "observed",
+  "authority": "shipped-artifact",
+  "environment": null,
+  "limitations": [
+    "Artifact identity is unavailable for this observation.",
+    "The capture is one frame at read time; no recording or interaction occurred"
+  ],
+  "relationship_coverage": null,
+  "locations": [],
+  "evidence_links": []
+}

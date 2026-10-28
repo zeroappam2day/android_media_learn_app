@@ -1,0 +1,403 @@
+{
+  "fixture": "QAStorageb04493ce9ee8",
+  "api": 36,
+  "events": [
+    {
+      "event": "documents_ui",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/sub_menu_grid:Grid view:true",
+        "com.google.android.documentsui:id\/option_menu_create_dir:New folder:true",
+        "com.google.android.documentsui:id\/option_menu_sort:Sort by...:true",
+        ":More options:true",
+        "android:id\/button1:USE THIS FOLDER:false"
+      ]
+    },
+    {
+      "event": "documents_ui",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/sub_menu_grid:Grid view:true",
+        "com.google.android.documentsui:id\/option_menu_create_dir:New folder:true",
+        "com.google.android.documentsui:id\/option_menu_sort:Sort by...:true",
+        ":More options:true",
+        "android:id\/button1:USE THIS FOLDER:false"
+      ]
+    },
+    {
+      "event": "documents_ui",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/sub_menu_grid:Grid view:true",
+        "com.google.android.documentsui:id\/option_menu_create_dir:New folder:true",
+        "com.google.android.documentsui:id\/option_menu_sort:Sort by...:true",
+        ":More options:true",
+        "android:id\/button1:USE THIS FOLDER:false"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "observed_directory_scroll_target",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/dir_list:android.widget.GridView:Rect(0, 68 - 1080, 2316)"
+      ]
+    },
+    {
+      "event": "owned_parent_open",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/sub_menu_grid:Grid view:true",
+        ":QAStorageb04493ce9ee8:true",
+        "com.google.android.documentsui:id\/option_menu_create_dir:New folder:true",
+        "com.google.android.documentsui:id\/option_menu_sort:Sort by...:true",
+        ":More options:true",
+        "android:id\/title:QAStorageb04493ce9ee8-folderAnchor.png:true",
+        "com.google.android.documentsui:id\/preview_icon:Preview the file QAStorageb04493ce9ee8-folderAnchor.png:true",
+        "android:id\/button1:USE THIS FOLDER:true"
+      ]
+    },
+    {
+      "event": "watch_folder_grant",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/alertTitle:Allow Video Knowledge Sorter QA to access files in QAStorageb04493ce9ee8?:true",
+        "android:id\/message:This will let Video Knowledge Sorter QA access current and future content stored in QAStorageb04493ce9ee8.:true",
+        "android:id\/button2:CANCEL:true",
+        "android:id\/button1:ALLOW:true"
+      ]
+    },
+    {
+      "event": "documents_ui",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/breadcrumb_text:Pictures:false",
+        "com.google.android.documentsui:id\/breadcrumb_text:QAStorageb04493ce9ee8:true",
+        "com.google.android.documentsui:id\/sub_menu_grid:Grid view:true",
+        ":QAStorageb04493ce9ee8:true",
+        "com.google.android.documentsui:id\/option_menu_create_dir:New folder:true",
+        "com.google.android.documentsui:id\/option_menu_sort:Sort by...:true",
+        ":More options:true",
+        "android:id\/title:QAStorageb04493ce9ee8-folderAnchor.png:true",
+        "com.google.android.documentsui:id\/preview_icon:Preview the file QAStorageb04493ce9ee8-folderAnchor.png:true",
+        "android:id\/button1:USE THIS FOLDER:true"
+      ]
+    },
+    {
+      "event": "documents_ui",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/breadcrumb_text:Pictures:false",
+        "com.google.android.documentsui:id\/breadcrumb_text:QAStorageb04493ce9ee8:true",
+        "com.google.android.documentsui:id\/sub_menu_grid:Grid view:true",
+        ":QAStorageb04493ce9ee8:true",
+        "com.google.android.documentsui:id\/option_menu_create_dir:New folder:true",
+        "com.google.android.documentsui:id\/option_menu_sort:Sort by...:true",
+        ":More options:true",
+        "android:id\/title:QAStorageb04493ce9ee8-folderAnchor.png:true",
+        "com.google.android.documentsui:id\/preview_icon:Preview the file QAStorageb04493ce9ee8-folderAnchor.png:true",
+        "android:id\/button1:USE THIS FOLDER:true"
+      ]
+    },
+    {
+      "event": "new_folder_dialog",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/alertTitle:New folder:true",
+        "android:id\/text1:<editable>:true",
+        "android:id\/button2:CANCEL:true",
+        "android:id\/button1:OK:true"
+      ]
+    },
+    {
+      "event": "empty_folder_name",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/alertTitle:New folder:true",
+        "android:id\/text1:<editable>:true",
+        "android:id\/button2:CANCEL:true",
+        "android:id\/button1:OK:true"
+      ]
+    },
+    {
+      "event": "documents_ui",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/breadcrumb_text:QAStorageb04493ce9ee8:true",
+        "com.google.android.documentsui:id\/sub_menu_grid:Grid view:true",
+        ":QAStorageb04493ce9ee8-child:true",
+        "com.google.android.documentsui:id\/option_menu_create_dir:New folder:true",
+        "com.google.android.documentsui:id\/option_menu_sort:Sort by...:true",
+        ":More options:true",
+        "android:id\/button1:USE THIS FOLDER:true"
+      ]
+    },
+    {
+      "event": "new_folder_dialog",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/alertTitle:New folder:true",
+        "android:id\/text1:<editable>:true",
+        "android:id\/button2:CANCEL:true",
+        "android:id\/button1:OK:true"
+      ]
+    },
+    {
+      "event": "new_folder_dialog",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/alertTitle:New folder:true",
+        "android:id\/text1:<editable>:true",
+        "android:id\/button2:CANCEL:true",
+        "android:id\/button1:OK:true"
+      ]
+    },
+    {
+      "event": "duplicate_folder_name_before_save",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/alertTitle:New folder:true",
+        "android:id\/text1:QAStorageb04493ce9ee8-child:true",
+        "android:id\/button2:CANCEL:true",
+        "android:id\/button1:OK:true"
+      ]
+    },
+    {
+      "event": "timeout_duplicate folder rejected visibly",
+      "package": "com.google.android.documentsui",
+      "labels": [
+        "com.google.android.documentsui:id\/breadcrumb_text:QAStorageb04493ce9ee8:false",
+        "com.google.android.documentsui:id\/breadcrumb_text:QAStorageb04493ce9ee8-child (1):true",
+        "com.google.android.documentsui:id\/sub_menu_grid:Grid view:true",
+        ":QAStorageb04493ce9ee8-child (1):true",
+        "com.google.android.documentsui:id\/option_menu_create_dir:New folder:true",
+        "com.google.android.documentsui:id\/option_menu_sort:Sort by...:true",
+        ":More options:true",
+        "android:id\/button1:USE THIS FOLDER:true"
+      ]
+    }
+  ]
+}

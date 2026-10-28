@@ -1,0 +1,9 @@
+{
+  "status": "FAIL",
+  "fingerprint": "98dc6a794ebb5907f21fd81abb9069d4440e46c159d6da1fea08f0c64bc4b123",
+  "cache_safe": false,
+  "diagnostic": null,
+  "outputs": {},
+  "evidence": {},
+  "error": "Gate:COMMAND_FAILED:verify:1"
+}

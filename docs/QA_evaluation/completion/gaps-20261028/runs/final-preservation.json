@@ -1,0 +1,25 @@
+{
+  "credentials_accessed": false,
+  "original_preview_built_sha256": "d805885199b0264a6b8ae8e641182ed4926eb47b60b5e81d0f5c8d61e9bc55be",
+  "original_preview_installed_sha256": "d805885199b0264a6b8ae8e641182ed4926eb47b60b5e81d0f5c8d61e9bc55be",
+  "qa_backup_hashes": {
+    "video_knowledge_sorter_db": "753799c1dd399d2f99b05ab2f298e0d47b74cc809a01386d7cb4745ac2f03e26",
+    "video_knowledge_sorter_db-wal": "3cdbb6cd6e0b33f4ac3006d4797295b69372d2980523c6f7de8533de01de97d1",
+    "video_knowledge_sorter_db-shm": "a341021308ecf63124f6ba836c8e78016c8272ce0964095fb35a5e63f0021582"
+  },
+  "qa_restored_hashes": {
+    "video_knowledge_sorter_db": "753799c1dd399d2f99b05ab2f298e0d47b74cc809a01386d7cb4745ac2f03e26",
+    "video_knowledge_sorter_db-wal": "3cdbb6cd6e0b33f4ac3006d4797295b69372d2980523c6f7de8533de01de97d1",
+    "video_knowledge_sorter_db-shm": "a341021308ecf63124f6ba836c8e78016c8272ce0964095fb35a5e63f0021582"
+  },
+  "evidence": [
+    {
+      "path": "runs/final-restoration-raw.json",
+      "sha256": "7f642e37fe7b872e55a9ff0d05715d93f24f890804292255c7a2910438f00eb6"
+    },
+    {
+      "path": "status-evidence-20261028/qa-database-preservation.json",
+      "sha256": "b9b3bc51e75940314bf0487dd91c6484a33fb9944d4b1d7e27f36427617ac49e"
+    }
+  ]
+}

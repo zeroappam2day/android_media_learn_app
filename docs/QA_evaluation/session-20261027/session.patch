@@ -1,0 +1,469 @@
+--- MainActivity.before.kt
++++ MainActivity.kt
+@@ -36,6 +36,7 @@
+ import androidx.compose.material3.*
+ import androidx.compose.runtime.*
+ import androidx.compose.runtime.saveable.rememberSaveable
++import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+ import androidx.compose.ui.Alignment
+ import androidx.compose.ui.Modifier
+ import androidx.compose.ui.draw.clip
+@@ -52,6 +53,9 @@
+ import androidx.compose.ui.text.style.TextOverflow
+ import androidx.compose.ui.unit.dp
+ import androidx.compose.ui.unit.sp
++import androidx.compose.ui.window.Dialog
++import androidx.compose.ui.window.DialogProperties
++import androidx.compose.ui.window.SecureFlagPolicy
+ import androidx.lifecycle.viewmodel.compose.viewModel
+ import com.example.data.*
+ import com.example.ui.VideoViewModel
+@@ -73,6 +77,7 @@
+     title: String,
+     windowState: WindowState,
+     onStateChange: (WindowState?) -> Unit,
++    secure: Boolean = false,
+     content: @Composable BoxScope.() -> Unit
+ ) {
+     if (windowState == WindowState.MINIMIZED) return
+@@ -91,6 +96,14 @@
+             .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f), RoundedCornerShape(16.dp))
+     }
+ 
++    Dialog(
++        onDismissRequest = { onStateChange(null) },
++        properties = DialogProperties(
++            usePlatformDefaultWidth = false,
++            dismissOnClickOutside = false,
++            securePolicy = if (secure) SecureFlagPolicy.SecureOn else SecureFlagPolicy.Inherit
++        )
++    ) {
+     Box(
+         modifier = Modifier
+             .fillMaxSize()
+@@ -187,6 +200,8 @@
+     }
+ }
+ 
++}
++
+ @Composable
+ internal fun OffCanvasPanelLayout(
+     expanded: Boolean,
+@@ -259,12 +274,13 @@
+     val allVideos by viewModel.allVideos.collectAsState()
+     val filteredVideos by viewModel.filteredVideos.collectAsState()
+     val selectedFilter by viewModel.selectedFilter.collectAsState()
++    val archiveSort by viewModel.selectedSort.collectAsState()
+     val mediaAccess by viewModel.mediaAccessState.collectAsState()
+     val ollamaState by viewModel.ollamaStatus.collectAsState()
+     val isScanning by viewModel.isScanning.collectAsState()
+     val lastScan by viewModel.lastScanResult.collectAsState()
+     val llmProvider by viewModel.llmProvider.collectAsState()
+-    val apiKey by viewModel.apiKey.collectAsState()
++    val hasApiKey by viewModel.hasApiKey.collectAsState()
+     val llmTemperature by viewModel.llmTemperature.collectAsState()
+     val systemPrompt by viewModel.systemPrompt.collectAsState()
+     val availableModels by viewModel.availableModels.collectAsState()
+@@ -454,20 +470,25 @@
+         // Custom Stateful Modals
+         var previewModalState by remember { mutableStateOf<WindowState?>(null) }
+         var previewModalVideoId by remember { mutableStateOf<Long?>(null) }
++        val previewDrafts = rememberSaveableStateHolder()
+ 
+         var outputModalState by remember { mutableStateOf<WindowState?>(null) }
+         var outputModalVideoId by remember { mutableStateOf<Long?>(null) }
+ 
+         var settingsModalState by remember { mutableStateOf<WindowState?>(null) }
++        val settingsDrafts = rememberSaveableStateHolder()
++        var settingsApiKeyDraft by remember { mutableStateOf("") }
+ 
+         // Folder selection states
+         val selectedFolders = remember { mutableStateMapOf<String, Boolean>() }
+         
+         // Archive selection states
+         // Archive selection states
+-        val selectedArchiveVideos = remember { mutableStateMapOf<Long, Boolean>() }
++        val selectedArchiveVideos = remember(activePanelSection) { mutableStateMapOf<Long, Boolean>() }
+ 
+         if (showSettings) {
++            settingsDrafts.removeState("settings")
++            settingsApiKeyDraft = ""
+             settingsModalState = WindowState.STANDARD
+             showSettings = false
+         }
+@@ -566,18 +587,17 @@
+                                     Spacer(modifier = Modifier.height(8.dp))
+                                     IconButton(
+                                         onClick = {
+-                                            var addCount = 0
++                                            val idsToQueue = mutableListOf<Long>()
+                                             allVideos.forEach { v ->
+                                                 val path = Uri.parse(v.uriString).path ?: ""
+                                                 val dir = path.substringBeforeLast("/", "Internal/Media")
+                                                 val cleanDir = if (dir.contains(":")) dir.substringAfter(":") else dir
+                                                 val fKey = cleanDir.trim('/')
+                                                 if (selectedFolders[fKey] == true && v.reviewDecision == "keep") {
+-                                                    viewModel.toggleQueueVideo(v.id)
+-                                                    addCount++
++                                                    idsToQueue += v.id
+                                                 }
+                                             }
+-                                            Toast.makeText(context, "Added $addCount files to Backlog queue!", Toast.LENGTH_SHORT).show()
++                                            viewModel.enqueueVideos(idsToQueue)
+                                         },
+                                         modifier = Modifier.align(Alignment.End)
+                                     ) {
+@@ -664,7 +684,13 @@
+                                         verticalAlignment = Alignment.CenterVertically
+                                     ) {
+                                         Row(verticalAlignment = Alignment.CenterVertically) {
+-                                            CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.primary)
++                                            if (batchState == VideoProcessor.State.PROCESSING) {
++                                                CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.primary)
++                                            } else {
++                                                Icon(if (batchState == VideoProcessor.State.FINISHED) Icons.Default.CheckCircle else Icons.Default.PauseCircle,
++                                                    contentDescription = if (batchState == VideoProcessor.State.FINISHED) "Batch finished" else "Batch paused",
++                                                    modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.primary)
++                                            }
+                                             Spacer(modifier = Modifier.width(8.dp))
+                                             Text("Batch: ${batchState.name}", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                                         }
+@@ -845,6 +871,9 @@
+                                         }
+                                         Spacer(modifier = Modifier.height(10.dp))
+                                         val targetFoldersList by viewModel.targetFolders.collectAsState()
++                                        if (targetFoldersList.isNotEmpty()) {
++                                            Text("Searches stay inside these folders and their subfolders. Tap Scan to update the list.", fontSize = 11.sp)
++                                        }
+                                         if (targetFoldersList.isEmpty()) {
+                                             Text(
+                                                 "No specific directory register active. By default, the app scans all internal media directories.",
+@@ -979,20 +1008,19 @@
+                                 val allSelected = backlogList.isNotEmpty() && backlogList.all { selectedBacklogVideos[it.id] == true }
+ 
+                                 Column(modifier = Modifier.fillMaxSize()) {
+-                                    val selectedIds = remember(selectedBacklogVideos) { selectedBacklogVideos.filter { it.value }.keys }
++                                    val selectedIds = backlogList.filter { selectedBacklogVideos[it.id] == true }.map { it.id }
+                                     if (selectedIds.isNotEmpty()) {
+                                         Card(
+                                             modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                                             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f)),
+                                             border = BorderStroke(1.dp, MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f))
+                                         ) {
+-                                            Row(
++                                            Column(
+                                                 modifier = Modifier.padding(8.dp).fillMaxWidth(),
+-                                                horizontalArrangement = Arrangement.SpaceBetween,
+-                                                verticalAlignment = Alignment.CenterVertically
++                                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                                             ) {
+                                                 Text("${selectedIds.size} files selected in backlog", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSecondaryContainer)
+-                                                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
++                                                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                                                     Button(
+                                                         onClick = {
+                                                             val keptItems = selectedIds.mapNotNull { id -> backlogList.find { it.id == id } }
+@@ -1002,7 +1030,7 @@
+                                                             selectedBacklogVideos.clear()
+                                                         },
+                                                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp),
+-                                                        modifier = Modifier.height(28.dp)
++                                                        modifier = Modifier.height(48.dp)
+                                                     ) {
+                                                         Icon(Icons.Default.PlayArrow, contentDescription = "Process selected", modifier = Modifier.size(14.dp))
+                                                     }
+@@ -1016,14 +1044,14 @@
+                                                             selectedBacklogVideos.clear()
+                                                         },
+                                                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp),
+-                                                        modifier = Modifier.height(28.dp)
++                                                        modifier = Modifier.height(48.dp)
+                                                     ) {
+                                                         Icon(Icons.Default.Archive, contentDescription = "Archive selected", modifier = Modifier.size(14.dp))
+                                                     }
+ 
+                                                     TextButton(
+                                                         onClick = { selectedBacklogVideos.clear() },
+-                                                        modifier = Modifier.height(28.dp)
++                                                        modifier = Modifier.height(48.dp)
+                                                     ) {
+                                                         Text("Cancel", fontSize = 10.sp)
+                                                     }
+@@ -1169,6 +1197,7 @@
+                                                                     modifier = Modifier
+                                                                         .size(16.dp)
+                                                                         .clickable {
++                                                                            if (previewModalVideoId != video.id || previewModalState == null) previewDrafts.removeState("preview:${video.id}")
+                                                                             previewModalVideoId = video.id
+                                                                             previewModalState = WindowState.STANDARD
+                                                                         },
+@@ -1198,13 +1227,19 @@
+ 
+                             "video_archive", "image_archive" -> {
+                                 // ARCHIVED FILES MANAGEMENT VIEW
+-                                val archivedItems = remember(allVideos, activePanelSection) {
+-                                    allVideos.filter {
++                                val archivedItems = remember(allVideos, activePanelSection, archiveSort) {
++                                    val archived = allVideos.filter {
+                                         it.status == "archived" && if (activePanelSection == "image_archive") {
+                                             it.mimeType?.startsWith("image/") == true
+                                         } else {
+                                             it.mimeType?.startsWith("video/") == true
+                                         }
++                                    }
++                                    when (archiveSort) {
++                                        "Name" -> archived.sortedBy { it.displayName.lowercase() }
++                                        "Status" -> archived.sortedBy { it.status }
++                                        "Size" -> archived.sortedBy { it.sizeBytes ?: 0L }
++                                        else -> archived
+                                     }
+                                 }
+                                 Row(
+@@ -1266,21 +1301,22 @@
+                                         ) {
+                                             Button(
+                                                 onClick = {
+-                                                    val selectedIds = selectedArchiveVideos.filter { it.value }.keys
++                                                    val selectedIds = archivedItems.filter { selectedArchiveVideos[it.id] == true }.map { it.id }
+                                                     selectedIds.forEach { id ->
+                                                         viewModel.restoreArchivedVideo(id)
+                                                     }
+                                                     Toast.makeText(context, "Restored ${selectedIds.size} files back to main backlog!", Toast.LENGTH_SHORT).show()
+                                                     selectedArchiveVideos.clear()
+                                                 },
+-                                                modifier = Modifier.weight(1f)
++                                                modifier = Modifier.weight(1f),
++                                                enabled = archivedItems.any { selectedArchiveVideos[it.id] == true }
+                                             ) {
+                                                 Icon(Icons.Default.Restore, contentDescription = "Restore selected", modifier = Modifier.size(16.dp))
+                                             }
+ 
+                                             Button(
+                                                 onClick = {
+-                                                    val selectedIds = selectedArchiveVideos.filter { it.value }.keys
++                                                    val selectedIds = archivedItems.filter { selectedArchiveVideos[it.id] == true }.map { it.id }
+                                                     selectedIds.forEach { id ->
+                                                         viewModel.removeVideoFromBacklog(id)
+                                                     }
+@@ -1288,7 +1324,8 @@
+                                                     selectedArchiveVideos.clear()
+                                                 },
+                                                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
+-                                                modifier = Modifier.weight(1f)
++                                                modifier = Modifier.weight(1f),
++                                                enabled = archivedItems.any { selectedArchiveVideos[it.id] == true }
+                                             ) {
+                                                 Icon(Icons.Default.DeleteForever, contentDescription = "Delete selected index entries", modifier = Modifier.size(16.dp))
+                                             }
+@@ -1385,6 +1422,7 @@
+                         windowState = previewModalState!!,
+                         onStateChange = { previewModalState = it }
+                     ) {
++                        previewDrafts.SaveableStateProvider("preview:$pVideoId") {
+                         val framesList by remember(vItem.id) { viewModel.framesForVideo(vItem.id) }.collectAsState(initial = emptyList())
+                         val analysisObj = allAnalysisResults[pVideoId]
+                         VideoDetailPanel(
+@@ -1411,6 +1449,7 @@
+                                 requestStorageAction(vItem.id, false)
+                             }
+                         )
++                        }
+                     }
+                 }
+             }
+@@ -1470,19 +1509,23 @@
+                 WindowedModal(
+                     title = "Ollama Advanced Connection Settings",
+                     windowState = settingsModalState!!,
+-                    onStateChange = { settingsModalState = it }
++                    onStateChange = { if (it == null) settingsApiKeyDraft = ""; settingsModalState = it },
++                    secure = true
+                 ) {
+-                    var editProvider by remember { mutableStateOf(llmProvider) }
+-                    var editApiKey by remember { mutableStateOf(apiKey) }
+-                    var editTemperature by remember { mutableStateOf(llmTemperature) }
+-                    var editPrompt by remember { mutableStateOf(systemPrompt) }
++                    settingsDrafts.SaveableStateProvider("settings") {
++                    var editProvider by rememberSaveable { mutableStateOf(llmProvider) }
++                    val editApiKey = settingsApiKeyDraft
++                    var editTemperature by rememberSaveable { mutableStateOf(llmTemperature) }
++                    var editPrompt by rememberSaveable { mutableStateOf(systemPrompt) }
+                     
+                     val settingsObj = viewModel.settings.collectAsState().value
+-                    var editUrl by remember { mutableStateOf(settingsObj.ollamaEndpointUrl) }
+-                    var editTimeout by remember { mutableStateOf(settingsObj.requestTimeoutSeconds.toString()) }
+-                    var selectedModelName by remember { mutableStateOf(settingsObj.ollamaModelName) }
++                    var editUrl by rememberSaveable { mutableStateOf(settingsObj.ollamaEndpointUrl) }
++                    var editTimeout by rememberSaveable { mutableStateOf(settingsObj.requestTimeoutSeconds.toString()) }
++                    var selectedModelName by rememberSaveable { mutableStateOf(settingsObj.ollamaModelName) }
+ 
+                     val connSuccess by viewModel.connectionSuccess.collectAsState()
++                    val modelsProvider by viewModel.availableModelProvider.collectAsState()
++                    var connectionCheckedFor by rememberSaveable { mutableStateOf<String?>(null) }
+ 
+                     Column(
+                         modifier = Modifier
+@@ -1490,7 +1533,7 @@
+                             .verticalScroll(rememberScrollState()),
+                         verticalArrangement = Arrangement.spacedBy(10.dp)
+                     ) {
+-                        val displayModels = availableModels
++                        val displayModels = if (modelsProvider == editProvider) availableModels else emptyList()
+ 
+                         LaunchedEffect(editProvider, availableModels) {
+                             if (selectedModelName.isBlank() && displayModels.isNotEmpty()) {
+@@ -1512,8 +1555,7 @@
+                                     value = when(editProvider) {
+                                         "ollama_local" -> "PC"
+                                         "ollama_cloud" -> "Cloud"
+-                                        "gemini" -> "Gemini"
+-                                        "local" -> "Device"
++                                                                                "local" -> "Device"
+                                         else -> "PC"
+                                     },
+                                     onValueChange = {},
+@@ -1535,11 +1577,7 @@
+                                     )
+                                     DropdownMenuItem(
+                                         text = { Text("Cloud") },
+-                                        onClick = { editProvider = "ollama_cloud"; providerExpanded = false }
+-                                    )
+-                                    DropdownMenuItem(
+-                                        text = { Text("Gemini") },
+-                                        onClick = { editProvider = "gemini"; providerExpanded = false }
++                                        onClick = { editProvider = "ollama_cloud"; editUrl = "https://ollama.com"; selectedModelName = ""; providerExpanded = false }
+                                     )
+                                     DropdownMenuItem(
+                                         text = { Text("Device") },
+@@ -1550,7 +1588,7 @@
+                         }
+ 
+                         // URL Endpoint configuration (Only for Ollama providers)
+-                        if (editProvider != "gemini" && editProvider != "local") {
++                        if (editProvider != "local") {
+                             OutlinedTextField(
+                                 value = editUrl,
+                                 onValueChange = { editUrl = it },
+@@ -1560,17 +1598,20 @@
+ 
+                             // Connection Testing Action Row
+                             Row(verticalAlignment = Alignment.CenterVertically) {
+-                                Button(onClick = { viewModel.checkConnection(editUrl, editProvider, editApiKey) }) {
++                                Button(onClick = {
++                                    connectionCheckedFor = "$editProvider|$editUrl"
++                                    viewModel.checkConnection(editUrl, editProvider, editApiKey.takeIf { it.isNotBlank() })
++                                }) {
+                                     Icon(Icons.Default.NetworkCheck, contentDescription = "Test connection")
+                                 }
+                                 Spacer(modifier = Modifier.width(12.dp))
+-                                if (connSuccess == true) {
++                                if (connectionCheckedFor == "$editProvider|$editUrl" && connSuccess == true) {
+                                     Row(verticalAlignment = Alignment.CenterVertically) {
+                                         Icon(Icons.Default.CheckCircle, contentDescription = "Succeeded", tint = Color(0xFF2E7D32), modifier = Modifier.size(20.dp))
+                                         Spacer(modifier = Modifier.width(4.dp))
+-                                        Text("Connected", color = Color(0xFF2E7D32), fontSize = 12.sp, fontWeight = FontWeight.Bold)
++                                        Text(if (editProvider == "ollama_cloud") "Service reachable" else "Connected", color = Color(0xFF2E7D32), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                     }
+-                                } else if (connSuccess == false) {
++                                } else if (connectionCheckedFor == "$editProvider|$editUrl" && connSuccess == false) {
+                                     Row(verticalAlignment = Alignment.CenterVertically) {
+                                         Icon(Icons.Default.ErrorOutline, contentDescription = "Failed", tint = Color(0xFFC62828), modifier = Modifier.size(20.dp))
+                                         Spacer(modifier = Modifier.width(4.dp))
+@@ -1585,7 +1626,7 @@
+                         // Model tags syncing dropdown
+                         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                             Text("Model", fontSize = 12.sp, modifier = Modifier.weight(1f))
+-                            IconButton(onClick = { viewModel.syncModels(editUrl, editProvider, editApiKey) }) {
++                            IconButton(onClick = { viewModel.syncModels(editUrl, editProvider, editApiKey.takeIf { it.isNotBlank() }) }) {
+                                 Icon(Icons.Default.Sync, contentDescription = "Sync models tag list")
+                             }
+                         }
+@@ -1656,11 +1697,12 @@
+                         }
+ 
+                         // API Key Field for Cloud providers
+-                        if (editProvider == "ollama_cloud" || editProvider == "gemini") {
++                        if (editProvider == "ollama_cloud") {
+                             OutlinedTextField(
+                                 value = editApiKey,
+-                                onValueChange = { editApiKey = it },
++                                onValueChange = { settingsApiKeyDraft = it },
+                                 label = { Text("API key") },
++                                supportingText = { Text(if (hasApiKey) "Saved key is hidden. Leave blank to keep it." else "Enter your Cloud key here. It stays hidden.") },
+                                 modifier = Modifier.fillMaxWidth(),
+                                 visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
+                                 keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Password)
+@@ -1688,6 +1730,7 @@
+                             onClick = {
+                                 viewModel.updateSettings(editProvider == "ollama_local" || editProvider == "ollama_cloud", editUrl, selectedModelName, editTimeout.toIntOrNull()?.coerceIn(5, 300) ?: 30, settingsObj.confirmedNonLocalEndpointWarning)
+                                 viewModel.saveExpandedSettings(editProvider, editApiKey, editTemperature, editPrompt)
++                                settingsApiKeyDraft = ""
+                                 settingsModalState = null
+                                 Toast.makeText(context, "Configurations sync-saved successfully!", Toast.LENGTH_SHORT).show()
+                             },
+@@ -1697,6 +1740,7 @@
+                         }
+                     }
+                 }
++            }
+             }
+         }
+     }
+@@ -2407,15 +2451,15 @@
+     onMoveToTrash: () -> Unit,
+     onPermanentDelete: () -> Unit
+ ) {
+-    var manualNotes by remember(video.id) { mutableStateOf(video.manualTranscript ?: "") }
++    var manualNotes by rememberSaveable(video.id) { mutableStateOf(video.manualTranscript ?: "") }
+     
+     // Editable analysis states
+-    var title1 by remember(analysis?.id) { mutableStateOf(analysis?.descriptionLine1 ?: "Deterministically Analyzed.") }
+-    var title2 by remember(analysis?.id) { mutableStateOf(analysis?.descriptionLine2 ?: "Ready for review.") }
+-    var cat1 by remember(analysis?.id) { mutableStateOf(analysis?.categoryLevel1 ?: "Technical") }
+-    var cat2 by remember(analysis?.id) { mutableStateOf(analysis?.categoryLevel2 ?: "General") }
+-    var cat3 by remember(analysis?.id) { mutableStateOf(analysis?.categoryLevel3 ?: "Workflow") }
+-    var roadmapPlan by remember(analysis?.id) { mutableStateOf(analysis?.formattedActionPlan ?: "") }
++    var title1 by rememberSaveable(video.id, analysis?.id) { mutableStateOf(analysis?.descriptionLine1 ?: "Deterministically Analyzed.") }
++    var title2 by rememberSaveable(video.id, analysis?.id) { mutableStateOf(analysis?.descriptionLine2 ?: "Ready for review.") }
++    var cat1 by rememberSaveable(video.id, analysis?.id) { mutableStateOf(analysis?.categoryLevel1 ?: "Technical") }
++    var cat2 by rememberSaveable(video.id, analysis?.id) { mutableStateOf(analysis?.categoryLevel2 ?: "General") }
++    var cat3 by rememberSaveable(video.id, analysis?.id) { mutableStateOf(analysis?.categoryLevel3 ?: "Workflow") }
++    var roadmapPlan by rememberSaveable(video.id, analysis?.id) { mutableStateOf(analysis?.formattedActionPlan ?: "") }
+ 
+     Surface(
+         modifier = Modifier
+@@ -2894,6 +2938,7 @@
+     onOpenTags: () -> Unit = {},
+     onOpenBin: () -> Unit = {}
+ ) {
++    var selectedSubcategory by rememberSaveable(selectedCategory) { mutableStateOf<String?>(null) }
+     val eligibleMedia = remember(allMedia) {
+         allMedia.filter { !it.isPending && !it.isTrashed && it.isCurrentlyAvailable }
+     }
+@@ -3033,8 +3078,9 @@
+                 }
+             }
+         } else {
+-            val categoryItems = remember(scopedMedia) {
+-                scopedMedia.sortedWith(compareBy<VideoItem> { it.sourceSubcategory ?: "" }.thenByDescending { it.dateModified ?: 0L })
++            val categoryItems = remember(scopedMedia, selectedSubcategory) {
++                scopedMedia.filter { selectedSubcategory == null || it.sourceSubcategory == selectedSubcategory }
++                    .sortedWith(compareBy<VideoItem> { it.sourceSubcategory ?: "" }.thenByDescending { it.dateModified ?: 0L })
+             }
+ 
+             if (subcategories.isNotEmpty()) {
+@@ -3043,8 +3089,11 @@
+                     horizontalArrangement = Arrangement.spacedBy(7.dp)
+                 ) {
+                     subcategories.forEach { subcategory ->
+-                        AssistChip(
+-                            onClick = {},
++                        FilterChip(
++                            selected = selectedSubcategory == subcategory.subcategory,
++                            onClick = {
++                                selectedSubcategory = if (selectedSubcategory == subcategory.subcategory) null else subcategory.subcategory
++                            },
+                             label = { Text("${subcategory.subcategory} • ${subcategory.itemCount} • ${formatMediaBytes(subcategory.totalBytes)}") },
+                             leadingIcon = { Icon(Icons.Default.Label, contentDescription = null, modifier = Modifier.size(14.dp)) },
+                             modifier = Modifier.testTag("source_subcategory_${subcategory.subcategory}")

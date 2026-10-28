@@ -1,0 +1,11 @@
+{
+  "variant": "standard debug (no QA app-name override)",
+  "counts": {
+    "tests": 55,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "source_head": "467c205d054b7bc52e384956adf990183a693924",
+  "log_sha256": "886141ff7a857ebf7c492c72671a23266bf9cc1d0f4d53babb5718b1d01631c4"
+}

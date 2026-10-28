@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "adb",
+    "-s",
+    "emulator-5554",
+    "shell",
+    "am",
+    "instrument",
+    "-w",
+    "-r",
+    "-e",
+    "rea_runtime",
+    "emulator",
+    "-e",
+    "qa_empty_credentials_confirmed",
+    "true",
+    "-e",
+    "class",
+    "com.example.GapEditingJourneyTest,com.example.NativeStorageGapJourneyTest,com.example.StorageFaultNativeJourneyTest,com.example.InventoryUiGapJourneyTest#t014_t022_t023_populatedSnapshotRapidRefreshAndActualHomeResumeRemainDuplicateFree,com.example.InventoryUiGapJourneyTest#t186_visibleSourceFailureThenRealPopulatedRetryRestoresExactCategory",
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview.test/androidx.test.runner.AndroidJUnitRunner"
+  ],
+  "hashes": {
+    "app/build/outputs/apk/debug/app-debug.apk": "133db71320142cccd0ec90d9a23f34ee4068ac60b643872970f0b85eedf39f7b",
+    "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "85963c6625e0dfcbdaab80ec6d293ed632e4894b0f4cf9e4d85a99ae905d4e73"
+  },
+  "started": 1793166024.4370341,
+  "ended": 1793166129.9589367,
+  "exit_code": 0,
+  "log_sha256": "952e68f9a458e126e90c4b9d2fbc7cc41bd6915e54d8a2ebb7605c12d474fd9c"
+}

@@ -1,0 +1,423 @@
+{
+  "scope": "Historical visible UI plus source inspection, APK identity matched; runtime gaps explicitly preserved",
+  "baseline_apk_sha256": "8f5f5d629e174dc9be74da5ba10f265cd9166d1ee04cd35bd40adc57f2ec6c1b",
+  "areas": [
+    {
+      "id": "A01",
+      "surface": "App header: Export metadata, Toggle Theme, Settings",
+      "route": "Visible across the main app",
+      "behavior": "Open export picker; change temporary light/dark theme; open AI settings. Icons use these accessibility names.",
+      "tests": "T008, T009, T076, T094, T095, T096, T097, T098, T099, T100, T101, T102, T103, T104, T105, T106, T107, T108, T109, T110, T111, T112, T113, T114, T115, T116, T117, T118, T160, T161, T162, T163, T164, T165, T166, T167, T176, T177, T179, T190, T191, T192, T193, T194, T195, T224, T221"
+    },
+    {
+      "id": "A02",
+      "surface": "Left-edge Open menu / Close menu; Home, Folders, Sources, Queue, Videos, Images",
+      "route": "Tap the handle on the left edge; app initially opens with menu expanded",
+      "behavior": "Navigate to each destination; close menu without navigation.",
+      "tests": "T001, T002, T003, T004, T005, T006, T007, T168"
+    },
+    {
+      "id": "A03",
+      "surface": "Menu Summary",
+      "route": "Open menu outside Folders",
+      "behavior": "Read Total Videos Scanned, Filtered Backlog items and LLM Provider. Source counts can include unavailable historical entries.",
+      "tests": "T012, T031, T206"
+    },
+    {
+      "id": "A04",
+      "surface": "Home: Overview, Expand / Collapse",
+      "route": "Open menu \u2192 Home \u2192 Overview",
+      "behavior": "Expand counts New, Queued, Proc., Review; read LLM/model/host status, media access and Videos Found. Counts are informational.",
+      "tests": "T010, T012, T031"
+    },
+    {
+      "id": "A05",
+      "surface": "Home: Guide, Expand guide / Collapse guide",
+      "route": "Home \u2192 Guide",
+      "behavior": "Read private OCR and workflow guide text; collapse. Computer-export wording does not establish a reachable transfer feature.",
+      "tests": "T011"
+    },
+    {
+      "id": "A06",
+      "surface": "Home: Scan Videos; Sources: Refresh inventory",
+      "route": "Home toolbar or Sources inventory header",
+      "behavior": "Request photo/video access; scan storage; see scan progress; retry. Scan disabled while in progress.",
+      "tests": "T013, T014, T015, T016, T017, T018, T019, T020, T021, T022, T023, T186, T221"
+    },
+    {
+      "id": "A07",
+      "surface": "Home limited-access banner: Change / Dismiss; Android access choices",
+      "route": "Home when selected-media access is granted",
+      "behavior": "Change selected photos/videos; dismiss banner; grant, deny or revoke access in emulator Android settings. Android prompt labels remain unobserved.",
+      "tests": "T015, T016, T017, T018, T019, T020"
+    },
+    {
+      "id": "A08",
+      "surface": "Home: Start Batch, Process Next, Pause Batch",
+      "route": "Home toolbar",
+      "behavior": "Start eligible Keep media; process next; pause ongoing work; see no-eligible-work message.",
+      "tests": "T058, T059, T060, T061, T062, T063, T064, T065, T180, T187, T188, T189, T190, T218, T219, T220"
+    },
+    {
+      "id": "A09",
+      "surface": "Live Batch panel: progress, Pause / Resume",
+      "route": "Any destination while batch is active or paused",
+      "behavior": "Read batch state, current step and progress; pause/resume. Source-only conditional panel, not observed during this run.",
+      "tests": "T060, T061, T062, T063, T064, T065, T188, T218"
+    },
+    {
+      "id": "A10",
+      "surface": "Sources: Phone media inventory; access and count/size totals",
+      "route": "Open menu \u2192 Sources",
+      "behavior": "Read available total, Unreviewed, Keep, Selected to remove; pending, unavailable and trashed items excluded. Open Rules, Tags, Bin.",
+      "tests": "T021, T024, T031, T119, T154, T155, T173, T186, T206, T221"
+    },
+    {
+      "id": "A11",
+      "surface": "Sources: category cards and Open [category]",
+      "route": "Sources \u2192 any category card",
+      "behavior": "Open Camera, Screenshots, Screen recordings, Downloads, WhatsApp, WhatsApp Business, Messenger, DJI, Facebook, Skype, Zalo, Twitter, Other or folder-derived category when indexed.",
+      "tests": "T024, T025, T225"
+    },
+    {
+      "id": "A12",
+      "surface": "Source category: Show all sources, Refresh inventory, filename/size/evidence",
+      "route": "Sources \u2192 category",
+      "behavior": "Return to category list; refresh; read all rows and source evidence. Media rows do not open Preview.",
+      "tests": "T024, T025, T170, T206, T210, T225"
+    },
+    {
+      "id": "A13",
+      "surface": "Source subcategory chips, horizontally scrollable",
+      "route": "Sources \u2192 Screenshots with inferred Facebook/Instagram filenames",
+      "behavior": "Read counts/bytes and Inferred from filename. Chip taps have no action in source; runtime no-op unverified.",
+      "tests": "T025"
+    },
+    {
+      "id": "A14",
+      "surface": "Source review dropdown: New, Keep, Later, Remove",
+      "route": "Sources \u2192 category \u2192 current decision beside file",
+      "behavior": "Change review choice; dismiss outside/Back. Review choice is separate from Queue processing status and Bin placement.",
+      "tests": "T026, T027, T028, T029, T030, T031, T053, T170, T180, T187, T188, T218"
+    },
+    {
+      "id": "A15",
+      "surface": "Folders: Target Watch Folders, Active, Add watch folder, Remove",
+      "route": "Open menu \u2192 Folders",
+      "behavior": "Register tree folder using Android picker; cancel; remove registration. Source currently does not use registrations to restrict scanner.",
+      "tests": "T032, T033, T034, T035, T036, T228"
+    },
+    {
+      "id": "A16",
+      "surface": "Android folder picker: storage root, folder list, USE THIS FOLDER, privacy block",
+      "route": "Folders \u2192 Add watch folder",
+      "behavior": "Navigate a test folder; use/cancel; root says Can\u2019t use this folder. Picker also has List view, New folder, Sort by..., More options, CREATE NEW FOLDER.",
+      "tests": "T032, T033, T034, T036, T230, T233, T234, T235, T236, T237, T229"
+    },
+    {
+      "id": "A17",
+      "surface": "Folders sidebar: Search folders..., Clear search, folder checkboxes, Add selected to queue",
+      "route": "Folders \u2192 Open menu",
+      "behavior": "Find URI-derived folder groups; select/unselect; toggle queue state for kept files in selected groups.",
+      "tests": "T037, T038, T039, T040"
+    },
+    {
+      "id": "A18",
+      "surface": "Folders: Auto add switch; Detection Channels, Record, Shots",
+      "route": "Folders \u2192 Auto add; channels appear only while enabled",
+      "behavior": "Persist switches; observe new media. Source observer rescans; channel settings do not filter and no automatic Keep/analysis occurs.",
+      "tests": "T041, T042, T043, T044, T045, T189"
+    },
+    {
+      "id": "A19",
+      "surface": "Queue sort: Name, Status, Size",
+      "route": "Open menu \u2192 Queue \u2192 Sort",
+      "behavior": "Sort visible backlog alphabetically, by state, or ascending size.",
+      "tests": "T046, T210"
+    },
+    {
+      "id": "A20",
+      "surface": "Queue selection: row checkbox, select-all, Process selected, Archive selected, Cancel",
+      "route": "Queue \u2192 select row or header checkbox",
+      "behavior": "Select/deselect; process selected kept files; archive selected; cancel selection. Selection toolbar conditional.",
+      "tests": "T047, T048, T049, T063, T066, T068, T187"
+    },
+    {
+      "id": "A21",
+      "surface": "Queue rows: Location, File, Size, Status, Actions, empty backlog",
+      "route": "Queue",
+      "behavior": "Read table/status badges and filenames; empty message directs scan. Active filter dropdown is absent.",
+      "tests": "T046, T050, T051, T052, T053, T210"
+    },
+    {
+      "id": "A22",
+      "surface": "Queue Rename (automatic suggested name)",
+      "route": "Queue \u2192 Rename below filename",
+      "behavior": "Generate filename from OCR or existing name; Android write approval may be needed. No manual filename form is reachable.",
+      "tests": "T054, T055, T056, T057, T165, T205"
+    },
+    {
+      "id": "A23",
+      "surface": "Queue Folder",
+      "route": "Queue \u2192 folder icon beside item",
+      "behavior": "Read Location toast containing item URI; no folder browser opens.",
+      "tests": "T051, T210"
+    },
+    {
+      "id": "A24",
+      "surface": "Queue Output (completed items only)",
+      "route": "Queue \u2192 output icon beside processed item",
+      "behavior": "Read saved result window; disabled for new/error/archived states.",
+      "tests": "T052, T075, T093, T174, T180, T220"
+    },
+    {
+      "id": "A25",
+      "surface": "Queue Preview and Process",
+      "route": "Queue \u2192 eye icon or circular-arrow icon",
+      "behavior": "Open metadata/editor; Process enabled only for Keep. Preview\u2019s process still enforces Keep underneath.",
+      "tests": "T053, T059, T074, T077, T088, T175, T180, T181, T207, T211, T212, T213, T220"
+    },
+    {
+      "id": "A26",
+      "surface": "Videos archive: table, row/header checkbox, Restore selected, Delete selected index entries",
+      "route": "Open menu \u2192 Videos",
+      "behavior": "Select archived videos, restore to Queue, remove only local index entries. Physical file deletion is a separate workflow.",
+      "tests": "T066, T067, T070, T071, T072, T073, T178"
+    },
+    {
+      "id": "A27",
+      "surface": "Images archive: same controls; Name, Status, Size",
+      "route": "Open menu \u2192 Images",
+      "behavior": "Same actions for archived images. Source sort ignores chosen option and selections can span both archive destinations.",
+      "tests": "T068, T069, T070, T071, T072, T073, T178"
+    },
+    {
+      "id": "A28",
+      "surface": "Preview window: Minimize, Full Window / Standard Window, Close, Restore preview, Back",
+      "route": "Queue \u2192 Preview; minimized badge at bottom right",
+      "behavior": "Resize; scroll; minimize/restore; close. Overlay Android Back behavior unverified.",
+      "tests": "T074, T077, T166, T175, T207, T208, T209, T210, T223"
+    },
+    {
+      "id": "A29",
+      "surface": "Preview metadata, Processing Error, Copy Error",
+      "route": "Queue \u2192 Preview \u2192 upper details",
+      "behavior": "Read name/URI/Mime/Bytes/Status/Completed step; copy actual processing error when present.",
+      "tests": "T077, T088, T207, T211, T212, T213"
+    },
+    {
+      "id": "A30",
+      "surface": "Preview horizontal action strip: Process media, Reset model data, Archive media",
+      "route": "Preview \u2192 action strip; scroll horizontally if clipped",
+      "behavior": "Process eligible file; erase only disposable saved model data/notes/OCR; archive. Reset has no confirmation.",
+      "tests": "T053, T059, T083, T084, T088, T114, T115, T116, T117, T181, T220"
+    },
+    {
+      "id": "A31",
+      "surface": "Preview Mark Trash Candidate / Unmark Trash Candidate",
+      "route": "Preview \u2192 action strip",
+      "behavior": "Toggle legacy ready-to-delete status; does not add Bin entry or delete file.",
+      "tests": "T031, T085"
+    },
+    {
+      "id": "A32",
+      "surface": "Preview Manual Transcript & Annotations; Group 1/2/3; Line 1/2; Action Roadmap / Notes Markdown Map; Save edits",
+      "route": "Preview \u2192 scroll editor",
+      "behavior": "Edit notes, category path, headlines and roadmap; save or discard. Values may exist before processing.",
+      "tests": "T078, T079, T080, T081, T082, T093, T165, T166, T204, T205, T208, T209, T227"
+    },
+    {
+      "id": "A33",
+      "surface": "Preview Scene Text Evidence Timeline (OCR), timestamps and empty guidance",
+      "route": "Preview \u2192 scroll below notes",
+      "behavior": "Read extracted evidence; empty guidance suggests processing. No video player/seek/pause is present.",
+      "tests": "T077, T087, T088, T175, T207, T211, T212, T213"
+    },
+    {
+      "id": "A34",
+      "surface": "Preview Extracted Links and Extracted Tech / Command Snippets",
+      "route": "Preview when corresponding saved lists are nonempty",
+      "behavior": "Read links and command snippets; links are plain text, with no opening/copy handler in current source. Conditional content not reached in emulator.",
+      "tests": "T087"
+    },
+    {
+      "id": "A35",
+      "surface": "Preview Remove index entry",
+      "route": "Preview \u2192 lower editor actions",
+      "behavior": "Remove app metadata/index row without deleting physical file; rescan may rediscover. No confirmation.",
+      "tests": "T086, T204"
+    },
+    {
+      "id": "A36",
+      "surface": "Preview System Real Media Cleanup Action: Move media to trash, Delete media forever",
+      "route": "Preview \u2192 bottom cleanup section",
+      "behavior": "Request Android trash/permanent-delete approval; cancel or approve only on isolated disposable media.",
+      "tests": "T089, T090, T091, T092, T182, T183, T184, T185, T216"
+    },
+    {
+      "id": "A37",
+      "surface": "Android media-write/trash/delete approvals and cancellation",
+      "route": "Rename or cleanup of externally owned media; Bin Delete all",
+      "behavior": "Approve/deny/cancel; unavailable-version and opening/verification failures have different messages. Prompt buttons not inspected.",
+      "tests": "T056, T057, T089, T090, T091, T092, T157, T158, T159, T183, T184, T185, T216, T222"
+    },
+    {
+      "id": "A38",
+      "surface": "Output: A.I. Structured Content Map, Category path, Summary headline 1/2, Action plan Roadmap / Commands, Done",
+      "route": "Queue \u2192 Output",
+      "behavior": "Read saved structured result; resize/minimize/restore/Close; Done closes. Fallback wording identifies local output.",
+      "tests": "T075, T093, T174, T179, T191, T194, T195, T220, T223, T227"
+    },
+    {
+      "id": "A39",
+      "surface": "Settings window: Ollama Advanced Connection Settings, AI setup",
+      "route": "Header \u2192 Settings",
+      "behavior": "Resize/minimize/restore/close; Save settings commits; close discards drafts.",
+      "tests": "T076, T094, T095, T096, T097, T098, T099, T100, T101, T102, T103, T104, T105, T106, T107, T108, T109, T110, T111, T112, T113, T114, T115, T116, T117, T118, T167, T176, T193, T223, T224"
+    },
+    {
+      "id": "A40",
+      "surface": "Settings provider menu: PC, Cloud, Gemini, Device",
+      "route": "Settings \u2192 current provider dropdown",
+      "behavior": "Switch provider draft; dismiss; provider-specific fields appear. Existing cached models may be stale after switch.",
+      "tests": "T094, T095, T096, T097, T098, T099, T100, T101, T102, T103, T113, T114, T176, T179, T193"
+    },
+    {
+      "id": "A41",
+      "surface": "Settings Host, Test connection, Unknown / Connected / Unreachable",
+      "route": "Settings \u2192 PC or Cloud",
+      "behavior": "Enter endpoint; test; read result. Connection display can describe a previous check, not current analysis success.",
+      "tests": "T099, T100, T101, T113, T118, T191, T192, T193, T194, T195, T224"
+    },
+    {
+      "id": "A42",
+      "surface": "Settings Model, Sync models tag list, No model",
+      "route": "Settings \u2192 Model section",
+      "behavior": "Fetch/select models; dismiss dropdown; read empty state. Failed or empty sync can retain cached list.",
+      "tests": "T099, T102, T103, T118, T192, T193"
+    },
+    {
+      "id": "A43",
+      "surface": "Settings Timeout, 5\u2013300 seconds",
+      "route": "Settings \u2192 Timeout",
+      "behavior": "Enter seconds; invalid styling does not block Save; source clamps numeric range or uses 30 for nonnumeric input.",
+      "tests": "T104, T105, T106, T107, T108, T109, T115"
+    },
+    {
+      "id": "A44",
+      "surface": "Settings Temp slider, Prompt, Reset prompt",
+      "route": "Settings \u2192 lower form",
+      "behavior": "Set 0\u20131 temperature; edit/reset system prompt; save or cancel.",
+      "tests": "T098, T110, T111, T112, T167"
+    },
+    {
+      "id": "A45",
+      "surface": "Settings API key (masked)",
+      "route": "Settings \u2192 Cloud/Gemini \u2192 scroll",
+      "behavior": "Enter supplied disposable test key; verify masking and recovery from missing/invalid credentials. Do not inspect saved secrets.",
+      "tests": "T095, T096, T113, T114, T179"
+    },
+    {
+      "id": "A46",
+      "surface": "Settings Device disclaimer",
+      "route": "Settings \u2192 Device",
+      "behavior": "Read Keyword fallback runs on this device. No on-device language model is installed.; process without network.",
+      "tests": "T097, T098, T176, T190, T212"
+    },
+    {
+      "id": "A47",
+      "surface": "Rules list: Back, Add copy rule, Add obscured rule; No rules",
+      "route": "Sources \u2192 Rules",
+      "behavior": "Open create dialogs or return; inspect inline messages.",
+      "tests": "T119, T120, T121, T171, T172, T199, T228, T169"
+    },
+    {
+      "id": "A48",
+      "surface": "Rules card: enabled switch, Preview, Run, Edit, Delete",
+      "route": "Rules with a saved rule",
+      "behavior": "Disable/enable; dry preview; apply rule; revise/delete definition. Run disabled while off. Effects are not automatically undone on rule deletion.",
+      "tests": "T133, T134, T135, T136, T137, T138, T139, T140, T141, T196, T197, T198, T199, T222"
+    },
+    {
+      "id": "A49",
+      "surface": "Add rule / Edit dialog: Name, Score, 0\u20131, Save, Cancel",
+      "route": "Rules \u2192 Add copy rule/Add obscured rule/Edit",
+      "behavior": "Create or revise; validate name and score; Cancel/outside/Back discard. Score only for Obscure.",
+      "tests": "T120, T121, T122, T123, T124, T125, T126, T127, T128, T129, T130, T131, T132, T133, T171, T172, T199, T200, T228"
+    },
+    {
+      "id": "A50",
+      "surface": "Tags: Back, Tag field, Add, tag cards/counts, Edit, Delete",
+      "route": "Sources \u2192 Tags",
+      "behavior": "Create/select/deselect/rename/delete tag; blank Add disabled. Empty Tags has no dedicated message.",
+      "tests": "T142, T143, T144, T145, T146, T147, T149, T150, T151, T152, T153, T173, T201, T202, T203, T204, T217"
+    },
+    {
+      "id": "A51",
+      "surface": "Tags Media: Tagged / Show all, Add tag / Remove tag",
+      "route": "Tags \u2192 tap a tag card; scroll below tags",
+      "behavior": "Filter assignments; assign/unassign currently available media; watch counts.",
+      "tests": "T148, T149, T153, T198, T201, T204, T205, T206"
+    },
+    {
+      "id": "A52",
+      "surface": "Tag Edit dialog: Tag, Save, Cancel",
+      "route": "Tags \u2192 tag Edit",
+      "behavior": "Rename; blank disabled; duplicate/oversize ignored by source without message; cancel.",
+      "tests": "T150, T151, T202, T217"
+    },
+    {
+      "id": "A53",
+      "surface": "Bin: Back, Delete all, count/bytes, thumbnail cards, Recover, Bin empty",
+      "route": "Sources \u2192 Bin",
+      "behavior": "Read entries; recover previous review choice; request permanent deletion of all eligible entries. No separate Undo button.",
+      "tests": "T136, T140, T154, T155, T156, T157, T158, T159, T182, T197, T198, T214, T215, T216, T222, T226"
+    },
+    {
+      "id": "A54",
+      "surface": "Android export document picker: filename media-metadata.json, SAVE, folder/navigation controls",
+      "route": "Header \u2192 Export metadata",
+      "behavior": "Pick writable destination and filename; cancel; handle duplicate filename and write failure. Downloads picker observed. Folder creation/sort/view/more-options delegated to Android.",
+      "tests": "T160, T161, T162, T163, T164, T165, T177, T227, T230, T237"
+    },
+    {
+      "id": "A55",
+      "surface": "Unreachable legacy UI declarations",
+      "route": "No visible route established; listed here to avoid silently omitting them",
+      "behavior": "Legacy Configure Ollama Local LLM, Enable, Presets, I agree; alternate target folder controls/card; FilterDropdown; sidebar AI settings; transferToComputer. Do not prescribe fake access routes.",
+      "tests": "T231"
+    },
+    {
+      "id": "A56",
+      "surface": "Packaged debug-only activities and framework screens",
+      "route": "APK manifest only; absent from ordinary navigation",
+      "behavior": "InventoryRecreationTestActivity, UxEvidenceActivity, MediaDeleteEvidenceActivity, Compose PreviewActivity and ComponentActivity are not launched; test activities can mutate fixtures.",
+      "tests": "T232"
+    }
+  ],
+  "current_overrides": {
+    "providers": [
+      "PC",
+      "Cloud",
+      "Device"
+    ],
+    "removed_provider": "Gemini",
+    "folder_scope": "All scans restricted to chosen folders plus child folders; none chosen means all allowed media",
+    "modal_back": "Closes active window",
+    "drafts": "Non-secret Settings fields and Preview edits survive minimize; key draft stays in memory only",
+    "finished_batch": "No spinner",
+    "verified_fix_ids": [
+      "F01",
+      "F02",
+      "F03",
+      "F04",
+      "F05",
+      "F06",
+      "F07",
+      "F08",
+      "F09",
+      "F10",
+      "F11"
+    ]
+  }
+}

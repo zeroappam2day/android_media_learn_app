@@ -1,0 +1,12 @@
+{
+  "serial": "emulator-5554",
+  "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+  "backup": "databases/qa71-preserved-before-run",
+  "database_files_sha256": {
+    "video_knowledge_sorter_db": "753799c1dd399d2f99b05ab2f298e0d47b74cc809a01386d7cb4745ac2f03e26",
+    "video_knowledge_sorter_db-wal": "3cdbb6cd6e0b33f4ac3006d4797295b69372d2980523c6f7de8533de01de97d1",
+    "video_knowledge_sorter_db-shm": "a341021308ecf63124f6ba836c8e78016c8272ce0964095fb35a5e63f0021582"
+  },
+  "backup_bytes_verified": true,
+  "real_credential_stores_touched": false
+}

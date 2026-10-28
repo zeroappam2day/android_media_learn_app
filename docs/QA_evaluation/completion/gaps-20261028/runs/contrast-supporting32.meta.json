@@ -1,0 +1,34 @@
+{
+  "argv": [
+    "adb",
+    "-s",
+    "emulator-5554",
+    "shell",
+    "am",
+    "instrument",
+    "-w",
+    "-r",
+    "-e",
+    "rea_runtime",
+    "emulator",
+    "-e",
+    "qa_empty_credentials_confirmed",
+    "true",
+    "-e",
+    "class",
+    "com.example.InventoryUiGapJourneyTest#t014_t022_t023_populatedSnapshotRapidRefreshAndActualHomeResumeRemainDuplicateFree,com.example.NativeStorageGapJourneyTest#t032_t036_nativeSelectionScopeRecreationAndGrantReselection,com.example.GapProcessingJourneyTest#t053_t219_sameLaterIsBlockedFromQueuePreviewAndHomeWithoutMutation,com.example.GapProcessingJourneyTest#t061_pauseMixedBatchResumesBothOriginalItemsWithOneSavedResultEach,com.example.GapProcessingJourneyTest#t063_rapidQueueDoubleTapThenHomeStartKeepsOneRequestAndOneResult,com.example.GapEditingJourneyTest#t067_archiveVideoIndexRemovalThenRealRefreshRediscoversPhysicalFile,com.example.GapEditingJourneyTest#t069_archiveImageIndexRemovalThenRealRefreshRediscoversPhysicalFile,com.example.GapEditingJourneyTest#t071_realArchiveNameSizeStatusHaveIndependentThreeItemOrders,com.example.GapEditingJourneyTest#t072_restoreImageCannotRestoreVideoSelectedOnAnotherArchive,com.example.GapSettingsJourneyTest#t076_fullScrollStandardMinimizeRestoreCloseNeverCommitsAnySetting,com.example.GapEditingJourneyTest#t082_savePreanalysisFieldsThenExportSameUnfinishedItem,com.example.GapProcessingJourneyTest#t098_deviceSettingsSaveReopenAndProcessSameKeptImageWithoutNetwork,com.example.GapSettingsJourneyTest#t102_backAndOutsideDismissOnlyTheirDropdownWithoutChangingDraftOrSavedSelection,com.example.GapSettingsJourneyTest#t111_unsavedPromptResetThenCloseRestoresExactSavedPrompt,com.example.GapProcessingJourneyTest#t115_actualFiveSecondDeadlineFallsBackThenVisibleResetRetries,com.example.GapProcessingJourneyTest#t116_midResponseDisconnectFallsBackThenVisibleResetRetries,com.example.GapProcessingJourneyTest#t117_savedSettingsMalformedReplyFallsBackThenVisibleResetRetries,com.example.GapNativeExportFailureTest#t164_nativeRefusedSaveShowsFailureThenDocumentsQaRetryPreservesSavedValues,com.example.GapSettingsJourneyTest#t167_promptDraftSurvivesMinimizeRestoreButCloseDiscardsItWithoutSaving,com.example.GapSettingsJourneyTest#t176_unsavedDeviceCloseReopensSavedPcAndItsExactSettings,com.example.StorageFaultNativeJourneyTest#t183_previewSameUriRequestFailureRealRefreshRetryAndNativeCancel,com.example.StorageFaultNativeJourneyTest#t184_realConfirmedTrashUnknownQueryRetainsSavedFieldsUntilRepairRefresh,com.example.InventoryUiGapJourneyTest#t186_visibleSourceFailureThenRealPopulatedRetryRestoresExactCategory,com.example.GapProcessingJourneyTest#t187_waitingKeepChangedThroughSourcesToLaterIsDequeuedUntilKeptAgain,com.example.GapProcessingJourneyTest#t188_activeSourcesLaterAndUiNotesSurviveCompletionAndNextBatchSkipsIt,com.example.GapProcessingJourneyTest#t191_savedThirtySecondTimeoutShowsProgressAndAcceptsSlowSuccessOnce,com.example.GapSettingsJourneyTest#t192_sameHostFailureKeepsAThenRestoredServiceBIsSelectedSavedAndReopened,com.example.GapSettingsJourneyTest#t193_pcDeviceNamespacesRemainSeparateAndExplicitResyncRestoresPcChoices,com.example.GapProcessingJourneyTest#t194_http403FallsBackThenVisibleResetRetries,com.example.GapProcessingJourneyTest#t195_emptyBodyFallsBackThenVisibleResetRetries,com.example.GapEditingJourneyTest#t207_unfinishedVideoGuidanceAndAndroidBackDoNotMutate,com.example.GapEditingJourneyTest#t208_androidBackDiscardsUnsavedPreviewAndKeepsAllSavedFields",
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview.test/androidx.test.runner.AndroidJUnitRunner"
+  ],
+  "hashes": {
+    "app/build/outputs/apk/debug/app-debug.apk": "8978f9d32f22a8a16c572ef3f26bc092992b71f97034929581826136971c3a47",
+    "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "e7e0f253381bac00b5fd287141ce25f6d88c521d4ca671c1242eb4f630555cfb"
+  },
+  "installed_apk_hashes": {
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview": "8978f9d32f22a8a16c572ef3f26bc092992b71f97034929581826136971c3a47",
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview.test": "e7e0f253381bac00b5fd287141ce25f6d88c521d4ca671c1242eb4f630555cfb"
+  },
+  "started": 1793181964.0102947,
+  "ended": 1793182153.0660357,
+  "exit_code": 0,
+  "log_sha256": "15bf11bb83234ad33515b7cec08cefedcaef58b4da73106324291d56022b3669"
+}

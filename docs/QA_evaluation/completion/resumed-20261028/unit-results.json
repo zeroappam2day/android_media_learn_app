@@ -1,0 +1,300 @@
+{
+  "tests": 55,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "cases": [
+    {
+      "class": "com.example.MediaInventoryRecreationUiTest",
+      "name": "persistedDecisionAndExactScreenTotalsSurviveActivityRecreation",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaRuleMigrationTest",
+      "name": "version2RowSurvivesAndFeatureTablesStartEmpty",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaInventoryDaoTest",
+      "name": "totalsAndGroupsExactlyExcludeIneligibleRowsAndOmitMissingSubcategories",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaInventoryDaoTest",
+      "name": "reviewDecisionPersistsWithoutReplacingTheMediaRow",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaSourceClassifierTest",
+      "name": "unrecognizedNestedFolderUsesFolderLabelWithoutAppAttribution",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaSourceClassifierTest",
+      "name": "whatsappMediaTypeDoesNotBecomeSubcategory",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaSourceClassifierTest",
+      "name": "looseDownloadSubstringDoesNotCreateFalseDownloadsCategory",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaSourceClassifierTest",
+      "name": "missingFolderEvidenceLeavesCategoryNullable",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaSourceClassifierTest",
+      "name": "substringInsideAnotherWordDoesNotInferCapturedApp",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaSourceClassifierTest",
+      "name": "screenshotExactFilenameTokenProducesInferredCapturedApp",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.VideoDatabaseMigrationTest",
+      "name": "migrationPreservesGraphAndAddsEvidencePreservingDefaults",
+      "passed": true
+    },
+    {
+      "class": "com.example.ExampleRobolectricTest",
+      "name": "read string from context",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.ListConverterTest",
+      "name": "multilineCommandsQuotesEmptyEntriesAndUnicodeRoundTripWithoutLoss",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.ListConverterTest",
+      "name": "existingNewlineDelimitedRowsRemainReadable",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaAnalysisPolicyTest",
+      "name": "queueAttemptsEmitOnlyKeepItemsInInputOrder",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaAnalysisPolicyTest",
+      "name": "onlyKeepIsEligibleForAnalysis",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaAnalysisPolicyTest",
+      "name": "keptMediaMustRemainAvailablePublishedAndOutsideAndroidTrash",
+      "passed": true
+    },
+    {
+      "class": "com.example.ExampleUnitTest",
+      "name": "addition_isCorrect",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaInventoryScannerTest",
+      "name": "scanMapsImageAndVideoSourcesAndExactlyExcludesIneligibleRows",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaInventoryScannerTest",
+      "name": "decisionsSurviveRescanAndMissingRowsBecomeUnavailableWithoutEnteringTotals",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaInventoryScannerTest",
+      "name": "decisionsAndAggregatesSurviveDatabaseRecreationThenRescan",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaInventoryScannerTest",
+      "name": "capturedInventoryDiagnosticContainsOnlySanitizedCountsAndNoFixtureCanaries",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaInventoryScannerTest",
+      "name": "measuresColdAndWarmTenThousandRowInventoryWithoutLatencyThreshold",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaInventoryScannerTest",
+      "name": "sourceAccessStateIsPreservedForAllFourUiStates",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.CustomTagDaoTest",
+      "name": "recoveryRestoresOnlyPriorDecisionAndRemovesBinEntry",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.CustomTagDaoTest",
+      "name": "reconciliationRemovesOnlyProviderAbsentMediaFromEligibleTotals",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.CustomTagDaoTest",
+      "name": "cancelledDeleteResultCannotStartReconciliation",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.CustomTagDaoTest",
+      "name": "binStateRetainsThumbnailSourceUri",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.CustomTagDaoTest",
+      "name": "deletingTagRemovesAssignmentButKeepsMedia",
+      "passed": true
+    },
+    {
+      "class": "com.example.GreetingScreenshotTest",
+      "name": "greeting_screenshot",
+      "passed": true
+    },
+    {
+      "class": "com.example.MediaInventoryUiTest",
+      "name": "limitedAccessStateIsVisible",
+      "passed": true
+    },
+    {
+      "class": "com.example.MediaInventoryUiTest",
+      "name": "navigationPreservesIconAndTextRowsWithShortVisibleLabels",
+      "passed": true
+    },
+    {
+      "class": "com.example.MediaInventoryUiTest",
+      "name": "fullAccessStateIsVisible",
+      "passed": true
+    },
+    {
+      "class": "com.example.MediaInventoryUiTest",
+      "name": "productionMainScreenUsesTheSameOffCanvasLayoutAsTheGeometryTest",
+      "passed": true
+    },
+    {
+      "class": "com.example.MediaInventoryUiTest",
+      "name": "deniedAccessStateIsVisible",
+      "passed": true
+    },
+    {
+      "class": "com.example.MediaInventoryUiTest",
+      "name": "unknownAccessStateIsVisible",
+      "passed": true
+    },
+    {
+      "class": "com.example.MediaInventoryUiTest",
+      "name": "offCanvasPanelPreservesWidthMovesScreenAndRestoresGeometryAndState",
+      "passed": true
+    },
+    {
+      "class": "com.example.MediaInventoryUiTest",
+      "name": "detailShowsFilenameEvidenceAndOmitsUnavailableConversationAndUnknownLabels",
+      "passed": true
+    },
+    {
+      "class": "com.example.MediaInventoryUiTest",
+      "name": "completeVisibleControlLabelCatalogRendersWithinEightCodePoints",
+      "passed": true
+    },
+    {
+      "class": "com.example.MediaInventoryUiTest",
+      "name": "overviewShowsExactEligible64BitTotalsAndCategoryAggregates",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.AnalysisProviderProtocolTest",
+      "name": "cancellationCancelsTheHttpCallAndClosesLateResponse",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.AnalysisProviderProtocolTest",
+      "name": "bothSupportedProviderEnvelopesProduceTheSameStructuredEvidence",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.AnalysisProviderProtocolTest",
+      "name": "malformedEmptyAndErrorResponsesNeverBecomeFabricatedSuccessfulAnalysis",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.AnalysisProviderProtocolTest",
+      "name": "localAndUnsupportedProvidersCannotAccidentallySendAnalysis",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.AnalysisProviderProtocolTest",
+      "name": "ollamaRequestUsesConfiguredPromptTemperatureAndNormalizedEndpoint",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.AnalysisProviderProtocolTest",
+      "name": "removedProviderCannotBuildAnyNetworkRequest",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.AnalysisProviderProtocolTest",
+      "name": "openAiCompatibleCloudRequestKeepsSystemRoleAndCredentialOutOfUrl",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaRuleEngineTest",
+      "name": "obscuredEvaluatorSeparatesSyntheticDetailedAndCoveredImages",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaRuleEngineTest",
+      "name": "duplicateRuleKeepsEarliestThenLowestMediaStoreId",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaRuleEngineTest",
+      "name": "duplicateRuleUsesLowestMediaStoreIdWhenDatesMissing",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaRuleEngineTest",
+      "name": "duplicateEvaluationHandles11761RowsDeterministically",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaRuleEngineTest",
+      "name": "generatedRuleRejectsUnknownFieldsAndUnknownActions",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaRuleEngineTest",
+      "name": "obscuredRuleRequiresExplicitBoundedThreshold",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaRuleEngineTest",
+      "name": "obscuredEvaluatorRejectsVideosPendingTrashedAndUnavailableMedia",
+      "passed": true
+    },
+    {
+      "class": "com.example.data.MediaRuleEngineTest",
+      "name": "previewIsReadOnlyAndCountsExactBytes",
+      "passed": true
+    }
+  ],
+  "input_xml_sha256": {
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.MediaInventoryRecreationUiTest.xml": "fd36e82405d09df68350f5a37d0f6fa8cad20de17d66db9e2ded4a017cdb9a76",
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.data.MediaRuleMigrationTest.xml": "d6dd8ecc4a123fadc7b850f02bed2211a39111b987fe46f303232be69db07962",
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.data.MediaInventoryDaoTest.xml": "54a9fefac5368becd99d2d9098d9dfd1f39822ddfdfee46701bc5becf0708786",
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.data.MediaSourceClassifierTest.xml": "398bf921b2f0c7d42d1159b91722103f448a82afe9f04b810d6dacf60ee1f869",
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.data.VideoDatabaseMigrationTest.xml": "c9621d869b9c6b55b7ee9be54f5576f23d37ef2ad46e08ee98db8671a143d292",
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.ExampleRobolectricTest.xml": "660b1b0a192f23f02170335c82caa1c7f0f985ef50c94b75727dc50210c83aa1",
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.data.ListConverterTest.xml": "cdb11f96e41433571232e3adf6183328170491ae1c1977775eb1cac59c442aae",
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.data.MediaAnalysisPolicyTest.xml": "991296612b962d083ed54222569db7ec406e0afe2d2df30bc6dde9b0562c3b49",
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.ExampleUnitTest.xml": "64e9675903cbcc06887e48e8a81937a69396d5e008119ef554c32325fcd28bb0",
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.data.MediaInventoryScannerTest.xml": "d04dfab0a4b44f65dba3a0ce967aab6e52560ce83efbaf861f08ceca2c3fb4b9",
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.data.CustomTagDaoTest.xml": "0ec169342a21eda20af59f7121e0273d45db161bdf8bbfadeb179436a290ef74",
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.GreetingScreenshotTest.xml": "a252120c43d51690ede12fa52f735559390367077da66da3dadf8ca719b303a0",
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.MediaInventoryUiTest.xml": "1e3155ba3f9a67cafd900a75e48a9c824656e3ca1dff03c06dcd4ff8d1270f86",
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.data.AnalysisProviderProtocolTest.xml": "e1835b2904bb747cf6ac52bf7bc867ba6e9caca74c99f958350a9b1369cff279",
+    "app/build/test-results/testDebugUnitTest/TEST-com.example.data.MediaRuleEngineTest.xml": "f0288a5e848c0a543cee1b9c8c3685b3ce1fafb85d939a7501cf0f1a612294c7"
+  }
+}

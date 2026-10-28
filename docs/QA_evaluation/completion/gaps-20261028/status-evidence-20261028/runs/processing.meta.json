@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "adb",
+    "-s",
+    "emulator-5554",
+    "shell",
+    "am",
+    "instrument",
+    "-w",
+    "-r",
+    "-e",
+    "rea_runtime",
+    "emulator",
+    "-e",
+    "qa_empty_credentials_confirmed",
+    "true",
+    "-e",
+    "class",
+    "com.example.GapProcessingJourneyTest",
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview.test/androidx.test.runner.AndroidJUnitRunner"
+  ],
+  "hashes": {
+    "app/build/outputs/apk/debug/app-debug.apk": "133db71320142cccd0ec90d9a23f34ee4068ac60b643872970f0b85eedf39f7b",
+    "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "974b43571f2a8e1def618cbe0419746533ad7901b5f63c9df09964141a8c6b90"
+  },
+  "started": 1793165881.5044909,
+  "ended": 1793165939.2342832,
+  "exit_code": 0,
+  "log_sha256": "e153429420dc8bbd410b716da17d49d185b67316b81a51a1c3567bb30068636a"
+}

@@ -1,0 +1,86 @@
+{
+  "status": "paused_by_user",
+  "stopped_at_utc": "2026-10-27 19:05:57 UTC",
+  "mission_complete": false,
+  "emulator_qa_activity_force_stopped": true,
+  "target_serial": "emulator-5554",
+  "target_package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+  "phone_deployment": false,
+  "original_preview_apk_preserved": true,
+  "original_preview_data_mutated_by_completion_pass": false,
+  "real_key_values_read_or_printed": false,
+  "candidate_apk_sha256": "551a356c37e28ea90a12d79b2ac6facd70f2475304fc38699673d24902fbd678",
+  "test_apk_sha256": "25ae0e25e604ec3b6643ffb125946a5f8cc70454dfd7f75494200deb6459c4e1",
+  "latest_emulator_batch": {
+    "planned": 133,
+    "passed": 10,
+    "failed_before_stop": 0,
+    "interrupted_test": "com.example.EditingCompletionTest#archiveRestoreVideoKeepsNotesAnalysisAndPhysicalBytes",
+    "not_started": 122,
+    "whole_batch_accepted": false,
+    "results": [
+      {
+        "test": "com.example.EditingCompletionTest#unicodeTenThousandCharactersAndActualExportBytes",
+        "status": "passed"
+      },
+      {
+        "test": "com.example.EditingCompletionTest#closeDiscardsUnsavedDraftAndMinimizeDoesNotSave",
+        "status": "passed"
+      },
+      {
+        "test": "com.example.EditingCompletionTest#markAndUnmarkTrashCandidateDoesNotDeleteOriginal",
+        "status": "passed"
+      },
+      {
+        "test": "com.example.EditingCompletionTest#saveBeforeProcessingDoesNotMarkItemProcessed",
+        "status": "passed"
+      },
+      {
+        "test": "com.example.EditingCompletionTest#saveSevenFieldsReopenAndOutput",
+        "status": "passed"
+      },
+      {
+        "test": "com.example.EditingCompletionTest#removeIndexEntryFromPreviewPreservesPhysicalImage",
+        "status": "passed"
+      },
+      {
+        "test": "com.example.EditingCompletionTest#threeMinimizedWindowsRestoreTheirOwnVisibleContentWithoutSaving",
+        "status": "passed"
+      },
+      {
+        "test": "com.example.EditingCompletionTest#resetExplicitlyClearsSavedNotesAndAnalysis",
+        "status": "passed"
+      },
+      {
+        "test": "com.example.EditingCompletionTest#outputAndPreviewBadgesRestoreTheirOwnWindow",
+        "status": "passed"
+      },
+      {
+        "test": "com.example.EditingCompletionTest#archiveRestoreImageKeepsNotesAnalysisAndPhysicalBytes",
+        "status": "passed"
+      }
+    ]
+  },
+  "final_unit_tests": {
+    "tests": 55,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "checklist": {
+    "inventoried": 237,
+    "all_237_accepted": false,
+    "final_per_scenario_runtime_reconciliation": "incomplete",
+    "static_mapping_is_not_a_pass_count": true
+  },
+  "resume_requires_explicit_user_instruction": true,
+  "possible_interrupted_owned_qa_fixtures_retained": true,
+  "remaining": [
+    "Finish current-candidate emulator verification; interrupted run has no aggregate pass.",
+    "Verify newly added credential-read isolation, controlled Cloud UI, rename authorization and private-activity checks on current candidate.",
+    "Complete native picker sort/view/new-folder/cancel checks and reconcile scenario evidence.",
+    "Run permission and saved-state persistence phases; repeat live DeepSeek UI checks on final candidate.",
+    "Reconcile all 237 checklist rows; keep unsupported/retired/partial cases explicit.",
+    "Reconcile any uniquely owned fixtures left by the stopped test before resuming; preserve original app data."
+  ]
+}

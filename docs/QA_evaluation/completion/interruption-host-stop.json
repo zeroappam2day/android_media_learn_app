@@ -1,0 +1,39 @@
+{
+  "at": {
+    "current_time": "2026-10-27 18:41:18 UTC"
+  },
+  "chunk_id": "2204f3",
+  "wall_time_seconds": 0.000012253,
+  "exit_code": 0,
+  "original_token_count": 0,
+  "output": "",
+  "cmd": "adb -s emulator-5554 shell am force-stop com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+  "serial": "emulator-5554",
+  "marker": {
+    "schema": 1,
+    "token": "qa_interrupt_20261027_01",
+    "phase": "held",
+    "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+    "id": 543,
+    "uri": "file:///data/user/0/com.aistudio.videoknowledgesorter.fkvbwy.qa.preview/cache/qa-interrupt-qa_interrupt_20261027_01.png",
+    "fixture": "/data/data/com.aistudio.videoknowledgesorter.fkvbwy.qa.preview/cache/qa-interrupt-qa_interrupt_20261027_01.png",
+    "sha256": "a3890f27040d10c3cfe4b4e4e9f49928b8c322e6b3eed2f126a49f85623e7f03",
+    "notes": "QA interruption note qa_interrupt_20261027_01",
+    "review": "keep",
+    "credentials": "qa_interrupt_empty_qa_interrupt_20261027_01",
+    "hadProvider": false,
+    "provider": "",
+    "hadAuto": true,
+    "auto": false,
+    "hadSettings": true,
+    "settings": {
+      "enabled": false,
+      "endpoint": "http://10.0.2.2:11434/api/generate",
+      "model": "gemma3",
+      "timeout": 30,
+      "warning": false
+    },
+    "seedRequests": 1
+  },
+  "expected_boundary_interruption": true
+}

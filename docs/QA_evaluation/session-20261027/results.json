@@ -1,0 +1,138 @@
+{
+  "serial": "emulator-5554",
+  "phone_deployment": false,
+  "coverage_complete": false,
+  "fixes": [
+    {
+      "id": "F01",
+      "outcome": "Android Back and blocking modal behavior",
+      "status": "verified",
+      "before": [
+        "session-20261027/02-settings-before.png"
+      ],
+      "after": [
+        "session-20261027/accepted-focused.log"
+      ]
+    },
+    {
+      "id": "F02",
+      "outcome": "Archive sort follows Name and Size",
+      "status": "verified",
+      "before": [
+        "session-20261027/wiring-before-v2.log"
+      ],
+      "after": [
+        "session-20261027/accepted-focused.log"
+      ]
+    },
+    {
+      "id": "F03",
+      "outcome": "Archive actions stay inside the current selection",
+      "status": "verified",
+      "before": [
+        "session-20261027/wiring-before-v2.log"
+      ],
+      "after": [
+        "session-20261027/accepted-focused.log"
+      ]
+    },
+    {
+      "id": "F04",
+      "outcome": "Screenshot categories filter rows and toggle back",
+      "status": "verified",
+      "before": [
+        "session-20261027/source-before.log"
+      ],
+      "after": [
+        "session-20261027/accepted-focused.log"
+      ]
+    },
+    {
+      "id": "F05",
+      "outcome": "Settings draft survives minimize",
+      "status": "verified",
+      "before": [
+        "session-20261027/draft-before.log"
+      ],
+      "after": [
+        "session-20261027/accepted-focused.log"
+      ]
+    },
+    {
+      "id": "F06",
+      "outcome": "Every search stays inside chosen folders",
+      "status": "verified",
+      "before": [
+        "session-20261027/folder-before.log"
+      ],
+      "after": [
+        "session-20261027/accepted-focused.log"
+      ]
+    },
+    {
+      "id": "F07",
+      "outcome": "Queue selection actions remain visible and Cancel works",
+      "status": "verified",
+      "before": [
+        "session-20261027/queue-before.log"
+      ],
+      "after": [
+        "session-20261027/accepted-focused.log"
+      ]
+    },
+    {
+      "id": "F08",
+      "outcome": "Repeated Add does not undo queueing",
+      "status": "verified",
+      "before": [
+        "session-20261027/queue-before.log"
+      ],
+      "after": [
+        "session-20261027/accepted-focused.log"
+      ]
+    },
+    {
+      "id": "F09",
+      "outcome": "Preview draft survives minimize without silent saving",
+      "status": "verified",
+      "before": [
+        "session-20261027/states-before.log"
+      ],
+      "after": [
+        "session-20261027/accepted-focused.log"
+      ]
+    },
+    {
+      "id": "F10",
+      "outcome": "Finished batch stops spinning",
+      "status": "verified",
+      "before": [
+        "session-20261027/states-before.log"
+      ],
+      "after": [
+        "session-20261027/accepted-focused.log"
+      ]
+    },
+    {
+      "id": "F11",
+      "outcome": "Gemini removed and Cloud credential boundary enforced",
+      "status": "verified",
+      "before": [
+        "session-20261027/MainActivity.before.kt"
+      ],
+      "after": [
+        "session-20261027/accepted-focused.log"
+      ]
+    }
+  ],
+  "passed_emulator_tests": 26,
+  "apk_sha256": "d805885199b0264a6b8ae8e641182ed4926eb47b60b5e81d0f5c8d61e9bc55be",
+  "test_apk_sha256": "d8fcf85632bf3f525f56a2762f01d7b540c47a7d1697b11ebfa33c8a9869d650",
+  "unresolved_required_checks": [
+    "The original 237-scenario checklist is not fully executed; older Android, physical SD cards, failure-provider combinations, large text/rotation and remaining destructive/recovery edges remain open."
+  ],
+  "gemini": "removed; historical checklist references retained as history",
+  "secret_handling": "No actual user credential value read or logged by the agent. Settings saved-key input stays blank; secure-window proof inspects flags only.",
+  "deepseek_live_tests": "../deepseek-20261027/results.json",
+  "new_live_pipeline_tests_passed": 2
+}

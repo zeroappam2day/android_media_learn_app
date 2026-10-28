@@ -1,0 +1,3324 @@
+{
+  "inventory_count": 193,
+  "summary": {
+    "Passed": 191,
+    "Blocked": 1,
+    "Not applicable on API36": 1
+  },
+  "methods": [
+    {
+      "method": "com.example.ArchiveWiringTest#archiveSortChangesVisibleOrder",
+      "path": "app/src/androidTest/java/com/example/ArchiveWiringTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.ArchiveWiringTest#restoreOnlyUsesSelectionsInCurrentArchive",
+      "path": "app/src/androidTest/java/com/example/ArchiveWiringTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.ArchiveWiringTest#backlogSelectionShowsActionsAndCancelClearsThem",
+      "path": "app/src/androidTest/java/com/example/ArchiveWiringTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.ArchiveWiringTest#addingFolderTwiceKeepsItsItemQueued",
+      "path": "app/src/androidTest/java/com/example/ArchiveWiringTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.ArchiveWiringTest#queueActionIconsOpenTheirNamedWindow",
+      "path": "app/src/androidTest/java/com/example/ArchiveWiringTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.ArchiveWiringTest#previewDraftSurvivesMinimizeWithoutSaving",
+      "path": "app/src/androidTest/java/com/example/ArchiveWiringTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.BatchStateUiTest#finishedBatchDoesNotKeepSpinning",
+      "path": "app/src/androidTest/java/com/example/BatchStateUiTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.CloudUiCompletionTest#cloudDiscoverySaveHiddenDraftAndActualProcessingUseInterceptedCloudBranch",
+      "path": "app/src/androidTest/java/com/example/CloudUiCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-targeted-clean.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-isolated.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-isolated.log"
+      }
+    },
+    {
+      "method": "com.example.CloudUiCompletionTest#unauthorizedCloudDiscoveryShowsUnreachableThenSuccessfulRetryIsFresh",
+      "path": "app/src/androidTest/java/com/example/CloudUiCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-targeted-clean.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-isolated.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-isolated.log"
+      }
+    },
+    {
+      "method": "com.example.CloudUiCompletionTest#untrustedCloudHostIsRejectedBeforeEitherFactoryCanReceiveCredential",
+      "path": "app/src/androidTest/java/com/example/CloudUiCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-targeted-clean.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-isolated.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-isolated.log"
+      }
+    },
+    {
+      "method": "com.example.DiscoveryCleanupCompletionTest#automaticChannelsAdmitOnlyEnabledNewCaptureKindsWithoutAnalysis",
+      "path": "app/src/androidTest/java/com/example/DiscoveryCleanupCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.DiscoveryCleanupCompletionTest#automaticOffRequiresManualRefreshAndManualIgnoresChannelSwitches",
+      "path": "app/src/androidTest/java/com/example/DiscoveryCleanupCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.DiscoveryCleanupCompletionTest#pendingScreenshotIsNotAdmittedUntilPublished",
+      "path": "app/src/androidTest/java/com/example/DiscoveryCleanupCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.DiscoveryCleanupCompletionTest#flagsPersistAcrossActivityReopenAndObserverFindsLaterCapture",
+      "path": "app/src/androidTest/java/com/example/DiscoveryCleanupCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.DiscoveryCleanupCompletionTest#copiesPreviewShowsHeuristicLimitsWithoutChangingAnyDecision",
+      "path": "app/src/androidTest/java/com/example/DiscoveryCleanupCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.DiscoveryCleanupCompletionTest#copiesRunTwiceAndRecoverRestoresPriorKeepExactlyOnce",
+      "path": "app/src/androidTest/java/com/example/DiscoveryCleanupCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.DiscoveryCleanupCompletionTest#copiesNoMatchLeavesDifferentNamesOutsideBin",
+      "path": "app/src/androidTest/java/com/example/DiscoveryCleanupCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.DiscoveryCleanupCompletionTest#obscureBoundaryPreviewRunAndRecoverRetainsObscuredTag",
+      "path": "app/src/androidTest/java/com/example/DiscoveryCleanupCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.DiscoveryCleanupCompletionTest#unavailableBinItemDisablesDeleteAndRecoversAfterOwnedAvailabilityRepair",
+      "path": "app/src/androidTest/java/com/example/DiscoveryCleanupCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.EditingCompletionTest#saveSevenFieldsReopenAndOutput",
+      "path": "app/src/androidTest/java/com/example/EditingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "stopped/qa-final-main-suite.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "stopped/qa-final-main-suite.log"
+      }
+    },
+    {
+      "method": "com.example.EditingCompletionTest#clearAllSevenFieldsDoesNotRestoreDefaults",
+      "path": "app/src/androidTest/java/com/example/EditingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.EditingCompletionTest#unicodeTenThousandCharactersAndActualExportBytes",
+      "path": "app/src/androidTest/java/com/example/EditingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "stopped/qa-final-main-suite.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "stopped/qa-final-main-suite.log"
+      }
+    },
+    {
+      "method": "com.example.EditingCompletionTest#closeDiscardsUnsavedDraftAndMinimizeDoesNotSave",
+      "path": "app/src/androidTest/java/com/example/EditingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "stopped/qa-final-main-suite.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "stopped/qa-final-main-suite.log"
+      }
+    },
+    {
+      "method": "com.example.EditingCompletionTest#rotationNeverCommitsDraft",
+      "path": "app/src/androidTest/java/com/example/EditingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.EditingCompletionTest#archiveRestoreVideoKeepsNotesAnalysisAndPhysicalBytes",
+      "path": "app/src/androidTest/java/com/example/EditingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.EditingCompletionTest#archiveRestoreImageKeepsNotesAnalysisAndPhysicalBytes",
+      "path": "app/src/androidTest/java/com/example/EditingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "stopped/qa-final-main-suite.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "stopped/qa-final-main-suite.log"
+      }
+    },
+    {
+      "method": "com.example.EditingCompletionTest#previewArchiveAndIndexRemovalPreservePhysicalImage",
+      "path": "app/src/androidTest/java/com/example/EditingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.EditingCompletionTest#removeIndexEntryFromPreviewPreservesPhysicalImage",
+      "path": "app/src/androidTest/java/com/example/EditingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "stopped/qa-final-main-suite.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "stopped/qa-final-main-suite.log"
+      }
+    },
+    {
+      "method": "com.example.EditingCompletionTest#outputAndPreviewBadgesRestoreTheirOwnWindow",
+      "path": "app/src/androidTest/java/com/example/EditingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "stopped/qa-final-main-suite.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "stopped/qa-final-main-suite.log"
+      }
+    },
+    {
+      "method": "com.example.EditingCompletionTest#threeMinimizedWindowsRestoreTheirOwnVisibleContentWithoutSaving",
+      "path": "app/src/androidTest/java/com/example/EditingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "stopped/qa-final-main-suite.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "stopped/qa-final-main-suite.log"
+      }
+    },
+    {
+      "method": "com.example.EditingCompletionTest#saveBeforeProcessingDoesNotMarkItemProcessed",
+      "path": "app/src/androidTest/java/com/example/EditingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "stopped/qa-final-main-suite.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "stopped/qa-final-main-suite.log"
+      }
+    },
+    {
+      "method": "com.example.EditingCompletionTest#resetExplicitlyClearsSavedNotesAndAnalysis",
+      "path": "app/src/androidTest/java/com/example/EditingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "stopped/qa-final-main-suite.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "stopped/qa-final-main-suite.log"
+      }
+    },
+    {
+      "method": "com.example.EditingCompletionTest#markAndUnmarkTrashCandidateDoesNotDeleteOriginal",
+      "path": "app/src/androidTest/java/com/example/EditingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "stopped/qa-final-main-suite.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "stopped/qa-final-main-suite.log"
+      }
+    },
+    {
+      "method": "com.example.EmulatorWorkflowTest#bothThemesKeepSystemBarsAndHeaderReadable",
+      "path": "app/src/androidTest/java/com/example/EmulatorWorkflowTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.EmulatorWorkflowTest#everyProductionNavigationDestinationOpensAndMenuCloses",
+      "path": "app/src/androidTest/java/com/example/EmulatorWorkflowTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.EmulatorWorkflowTest#realMediaScanReviewAndTagAssignmentPersistWithoutAnalysis",
+      "path": "app/src/androidTest/java/com/example/EmulatorWorkflowTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.EmulatorWorkflowTest#ruleCreationRevisionPreviewAndDeletionPreservePhysicalMedia",
+      "path": "app/src/androidTest/java/com/example/EmulatorWorkflowTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.EmulatorWorkflowTest#binRecoveryRestoresPriorDecisionAndKeepsPhysicalImage",
+      "path": "app/src/androidTest/java/com/example/EmulatorWorkflowTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.EmulatorWorkflowTest#savedSettingsImmediatelyReachTheProductionFlowAndSurviveRecreation",
+      "path": "app/src/androidTest/java/com/example/EmulatorWorkflowTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.EmulatorWorkflowTest#renameChangesBothPhysicalMediaStoreNameAndRoomWhilePreservingContents",
+      "path": "app/src/androidTest/java/com/example/EmulatorWorkflowTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.EmulatorWorkflowTest#storageReconciliationRequiresProviderAbsenceAndPreservesSavedMetadata",
+      "path": "app/src/androidTest/java/com/example/EmulatorWorkflowTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.EmulatorWorkflowTest#exportWritesActualStructuredJsonContainingTheIndexedMedia",
+      "path": "app/src/androidTest/java/com/example/EmulatorWorkflowTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.EmulatorWorkflowTest#keptImageRunsRealOcrAndSavesLocalFallbackAnalysis",
+      "path": "app/src/androidTest/java/com/example/EmulatorWorkflowTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.EmulatorWorkflowTest#generatedVideoRunsRealFrameSamplingOcrAndLocalFallback",
+      "path": "app/src/androidTest/java/com/example/EmulatorWorkflowTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.ExampleInstrumentedTest#useAppContext",
+      "path": "app/src/androidTest/java/com/example/ExampleInstrumentedTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.FailureUiCompletionTest#previewTrashRequestFailureIsVisibleAndOwnedMediaSurvives",
+      "path": "app/src/androidTest/java/com/example/FailureUiCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.FailureUiCompletionTest#previewPermanentDeleteRequestFailureIsVisibleAndOwnedMediaSurvives",
+      "path": "app/src/androidTest/java/com/example/FailureUiCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.FailureUiCompletionTest#binDeleteFailureIsVisibleWithoutDroppingRowThenRepairCanCreateAndCancelRequest",
+      "path": "app/src/androidTest/java/com/example/FailureUiCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.FailureUiCompletionTest#unqueryableStorageReconciliationShowsUnverifiedMessageAndKeepsRow",
+      "path": "app/src/androidTest/java/com/example/FailureUiCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.FailureUiCompletionTest#unwritableExportReturnsFailureThenOwnedWritableFileReceivesValidDocument",
+      "path": "app/src/androidTest/java/com/example/FailureUiCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.FolderScopeTest#chosenFolderIncludesChildrenExcludesSiblingAndPreservesSavedNotes",
+      "path": "app/src/androidTest/java/com/example/FolderScopeTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.FolderScopeTest#volumeBoundariesAndUnsupportedFoldersNeverWidenSearch",
+      "path": "app/src/androidTest/java/com/example/FolderScopeTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.InterruptedProcessingCompletionTest#interruptedProcessingSeedOrVerify",
+      "path": "app/src/androidTest/java/com/example/InterruptedProcessingCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-interrupt-verify.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-interrupt-verify.log"
+      }
+    },
+    {
+      "method": "com.example.LiveCloudInferenceTest#generatedImageReceivesRealCloudAnalysisWithoutCredentialInspection",
+      "path": "app/src/androidTest/java/com/example/LiveCloudInferenceTest.kt",
+      "status": "Blocked",
+      "attempts": [],
+      "passing_receipt": null,
+      "reason": "Separate direct Cloud account has not been configured in QA. Approved DeepSeek via local Ollama passed; it is a different route. No key was requested, inspected or printed."
+    },
+    {
+      "method": "com.example.LiveLocalInferenceTest#imageOcrReachesRealLocalModelAndPersistsGroundedAnalysis",
+      "path": "app/src/androidTest/java/com/example/LiveLocalInferenceTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-live.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-live.log"
+      }
+    },
+    {
+      "method": "com.example.LiveLocalInferenceTest#videoFramesReachRealLocalModelAndPersistGroundedAnalysis",
+      "path": "app/src/androidTest/java/com/example/LiveLocalInferenceTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-live.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-live.log"
+      }
+    },
+    {
+      "method": "com.example.LiveOllamaUiCompletionTest#photoPreviewProcessAndOutputUseRealDeepSeekCloudThroughLocalOllama",
+      "path": "app/src/androidTest/java/com/example/LiveOllamaUiCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-live.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-live.log"
+      }
+    },
+    {
+      "method": "com.example.LiveOllamaUiCompletionTest#videoPreviewProcessAndOutputUseRealDeepSeekCloudThroughLocalOllama",
+      "path": "app/src/androidTest/java/com/example/LiveOllamaUiCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-live.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-live.log"
+      }
+    },
+    {
+      "method": "com.example.LocalCredentialIsolationTest#pcVmMetadataAndModelDiscoveryUseOpaquePresenceWithoutReadingACloudKey",
+      "path": "app/src/androidTest/java/com/example/LocalCredentialIsolationTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.LocalCredentialIsolationTest#pcInferenceUsesControlledOllamaResponseWithoutReadingOrSendingCloudKey",
+      "path": "app/src/androidTest/java/com/example/LocalCredentialIsolationTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.LocalCredentialIsolationTest#deviceVmAndFallbackNeverReadCloudKeyOrIssueAnyRequestDespitePresence",
+      "path": "app/src/androidTest/java/com/example/LocalCredentialIsolationTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.MediaEdgeCompletionTest#t088_t211_corruptVideoCopiesVisibleErrorThenSameUriRepairReachesOutput",
+      "path": "app/src/androidTest/java/com/example/MediaEdgeCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.MediaEdgeCompletionTest#t212_blackSilentVideoProducesNoFabricatedOcrAndExplicitDeviceFallback",
+      "path": "app/src/androidTest/java/com/example/MediaEdgeCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.MediaEdgeCompletionTest#t087_realOcrShowsObservedUrlCommandAndTimelineWithoutExternalNavigation",
+      "path": "app/src/androidTest/java/com/example/MediaEdgeCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.MediaEdgeCompletionTest#t210_twoHundredCharacterNameAtLargeFontTargetsExactOwnedImage",
+      "path": "app/src/androidTest/java/com/example/MediaEdgeCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.MediaEdgeCompletionTest#t213_optionalDocumentedAnimatedGifFirstFrameAndTextJpeg",
+      "path": "app/src/androidTest/java/com/example/MediaEdgeCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.ModalInteractionTest#androidBackClosesSettingsAndKeepsActivityVisible",
+      "path": "app/src/androidTest/java/com/example/ModalInteractionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.ModalInteractionTest#maximizeMinimizeRestoreAndCloseRemainOperable",
+      "path": "app/src/androidTest/java/com/example/ModalInteractionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.ModalInteractionTest#settingsDraftSurvivesMinimizeButCloseDiscardsIt",
+      "path": "app/src/androidTest/java/com/example/ModalInteractionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t007_menuClosesWithoutChangingHomeOrSavedRows",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t010_t011_overviewAndGuideExpandAndCollapseWithoutMutation",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t012_overviewCountsAvailableStatesAndSidebarTotalsIndependently",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t018_dismissLimitedBannerDoesNotChangeAccessOrRows",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t021_t038_t050_t073_t155_t173_t178_emptyScreensAndToolBackAreHonest",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t024_t025_sourceCategoryAndSubcategoryFiltersShowOnlyEligiblePresetRows",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t026_t027_t028_t029_t031_reviewChoicesPersistAcrossNavigationAndKeepCountsDistinct",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t030_t170_androidBackDismissesReviewMenuWithoutChangingNew",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t037_folderSearchNoMatchAndClearRestoreExactGroups",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t039_selectedFolderQueuesOnlyKeptAndNeverUnselectedRows",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t046_t048_queueSortAndSelectAllThenDeselectPreserveSavedRows",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t051_t052_unfinishedOutputDisabledAndLocationIdentifiesExactOwnedFile",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t070_archiveDeselectLeavesRestoreDisabledAndMediaUnchanged",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t169_rulesTagsAndBinAndroidBackReturnToSourcesWithoutMutation",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.NavigationCompletionTest#t008_bothThemesKeepOrdinaryNavigationAndControlsOperableSemantically",
+      "path": "app/src/androidTest/java/com/example/NavigationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.OwnedStorageCleanupTest#removeInterruptedStorageFixturesOnly",
+      "path": "app/src/androidTest/java/com/example/OwnedStorageCleanupTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-scan-cleanup.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.OwnedStorageCleanupTest#removeScanOnlyRowsFromNewQaIndex",
+      "path": "app/src/androidTest/java/com/example/OwnedStorageCleanupTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-scan-cleanup.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.PersistenceCompletionTest#phasedSavedFieldsFlagsAndSystemThemeSurviveHostForceStop",
+      "path": "app/src/androidTest/java/com/example/PersistenceCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-persistence-seed.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-persistence-cleanup-failed-seed.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-persistence-v2-seed.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-persistence-v2-verify.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-persistence-v3-verify.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-persistence-v3-cleanup.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-persistence-v3-cleanup.log"
+      }
+    },
+    {
+      "method": "com.example.PrivateActivityBoundaryTest#normalLauncherHasNoExternallyLaunchableMutationHelpers",
+      "path": "app/src/androidTest/java/com/example/PrivateActivityBoundaryTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-targeted.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-targeted.log"
+      }
+    },
+    {
+      "method": "com.example.ProcessingLifecycleCompletionTest#t058_t059_processNextRequiresKeepThenActualSourceChoiceEnablesOneSummary",
+      "path": "app/src/androidTest/java/com/example/ProcessingLifecycleCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.ProcessingLifecycleCompletionTest#t060_t061_t063_repeatedStartWhileHeldProcessesMixedKeepMediaOnceAndLeavesOthersUntouched",
+      "path": "app/src/androidTest/java/com/example/ProcessingLifecycleCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.ProcessingLifecycleCompletionTest#t062_pauseCancelsHeldRequestAndActualResumeProducesOneFinalSavedAnalysis",
+      "path": "app/src/androidTest/java/com/example/ProcessingLifecycleCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.ProcessingLifecycleCompletionTest#t064_androidHomeAndReopenSameMainActivityPreserveHeldWorkAndCompletedOutput",
+      "path": "app/src/androidTest/java/com/example/ProcessingLifecycleCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.ProcessingLifecycleCompletionTest#t194_t195_slowWithinFiveSecondsSucceedsAndDroppedConnectionFallbackNeedsExplicitResetRetry",
+      "path": "app/src/androidTest/java/com/example/ProcessingLifecycleCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.ProviderSecurityTest#cloudCredentialCannotBeSentToAnUnsafeAddressOrRemovedProvider",
+      "path": "app/src/androidTest/java/com/example/ProviderSecurityTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.ProviderSecurityTest#publicUiStateDoesNotExposeTheSavedKey",
+      "path": "app/src/androidTest/java/com/example/ProviderSecurityTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.ProviderSecurityTest#providerMenuContainsOnlyPcCloudAndDevice",
+      "path": "app/src/androidTest/java/com/example/ProviderSecurityTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.QueueCompletionTest#t046_queueSortUsesNameSizeAndUnderlyingStatusWithoutMutation",
+      "path": "app/src/androidTest/java/com/example/QueueCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.QueueCompletionTest#t047_t048_selectCancelSelectAllAndDeselectNeverChangeRowsOrHiddenArchive",
+      "path": "app/src/androidTest/java/com/example/QueueCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.QueueCompletionTest#t049_processSelectedFinishesOnlyKeepUsingDeviceFallback",
+      "path": "app/src/androidTest/java/com/example/QueueCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.QueueCompletionTest#t050_emptyQueueHasHonestGuidanceAndNoSelectionAction",
+      "path": "app/src/androidTest/java/com/example/QueueCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.QueueCompletionTest#t051_folderClickReportsExactOwnedUriWithoutChangingMedia",
+      "path": "app/src/androidTest/java/com/example/QueueCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.QueueCompletionTest#t052_t053_nonKeepCannotProcessThroughQueueOrPreviewAndHasNoOutput",
+      "path": "app/src/androidTest/java/com/example/QueueCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.QueueCompletionTest#t054_actualRenameUsesStoredOcrWordsAndPreservesIdentityAndPhysicalBytes",
+      "path": "app/src/androidTest/java/com/example/QueueCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.QueueCompletionTest#t055_noOcrUnicodeOriginalGetsBoundedSuggestionAndKeepsExtension",
+      "path": "app/src/androidTest/java/com/example/QueueCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.QueueCompletionTest#t037_t038_t039_folderSearchUsesFullPathAndQueuesOnlySelectedKeep",
+      "path": "app/src/androidTest/java/com/example/QueueCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.QueueCompletionTest#t169_t170_t171_t172_t173_toolsAndReviewCancelPreserveOwnedMedia",
+      "path": "app/src/androidTest/java/com/example/QueueCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.QueueCompletionTest#t174_t175_savedOutputDoneAndPreviewEvidenceMinimizeAreReadOnly",
+      "path": "app/src/androidTest/java/com/example/QueueCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RenameAuthorizationCompletionTest#t056_t205_cancelThenAllowActualRenameMaintainsIdentityEveryViewAndExportCopy",
+      "path": "app/src/androidTest/java/com/example/RenameAuthorizationCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-targeted.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-targeted-clean.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-isolated.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-native-final.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-native-empty.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-native-empty.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t119_emptyRulesAndBack",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t120_copyCreateSurvivesReturn",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t121_cancelCreateAndEditDoesNotPersistDraft",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t122_copyEmptyNameRejected",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t123_copySpacesNameRejected",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t124_copyFortyCharacterNameSaved",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t125_copyFortyOneCharacterNameRejected",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t126_scoreZeroSaved",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t127_scoreOneSaved",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t128_scoreHalfSaved",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t129_emptyScoreRejected",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t130_periodScoreRejected",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t131_aboveOneScoreRejected",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t132_twoPeriodsScoreRejected",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t133_editScorePersistsNewRevision",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t134_disabledRuleStillAllowsPreview",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t141_deleteOwnedRuleRemovesOnlyRule",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t142_tagCreateSurvivesReturn",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t143_emptyTagRejected",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t144_spacesTagRejected",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t145_fortyCharacterTagSaved",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t146_fortyOneCharacterTagRejected",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t147_duplicateTagRejectedWithFeedback",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t150_tagRenameAndCancel",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t151_duplicateRenameKeepsSeparateTags",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t152_deleteOwnedTagPreservesOtherTag",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t199_duplicateRuleNamesRemainIndependentlyEditable",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t200_scoreFilteringIsVisibleAndCancelKeepsDatabaseUnchanged",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t202_cancelBlankTagRenameKeepsOriginal",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t203_arabicEmojiTagTrimsOuterSpacesOnly",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t217_overlongRenamePreservesOriginalWithFeedback",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t228_outsideTapDiscardsOwnedRuleDraft",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t148_t201_assignFilterRemoveAndKeepFinalAssignment",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.RuleTagCompletionTest#t149_hideAndReopenTagMediaPreservesAssignment",
+      "path": "app/src/androidTest/java/com/example/RuleTagCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.SelectedMediaPermissionTest#systemConsentControlsActualSharedMediaVisibility",
+      "path": "app/src/androidTest/java/com/example/SelectedMediaPermissionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-permission-denied.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-permission-full.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-permission-limited.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-permission-limited_video.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-permission-revoked.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-permission-images_then_video.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-permission-final-images_then_video.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-permission-v2-images_then_video.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-permission-retained-regrant_seed.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-permission-retained-revoked_verify.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-permission-fixed-revoked_verify.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-permission-fixed-regranted_verify.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-permission-fixed-completion_cleanup.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-split-final.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-denied-fixed.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-denied-fixed.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsCompletionTest#providerFieldsExplainDeviceAndCloudWithoutSendingCloudRequests",
+      "path": "app/src/androidTest/java/com/example/SettingsCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-targeted.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-targeted.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsCompletionTest#loopbackConnectionModelsAndSameProviderHostFreshness",
+      "path": "app/src/androidTest/java/com/example/SettingsCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsCompletionTest#switchingToDeviceDoesNotRetainPcModelSelection",
+      "path": "app/src/androidTest/java/com/example/SettingsCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsCompletionTest#timeoutBoundaryValuesSaveExactly",
+      "path": "app/src/androidTest/java/com/example/SettingsCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsCompletionTest#invalidTimeoutCannotSilentlyOverwriteSavedValue",
+      "path": "app/src/androidTest/java/com/example/SettingsCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsCompletionTest#temperatureEndpointsPersistExactly",
+      "path": "app/src/androidTest/java/com/example/SettingsCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsCompletionTest#promptLongDraftSavesExactlyAndCloseDiscardsUnsavedChanges",
+      "path": "app/src/androidTest/java/com/example/SettingsCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsCompletionTest#blankPromptSavesExactlyAndResetProvidesUsableDefault",
+      "path": "app/src/androidTest/java/com/example/SettingsCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsCompletionTest#minimizeDoesNotCommitUnsavedHostOrTimeout",
+      "path": "app/src/androidTest/java/com/example/SettingsCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsFaultCompletionTest#t100_blankMistypedAndUnreachableHostCanBeCorrectedThroughActualUi",
+      "path": "app/src/androidTest/java/com/example/SettingsFaultCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsFaultCompletionTest#t103_successfulEmptyModelsHasVisibleExplanationAndCannotInventSelection",
+      "path": "app/src/androidTest/java/com/example/SettingsFaultCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsFaultCompletionTest#t192_sameEndpointFailedSyncRetainsKnownChoicesAndSelectedModel",
+      "path": "app/src/androidTest/java/com/example/SettingsFaultCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsFaultCompletionTest#t118_oldSlowModelResponseCannotReplaceFastNewHostModels",
+      "path": "app/src/androidTest/java/com/example/SettingsFaultCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsFaultCompletionTest#t118_oldSlowConnectionSuccessCannotOverrideNewHostUnreachable",
+      "path": "app/src/androidTest/java/com/example/SettingsFaultCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsFaultCompletionTest#t193_modelProvenanceNormalizesGenerateAndV1PathsButSeparatesHosts",
+      "path": "app/src/androidTest/java/com/example/SettingsFaultCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SettingsFaultCompletionTest#publicPcConsentSavesOnlyWhenChosenAndChangingHostClearsTheDraftPermission",
+      "path": "app/src/androidTest/java/com/example/SettingsFaultCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SourceFilterWiringTest#subcategoryFiltersRowsAndSecondTapShowsAll",
+      "path": "app/src/androidTest/java/com/example/SourceFilterWiringTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.SourceOriginCompletionTest#actualSourceMatrixInferredFiltersAndPendingPublicationRemainInventoryOnly",
+      "path": "app/src/androidTest/java/com/example/SourceOriginCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.StateFaultCompletionTest#rejectedMalformedEmptyAndTimeoutResponsesFallBackThenExplicitResetRetries",
+      "path": "app/src/androidTest/java/com/example/StateFaultCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.StateFaultCompletionTest#pausedVisibleWorkCancelsRequestWithoutFabricatingResultAndResumesOnce",
+      "path": "app/src/androidTest/java/com/example/StateFaultCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.StateFaultCompletionTest#queuedItemChangedToLaterIsSkippedUntilKeptAgain",
+      "path": "app/src/androidTest/java/com/example/StateFaultCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.StateFaultCompletionTest#activeDecisionAndNotesEditsSurviveCompletionWithoutRewritingOriginalMedia",
+      "path": "app/src/androidTest/java/com/example/StateFaultCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.StateFaultCompletionTest#noKeepItemsFinishWithoutAnalysisOrReviewMutation",
+      "path": "app/src/androidTest/java/com/example/StateFaultCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.StateFaultCompletionTest#repeatedScanIsSingleFlightAndSourceFailureCanBeRetried",
+      "path": "app/src/androidTest/java/com/example/StateFaultCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t089_cancelActualTrashConfirmationPreservesBytesAndRow",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-storage.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t090_confirmTrashAffectsOnlyChosenOwnedImage",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-storage.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t091_cancelActualDeleteConfirmationPreservesBytesAndRow",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-storage.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t092_confirmDeleteAffectsOnlyChosenOwnedImage",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-storage.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t157_cancelDeleteAllTwiceKeepsOwnedFilesAndBin",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-storage.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t158_t159_deleteAllIncludesOnlyAvailableOwnedBinFiles",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-storage.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t182_restoreOwnedAndroidTrashAndFindItAfterProductionRefresh",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-storage.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t214_t215_recoverRestoredPhysicalFileAndRepeatedTapKeepsPriorDecision",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-storage.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t216_returnFromOtherAppAndCancelPendingDeleteSafely",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-storage.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t185_olderAndroidActionUnavailableBranchNotApplicableOnApi36",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Not applicable on API36",
+      "attempts": [
+        {
+          "code": -4,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        }
+      ],
+      "passing_receipt": null,
+      "reason": "The below-API30 compatibility branch cannot execute on API36; Android runner recorded assumption code -4."
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t033_cancelWatchFolderPickerDoesNotAddFolder",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t032_t034_t035_chooseSameWatchFolderTwiceThenRemoveOnlyChoice",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t036_reselectOwnedFolderAfterItsReadGrantIsRevoked",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t160_exportActualSaveWritesReadableJsonAndPreservesImage",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t161_cancelActualExportCreatesNoFile",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t162_emptyInventoryExportContainsEmptyMediaArray",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t163_existingFilenameRequiresObservedReplacementDecision",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t233_t234_t235_t236_createCancelValidateAndDuplicateFolderInActualPicker",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-targeted.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-targeted-clean.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-isolated.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-native-final.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-native-empty.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-folder-final.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-folder-root-proof.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-isolated-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t229_topLevelWatchFolderCannotBeSelected",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-final-impact.log"
+      }
+    },
+    {
+      "method": "com.example.StorageCompletionTest#t230_t237_observeActualPickerSortAndViewWithoutChangingMedia",
+      "path": "app/src/androidTest/java/com/example/StorageCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-storage.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-targeted.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-targeted-clean.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-isolated.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-native-final.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-native-empty.log"
+        },
+        {
+          "code": -2,
+          "log": "resumed-20261028/qa-resumed-final-impact.log"
+        },
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-picker-acceptance.log"
+      }
+    },
+    {
+      "method": "com.example.TagBinCompletionTest#tagsAssignmentListsOnlyAvailablePublishedUntrashedMedia",
+      "path": "app/src/androidTest/java/com/example/TagBinCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.TagBinCompletionTest#deletingAttachedTagPreservesMediaReviewNotesAndAnalysis",
+      "path": "app/src/androidTest/java/com/example/TagBinCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.TagBinCompletionTest#corruptedBinThumbnailRepairsAtSameUriAndRecoverRetainsPriorChoiceAndTag",
+      "path": "app/src/androidTest/java/com/example/TagBinCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.TagBinCompletionTest#removingTaggedIndexEntryUpdatesCountAndKeepsOtherOwnedRecordAndAllBytes",
+      "path": "app/src/androidTest/java/com/example/TagBinCompletionTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-main.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-main.log"
+      }
+    },
+    {
+      "method": "com.example.UxEvidenceAccessibilityTest#runtimeAccessibilityTreeHasUniqueOperableNonOverlappingControls",
+      "path": "app/src/androidTest/java/com/example/UxEvidenceAccessibilityTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    },
+    {
+      "method": "com.example.VideoProcessorCancellationTest#pauseCancelsHttpRequeuesTheItemAndResumeCompletesTheSameItem",
+      "path": "app/src/androidTest/java/com/example/VideoProcessorCancellationTest.kt",
+      "status": "Passed",
+      "attempts": [
+        {
+          "code": 0,
+          "log": "resumed-20261028/qa-resumed-regression.log"
+        }
+      ],
+      "passing_receipt": {
+        "code": 0,
+        "log": "resumed-20261028/qa-resumed-regression.log"
+      }
+    }
+  ]
+}

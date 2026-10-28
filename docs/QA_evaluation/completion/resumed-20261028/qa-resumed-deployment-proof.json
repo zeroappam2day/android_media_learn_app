@@ -1,0 +1,20 @@
+{
+  "serial": "emulator-5554",
+  "phone_deployment": false,
+  "qa_database_restored": true,
+  "temporary_qa_media_rows_before_restore": 0,
+  "credential_storage_read": false,
+  "packages": {
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview": {
+      "installed_apk_sha256": "0216e55d00edfc573088e71707c7e0b17af07d29261ff08a3cfb6df2f385fa70",
+      "local_apk_sha256": "0216e55d00edfc573088e71707c7e0b17af07d29261ff08a3cfb6df2f385fa70"
+    },
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview.test": {
+      "installed_apk_sha256": "590ecee96d510df2fe270afca4e1aa56337ebb242d8337c4473b00a4da8f6439",
+      "local_apk_sha256": "590ecee96d510df2fe270afca4e1aa56337ebb242d8337c4473b00a4da8f6439"
+    },
+    "com.aistudio.videoknowledgesorter.fkvbwy.preview": {
+      "installed_apk_sha256": "d805885199b0264a6b8ae8e641182ed4926eb47b60b5e81d0f5c8d61e9bc55be"
+    }
+  }
+}

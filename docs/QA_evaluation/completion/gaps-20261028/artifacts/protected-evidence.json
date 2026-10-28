@@ -1,0 +1,22 @@
+{
+  "kind": "semantics_geometry_contrast",
+  "measurements": [
+    {
+      "path": "artifacts/qa-visual-complete/VisualGapQA972120093845-protected-light-settings-top.json",
+      "sha256": "617de7395bea85971a5fe20a9fa629ea3a7a1d6d2935ffb97570f70db46c36db"
+    },
+    {
+      "path": "artifacts/qa-visual-complete/VisualGapQA972120093845-protected-dark-settings-prompt.json",
+      "sha256": "36cbf61a8c93fe250a3c05c43bc0dab3aa05cb07695526a7fac429a07505188c"
+    },
+    {
+      "path": "artifacts/qa-visual-complete/VisualGapQA972120093845-protected-dark-settings-top.json",
+      "sha256": "a6e93831b64d9237a20f966f86caa7d882125d3de930ea3b80ea9864390565f7"
+    },
+    {
+      "path": "artifacts/qa-visual-complete/VisualGapQA972120093845-protected-light-settings-prompt.json",
+      "sha256": "6fd8b729dcbb0981f657f2284f99ed24bc92d135cc0a230a814106745d82c236"
+    }
+  ],
+  "privacy": "No prompt contents or credentials recorded; black screenshots excluded from readability proof"
+}

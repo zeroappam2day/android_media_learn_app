@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "adb",
+    "-s",
+    "emulator-5554",
+    "shell",
+    "am",
+    "start",
+    "-W",
+    "-n",
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview/com.example.MainActivity"
+  ],
+  "started": 1793181733.1394083,
+  "ended": 1793181734.503882,
+  "exit_code": 0,
+  "pid": "11496",
+  "output": "Starting: Intent { cmp=com.aistudio.videoknowledgesorter.fkvbwy.qa.preview/com.example.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: com.aistudio.videoknowledgesorter.fkvbwy.qa.preview/com.example.MainActivity\nTotalTime: 1269\nWaitTime: 1271\nComplete\n",
+  "reason": "Start actual seeded QA UI when instrumentation completed without live process, before genuine external stop"
+}

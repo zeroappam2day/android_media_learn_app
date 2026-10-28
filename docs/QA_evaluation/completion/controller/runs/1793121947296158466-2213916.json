@@ -1,0 +1,11 @@
+{
+  "steps": [
+    {
+      "step": "complete-ui",
+      "decision": "LOAD_SKILL",
+      "skill": "/home/sejal/.agents/skills/reverse-engineer-anything/SKILL.md",
+      "contract": "/mnt/ubuntu-projects/46_android_media_learn_app/docs/QA_evaluation/completion/controller/complete-ui.handoff.json"
+    }
+  ],
+  "provider_calls": 0
+}

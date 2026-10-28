@@ -1,0 +1,255 @@
+{
+  "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+  "frames": [
+    {
+      "label": "large-light-sources",
+      "path": "\/storage\/emulated\/0\/Android\/data\/com.aistudio.videoknowledgesorter.fkvbwy.qa.preview\/files\/qa71-visual\/VisualGapQA567799607727-large-light-sources.png",
+      "width": 1080,
+      "height": 2316,
+      "sha256": "cc27206abf0d55a7222fa43de378d2ac8799bd8b8fdc891efeca9cfc26ddfb3e",
+      "dark": false,
+      "font_scale": 1.5,
+      "palette": {
+        "surface": -329473,
+        "onSurface": -15066335,
+        "surfaceVariant": -1973524,
+        "onSurfaceVariant": -12237233,
+        "primary": -11969134,
+        "onPrimary": -1,
+        "outline": -9078912
+      },
+      "contrast": {
+        "body": 16.305279780956845,
+        "supporting": 8.891921671338286,
+        "outline_on_surface": 4.235509953011348
+      },
+      "settings_flag_secure_preserved": false,
+      "settings_screenshot_redaction_expected": false
+    },
+    {
+      "label": "large-light-queue-rename-before-layout-assert",
+      "path": "\/storage\/emulated\/0\/Android\/data\/com.aistudio.videoknowledgesorter.fkvbwy.qa.preview\/files\/qa71-visual\/VisualGapQA567799607727-large-light-queue-rename-before-layout-assert.png",
+      "width": 1080,
+      "height": 2316,
+      "sha256": "3e3bcfdee8836557f902afa0bf311067a1b5220d34827e78e5b335f9c527eac1",
+      "dark": false,
+      "font_scale": 1.5,
+      "palette": {
+        "surface": -329473,
+        "onSurface": -15066335,
+        "surfaceVariant": -1973524,
+        "onSurfaceVariant": -12237233,
+        "primary": -11969134,
+        "onPrimary": -1,
+        "outline": -9078912
+      },
+      "contrast": {
+        "body": 16.305279780956845,
+        "supporting": 8.891921671338286,
+        "outline_on_surface": 4.235509953011348
+      },
+      "settings_flag_secure_preserved": false,
+      "settings_screenshot_redaction_expected": false
+    },
+    {
+      "label": "large-light-queue-identities",
+      "path": "\/storage\/emulated\/0\/Android\/data\/com.aistudio.videoknowledgesorter.fkvbwy.qa.preview\/files\/qa71-visual\/VisualGapQA567799607727-large-light-queue-identities.png",
+      "width": 1080,
+      "height": 2316,
+      "sha256": "f9868efd998617694935003402bb631fb155e40ab39382ce3d613f6d49228bee",
+      "dark": false,
+      "font_scale": 1.5,
+      "palette": {
+        "surface": -329473,
+        "onSurface": -15066335,
+        "surfaceVariant": -1973524,
+        "onSurfaceVariant": -12237233,
+        "primary": -11969134,
+        "onPrimary": -1,
+        "outline": -9078912
+      },
+      "contrast": {
+        "body": 16.305279780956845,
+        "supporting": 8.891921671338286,
+        "outline_on_surface": 4.235509953011348
+      },
+      "settings_flag_secure_preserved": false,
+      "settings_screenshot_redaction_expected": false
+    },
+    {
+      "label": "large-light-queue-actions",
+      "path": "\/storage\/emulated\/0\/Android\/data\/com.aistudio.videoknowledgesorter.fkvbwy.qa.preview\/files\/qa71-visual\/VisualGapQA567799607727-large-light-queue-actions.png",
+      "width": 1080,
+      "height": 2316,
+      "sha256": "1e965a601fd217a596a4e96967315f12f2582b027d32b2b9e413dc96572a1359",
+      "dark": false,
+      "font_scale": 1.5,
+      "palette": {
+        "surface": -329473,
+        "onSurface": -15066335,
+        "surfaceVariant": -1973524,
+        "onSurfaceVariant": -12237233,
+        "primary": -11969134,
+        "onPrimary": -1,
+        "outline": -9078912
+      },
+      "contrast": {
+        "body": 16.305279780956845,
+        "supporting": 8.891921671338286,
+        "outline_on_surface": 4.235509953011348
+      },
+      "settings_flag_secure_preserved": false,
+      "settings_screenshot_redaction_expected": false
+    },
+    {
+      "label": "large-light-preview",
+      "path": "\/storage\/emulated\/0\/Android\/data\/com.aistudio.videoknowledgesorter.fkvbwy.qa.preview\/files\/qa71-visual\/VisualGapQA567799607727-large-light-preview.png",
+      "width": 1080,
+      "height": 2316,
+      "sha256": "2c580c20338ac0a057ac0c54245845122a11998da236d0ec57a9bcf54e148f0d",
+      "dark": false,
+      "font_scale": 1.5,
+      "palette": {
+        "surface": -329473,
+        "onSurface": -15066335,
+        "surfaceVariant": -1973524,
+        "onSurfaceVariant": -12237233,
+        "primary": -11969134,
+        "onPrimary": -1,
+        "outline": -9078912
+      },
+      "contrast": {
+        "body": 16.305279780956845,
+        "supporting": 8.891921671338286,
+        "outline_on_surface": 4.235509953011348
+      },
+      "settings_flag_secure_preserved": false,
+      "settings_screenshot_redaction_expected": false
+    },
+    {
+      "label": "large-dark-sources",
+      "path": "\/storage\/emulated\/0\/Android\/data\/com.aistudio.videoknowledgesorter.fkvbwy.qa.preview\/files\/qa71-visual\/VisualGapQA567799607727-large-dark-sources.png",
+      "width": 1080,
+      "height": 2316,
+      "sha256": "ea3c63499684ae43bac1f48af7d2c4c453db34e23c7b30d6b9bc75d7e3c5a728",
+      "dark": true,
+      "font_scale": 1.5,
+      "palette": {
+        "surface": -15592680,
+        "onSurface": -1842455,
+        "surfaceVariant": -12237233,
+        "onSurfaceVariant": -3815728,
+        "primary": -5061121,
+        "onPrimary": -15192480,
+        "outline": -7368550
+      },
+      "contrast": {
+        "body": 14.417421419669207,
+        "supporting": 10.920384125323501,
+        "outline_on_surface": 5.851157185747847
+      },
+      "settings_flag_secure_preserved": false,
+      "settings_screenshot_redaction_expected": false
+    },
+    {
+      "label": "large-dark-queue-rename-before-layout-assert",
+      "path": "\/storage\/emulated\/0\/Android\/data\/com.aistudio.videoknowledgesorter.fkvbwy.qa.preview\/files\/qa71-visual\/VisualGapQA567799607727-large-dark-queue-rename-before-layout-assert.png",
+      "width": 1080,
+      "height": 2316,
+      "sha256": "2bfaedf6e08078547414683b0124e38115acee395583491800630e1890c7e6d0",
+      "dark": true,
+      "font_scale": 1.5,
+      "palette": {
+        "surface": -15592680,
+        "onSurface": -1842455,
+        "surfaceVariant": -12237233,
+        "onSurfaceVariant": -3815728,
+        "primary": -5061121,
+        "onPrimary": -15192480,
+        "outline": -7368550
+      },
+      "contrast": {
+        "body": 14.417421419669207,
+        "supporting": 10.920384125323501,
+        "outline_on_surface": 5.851157185747847
+      },
+      "settings_flag_secure_preserved": false,
+      "settings_screenshot_redaction_expected": false
+    },
+    {
+      "label": "large-dark-queue-identities",
+      "path": "\/storage\/emulated\/0\/Android\/data\/com.aistudio.videoknowledgesorter.fkvbwy.qa.preview\/files\/qa71-visual\/VisualGapQA567799607727-large-dark-queue-identities.png",
+      "width": 1080,
+      "height": 2316,
+      "sha256": "2f24c0ad3d57d2214bb2998ac55051adb811accdb12c584d6834ae14a05bee1a",
+      "dark": true,
+      "font_scale": 1.5,
+      "palette": {
+        "surface": -15592680,
+        "onSurface": -1842455,
+        "surfaceVariant": -12237233,
+        "onSurfaceVariant": -3815728,
+        "primary": -5061121,
+        "onPrimary": -15192480,
+        "outline": -7368550
+      },
+      "contrast": {
+        "body": 14.417421419669207,
+        "supporting": 10.920384125323501,
+        "outline_on_surface": 5.851157185747847
+      },
+      "settings_flag_secure_preserved": false,
+      "settings_screenshot_redaction_expected": false
+    },
+    {
+      "label": "large-dark-queue-actions",
+      "path": "\/storage\/emulated\/0\/Android\/data\/com.aistudio.videoknowledgesorter.fkvbwy.qa.preview\/files\/qa71-visual\/VisualGapQA567799607727-large-dark-queue-actions.png",
+      "width": 1080,
+      "height": 2316,
+      "sha256": "41b51f10a4014e9d10c1f989058ecd5b529ae2e4bc1ed574c5af620915d0b1a7",
+      "dark": true,
+      "font_scale": 1.5,
+      "palette": {
+        "surface": -15592680,
+        "onSurface": -1842455,
+        "surfaceVariant": -12237233,
+        "onSurfaceVariant": -3815728,
+        "primary": -5061121,
+        "onPrimary": -15192480,
+        "outline": -7368550
+      },
+      "contrast": {
+        "body": 14.417421419669207,
+        "supporting": 10.920384125323501,
+        "outline_on_surface": 5.851157185747847
+      },
+      "settings_flag_secure_preserved": false,
+      "settings_screenshot_redaction_expected": false
+    },
+    {
+      "label": "large-dark-preview",
+      "path": "\/storage\/emulated\/0\/Android\/data\/com.aistudio.videoknowledgesorter.fkvbwy.qa.preview\/files\/qa71-visual\/VisualGapQA567799607727-large-dark-preview.png",
+      "width": 1080,
+      "height": 2316,
+      "sha256": "3b6f4fa1adff7191f19a1162bee15d8bf82f461fa9e2bba1185e4332422df4fc",
+      "dark": true,
+      "font_scale": 1.5,
+      "palette": {
+        "surface": -15592680,
+        "onSurface": -1842455,
+        "surfaceVariant": -12237233,
+        "onSurfaceVariant": -3815728,
+        "primary": -5061121,
+        "onPrimary": -15192480,
+        "outline": -7368550
+      },
+      "contrast": {
+        "body": 14.417421419669207,
+        "supporting": 10.920384125323501,
+        "outline_on_surface": 5.851157185747847
+      },
+      "settings_flag_secure_preserved": false,
+      "settings_screenshot_redaction_expected": false
+    }
+  ]
+}

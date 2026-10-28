@@ -1,0 +1,979 @@
+{
+  "schema": 1,
+  "updated_at_utc": "2026-10-28T10:45:02.219041+00:00",
+  "mission_id": "complete-android16-qa-gaps-20261028-v3",
+  "mission_complete": true,
+  "approach_decision": "Retain the current execution approach. Experimental workflow candidate is not adopted or globally installed.",
+  "target": {
+    "api": 36,
+    "serial": "emulator-5554",
+    "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+    "phone_required": false
+  },
+  "counts": {
+    "original_gaps": 71,
+    "user_descoped": 2,
+    "in_scope_gaps": 69,
+    "scenarios_with_passing_gap_method_phase_records": 69,
+    "missing_required_gap_runtime_records": 0,
+    "additional_targeted_rechecks": 0,
+    "scenarios_needing_further_gap_verification": 0,
+    "passing_record_scenarios_outside_recheck_set": 40,
+    "accepted_scenarios": 230,
+    "approved_exceptions": 7,
+    "regression_methods_passed": 191
+  },
+  "missing_ids": [],
+  "recheck_ids": [],
+  "outstanding_ids": [],
+  "excluded_by_user": {
+    "T113": "Direct Cloud account/key correction and live authentication validation explicitly descoped by user.",
+    "T179": "Direct Cloud account live processing explicitly descoped by user; approved real DeepSeek via local Ollama remains in scope."
+  },
+  "older_android_not_required": {
+    "T185": "User target is Android16/API36; earlier Android versions not required."
+  },
+  "previous_check_results": {
+    "settings_methods_passed": 7,
+    "processing_methods_passed": 12,
+    "standard_unit_tests_passed": 55,
+    "host_tests_passed": 17,
+    "not_final_candidate_acceptance": true
+  },
+  "remaining_exit_work": [],
+  "current_cautions": [],
+  "evidence_policy": "Counts recomputed from exact terminal method0/phase args, intact recorded log SHA256, completed run metadata and known app hashes. Visually invalid/affected old captures require recheck. Final reuse remains subject to reviewed identity and impact checks.",
+  "excluded_incomplete_receipts": [
+    "settings-visual-retry.meta",
+    "ui-settings-corrected.meta"
+  ],
+  "scenarios": [
+    {
+      "id": "T008",
+      "state": "Passed",
+      "passing_run_records": [
+        "visual-both-axes"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-workflow-isolation-recheck",
+        "contrast-visual-complete-evidence"
+      ]
+    },
+    {
+      "id": "T013",
+      "state": "Passed",
+      "passing_run_records": [
+        "permission-full"
+      ],
+      "final_proofs": [
+        "contrast-baseline-selected-full-reconciled",
+        "contrast-support-full_mixed"
+      ]
+    },
+    {
+      "id": "T014",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T015",
+      "state": "Passed",
+      "passing_run_records": [
+        "permission-deny"
+      ],
+      "final_proofs": [
+        "contrast-baseline-selected-full-reconciled",
+        "contrast-support-deny_then_allow"
+      ]
+    },
+    {
+      "id": "T016",
+      "state": "Passed",
+      "passing_run_records": [
+        "permission-limited"
+      ],
+      "final_proofs": [
+        "contrast-baseline-selected-full-reconciled",
+        "contrast-support-limited_ui"
+      ]
+    },
+    {
+      "id": "T017",
+      "state": "Passed",
+      "passing_run_records": [
+        "permission-limited"
+      ],
+      "final_proofs": [
+        "contrast-baseline-selected-full-reconciled",
+        "contrast-support-limited_ui"
+      ]
+    },
+    {
+      "id": "T019",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline-selected-full-reconciled",
+        "contrast-bin-seed",
+        "contrast-bin-revoked",
+        "contrast-bin-regranted",
+        "contrast-direct-seed",
+        "contrast-direct-revoked",
+        "contrast-direct-regranted"
+      ]
+    },
+    {
+      "id": "T020",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline-selected-full-reconciled",
+        "contrast-selected-mixed"
+      ]
+    },
+    {
+      "id": "T022",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T023",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline-selected-full-reconciled",
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T026",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-workflow-isolation-recheck",
+        "contrast-recovered-persistence-cleanup",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T027",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T028",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T029",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T031",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T032",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T036",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T039",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline75-retry"
+      ]
+    },
+    {
+      "id": "T053",
+      "state": "Passed",
+      "passing_run_records": [
+        "processing",
+        "processing-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T057",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-direct-seed",
+        "contrast-direct-revoked",
+        "contrast-direct-regranted"
+      ]
+    },
+    {
+      "id": "T061",
+      "state": "Passed",
+      "passing_run_records": [
+        "processing",
+        "processing-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T063",
+      "state": "Passed",
+      "passing_run_records": [
+        "processing",
+        "processing-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T067",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "remaining-five-retry"
+      ],
+      "final_proofs": [
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T069",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "remaining-five-retry"
+      ],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T071",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "remaining-five-retry"
+      ],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T072",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T076",
+      "state": "Passed",
+      "passing_run_records": [
+        "ui-settings-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T080",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-recovered-persistence-cleanup",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long"
+      ]
+    },
+    {
+      "id": "T082",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T085",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-bin-rechecks"
+      ]
+    },
+    {
+      "id": "T098",
+      "state": "Passed",
+      "passing_run_records": [
+        "processing",
+        "processing-final"
+      ],
+      "final_proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T099",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline-live-0",
+        "contrast-baseline-live-1",
+        "contrast-baseline182",
+        "contrast-baseline-live-2",
+        "contrast-baseline-live-3",
+        "contrast-live-settings-seed-menu",
+        "contrast-live-settings-verify"
+      ]
+    },
+    {
+      "id": "T102",
+      "state": "Passed",
+      "passing_run_records": [
+        "ui-settings-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T111",
+      "state": "Passed",
+      "passing_run_records": [
+        "ui-settings-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T115",
+      "state": "Passed",
+      "passing_run_records": [
+        "processing",
+        "processing-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T116",
+      "state": "Passed",
+      "passing_run_records": [
+        "processing",
+        "processing-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T117",
+      "state": "Passed",
+      "passing_run_records": [
+        "processing",
+        "processing-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T154",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-bin-rechecks"
+      ]
+    },
+    {
+      "id": "T159",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-bin-rechecks"
+      ]
+    },
+    {
+      "id": "T160",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T164",
+      "state": "Passed",
+      "passing_run_records": [
+        "remaining-five-retry"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T165",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-editing-seed-tagfixed"
+      ]
+    },
+    {
+      "id": "T167",
+      "state": "Passed",
+      "passing_run_records": [
+        "ui-settings-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T168",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T176",
+      "state": "Passed",
+      "passing_run_records": [
+        "ui-settings-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T180",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-baseline-live-0",
+        "contrast-baseline-live-2",
+        "contrast-live-settings-seed-menu",
+        "contrast-live-settings-verify"
+      ]
+    },
+    {
+      "id": "T181",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-baseline-live-2",
+        "contrast-live-settings-seed-menu",
+        "contrast-live-settings-verify"
+      ]
+    },
+    {
+      "id": "T183",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T184",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T186",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T187",
+      "state": "Passed",
+      "passing_run_records": [
+        "processing-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T188",
+      "state": "Passed",
+      "passing_run_records": [
+        "processing",
+        "processing-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T189",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-observer-seed",
+        "contrast-observer-verify"
+      ]
+    },
+    {
+      "id": "T191",
+      "state": "Passed",
+      "passing_run_records": [
+        "processing",
+        "processing-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T192",
+      "state": "Passed",
+      "passing_run_records": [
+        "ui-settings-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T193",
+      "state": "Passed",
+      "passing_run_records": [
+        "ui-settings-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T194",
+      "state": "Passed",
+      "passing_run_records": [
+        "processing",
+        "processing-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T195",
+      "state": "Passed",
+      "passing_run_records": [
+        "processing",
+        "processing-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T205",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-editing-seed-tagfixed",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T206",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-workflow-isolation-recheck",
+        "contrast-bin-seed",
+        "contrast-bin-revoked",
+        "contrast-bin-regranted",
+        "contrast-direct-seed",
+        "contrast-direct-revoked",
+        "contrast-direct-regranted"
+      ]
+    },
+    {
+      "id": "T207",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-workflow-isolation-recheck",
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T208",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T210",
+      "state": "Passed",
+      "passing_run_records": [
+        "t210-glyph-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-visual-preflight"
+      ]
+    },
+    {
+      "id": "T214",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-baseline182",
+        "contrast-bin-seed",
+        "contrast-bin-revoked",
+        "contrast-bin-regranted"
+      ]
+    },
+    {
+      "id": "T219",
+      "state": "Passed",
+      "passing_run_records": [
+        "processing",
+        "processing-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-supporting32"
+      ]
+    },
+    {
+      "id": "T222",
+      "state": "Passed",
+      "passing_run_records": [
+        "editing-storage",
+        "editing-storage-final"
+      ],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-bin-rechecks"
+      ]
+    },
+    {
+      "id": "T227",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline182",
+        "contrast-recovered-persistence-cleanup",
+        "contrast-editing-long",
+        "contrast-editing-short-actual-launcher"
+      ]
+    },
+    {
+      "id": "T230",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-native-sort"
+      ]
+    },
+    {
+      "id": "T237",
+      "state": "Passed",
+      "passing_run_records": [],
+      "final_proofs": [
+        "contrast-baseline75-retry",
+        "contrast-native-sort"
+      ]
+    }
+  ],
+  "runs": {
+    "permission-full": {
+      "meta": "status-evidence-20261028/runs/permission-full.meta.json",
+      "log": "status-evidence-20261028/runs/permission-full.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "permission-retained-seed": {
+      "meta": "status-evidence-20261028/runs/permission-retained-seed.meta.json",
+      "log": "status-evidence-20261028/runs/permission-retained-seed.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "permission-selected-mixed": {
+      "meta": "status-evidence-20261028/runs/permission-selected-mixed.meta.json",
+      "log": "status-evidence-20261028/runs/permission-selected-mixed.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "processing": {
+      "meta": "status-evidence-20261028/runs/processing.meta.json",
+      "log": "status-evidence-20261028/runs/processing.log",
+      "app_sha256": "133db71320142cccd0ec90d9a23f34ee4068ac60b643872970f0b85eedf39f7b"
+    },
+    "ui-settings-final": {
+      "meta": "status-evidence-20261028/runs/ui-settings-final.meta.json",
+      "log": "status-evidence-20261028/runs/ui-settings-final.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "permission-retained-regranted-diagnostic": {
+      "meta": "status-evidence-20261028/runs/permission-retained-regranted-diagnostic.meta.json",
+      "log": "status-evidence-20261028/runs/permission-retained-regranted-diagnostic.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "visual-both-axes": {
+      "meta": "status-evidence-20261028/runs/visual-both-axes.meta.json",
+      "log": "status-evidence-20261028/runs/visual-both-axes.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "remaining-five-retry": {
+      "meta": "status-evidence-20261028/runs/remaining-five-retry.meta.json",
+      "log": "status-evidence-20261028/runs/remaining-five-retry.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "editing-storage-final": {
+      "meta": "status-evidence-20261028/runs/editing-storage-final.meta.json",
+      "log": "status-evidence-20261028/runs/editing-storage-final.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "permission-retained-regranted": {
+      "meta": "status-evidence-20261028/runs/permission-retained-regranted.meta.json",
+      "log": "status-evidence-20261028/runs/permission-retained-regranted.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "t210-glyph-final": {
+      "meta": "status-evidence-20261028/runs/t210-glyph-final.meta.json",
+      "log": "status-evidence-20261028/runs/t210-glyph-final.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "permission-deny": {
+      "meta": "status-evidence-20261028/runs/permission-deny.meta.json",
+      "log": "status-evidence-20261028/runs/permission-deny.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "settings-prompt-retry": {
+      "meta": "status-evidence-20261028/runs/settings-prompt-retry.meta.json",
+      "log": "status-evidence-20261028/runs/settings-prompt-retry.log",
+      "app_sha256": "133db71320142cccd0ec90d9a23f34ee4068ac60b643872970f0b85eedf39f7b"
+    },
+    "permission-retained-regranted-fresh-cache": {
+      "meta": "status-evidence-20261028/runs/permission-retained-regranted-fresh-cache.meta.json",
+      "log": "status-evidence-20261028/runs/permission-retained-regranted-fresh-cache.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "processing-final": {
+      "meta": "status-evidence-20261028/runs/processing-final.meta.json",
+      "log": "status-evidence-20261028/runs/processing-final.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "permission-retained-regranted-retry": {
+      "meta": "status-evidence-20261028/runs/permission-retained-regranted-retry.meta.json",
+      "log": "status-evidence-20261028/runs/permission-retained-regranted-retry.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "permission-limited": {
+      "meta": "status-evidence-20261028/runs/permission-limited.meta.json",
+      "log": "status-evidence-20261028/runs/permission-limited.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "permission-retained-revoked": {
+      "meta": "status-evidence-20261028/runs/permission-retained-revoked.meta.json",
+      "log": "status-evidence-20261028/runs/permission-retained-revoked.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "editing-storage": {
+      "meta": "status-evidence-20261028/runs/editing-storage.meta.json",
+      "log": "status-evidence-20261028/runs/editing-storage.log",
+      "app_sha256": "133db71320142cccd0ec90d9a23f34ee4068ac60b643872970f0b85eedf39f7b"
+    },
+    "permission-retained-revoked-retry": {
+      "meta": "status-evidence-20261028/runs/permission-retained-revoked-retry.meta.json",
+      "log": "status-evidence-20261028/runs/permission-retained-revoked-retry.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "t210-layout-diagnostic": {
+      "meta": "status-evidence-20261028/runs/t210-layout-diagnostic.meta.json",
+      "log": "status-evidence-20261028/runs/t210-layout-diagnostic.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    },
+    "permission-retained-regranted-observed-source": {
+      "meta": "status-evidence-20261028/runs/permission-retained-regranted-observed-source.meta.json",
+      "log": "status-evidence-20261028/runs/permission-retained-regranted-observed-source.log",
+      "app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f"
+    }
+  },
+  "historical_handoff_snapshot": "artifacts/completion-status-before-final.json",
+  "final_completion": {
+    "Passed": 230,
+    "candidate_app_sha256": "8978f9d32f22a8a16c572ef3f26bc092992b71f97034929581826136971c3a47",
+    "exceptions": 7,
+    "ok": true,
+    "original_gaps_closed": 69,
+    "scenarios": 237,
+    "version": 3,
+    "regression_methods_passed": 191,
+    "unit_tests_passed": 55,
+    "host_tests_passed": 17,
+    "gate_selftests_passed": 15,
+    "database_restored": true,
+    "original_preview_preserved": true,
+    "final_report": "final-report.json",
+    "acceptance": "acceptance.json",
+    "preservation": "runs/final-preservation.json",
+    "workflow_receipt": "artifacts/workflow-completion-receipt.json",
+    "visual_review": "artifacts/visual-review.json",
+    "unit_host_note": "Retained passing raw logs independently checked and bound to unchanged relevant logic; final product UI changes and instrumentation changes do not alter unit/host logic."
+  }
+}

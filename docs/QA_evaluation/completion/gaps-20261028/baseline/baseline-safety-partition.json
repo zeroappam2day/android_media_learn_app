@@ -1,0 +1,131 @@
+{
+  "status": "bounded_static_audit_execution_pending",
+  "frozen_baseline_source_sha256": "9ad3ad2f1c4ef8f5d11a1a289666eea340fe228b80f4137ced94d9c04b7fce5b",
+  "counts": {
+    "total": 191,
+    "ordinary_exact_methods": 182,
+    "separate_methods": 9
+  },
+  "common_args": {
+    "rea_runtime": "emulator",
+    "qa_empty_credentials_confirmed": "true"
+  },
+  "hard_preconditions": [
+    "Finish current retained regrant/T057 verification then explicit receipt-owned cleanup; do not run any empty-index baseline while its2 fixtures remain.",
+    "Preserve original QA database/preferences/media backup; only isolated QA .preview target on emulator5554. Do not restore original saved rows until all isolated suites and final preservation capture are complete.",
+    "Build/install verified final product+test APK only after retained cleanup. All191 terminal0 regression proofs must bind that final product hash.",
+    "Run only exact frozen182 method selectors, never34 entire classes: classes contain extra inapplicable/opt-in methods outside frozen191.",
+    "Ensure known synthetic codex_emulator_workflow.mp4 shared read-only fixture and documented qa_first_frame.gif test asset available. GIF Assume skip is not terminal0 success."
+  ],
+  "partitions": [
+    {
+      "name": "ordinary",
+      "count": 182,
+      "selector_file": "baseline-182-selector.txt",
+      "method_list": "baseline-182-methods.txt",
+      "notes": [
+        "DiscoveryCleanupCompletionTest is ordinary: emptyindex guard, invocation-token scoped folders/rows/rules and exactowned URI teardown; token-scoped rule_runs deletion. It is not operational legacy cleanup.",
+        "Normal suites may restore isolated settings/preference snapshots in teardown; empty-index preconditions and no concurrent lifecycle phase are essential."
+      ]
+    },
+    {
+      "name": "live",
+      "methods": [
+        "com.example.LiveLocalInferenceTest#imageOcrReachesRealLocalModelAndPersistsGroundedAnalysis",
+        "com.example.LiveLocalInferenceTest#videoFramesReachRealLocalModelAndPersistGroundedAnalysis",
+        "com.example.LiveOllamaUiCompletionTest#photoPreviewProcessAndOutputUseRealDeepSeekCloudThroughLocalOllama",
+        "com.example.LiveOllamaUiCompletionTest#videoPreviewProcessAndOutputUseRealDeepSeekCloudThroughLocalOllama"
+      ],
+      "args": {
+        "rea_live_ollama": "true",
+        "rea_allow_cloud_alias": "true",
+        "rea_ollama_endpoint": "http://10.0.2.2:11434/api/generate",
+        "rea_ollama_model": "deepseek-v4.1-flash:cloud"
+      },
+      "safety": "Only their fresh app-owned synthetic text/image/video fixtures; leave rea_keep_review_video absent so owned teardown runs. No direct Cloud-account test."
+    },
+    {
+      "name": "selected_media_full",
+      "methods": [
+        "com.example.SelectedMediaPermissionTest#systemConsentControlsActualSharedMediaVisibility"
+      ],
+      "args": {
+        "rea_permission_phase": "full"
+      },
+      "sequence": [
+        "With isolated empty QA index and no outstanding receipt, establish and record initial denied QA-only photo/video grants.",
+        "Run native full consent method, actually grant Allow all via observed system UI. Retain method0 and native phase proof.",
+        "Verify owned fixture teardown and grant state before next suite."
+      ],
+      "safety": "Do not run this test against current2 retained fixtures or original saved QA rows."
+    },
+    {
+      "name": "persistence",
+      "methods": [
+        "com.example.PersistenceCompletionTest#phasedSavedFieldsFlagsAndSystemThemeSurviveHostForceStop"
+      ],
+      "phases": [
+        {
+          "qa_phase": "seed"
+        },
+        {
+          "host_action": "actual QA-only force-stop after completed successful seed with captured pid/argv/timestamps"
+        },
+        {
+          "qa_phase": "verify",
+          "qa_host_force_stop_confirmed": "true"
+        },
+        {
+          "qa_phase": "cleanup"
+        }
+      ],
+      "proof": "Only verify terminal0 proves process persistence; seed/cleanup0 alone cannot satisfy baseline method. Retain successful seed+host stop edge, verify and explicit cleanup receipts.",
+      "safety": "Seed requires no outstanding QAPersist receipt and empty QA index. Cleanup removes only token-named image/export and restores ordinary flags/settings."
+    },
+    {
+      "name": "interrupted_processing",
+      "methods": [
+        "com.example.InterruptedProcessingCompletionTest#interruptedProcessingSeedOrVerify"
+      ],
+      "phases": [
+        {
+          "qa_phase": "interrupt_seed",
+          "qa_token": "UNIQUE_NONSECRET_8_TO80_SAFE_CHARS"
+        },
+        {
+          "host_action": "Observe exact owned held-processing receipt; externally force-stop ONLY QA target while seed instrumentation remains active"
+        },
+        {
+          "qa_phase": "interrupt_verify",
+          "qa_token": "SAME_TOKEN"
+        }
+      ],
+      "proof": "Seed intentionally NEVER returns terminal0;10min timeout is failure. Its crash/termination log is operational setup evidence only, not accepted proof run. Actual verify terminal0 plus held receipt/host-stop evidence proves baseline. Successful verify performs exactowned cleanup.",
+      "safety": "Do not wait synchronously for seed completion before force-stop. Preserve its receipt+fixture if verify fails; no generic DB clearing."
+    },
+    {
+      "name": "operational_cleanup",
+      "methods": [
+        "com.example.OwnedStorageCleanupTest#removeInterruptedStorageFixturesOnly",
+        "com.example.OwnedStorageCleanupTest#removeScanOnlyRowsFromNewQaIndex"
+      ],
+      "status": "do_not_run_old_implementation; editing worker owns safe same-name fresh-fixture refactor",
+      "required_isolation": "Execute only after reviewed fixture-owned refactor staged and testAPK rebuilt. Each method must create fresh exact URI/id/token fixtures plus unrelated owned control, delete only intended freshowned state, verify control retention, then clean its owncontrol. Do not use old broadnamespace cleanup on existing QA data.",
+      "old_risks": [
+        "removeInterruptedStorageFixturesOnly deletes every app-owned historical matching Pictures/QAStorage[12hex]/ + basename, not just this invocation.",
+        "removeScanOnlyRowsFromNewQaIndex requires qa_remove_scan_only=true and deletes ALL current unreviewed/new/noanalysis rows, then removes target_folders and disables auto. Never run against original saved QA index."
+      ]
+    }
+  ],
+  "gate_requirements_recommendations": {
+    "PersistenceCompletionTest.phasedSavedFieldsFlagsAndSystemThemeSurviveHostForceStop": {
+      "qa_phase": "verify",
+      "qa_host_force_stop_confirmed": "true"
+    },
+    "InterruptedProcessingCompletionTest.interruptedProcessingSeedOrVerify": {
+      "qa_phase": "interrupt_verify",
+      "qa_token": "exact explicit unique token from held seed receipt"
+    }
+  },
+  "remaining_uncertainty": "RepoWise33/34 owner file pages present, with stale operational Owned page; Graft+exactsource independently verified operational/lifecycle boundaries. No app or test execution performed by this audit."
+}

@@ -1,0 +1,34 @@
+{
+  "argv": [
+    "adb",
+    "-s",
+    "emulator-5554",
+    "shell",
+    "am",
+    "instrument",
+    "-w",
+    "-r",
+    "-e",
+    "rea_runtime",
+    "emulator",
+    "-e",
+    "qa_empty_credentials_confirmed",
+    "true",
+    "-e",
+    "class",
+    "com.example.GapEditingJourneyTest#t085_candidateMarkUnmarkKeepsSeparateReviewCountsAndBin,com.example.GapEditingJourneyTest#t154_binCountSizeScrollingPlaceholderAndBackHaveExactOwnedOracles,com.example.NativeStorageGapJourneyTest#t159_t214_unavailablePendingTrashedBinExcludedAndRecoveredFileRetainsDecision,com.example.StorageFaultNativeJourneyTest#t222_sameBinUriFailureRepairRealNativeRetryCancelPreservesBin",
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview.test/androidx.test.runner.AndroidJUnitRunner"
+  ],
+  "hashes": {
+    "app/build/outputs/apk/debug/app-debug.apk": "8978f9d32f22a8a16c572ef3f26bc092992b71f97034929581826136971c3a47",
+    "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "e7e0f253381bac00b5fd287141ce25f6d88c521d4ca671c1242eb4f630555cfb"
+  },
+  "installed_apk_hashes": {
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview": "8978f9d32f22a8a16c572ef3f26bc092992b71f97034929581826136971c3a47",
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview.test": "e7e0f253381bac00b5fd287141ce25f6d88c521d4ca671c1242eb4f630555cfb"
+  },
+  "started": 1793181948.86932,
+  "ended": 1793181963.7348347,
+  "exit_code": 0,
+  "log_sha256": "ec9667cf5d44211b87713e5c2ce2d9703380f0c5ee440714c1291f7883eb43ab"
+}

@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "fingerprint": "66307cc70c5e813c7a0d5791bb391fa4b72d01425362b8e085271ce5209d9167",
+  "cache_safe": false,
+  "diagnostic": null,
+  "outputs": {
+    "/mnt/ubuntu-projects/46_android_media_learn_app/docs/QA_evaluation/completion/gaps-20261028/final-report.json": "da53e0fb4609f4727922c321ff71e1210cedcf0b77264b8604ff229d0e3b3b9d"
+  },
+  "evidence": {
+    "/mnt/ubuntu-projects/46_android_media_learn_app/docs/QA_evaluation/completion/gaps-20261028/final-report.json": "da53e0fb4609f4727922c321ff71e1210cedcf0b77264b8604ff229d0e3b3b9d",
+    "/mnt/ubuntu-projects/46_android_media_learn_app/docs/QA_evaluation/completion/gaps-20261028/acceptance.json": "7de9377cb6e625aa23b86a0cc8b763d579c9e224bd60680300109f7bf513d7fb"
+  }
+}

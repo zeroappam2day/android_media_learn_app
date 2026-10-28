@@ -1,0 +1,8 @@
+{
+  "observation": "Host still reverted after minimize with SaveableStateProvider outside Dialog; focused-6.log failed the unchanged oracle",
+  "hypothesis": "Dialog installs a child saveable registry; provider must wrap editable content inside the dialog",
+  "evidence": [
+    "docs/QA_evaluation/session-20261027/focused-6.log",
+    "docs/QA_evaluation/session-20261027/draft-before.log"
+  ]
+}

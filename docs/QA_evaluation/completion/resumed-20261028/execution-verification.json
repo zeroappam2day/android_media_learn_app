@@ -1,0 +1,19 @@
+{
+  "runnable_execution_ok": true,
+  "android_methods": 191,
+  "unit_tests": 55,
+  "host_tests": 17,
+  "blocked_tests": 1,
+  "not_applicable_tests": 1,
+  "scenario_summary": {
+    "Passed": 161,
+    "Partial": 71,
+    "Retired": 2,
+    "Not applicable on API36": 1,
+    "Unavailable legacy/debug surface": 2
+  },
+  "full_qa_acceptance_ok": false,
+  "reason": "71 checklist rows remain partial; no test-method count is promoted into whole-scenario acceptance.",
+  "all_referenced_evidence_exists": true,
+  "all_191_passing_receipts_independently_parsed": true
+}

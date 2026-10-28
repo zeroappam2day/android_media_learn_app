@@ -1,0 +1,74 @@
+{
+  "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+  "serial": "emulator-5554",
+  "api": 36,
+  "native_setting": "denied",
+  "grants": {
+    "READ_MEDIA_IMAGES": false,
+    "READ_MEDIA_VIDEO": false,
+    "READ_MEDIA_VISUAL_USER_SELECTED": false
+  },
+  "actions": [
+    {
+      "screen_sha256": "0041301ed1871f4d0861d8a3b2e0f460221fd918c7f14d1c4e5ce34ef458e2cc"
+    },
+    {
+      "screen_sha256": "0041301ed1871f4d0861d8a3b2e0f460221fd918c7f14d1c4e5ce34ef458e2cc"
+    },
+    {
+      "click": "Navigate up",
+      "bounds": [
+        0,
+        68,
+        158,
+        226
+      ]
+    },
+    {
+      "screen_sha256": "5d745c2058b161d9e52f109f9456e1c9966d2dcd76061001260a37f94cbfae2f"
+    },
+    {
+      "screen_sha256": "5d745c2058b161d9e52f109f9456e1c9966d2dcd76061001260a37f94cbfae2f"
+    },
+    {
+      "click": "Permissions",
+      "bounds": [
+        68,
+        1485,
+        391,
+        1551
+      ]
+    },
+    {
+      "screen_sha256": "b2b9bf7e89df3e517a44d5f7b7f538b88fa44fb9e3eed84cedf383afd2f00c6f"
+    },
+    {
+      "click": "Photos and videos",
+      "bounds": [
+        203,
+        1213,
+        665,
+        1289
+      ]
+    },
+    {
+      "screen_sha256": "9ac94595068c56051733d43564c670f23c68a338004b9039299761150fc6ffa5"
+    },
+    {
+      "click": "Don\u2019t allow",
+      "bounds": [
+        202,
+        1664,
+        475,
+        1740
+      ]
+    },
+    {
+      "screen_sha256": "aa4effd51b6cb7e10e81136086ac9a80d107eeac5098112e042282335ca6ea60"
+    },
+    {
+      "screen_sha256": "aa4effd51b6cb7e10e81136086ac9a80d107eeac5098112e042282335ca6ea60"
+    }
+  ],
+  "package_manager_mutations": false
+}

@@ -1,0 +1,37 @@
+{
+  "argv": [
+    "adb",
+    "-s",
+    "emulator-5554",
+    "shell",
+    "am",
+    "instrument",
+    "-w",
+    "-r",
+    "-e",
+    "rea_runtime",
+    "emulator",
+    "-e",
+    "qa_empty_credentials_confirmed",
+    "true",
+    "-e",
+    "class",
+    "com.example.PermissionUiGapJourneyTest#qa71_nativePermissionJourneys",
+    "-e",
+    "qa71_permission_phase",
+    "retained_cleanup",
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview.test/androidx.test.runner.AndroidJUnitRunner"
+  ],
+  "hashes": {
+    "app/build/outputs/apk/debug/app-debug.apk": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f",
+    "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "e718f0e67e1c9676ffbf9c22684ae96023983b04a51c95e8f53c1cac3561bd37"
+  },
+  "installed_apk_hashes": {
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f",
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview.test": "e718f0e67e1c9676ffbf9c22684ae96023983b04a51c95e8f53c1cac3561bd37"
+  },
+  "started": 1793178288.2048817,
+  "ended": 1793178296.1475623,
+  "exit_code": 0,
+  "log_sha256": "477af2bb54c0b4c854347efb1b063cbff2fef57ab5f1d8e5ec92bbd3144d7d59"
+}

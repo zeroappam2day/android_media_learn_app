@@ -1,0 +1,34 @@
+{
+  "argv": [
+    "adb",
+    "-s",
+    "emulator-5554",
+    "shell",
+    "am",
+    "instrument",
+    "-w",
+    "-r",
+    "-e",
+    "rea_runtime",
+    "emulator",
+    "-e",
+    "qa_empty_credentials_confirmed",
+    "true",
+    "-e",
+    "class",
+    "com.example.EmulatorWorkflowTest#binRecoveryRestoresPriorDecisionAndKeepsPhysicalImage,com.example.EmulatorWorkflowTest#bothThemesKeepSystemBarsAndHeaderReadable,com.example.EmulatorWorkflowTest#everyProductionNavigationDestinationOpensAndMenuCloses,com.example.EmulatorWorkflowTest#exportWritesActualStructuredJsonContainingTheIndexedMedia,com.example.EmulatorWorkflowTest#generatedVideoRunsRealFrameSamplingOcrAndLocalFallback,com.example.EmulatorWorkflowTest#keptImageRunsRealOcrAndSavesLocalFallbackAnalysis,com.example.EmulatorWorkflowTest#realMediaScanReviewAndTagAssignmentPersistWithoutAnalysis,com.example.EmulatorWorkflowTest#renameChangesBothPhysicalMediaStoreNameAndRoomWhilePreservingContents,com.example.EmulatorWorkflowTest#ruleCreationRevisionPreviewAndDeletionPreservePhysicalMedia,com.example.EmulatorWorkflowTest#savedSettingsImmediatelyReachTheProductionFlowAndSurviveRecreation,com.example.EmulatorWorkflowTest#storageReconciliationRequiresProviderAbsenceAndPreservesSavedMetadata",
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview.test/androidx.test.runner.AndroidJUnitRunner"
+  ],
+  "hashes": {
+    "app/build/outputs/apk/debug/app-debug.apk": "8978f9d32f22a8a16c572ef3f26bc092992b71f97034929581826136971c3a47",
+    "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "7f0d7b05d96a8f83194e1b807e9f7d8ec70f261b0342d95900249b0814b35fca"
+  },
+  "installed_apk_hashes": {
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview": "8978f9d32f22a8a16c572ef3f26bc092992b71f97034929581826136971c3a47",
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview.test": "7f0d7b05d96a8f83194e1b807e9f7d8ec70f261b0342d95900249b0814b35fca"
+  },
+  "started": 1793183046.6024559,
+  "ended": 1793183077.87941,
+  "exit_code": 0,
+  "log_sha256": "b4d78c5d40d082e08a69e86ba55b7e626c765d63d43354790041542e5ae84b3c"
+}

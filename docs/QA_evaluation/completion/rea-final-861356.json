@@ -1,0 +1,111 @@
+{
+  "evidence_id": "ev_325c98d7f1a9c96c71d101352f534bb2142732fae292a6c477e58aeb474d45e5",
+  "subject": {
+    "name": "app-debug.apk",
+    "digest": {
+      "sha256": "8613568773462042e4127e0d17ac05b7646f36d1f82194474b1e3f3138c70b15"
+    },
+    "local_path": "/mnt/ubuntu-projects/46_android_media_learn_app/app/build/outputs/apk/debug/app-debug.apk",
+    "format": "apk",
+    "architecture": null
+  },
+  "provider": {
+    "id": "rea-analysis-view",
+    "name": "REA analysis view projection",
+    "version": "1"
+  },
+  "analysis_profile": null,
+  "predicate_type": "rea.analysis-view",
+  "operation": "inspect_analysis_view",
+  "parameters": {
+    "parent_evidence_id": "ev_75719fae2eae1753564ac079114a32b06904b3a9aa6fb6d52cda6c553cbaa83b",
+    "view": {
+      "kind": "summary"
+    }
+  },
+  "raw_result": null,
+  "normalized_result": {
+    "kind": "summary",
+    "view": {
+      "kind": "summary"
+    },
+    "parent_evidence_id": "ev_75719fae2eae1753564ac079114a32b06904b3a9aa6fb6d52cda6c553cbaa83b",
+    "parent_operation": "inspect_android_package",
+    "parent_digest": "75719fae2eae1753564ac079114a32b06904b3a9aa6fb6d52cda6c553cbaa83b",
+    "view_digest": "88a7c8f45f09000500603796b70ce619ade8b448a18bb660f36bb814669d27bd",
+    "artifact": {
+      "path": "/mnt/ubuntu-projects/46_android_media_learn_app/app/build/outputs/apk/debug/app-debug.apk",
+      "sha256": "8613568773462042e4127e0d17ac05b7646f36d1f82194474b1e3f3138c70b15"
+    },
+    "coverage": {
+      "status": "complete-within-view",
+      "examined": 1,
+      "total": 1,
+      "next_offset": null,
+      "exhausted": true
+    },
+    "limitations": [
+      "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+      "Method signatures use provider display types; DEX prototypes come from frozen JADX metadata. Display names may be aliases, and overload indices are local to this engine and artifact.",
+      "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+      "Incoming reference totals count JADX using nodes. Direct invoke entries within a using method report raw DEX code-unit offsets and method indexes, but coverage is limited to those nodes and directly matched invokes; it does not establish every possible dynamic or reflective call site.",
+      "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+    ],
+    "unknowns": [
+      "APK signatures were not verified; package declarations do not establish authenticity or runtime behavior."
+    ],
+    "summary": {
+      "engine": {
+        "name": "jadx-headless-mcp",
+        "version": "0.7.1",
+        "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+        "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+        "worker_count": 1,
+        "heap_limit_mib": 30688
+      },
+      "package_name": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+      "version_name": "1.0-preview",
+      "version_code": "1",
+      "min_sdk": "24",
+      "target_sdk": "36",
+      "permissions": [
+        "android.permission.INTERNET",
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO",
+        "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+        "android.permission.ACCESS_NETWORK_STATE"
+      ],
+      "manifest": {
+        "status": "complete",
+        "reported_total_bytes": null,
+        "text_code_units": 7048,
+        "text_included": false
+      },
+      "class_count": 22278,
+      "resource_count": 519,
+      "signature_verification": "not_performed"
+    }
+  },
+  "confidence": "derived",
+  "authority": "shipped-artifact",
+  "environment": null,
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; DEX prototypes come from frozen JADX metadata. Display names may be aliases, and overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Incoming reference totals count JADX using nodes. Direct invoke entries within a using method report raw DEX code-unit offsets and method indexes, but coverage is limited to those nodes and directly matched invokes; it does not establish every possible dynamic or reflective call site.",
+    "Manifest summary fields are extracted by the upstream engine; decoded XML is retained for verification. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ],
+  "relationship_coverage": null,
+  "locations": [
+    {
+      "kind": "artifact-path",
+      "path": "/mnt/ubuntu-projects/46_android_media_learn_app/app/build/outputs/apk/debug/app-debug.apk"
+    }
+  ],
+  "evidence_links": [
+    "ev_75719fae2eae1753564ac079114a32b06904b3a9aa6fb6d52cda6c553cbaa83b"
+  ]
+}

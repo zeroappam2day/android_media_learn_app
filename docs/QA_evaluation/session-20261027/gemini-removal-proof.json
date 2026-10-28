@@ -1,0 +1,11 @@
+{
+  "apk_sha256": "d805885199b0264a6b8ae8e641182ed4926eb47b60b5e81d0f5c8d61e9bc55be",
+  "test_apk_sha256": "d8fcf85632bf3f525f56a2762f01d7b540c47a7d1697b11ebfa33c8a9869d650",
+  "production_dex_removed_feature_markers": {
+    "Lcom/google/firebase/ai/": false,
+    "generativelanguage.googleapis.com": false,
+    "Gemini": false
+  },
+  "ok": true,
+  "phone_deployment": false
+}

@@ -1,0 +1,22 @@
+{
+  "previous_pid": 962216,
+  "new_pid": 1348747,
+  "argv": [
+    "/home/sejal/Android/Sdk/emulator/emulator",
+    "-avd",
+    "MobileCommand_S23U_API36",
+    "-port",
+    "5554",
+    "-gpu",
+    "swiftshader",
+    "-feature",
+    "-Vulkan",
+    "-no-snapshot-load",
+    "-no-snapshot-save",
+    "-no-audio"
+  ],
+  "reason": "Android shell and screencap timeout after observed workspace ENOSPC; targeted reconnect did not recover guest",
+  "wiped": false,
+  "snapshot_rollback": false,
+  "time": 1793183985.2726266
+}

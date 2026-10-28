@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "serial": "emulator-5554",
+  "model": "deepseek-v4.1-flash:cloud",
+  "remote_model": "deepseek-v4.1-flash",
+  "remote_host": "https://ollama.com",
+  "endpoint": "http://10.0.2.2:11434/api/generate",
+  "processing": "cloud through local Ollama; explicitly approved by user",
+  "photo": "PASS",
+  "video": "PASS",
+  "request_count": 2,
+  "credential_value_accessed": false,
+  "phone_deployment": false,
+  "production_apk_sha256": "d805885199b0264a6b8ae8e641182ed4926eb47b60b5e81d0f5c8d61e9bc55be",
+  "test_apk_sha256": "29a98b66b9cace09251f217d5391800f9474d429f96eb75bf7286208cba6fb0a",
+  "scope": "Production media pipeline from actual synthetic image/video through OCR, real model request and stored analysis; does not claim new visible-button coverage."
+}

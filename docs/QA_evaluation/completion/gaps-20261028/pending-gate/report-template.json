@@ -1,0 +1,1220 @@
+{
+  "schema_version": 3,
+  "status": "incomplete_do_not_accept",
+  "requirements_sha256": "b0c498c388874d6b2de5529ac5553993d745ce3067c9342eca470694bbbca9ce",
+  "candidate": {
+    "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+    "serial": "emulator-5554",
+    "api": 36,
+    "app_sha256": "REPLACE_WITH_FINAL_ACTUAL_HASH",
+    "app_apk": {
+      "path": "artifacts/final-app.apk",
+      "sha256": "REPLACE_WITH_FINAL_ACTUAL_HASH"
+    },
+    "final_install": {
+      "path": "artifacts/final-install.json",
+      "sha256": "REPLACE_WITH_REAL_RECEIPT_HASH"
+    }
+  },
+  "runs": {},
+  "host_proofs": [],
+  "reuse_waivers": [],
+  "regression": {
+    "runs": []
+  },
+  "checks": {},
+  "deployment_verified": false,
+  "phone_deployment": false,
+  "scenarios": [
+    {
+      "id": "T001",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T002",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T003",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T004",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T005",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T006",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T007",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T008",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T009",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T010",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T011",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T012",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T013",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T014",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T015",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T016",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T017",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T018",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T019",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T020",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T021",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T022",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T023",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T024",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T025",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T026",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T027",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T028",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T029",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T030",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T031",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T032",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T033",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T034",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T035",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T036",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T037",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T038",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T039",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T040",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T041",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T042",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T043",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T044",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T045",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T046",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T047",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T048",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T049",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T050",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T051",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T052",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T053",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T054",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T055",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T056",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T057",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T058",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T059",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T060",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T061",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T062",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T063",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T064",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T065",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T066",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T067",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T068",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T069",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T070",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T071",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T072",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T073",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T074",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T075",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T076",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T077",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T078",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T079",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T080",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T081",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T082",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T083",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T084",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T085",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T086",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T087",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T088",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T089",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T090",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T091",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T092",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T093",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T094",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T095",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T096",
+      "status": "Retired",
+      "proofs": []
+    },
+    {
+      "id": "T097",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T098",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T099",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T100",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T101",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T102",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T103",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T104",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T105",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T106",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T107",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T108",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T109",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T110",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T111",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T112",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T113",
+      "status": "User descoped",
+      "proofs": []
+    },
+    {
+      "id": "T114",
+      "status": "Retired",
+      "proofs": []
+    },
+    {
+      "id": "T115",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T116",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T117",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T118",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T119",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T120",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T121",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T122",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T123",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T124",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T125",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T126",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T127",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T128",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T129",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T130",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T131",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T132",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T133",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T134",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T135",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T136",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T137",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T138",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T139",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T140",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T141",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T142",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T143",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T144",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T145",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T146",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T147",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T148",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T149",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T150",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T151",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T152",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T153",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T154",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T155",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T156",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T157",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T158",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T159",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T160",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T161",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T162",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T163",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T164",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T165",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T166",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T167",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T168",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T169",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T170",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T171",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T172",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T173",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T174",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T175",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T176",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T177",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T178",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T179",
+      "status": "User descoped",
+      "proofs": []
+    },
+    {
+      "id": "T180",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T181",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T182",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T183",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T184",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T185",
+      "status": "Not applicable on API36",
+      "proofs": []
+    },
+    {
+      "id": "T186",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T187",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T188",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T189",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T190",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T191",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T192",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T193",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T194",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T195",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T196",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T197",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T198",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T199",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T200",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T201",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T202",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T203",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T204",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T205",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T206",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T207",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T208",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T209",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T210",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T211",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T212",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T213",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T214",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T215",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T216",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T217",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T218",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T219",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T220",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T221",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T222",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T223",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T224",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T225",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T226",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T227",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T228",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T229",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T230",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T231",
+      "status": "Unavailable legacy/debug surface",
+      "proofs": []
+    },
+    {
+      "id": "T232",
+      "status": "Unavailable legacy/debug surface",
+      "proofs": []
+    },
+    {
+      "id": "T233",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T234",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T235",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T236",
+      "status": "Pending",
+      "proofs": []
+    },
+    {
+      "id": "T237",
+      "status": "Pending",
+      "proofs": []
+    }
+  ],
+  "preservation": {
+    "path": "artifacts/preservation.json",
+    "sha256": "REPLACE_WITH_REAL_RECEIPT_HASH"
+  },
+  "expected_interruptions": []
+}

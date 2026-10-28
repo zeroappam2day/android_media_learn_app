@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <string name="phase">held</string>
+    <long name="id" value="530" />
+    <string name="token">qa_contrast_20261028_interrupt</string>
+</map>

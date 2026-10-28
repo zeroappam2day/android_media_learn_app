@@ -1,0 +1,38 @@
+{
+  "mission_id": "qa-completion-20261028-accepted",
+  "workspace": "/mnt/ubuntu-projects/46_android_media_learn_app",
+  "goals": [
+    "qa-accepted-restored/v3"
+  ],
+  "steps": [
+    {
+      "id": "complete-qa",
+      "provides": [
+        "qa-accepted-restored/v3"
+      ],
+      "requires": [],
+      "effects": "external",
+      "idempotent": false,
+      "dependencies_complete": false,
+      "inputs": [
+        "docs/QA_evaluation/QA.md",
+        "docs/QA_evaluation/completion/gaps-20261028/pending-gate/verify.py",
+        "docs/QA_evaluation/completion/gaps-20261028/pending-gate/requirements.json",
+        "docs/QA_evaluation/completion/gaps-20261028/verify.py",
+        "docs/QA_evaluation/completion/gaps-20261028/requirements.json"
+      ],
+      "outputs": [
+        "docs/QA_evaluation/completion/gaps-20261028/final-report.json"
+      ],
+      "skill": "/home/sejal/.agents/skills/reverse-engineer-anything/SKILL.md",
+      "verify": [
+        "python3",
+        "/tmp/qa_controller_verify.py"
+      ],
+      "resources": [
+        "android:emulator-5554"
+      ],
+      "timeout_seconds": 86400
+    }
+  ]
+}

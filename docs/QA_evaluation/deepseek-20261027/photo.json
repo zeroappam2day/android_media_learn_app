@@ -1,0 +1,10 @@
+{
+  "kind": "image",
+  "source": "ollama",
+  "model": "deepseek-v4.1-flash:cloud",
+  "runId": "deepseek-20261027-1536",
+  "passed": true,
+  "ocrFrames": 1,
+  "modelRequests": 1,
+  "elapsedMillis": 6941
+}

@@ -1,0 +1,11 @@
+{
+  "steps": [
+    {
+      "step": "ui-audit",
+      "decision": "LOAD_SKILL",
+      "skill": "/home/sejal/.agents/skills/reverse-engineer-anything/SKILL.md",
+      "contract": "/mnt/ubuntu-projects/46_android_media_learn_app/docs/QA_evaluation/session-20261027/controller/ui-audit.handoff.json"
+    }
+  ],
+  "provider_calls": 0
+}

@@ -1,0 +1,30 @@
+{
+  "step": {
+    "id": "ui-audit",
+    "provides": [
+      "ui-audit/v1"
+    ],
+    "requires": [],
+    "effects": "write",
+    "idempotent": true,
+    "dependencies_complete": false,
+    "inputs": [
+      "docs/QA_evaluation/verify_session.py"
+    ],
+    "outputs": [
+      "docs/QA_evaluation/session-20261027/results.json"
+    ],
+    "skill": "/home/sejal/.agents/skills/reverse-engineer-anything/SKILL.md",
+    "verify": [
+      "python3",
+      "docs/QA_evaluation/verify_session.py"
+    ],
+    "resources": [
+      "android:emulator-5554"
+    ],
+    "timeout_seconds": 3600,
+    "environment_keys": []
+  },
+  "constraints": [],
+  "fingerprint": "98dc6a794ebb5907f21fd81abb9069d4440e46c159d6da1fea08f0c64bc4b123"
+}

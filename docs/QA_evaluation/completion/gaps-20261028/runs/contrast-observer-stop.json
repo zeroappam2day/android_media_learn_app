@@ -1,0 +1,18 @@
+{
+  "package": "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview",
+  "serial": "emulator-5554",
+  "argv": [
+    "adb",
+    "-s",
+    "emulator-5554",
+    "shell",
+    "am",
+    "force-stop",
+    "com.aistudio.videoknowledgesorter.fkvbwy.qa.preview"
+  ],
+  "exit_code": 0,
+  "started": 1793181754.0079937,
+  "ended": 1793181754.0605683,
+  "pid_before": "11791",
+  "pid_after": ""
+}

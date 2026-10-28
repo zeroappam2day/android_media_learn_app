@@ -1,0 +1,594 @@
+{
+  "schema_version": 3,
+  "reviewed": true,
+  "reviewer": "provider_processing_gaps bounded source/receipt review",
+  "status": "source_impact_review_complete_final_hash_binding_pending",
+  "old_app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f",
+  "final_app_sha256": null,
+  "unaffected_scenario_ids": [
+    "T013",
+    "T014",
+    "T015",
+    "T016",
+    "T017",
+    "T019",
+    "T022",
+    "T023",
+    "T032",
+    "T036",
+    "T053",
+    "T057",
+    "T061",
+    "T063",
+    "T067",
+    "T069",
+    "T071",
+    "T072",
+    "T076",
+    "T082",
+    "T098",
+    "T102",
+    "T111",
+    "T115",
+    "T116",
+    "T117",
+    "T164",
+    "T167",
+    "T176",
+    "T183",
+    "T184",
+    "T186",
+    "T187",
+    "T188",
+    "T191",
+    "T192",
+    "T193",
+    "T194",
+    "T195",
+    "T206",
+    "T207",
+    "T208",
+    "T219"
+  ],
+  "excluded_scenario_ids": [
+    "T008",
+    "T085",
+    "T154",
+    "T159",
+    "T210",
+    "T214",
+    "T222"
+  ],
+  "excluded_other_routes": [],
+  "final191_regression_reuse_allowed": false,
+  "new_apk_pass_claimed": false,
+  "evidence": {
+    "old_actual_apk": "/tmp/qa71-runs/candidate-before-bin.apk",
+    "old_actual_apk_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f",
+    "exact_product_patch": "/tmp/qa71-editing/bin-filename-handle-clearance.patch",
+    "product_patch_sha256": "da6eeb839d235e32e26d91d08445c1e034dbd066951f7b8aba3644c8c52123c8",
+    "current_mainactivity_sha256": "cafff2046bc632ef39c9e3d9a1609750251512748228ec75d5f98803a279ba4f",
+    "ownership": "Graft BinScreen MainActivity3389-3420; RepoWise BinScreen current; Blueprint26e3d020693dbb881ad815d77f182214ecdf6b5ac3e322efb627225d018c73b8",
+    "source_constraint": "Reviewed parent-authoritative claim: only product delta since09143 is this exact BinScreen footer Row padding change; all other staged changes are instrumentation-only. No new finalAPK exists yet, so binary identity and final source-diff freeze remain root verification prerequisites."
+  },
+  "scope_reasoning": [
+    "Footer start inset affects only nonempty Bin row filename/Recover layout; callbacks/enabled-state conditions, MediaThumb, DAO/provider/processor behavior and ToolHead unchanged.",
+    "T008/T210 visual review must rerun on final APK. T085/T154/T159/T214/T222 and any qa71_bin_fixture=true route are excluded because they consume Bin presentation/actions.",
+    "Only logs with known exact09143 app hash, recorded log hash, exit0, terminal method0, and no crash/aborted instrumentation are eligible. Ordinary unrelated method failures do not erase a successful exact-method receipt.",
+    "This is phase/method evidence eligibility, not a claim that every listed scenario is fully accepted. Gate must still require every original baseline+gap requirement and external host/native edge.",
+    "Final APK hash must be actual-built and installed-verified; replace null only after root confirms this sole product delta and actual final identity. Then create per-run waiver entries pointing to a hash-bound copy of this review."
+  ],
+  "per_run_waiver_drafts": [
+    {
+      "run": "editing-storage-final",
+      "unaffected_scenario_ids": [
+        "T014",
+        "T022",
+        "T023",
+        "T032",
+        "T036",
+        "T072",
+        "T082",
+        "T183",
+        "T184",
+        "T186",
+        "T207",
+        "T208"
+      ],
+      "old_app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f",
+      "final_app_sha256": null,
+      "reviewed": true,
+      "binding_status": "pending_actual_final_apk_hash",
+      "rationale": "Only proposed product delta is BinScreen footer Row start padding8dp\u219232dp. This exact successful method/phase does not depend on nonempty Bin footer geometry; transport, review policy, settings persistence, storage policy and non-Bin UI unchanged. Final baseline191 will rerun finalAPK; no final-app execution is claimed here.",
+      "meta_source": "/tmp/qa71-runs/editing-storage-final.meta.json",
+      "meta_sha256": "a3b182fd67797a42b44eac5420e9b05ce31462060d2b0c319c95698b607432bf",
+      "log_source": "/tmp/qa71-runs/editing-storage-final.log",
+      "log_sha256": "798ba0558ee6a98160f94ce4499a98589e92b4c25c00d2659259a6da0f8c5010",
+      "matched_gap_requirements": {
+        "T014": [
+          {
+            "method": "com.example.InventoryUiGapJourneyTest.t014_t022_t023_populatedSnapshotRapidRefreshAndActualHomeResumeRemainDuplicateFree",
+            "args": {}
+          }
+        ],
+        "T022": [
+          {
+            "method": "com.example.InventoryUiGapJourneyTest.t014_t022_t023_populatedSnapshotRapidRefreshAndActualHomeResumeRemainDuplicateFree",
+            "args": {}
+          }
+        ],
+        "T023": [
+          {
+            "method": "com.example.InventoryUiGapJourneyTest.t014_t022_t023_populatedSnapshotRapidRefreshAndActualHomeResumeRemainDuplicateFree",
+            "args": {}
+          }
+        ],
+        "T032": [
+          {
+            "method": "com.example.NativeStorageGapJourneyTest.t032_t036_nativeSelectionScopeRecreationAndGrantReselection",
+            "args": {}
+          }
+        ],
+        "T036": [
+          {
+            "method": "com.example.NativeStorageGapJourneyTest.t032_t036_nativeSelectionScopeRecreationAndGrantReselection",
+            "args": {}
+          }
+        ],
+        "T072": [
+          {
+            "method": "com.example.GapEditingJourneyTest.t072_restoreImageCannotRestoreVideoSelectedOnAnotherArchive",
+            "args": {}
+          }
+        ],
+        "T082": [
+          {
+            "method": "com.example.GapEditingJourneyTest.t082_savePreanalysisFieldsThenExportSameUnfinishedItem",
+            "args": {}
+          }
+        ],
+        "T183": [
+          {
+            "method": "com.example.StorageFaultNativeJourneyTest.t183_previewSameUriRequestFailureRealRefreshRetryAndNativeCancel",
+            "args": {}
+          }
+        ],
+        "T184": [
+          {
+            "method": "com.example.StorageFaultNativeJourneyTest.t184_realConfirmedTrashUnknownQueryRetainsSavedFieldsUntilRepairRefresh",
+            "args": {}
+          }
+        ],
+        "T186": [
+          {
+            "method": "com.example.InventoryUiGapJourneyTest.t186_visibleSourceFailureThenRealPopulatedRetryRestoresExactCategory",
+            "args": {}
+          }
+        ],
+        "T207": [
+          {
+            "method": "com.example.GapEditingJourneyTest.t207_unfinishedVideoGuidanceAndAndroidBackDoNotMutate",
+            "args": {}
+          }
+        ],
+        "T208": [
+          {
+            "method": "com.example.GapEditingJourneyTest.t208_androidBackDiscardsUnsavedPreviewAndKeepsAllSavedFields",
+            "args": {}
+          }
+        ]
+      }
+    },
+    {
+      "run": "permission-deny",
+      "unaffected_scenario_ids": [
+        "T015"
+      ],
+      "old_app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f",
+      "final_app_sha256": null,
+      "reviewed": true,
+      "binding_status": "pending_actual_final_apk_hash",
+      "rationale": "Only proposed product delta is BinScreen footer Row start padding8dp\u219232dp. This exact successful method/phase does not depend on nonempty Bin footer geometry; transport, review policy, settings persistence, storage policy and non-Bin UI unchanged. Final baseline191 will rerun finalAPK; no final-app execution is claimed here.",
+      "meta_source": "/tmp/qa71-runs/permission-deny.meta.json",
+      "meta_sha256": "db8b3c86b15452993ca596cdc03771180a1e6fe57ed040dbcf71743b9035decc",
+      "log_source": "/tmp/qa71-runs/permission-deny.log",
+      "log_sha256": "69fda6c831e46f138423b284291b7178963b97f5d050e0ed4ab4a0b73897e38a",
+      "matched_gap_requirements": {
+        "T015": [
+          {
+            "method": "com.example.PermissionUiGapJourneyTest.qa71_nativePermissionJourneys",
+            "args": {
+              "qa71_permission_phase": "deny_then_allow"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run": "permission-full",
+      "unaffected_scenario_ids": [
+        "T013"
+      ],
+      "old_app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f",
+      "final_app_sha256": null,
+      "reviewed": true,
+      "binding_status": "pending_actual_final_apk_hash",
+      "rationale": "Only proposed product delta is BinScreen footer Row start padding8dp\u219232dp. This exact successful method/phase does not depend on nonempty Bin footer geometry; transport, review policy, settings persistence, storage policy and non-Bin UI unchanged. Final baseline191 will rerun finalAPK; no final-app execution is claimed here.",
+      "meta_source": "/tmp/qa71-runs/permission-full.meta.json",
+      "meta_sha256": "91e3ec1fadf16a8514445652a1d563c3688a342a1052bc459fade40cc6d97ad2",
+      "log_source": "/tmp/qa71-runs/permission-full.log",
+      "log_sha256": "023139f56a46451c42c965a20b598bf921b2baa528fd86dafc5299e2561496c8",
+      "matched_gap_requirements": {
+        "T013": [
+          {
+            "method": "com.example.PermissionUiGapJourneyTest.qa71_nativePermissionJourneys",
+            "args": {
+              "qa71_permission_phase": "full_mixed"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run": "permission-limited",
+      "unaffected_scenario_ids": [
+        "T016",
+        "T017"
+      ],
+      "old_app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f",
+      "final_app_sha256": null,
+      "reviewed": true,
+      "binding_status": "pending_actual_final_apk_hash",
+      "rationale": "Only proposed product delta is BinScreen footer Row start padding8dp\u219232dp. This exact successful method/phase does not depend on nonempty Bin footer geometry; transport, review policy, settings persistence, storage policy and non-Bin UI unchanged. Final baseline191 will rerun finalAPK; no final-app execution is claimed here.",
+      "meta_source": "/tmp/qa71-runs/permission-limited.meta.json",
+      "meta_sha256": "71742063e3953d02ad40e661950f5a79295761b25ebbeefa3c54651fd81dc77b",
+      "log_source": "/tmp/qa71-runs/permission-limited.log",
+      "log_sha256": "b86fd2039627b687df1f0cd8512a7df44d5b6a6b72ec494c25e1846eebcdc3c3",
+      "matched_gap_requirements": {
+        "T016": [
+          {
+            "method": "com.example.PermissionUiGapJourneyTest.qa71_nativePermissionJourneys",
+            "args": {
+              "qa71_permission_phase": "limited_ui"
+            }
+          }
+        ],
+        "T017": [
+          {
+            "method": "com.example.PermissionUiGapJourneyTest.qa71_nativePermissionJourneys",
+            "args": {
+              "qa71_permission_phase": "limited_ui"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run": "permission-retained-revoked-retry",
+      "unaffected_scenario_ids": [
+        "T019",
+        "T057",
+        "T206"
+      ],
+      "old_app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f",
+      "final_app_sha256": null,
+      "reviewed": true,
+      "binding_status": "pending_actual_final_apk_hash",
+      "rationale": "Only proposed product delta is BinScreen footer Row start padding8dp\u219232dp. This exact successful method/phase does not depend on nonempty Bin footer geometry; transport, review policy, settings persistence, storage policy and non-Bin UI unchanged. Final baseline191 will rerun finalAPK; no final-app execution is claimed here.",
+      "meta_source": "/tmp/qa71-runs/permission-retained-revoked-retry.meta.json",
+      "meta_sha256": "d2ab0afc9baaefa88289308f6e8082fab4e207802c6ee9b4c8d724f4f3392f7a",
+      "log_source": "/tmp/qa71-runs/permission-retained-revoked-retry.log",
+      "log_sha256": "e187f3d033c4c5014aedcfcd2320dacafa28275b47a20a2d7034b05cd4fb5989",
+      "matched_gap_requirements": {
+        "T019": [
+          {
+            "method": "com.example.PermissionUiGapJourneyTest.qa71_nativePermissionJourneys",
+            "args": {
+              "qa71_permission_phase": "retained_revoked",
+              "rea_host_revoked_confirmed": "true"
+            },
+            "host_before": {
+              "kind": "native_app_info",
+              "setting": "denied",
+              "previous_args": {
+                "qa71_permission_phase": "retained_seed"
+              }
+            }
+          }
+        ],
+        "T057": [
+          {
+            "method": "com.example.PermissionUiGapJourneyTest.qa71_nativePermissionJourneys",
+            "args": {
+              "qa71_permission_phase": "retained_revoked",
+              "qa71_t057_rename_retry": "true",
+              "rea_host_revoked_confirmed": "true"
+            },
+            "host_before": {
+              "kind": "native_app_info",
+              "setting": "denied",
+              "previous_args": {
+                "qa71_permission_phase": "retained_seed"
+              }
+            }
+          }
+        ],
+        "T206": [
+          {
+            "method": "com.example.PermissionUiGapJourneyTest.qa71_nativePermissionJourneys",
+            "args": {
+              "qa71_permission_phase": "retained_revoked",
+              "rea_host_revoked_confirmed": "true"
+            },
+            "host_before": {
+              "kind": "native_app_info",
+              "setting": "denied",
+              "previous_args": {
+                "qa71_permission_phase": "retained_seed"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run": "permission-retained-seed",
+      "unaffected_scenario_ids": [
+        "T019",
+        "T057",
+        "T206"
+      ],
+      "old_app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f",
+      "final_app_sha256": null,
+      "reviewed": true,
+      "binding_status": "pending_actual_final_apk_hash",
+      "rationale": "Only proposed product delta is BinScreen footer Row start padding8dp\u219232dp. This exact successful method/phase does not depend on nonempty Bin footer geometry; transport, review policy, settings persistence, storage policy and non-Bin UI unchanged. Final baseline191 will rerun finalAPK; no final-app execution is claimed here.",
+      "meta_source": "/tmp/qa71-runs/permission-retained-seed.meta.json",
+      "meta_sha256": "4333b498897d39d1243252fe9ca9aad11cad0e15d5ac8982b6ebb4e64ba0bc5a",
+      "log_source": "/tmp/qa71-runs/permission-retained-seed.log",
+      "log_sha256": "32c3f05143e1c342b9b992f335a5c61251f7e8ca044b4ffb715ccce381cb11dc",
+      "matched_gap_requirements": {
+        "T019": [
+          {
+            "method": "com.example.PermissionUiGapJourneyTest.qa71_nativePermissionJourneys",
+            "args": {
+              "qa71_permission_phase": "retained_seed"
+            }
+          }
+        ],
+        "T057": [
+          {
+            "method": "com.example.PermissionUiGapJourneyTest.qa71_nativePermissionJourneys",
+            "args": {
+              "qa71_permission_phase": "retained_seed"
+            }
+          }
+        ],
+        "T206": [
+          {
+            "method": "com.example.PermissionUiGapJourneyTest.qa71_nativePermissionJourneys",
+            "args": {
+              "qa71_permission_phase": "retained_seed"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run": "processing-final",
+      "unaffected_scenario_ids": [
+        "T053",
+        "T061",
+        "T063",
+        "T098",
+        "T115",
+        "T116",
+        "T117",
+        "T187",
+        "T188",
+        "T191",
+        "T194",
+        "T195",
+        "T219"
+      ],
+      "old_app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f",
+      "final_app_sha256": null,
+      "reviewed": true,
+      "binding_status": "pending_actual_final_apk_hash",
+      "rationale": "Only proposed product delta is BinScreen footer Row start padding8dp\u219232dp. This exact successful method/phase does not depend on nonempty Bin footer geometry; transport, review policy, settings persistence, storage policy and non-Bin UI unchanged. Final baseline191 will rerun finalAPK; no final-app execution is claimed here.",
+      "meta_source": "/tmp/qa71-runs/processing-final.meta.json",
+      "meta_sha256": "c64e91bbe41574aa089c3d05a732db19dd35dad7801573a6736a888310ca61dd",
+      "log_source": "/tmp/qa71-runs/processing-final.log",
+      "log_sha256": "b57e8c48074bb695e6f87b6e684e372b1bfbf8c273de84bbc0fbadbef67c7404",
+      "matched_gap_requirements": {
+        "T053": [
+          {
+            "method": "com.example.GapProcessingJourneyTest.t053_t219_sameLaterIsBlockedFromQueuePreviewAndHomeWithoutMutation",
+            "args": {}
+          }
+        ],
+        "T061": [
+          {
+            "method": "com.example.GapProcessingJourneyTest.t061_pauseMixedBatchResumesBothOriginalItemsWithOneSavedResultEach",
+            "args": {}
+          }
+        ],
+        "T063": [
+          {
+            "method": "com.example.GapProcessingJourneyTest.t063_rapidQueueDoubleTapThenHomeStartKeepsOneRequestAndOneResult",
+            "args": {}
+          }
+        ],
+        "T098": [
+          {
+            "method": "com.example.GapProcessingJourneyTest.t098_deviceSettingsSaveReopenAndProcessSameKeptImageWithoutNetwork",
+            "args": {}
+          }
+        ],
+        "T115": [
+          {
+            "method": "com.example.GapProcessingJourneyTest.t115_actualFiveSecondDeadlineFallsBackThenVisibleResetRetries",
+            "args": {}
+          }
+        ],
+        "T116": [
+          {
+            "method": "com.example.GapProcessingJourneyTest.t116_midResponseDisconnectFallsBackThenVisibleResetRetries",
+            "args": {}
+          }
+        ],
+        "T117": [
+          {
+            "method": "com.example.GapProcessingJourneyTest.t117_savedSettingsMalformedReplyFallsBackThenVisibleResetRetries",
+            "args": {}
+          }
+        ],
+        "T187": [
+          {
+            "method": "com.example.GapProcessingJourneyTest.t187_waitingKeepChangedThroughSourcesToLaterIsDequeuedUntilKeptAgain",
+            "args": {}
+          }
+        ],
+        "T188": [
+          {
+            "method": "com.example.GapProcessingJourneyTest.t188_activeSourcesLaterAndUiNotesSurviveCompletionAndNextBatchSkipsIt",
+            "args": {}
+          }
+        ],
+        "T191": [
+          {
+            "method": "com.example.GapProcessingJourneyTest.t191_savedThirtySecondTimeoutShowsProgressAndAcceptsSlowSuccessOnce",
+            "args": {}
+          }
+        ],
+        "T194": [
+          {
+            "method": "com.example.GapProcessingJourneyTest.t194_http403FallsBackThenVisibleResetRetries",
+            "args": {}
+          }
+        ],
+        "T195": [
+          {
+            "method": "com.example.GapProcessingJourneyTest.t195_emptyBodyFallsBackThenVisibleResetRetries",
+            "args": {}
+          }
+        ],
+        "T219": [
+          {
+            "method": "com.example.GapProcessingJourneyTest.t053_t219_sameLaterIsBlockedFromQueuePreviewAndHomeWithoutMutation",
+            "args": {}
+          }
+        ]
+      }
+    },
+    {
+      "run": "remaining-five-retry",
+      "unaffected_scenario_ids": [
+        "T067",
+        "T069",
+        "T071",
+        "T164"
+      ],
+      "old_app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f",
+      "final_app_sha256": null,
+      "reviewed": true,
+      "binding_status": "pending_actual_final_apk_hash",
+      "rationale": "Only proposed product delta is BinScreen footer Row start padding8dp\u219232dp. This exact successful method/phase does not depend on nonempty Bin footer geometry; transport, review policy, settings persistence, storage policy and non-Bin UI unchanged. Final baseline191 will rerun finalAPK; no final-app execution is claimed here.",
+      "meta_source": "/tmp/qa71-runs/remaining-five-retry.meta.json",
+      "meta_sha256": "3507b236df822222a897f7d470e703ca9cbee5594ee8b141e6b7c8c3da5985ae",
+      "log_source": "/tmp/qa71-runs/remaining-five-retry.log",
+      "log_sha256": "7905962c928944cc9637a5edbe017c83490cdc7a1432b144f1a962341e9fe0f6",
+      "matched_gap_requirements": {
+        "T067": [
+          {
+            "method": "com.example.GapEditingJourneyTest.t067_archiveVideoIndexRemovalThenRealRefreshRediscoversPhysicalFile",
+            "args": {}
+          }
+        ],
+        "T069": [
+          {
+            "method": "com.example.GapEditingJourneyTest.t069_archiveImageIndexRemovalThenRealRefreshRediscoversPhysicalFile",
+            "args": {}
+          }
+        ],
+        "T071": [
+          {
+            "method": "com.example.GapEditingJourneyTest.t071_realArchiveNameSizeStatusHaveIndependentThreeItemOrders",
+            "args": {}
+          }
+        ],
+        "T164": [
+          {
+            "method": "com.example.GapNativeExportFailureTest.t164_nativeRefusedSaveShowsFailureThenDocumentsQaRetryPreservesSavedValues",
+            "args": {}
+          }
+        ]
+      }
+    },
+    {
+      "run": "ui-settings-final",
+      "unaffected_scenario_ids": [
+        "T076",
+        "T102",
+        "T111",
+        "T167",
+        "T176",
+        "T192",
+        "T193"
+      ],
+      "old_app_sha256": "09143c0fe7dfad63d1e7a6df705ed817f2193d59736c55ce6576937da89c333f",
+      "final_app_sha256": null,
+      "reviewed": true,
+      "binding_status": "pending_actual_final_apk_hash",
+      "rationale": "Only proposed product delta is BinScreen footer Row start padding8dp\u219232dp. This exact successful method/phase does not depend on nonempty Bin footer geometry; transport, review policy, settings persistence, storage policy and non-Bin UI unchanged. Final baseline191 will rerun finalAPK; no final-app execution is claimed here.",
+      "meta_source": "/tmp/qa71-runs/ui-settings-final.meta.json",
+      "meta_sha256": "c499536b722a5db963341ba19536a543f821610023ce44c0eb836fa27ab2ef07",
+      "log_source": "/tmp/qa71-runs/ui-settings-final.log",
+      "log_sha256": "dfc89161c3a0f25fe579fcd9a4f8db3177ec3b42f1827446bb116e4f1c24a400",
+      "matched_gap_requirements": {
+        "T076": [
+          {
+            "method": "com.example.GapSettingsJourneyTest.t076_fullScrollStandardMinimizeRestoreCloseNeverCommitsAnySetting",
+            "args": {}
+          }
+        ],
+        "T102": [
+          {
+            "method": "com.example.GapSettingsJourneyTest.t102_backAndOutsideDismissOnlyTheirDropdownWithoutChangingDraftOrSavedSelection",
+            "args": {}
+          }
+        ],
+        "T111": [
+          {
+            "method": "com.example.GapSettingsJourneyTest.t111_unsavedPromptResetThenCloseRestoresExactSavedPrompt",
+            "args": {}
+          }
+        ],
+        "T167": [
+          {
+            "method": "com.example.GapSettingsJourneyTest.t167_promptDraftSurvivesMinimizeRestoreButCloseDiscardsItWithoutSaving",
+            "args": {}
+          }
+        ],
+        "T176": [
+          {
+            "method": "com.example.GapSettingsJourneyTest.t176_unsavedDeviceCloseReopensSavedPcAndItsExactSettings",
+            "args": {}
+          }
+        ],
+        "T192": [
+          {
+            "method": "com.example.GapSettingsJourneyTest.t192_sameHostFailureKeepsAThenRestoredServiceBIsSelectedSavedAndReopened",
+            "args": {}
+          }
+        ],
+        "T193": [
+          {
+            "method": "com.example.GapSettingsJourneyTest.t193_pcDeviceNamespacesRemainSeparateAndExplicitResyncRestoresPcChoices",
+            "args": {}
+          }
+        ]
+      }
+    }
+  ]
+}

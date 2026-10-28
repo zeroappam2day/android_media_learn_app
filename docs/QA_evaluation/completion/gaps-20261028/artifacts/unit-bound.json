@@ -1,0 +1,11 @@
+{
+  "exit_code": 0,
+  "candidate_app_sha256": "8978f9d32f22a8a16c572ef3f26bc092992b71f97034929581826136971c3a47",
+  "failed": 0,
+  "passed": 55,
+  "log": {
+    "path": "status-evidence-20261028/unit-standard-debug.log",
+    "sha256": "886141ff7a857ebf7c492c72671a23266bf9cc1d0f4d53babb5718b1d01631c4"
+  },
+  "binding_rationale": "Retained actual55-unit/17-host passing evidence independently checked. Post-evidence product differences are Bin footer spacing and five Home Overview color expressions only; no unit/host logic, models, storage, configuration or dependencies changed. Runtime test-helper repairs affect instrumentation only."
+}

@@ -1,0 +1,27 @@
+{
+  "label": "dark-settings-top",
+  "flag_secure": true,
+  "visible": true,
+  "public_control": "AI setup",
+  "bounds_in_root": "Rect.fromLTRB(99.0, 458.0, 255.0, 526.0)",
+  "width": 156,
+  "height": 68,
+  "editable": false,
+  "text_length": 8,
+  "line_count": 1,
+  "layout_width": 156,
+  "layout_height": 68,
+  "font_size": "14.0.sp",
+  "font_scale": 1,
+  "palette": {
+    "surface": -15592680,
+    "onSurface": -1842455,
+    "surfaceVariant": -12237233,
+    "onSurfaceVariant": -3815728,
+    "primary": -5061121,
+    "onPrimary": -15192480,
+    "outline": -7368550
+  },
+  "body_contrast": 14.417421419669207,
+  "supporting_contrast": 10.920384125323501
+}
