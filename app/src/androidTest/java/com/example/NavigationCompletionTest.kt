@@ -286,6 +286,12 @@ class NavigationCompletionTest {
     private fun sort(label: String) { compose.onNode(hasText(label, substring = false) and hasClickAction()).performClick(); compose.waitForIdle() }
     private fun order(vararg items: VideoItem) { val positions = items.map { compose.onNodeWithText(it.displayName).fetchSemanticsNode().boundsInRoot.top }; assertEquals(positions.sorted(), positions) }
     private fun aligned(item: VideoItem, label: String): SemanticsNodeInteraction {
+        check(item.id in ids && row(item.id).uriString == item.uriString && row(item.id).displayName == item.displayName)
+        compose.onNodeWithText(item.displayName).performQaQueueScrollTo(compose).assertIsDisplayed()
+        val queueTag = "queue_${item.id}_${label.lowercase()}"
+        if (compose.onAllNodesWithTag(queueTag).fetchSemanticsNodes().size == 1) {
+            return compose.onNodeWithTag(queueTag).performQaQueueScrollTo(compose).assertIsDisplayed()
+        }
         // Filename is in a two-line Column; actions align with the enclosing row, not
         // necessarily with the first filename line's vertical interval.
         val y = compose.onNodeWithText(item.displayName).performScrollTo().fetchSemanticsNode().boundsInRoot.center.y

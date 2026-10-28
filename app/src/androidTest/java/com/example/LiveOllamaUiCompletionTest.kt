@@ -225,6 +225,14 @@ class LiveOllamaUiCompletionTest {
         hash.digest()
     }
     private fun rowAction(name: String, label: String): SemanticsNodeInteraction {
+        val ownedId = requireNotNull(id)
+        val owned = io { requireNotNull(db.videoItemDao().getVideoByIdDirect(ownedId)) }
+        check(owned.displayName == name && owned.uriString == requireNotNull(uri).toString())
+        compose.onNodeWithText(name, substring = false).performQaQueueScrollTo(compose).assertIsDisplayed()
+        val queueTag = "queue_${ownedId}_${label.lowercase()}"
+        if (compose.onAllNodesWithTag(queueTag).fetchSemanticsNodes().size == 1) {
+            return compose.onNodeWithTag(queueTag).performQaQueueScrollTo(compose).assertIsDisplayed()
+        }
         val y = compose.onNodeWithText(name, substring = false).fetchSemanticsNode().boundsInRoot.center.y
         val actions = compose.onAllNodesWithContentDescription(label).fetchSemanticsNodes()
         check(actions.isNotEmpty())

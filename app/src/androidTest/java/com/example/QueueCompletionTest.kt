@@ -231,6 +231,8 @@ class QueueCompletionTest {
         val inside = seed("inside.png", decision = "keep", folder = "Inside")
         val later = seed("later.png", decision = "review_later", folder = "Inside")
         val sibling = seed("sibling.png", decision = "keep", folder = "InsideOther")
+        val laterBefore = row(later.id)
+        val siblingBefore = row(sibling.id)
         navigate("Folders")
         compose.onNodeWithContentDescription("Open menu").performClick()
         val search = compose.onNode(hasSetTextAction() and hasText("Search folders..."))
@@ -248,10 +250,24 @@ class QueueCompletionTest {
         val index = toggles.indices.minBy { kotlin.math.abs(toggles[it].boundsInRoot.center.y - y) }
         check(kotlin.math.abs(toggles[index].boundsInRoot.center.y - y) < 70f)
         compose.onAllNodes(isToggleable())[index].performClick()
-        compose.onNodeWithContentDescription("Add selected to queue").performClick()
+        val expectedChangedCount = 1
+        val queueToastSeen = AtomicBoolean(false)
+        instrumentation.uiAutomation.setOnAccessibilityEventListener { event ->
+            if (event.eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED &&
+                event.text.any { it.toString() == "Added $expectedChangedCount files to Backlog queue!" }) {
+                queueToastSeen.set(true)
+            }
+        }
+        try {
+            compose.onNodeWithContentDescription("Add selected to queue").performClick()
+            await(5000) { queueToastSeen.get() }
+        } finally { instrumentation.uiAutomation.setOnAccessibilityEventListener(null) }
         await { row(inside.id)?.status == "queued" }
         assertEquals("new", row(later.id)?.status)
         assertEquals("new", row(sibling.id)?.status)
+        assertEquals(laterBefore, row(later.id))
+        assertEquals(siblingBefore, row(sibling.id))
+        assertEquals(expectedChangedCount, listOf(inside, later, sibling).count { row(it.id)?.status == "queued" })
         assertEquals(0, repo.mediaOperationCounters.llmRequests)
         assertBytes()
     }
@@ -298,7 +314,14 @@ class QueueCompletionTest {
             compose.onNodeWithTag("${tool}_screen").assertIsDisplayed()
             instrumentation.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK)
             compose.waitForIdle()
-            compose.onNodeWithTag("media_sources_screen").assertExists()
+            // Android Back delivery and AnimatedContent can settle after Compose's idle check.
+            // Keep the exact Sources destination requirement for every tool.
+            try {
+                await { compose.onAllNodesWithTag("media_sources_screen").fetchSemanticsNodes().isNotEmpty() }
+            } catch (failure: Throwable) {
+                throw AssertionError("Back from $tool did not reach Sources: " + compose.onRoot().printToString(), failure)
+            }
+            compose.onNodeWithTag("media_sources_screen").assertIsDisplayed()
         }
         assertEquals(before, rows())
         assertTrue(io { db.mediaRuleDao().observeRules().first().isEmpty() })
@@ -368,14 +391,17 @@ class QueueCompletionTest {
         compose.onNodeWithText(expected).assertExists()
         assertEquals(0, repo.mediaOperationCounters.llmRequests)
     }
-    private fun rename(item: VideoItem) = nearest(item, hasText("Rename", substring = false) and hasClickAction()).performClick()
-    private fun action(item: VideoItem, label: String) = nearest(item, hasContentDescription(label) and hasClickAction())
+    private fun rename(item: VideoItem) = nearest(item, hasText("Rename", substring = false) and hasClickAction(), "queue_${item.id}_rename").performClick()
+    private fun action(item: VideoItem, label: String) = nearest(item, hasContentDescription(label) and hasClickAction(), "queue_${item.id}_${label.lowercase()}")
     private fun checkbox(item: VideoItem) = nearest(item, isToggleable())
     private fun select(item: VideoItem) { checkbox(item).performClick() }
-    private fun nearest(item: VideoItem, matcher: SemanticsMatcher): SemanticsNodeInteraction {
+    private fun nearest(item: VideoItem, matcher: SemanticsMatcher, queueTag: String? = null): SemanticsNodeInteraction {
         val eligible = rows().filter { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed && it.status != "archived" }
         check(eligible.any { it.id == item.id } && eligible.all { it.id in ids }) { "Queue ownership not proven" }
-        val name = compose.onNodeWithText(item.displayName, substring = false).assertIsDisplayed().fetchSemanticsNode()
+        if (queueTag != null && compose.onAllNodesWithTag(queueTag).fetchSemanticsNodes().size == 1) {
+            return compose.onNodeWithTag(queueTag).performQaQueueScrollTo(compose).assertIsDisplayed()
+        }
+        val name = compose.onNodeWithText(item.displayName, substring = false).performQaQueueScrollTo(compose).assertIsDisplayed().fetchSemanticsNode()
         val nodes = compose.onAllNodes(matcher).fetchSemanticsNodes()
         check(nodes.isNotEmpty()) { "Owned row action missing" }
         if (eligible.size == 1 && nodes.size == 1) {

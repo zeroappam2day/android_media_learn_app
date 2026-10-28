@@ -328,9 +328,13 @@ class SelectedMediaPermissionTest {
         error("Timed out waiting for $description\n${tree()}")
     }
 
-    private fun shell(command: String): String = ParcelFileDescriptor.AutoCloseInputStream(
-        automation.executeShellCommand(command)
-    ).bufferedReader().use { it.readText() }
+    private fun shell(command: String): String {
+        val pipes = automation.executeShellCommandRwe("sh")
+        ParcelFileDescriptor.AutoCloseOutputStream(pipes[1]).use { it.write((command + "\n").toByteArray()) }
+        val output = ParcelFileDescriptor.AutoCloseInputStream(pipes[0]).bufferedReader().use { it.readText() }
+        val error = ParcelFileDescriptor.AutoCloseInputStream(pipes[2]).bufferedReader().use { it.readText() }
+        return output + error
+    }
 
     private fun tree(): String = allNodes().filter { it.isVisibleToUser }.joinToString("\n") {
         val value = it.text?.toString().orEmpty()
@@ -451,18 +455,29 @@ class SelectedMediaPermissionTest {
                 beginScope()
                 try {
                     createShellOwnedImage("a"); createShellOwnedMedia("v", "video", "mp4", "Movies", "video/mp4", readSyntheticVideoFixture())
+                    // Keep the video permission denied during the photos-only setup; Android
+                    // otherwise auto-grants another requested permission in the same group.
+                    shell("pm set-permission-flags ${context.packageName} android.permission.READ_MEDIA_VIDEO user-set user-fixed")
                     assertScopedFixtureOwnership(); kernelGrantForQaOnly(Manifest.permission.READ_MEDIA_IMAGES)
-                    ActivityScenario.launch(MainActivity::class.java).use {
+                    assertFalse(kernelGranted(Manifest.permission.READ_MEDIA_VIDEO))
+                    ActivityScenario.launch(MainActivity::class.java).use { scenario ->
                         refreshActualSources(1, denyRemaining = true)
                         assertTrue(kernelGranted(Manifest.permission.READ_MEDIA_IMAGES)); assertFalse(kernelGranted(Manifest.permission.READ_MEDIA_VIDEO))
                         assertEquals(setOf(createdUris.single { uri -> "/images/" in uri }), visibleFixtureUris())
                         assertCannotRead(createdUris.single { uri -> "/video/" in uri })
-                        navigateHome(); kernelGrantForQaOnly(Manifest.permission.READ_MEDIA_VIDEO)
+                        navigateHome()
+                        shell("pm clear-permission-flags ${context.packageName} android.permission.READ_MEDIA_VIDEO user-fixed")
+                        kernelGrantForQaOnly(Manifest.permission.READ_MEDIA_VIDEO)
+                        automation.waitForIdle(500, 5000)
+                        scenario.recreate()
                         refreshActualSources(2, denyRemaining = false)
                         assertEquals(createdUris.toSet(), visibleFixtureUris()); assertOwnedPhysicalBytes()
                     }
                     writeEvidence("VERIFY phase=images_then_video partial=real_kernel_grants_not_OS_AppInfo_UI counts=1_then_2 bytes_equal=true")
-                } finally { cleanupOwnedFixtureRowsAndMedia(); restoreScope() }
+                } finally {
+                    shell("pm clear-permission-flags ${context.packageName} android.permission.READ_MEDIA_VIDEO user-fixed")
+                    cleanupOwnedFixtureRowsAndMedia(); restoreScope()
+                }
             }
             "completion_cleanup" -> { loadCompletionFixture(verifyBytes = false); cleanupOwnedFixtureRowsAndMedia(); restoreScope(); receipt.edit().clear().commit(); writeEvidence("CLEANUP only_token_owned_media_rows_tag_and_nonsecret_scope_restored=true") }
         }
@@ -493,6 +508,11 @@ class SelectedMediaPermissionTest {
         await("QA navigation") { find { it.contentDescription?.toString() in setOf("Open menu", "Close menu") } != null }
         if (find { it.contentDescription?.toString() == "Close menu" } == null) click { it.contentDescription?.toString() == "Open menu" }
         click { it.text?.toString() == label }
+        await("$label destination with navigation closed") {
+            find { it.contentDescription?.toString() == "Close menu" } == null &&
+                find { it.contentDescription?.toString() == "Open menu" } != null &&
+                find { it.text?.toString() == label } != null
+        }
     }
     private fun refreshActualSources(expected: Int, denyRemaining: Boolean) {
         navigateDestination("Sources")

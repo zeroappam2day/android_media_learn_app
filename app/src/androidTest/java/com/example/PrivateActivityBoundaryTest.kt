@@ -20,9 +20,12 @@ class PrivateActivityBoundaryTest {
         for (name in listOf("com.example.UxEvidenceActivity", "com.example.MediaDeleteEvidenceActivity")) {
             assertFalse("Special test screens must be private", pm.getActivityInfo(ComponentName(context.packageName, name), 0).exported)
         }
-        val output = ParcelFileDescriptor.AutoCloseInputStream(instrumentation.uiAutomation.executeShellCommand(
+        val pipes = instrumentation.uiAutomation.executeShellCommandRwe(
             "am start -W -n ${context.packageName}/com.example.UxEvidenceActivity"
-        )).bufferedReader().use { it.readText() }
+        )
+        pipes[1].close()
+        val output = ParcelFileDescriptor.AutoCloseInputStream(pipes[0]).bufferedReader().use { it.readText() } +
+            ParcelFileDescriptor.AutoCloseInputStream(pipes[2]).bufferedReader().use { it.readText() }
         assertTrue("Android must reject external launch of the harmless test-only UI", output.contains("Permission Denial") && output.contains("not exported"))
     }
 }

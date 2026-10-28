@@ -100,6 +100,14 @@ class PersistenceCompletionTest {
             compose.onNodeWithContentDescription("Close").performClick()
             // Manual override is intentionally temporary. Verify phase expects current Android theme.
             compose.onNodeWithContentDescription("Toggle Theme").performClick()
+            await {
+                var applied = false
+                scenario.onActivity { activity ->
+                    val systemDark = activity.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+                    applied = systemDark == WindowCompat.getInsetsController(activity.window, activity.window.decorView).isAppearanceLightStatusBars
+                }
+                applied
+            }
             scenario.onActivity { activity ->
                 val systemDark = activity.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
                 assertEquals(systemDark, WindowCompat.getInsetsController(activity.window, activity.window.decorView).isAppearanceLightStatusBars)
@@ -129,7 +137,12 @@ class PersistenceCompletionTest {
             navigate("folders"); compose.onNodeWithTag("auto_add").assertIsOn(); compose.onNodeWithTag("auto_record").assertIsOn(); compose.onNodeWithTag("auto_shots").assertIsOff()
             navigate("queue"); openAction("Preview")
             val values = listOf(note(), "QA", "Testing", "Review", title, detail, roadmap)
-            values.forEachIndexed { index, value -> fields()[index].performScrollTo().assertTextEquals(value) }
+            values.forEachIndexed { index, value ->
+                fields()[index].performScrollTo().assert(SemanticsMatcher.expectValue(
+                    androidx.compose.ui.semantics.SemanticsProperties.EditableText,
+                    androidx.compose.ui.text.AnnotatedString(value)
+                ))
+            }
             compose.onNodeWithContentDescription("Close").performClick(); openAction("Output")
             listOf("QA > Testing > Review", title, detail, roadmap).forEach { compose.onNodeWithText(it).assertExists() }
             compose.onNodeWithText(note(), substring = false).assertDoesNotExist(); compose.onNodeWithContentDescription("Close").performClick()
@@ -197,6 +210,15 @@ class PersistenceCompletionTest {
     private fun openAction(label: String) {
         val name = requireNotNull(receipt.getString("token", null)) + ".png"
         await { compose.onAllNodesWithText(name).fetchSemanticsNodes().isNotEmpty() }
+        val ownedId = receipt.getLong("id", -1L)
+        val owned = io { requireNotNull(db.videoItemDao().getVideoByIdDirect(ownedId)) }
+        check(owned.displayName == name)
+        compose.onNodeWithText(name).performQaQueueScrollTo(compose).assertIsDisplayed()
+        val queueTag = "queue_${ownedId}_${label.lowercase()}"
+        if (compose.onAllNodesWithTag(queueTag).fetchSemanticsNodes().size == 1) {
+            compose.onNodeWithTag(queueTag).performQaQueueScrollTo(compose).assertIsDisplayed().performClick()
+            return
+        }
         val y = compose.onNodeWithText(name).performScrollTo().fetchSemanticsNode().boundsInRoot.center.y
         val actions = compose.onAllNodes(hasContentDescription(label) and hasClickAction()).fetchSemanticsNodes()
         check(actions.isNotEmpty()) { "Missing retained owned fixture action" }

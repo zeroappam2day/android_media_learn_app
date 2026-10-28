@@ -265,7 +265,7 @@ class StateFaultCompletionTest {
         queue()
         // Queue Preview is the actual production action that opens local modal state.
         // Only this test's current non-archived fixture remains in Queue.
-        compose.onNodeWithContentDescription("Preview").performScrollTo().performClick()
+        compose.onNodeWithContentDescription("Preview").performQaQueueScrollTo(compose).performClick()
         compose.waitUntil(10000) { compose.onAllNodesWithContentDescription("Process media").fetchSemanticsNodes().isNotEmpty() }
         compose.onNodeWithContentDescription("Process media").performScrollTo().performClick()
         compose.onNodeWithContentDescription("Close").performClick()
@@ -275,7 +275,7 @@ class StateFaultCompletionTest {
             compose.onNodeWithContentDescription("Open menu").performClick()
         compose.onNodeWithTag("nav_queue").performClick()
         compose.waitUntil(10000) { compose.onAllNodesWithContentDescription("Output").fetchSemanticsNodes().isNotEmpty() }
-        compose.onNodeWithContentDescription("Output").performClick()
+        compose.onNodeWithContentDescription("Output").performQaQueueScrollTo(compose).performClick()
     }
     private fun closeOutput() {
         compose.onNodeWithContentDescription("Close").performClick()
@@ -300,7 +300,7 @@ class StateFaultCompletionTest {
     private fun saveNotesWhileProcessing(id: Long, notes: String) {
         queue()
         // This active-edit test has one fixture, so Preview identifies the owned row unambiguously.
-        compose.onNodeWithContentDescription("Preview").performScrollTo().performClick()
+        compose.onNodeWithContentDescription("Preview").performQaQueueScrollTo(compose).performClick()
         compose.onAllNodes(hasSetTextAction()).onFirst().performScrollTo().performTextReplacement(notes)
         dismissQaKeyboard(compose.activity)
         compose.onNode(hasClickAction() and hasContentDescription("Save edits")).performScrollTo().performClick()

@@ -98,8 +98,13 @@ class SettingsCompletionTest {
         compose.onNodeWithText("API key", useUnmergedTree = true).assertExists()
         provider("Device")
         field("Host").assertDoesNotExist()
-        compose.onNodeWithText("Keyword fallback runs on this device. No on-device language model is installed.")
-            .performScrollTo().assertIsDisplayed()
+        compose.waitUntil(10000) {
+            runCatching {
+                compose.onNodeWithText("Keyword fallback runs on this device. No on-device language model is installed.")
+                    .performScrollTo().assertIsDisplayed()
+                true
+            }.getOrDefault(false)
+        }
         assertEquals("Changing provider drafts must not save", "ollama_local", repo.prefs.getString("llm_provider", null))
         assertEquals("Changing provider drafts must not send requests", initialDiscoveryRequests, server.requests.get())
     }

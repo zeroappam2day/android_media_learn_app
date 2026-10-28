@@ -209,7 +209,7 @@ class FailureUiCompletionTest {
     private fun queuePreview(video: VideoItem) {
         await { vm.allVideos.value.any { it.id == video.id } }
         navigate("nav_queue")
-        compose.onNodeWithContentDescription("Preview").performScrollTo().performClick()
+        compose.onNodeWithTag("queue_${video.id}_preview").performQaQueueScrollTo(compose).performClick()
         compose.onNodeWithContentDescription("Delete media forever").performScrollTo().assertExists()
     }
     private fun expectToast(expected: String, action: () -> Unit) {

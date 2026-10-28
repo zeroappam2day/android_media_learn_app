@@ -191,9 +191,9 @@ class RenameAuthorizationCompletionTest {
         val base = "content://media/external/images/media"
         val where = "_display_name='$originalName' AND relative_path='$physicalPath'"
         check(!shell("content query --uri $base --projection _id --where \"$where\"").contains("_id="))
-        shell("content insert --uri $base --bind _display_name:s:$originalName --bind relative_path:s:$physicalPath --bind mime_type:s:image/png")
+        val inserted = shell("content insert --uri $base --bind _display_name:s:$originalName --bind relative_path:s:$physicalPath --bind mime_type:s:image/png")
         val rows = shell("content query --uri $base --projection _id:_display_name:owner_package_name:relative_path --where \"$where\"")
-        check(rows.lineSequence().count { it.contains("_id=") } == 1)
+        check(rows.lineSequence().count { it.contains("_id=") } == 1) { "Owned rename fixture insert/query failed: insert=$inserted query=$rows" }
         val value = requireNotNull(Regex("_id=(\\d+)").find(rows)?.groupValues?.get(1))
         val uri = Uri.parse("$base/$value")
         shellUri = uri
@@ -214,10 +214,10 @@ class RenameAuthorizationCompletionTest {
         val rows = io { dao.getAllVideosDirect() }
         check(rows.size == 1 && rows.single().id == mediaId && rows.single().uriString == shellUri.toString())
         assertPhysical(expectedCurrent)
-        compose.onNodeWithText(expectedCurrent, substring = false).assertIsDisplayed()
-        val actions = compose.onAllNodes(hasText("Rename", substring = false) and hasClickAction())
-        check(actions.fetchSemanticsNodes().size == 1)
-        actions[0].assertIsDisplayed().performClick()
+        compose.onNodeWithText(expectedCurrent, substring = false)
+            .performQaQueueScrollTo(compose).assertIsDisplayed()
+        compose.onNodeWithTag("queue_${mediaId}_rename")
+            .performQaQueueScrollTo(compose).assertIsDisplayed().performClick()
     }
     private fun observedWriteQuestion(expectedCurrent: String) {
         await { activePackage() in providers && systemNodes().any { it.isVisibleToUser && it.viewIdResourceName == "android:id/button1" } }
@@ -236,8 +236,8 @@ class RenameAuthorizationCompletionTest {
     private fun clickSystem(approve: Boolean) {
         check(activePackage() in providers)
         val button = systemNodes().single { it.isVisibleToUser && it.viewIdResourceName == if (approve) "android:id/button1" else "android:id/button2" }
-        val label = button.text?.toString()?.lowercase()
-        check(label in if (approve) setOf("allow") else setOf("cancel", "don't allow", "don’t allow")) { "Unexpected observed write-consent action" }
+        val label = button.text?.toString()?.trim()?.lowercase()
+        check(label in if (approve) setOf("allow") else setOf("cancel", "deny", "don't allow", "don’t allow")) { "Unexpected observed write-consent action: $label" }
         check(button.isEnabled && button.isClickable && button.performAction(AccessibilityNodeInfo.ACTION_CLICK))
     }
     private fun export(suffix: String): Uri {
@@ -268,7 +268,13 @@ class RenameAuthorizationCompletionTest {
     }
     private fun shellMetadata(uri: Uri) = shell("content query --uri $uri --projection _display_name:owner_package_name:relative_path")
     private fun shellRead(uri: Uri) = ParcelFileDescriptor.AutoCloseInputStream(automation.executeShellCommand("content read --uri $uri")).use { it.readBytes() }
-    private fun shell(command: String) = ParcelFileDescriptor.AutoCloseInputStream(automation.executeShellCommand(command)).bufferedReader().use { it.readText() }
+    private fun shell(command: String): String {
+        val pipes = automation.executeShellCommandRwe("sh")
+        ParcelFileDescriptor.AutoCloseOutputStream(pipes[1]).use { it.write((command + "\n").toByteArray()) }
+        val output = ParcelFileDescriptor.AutoCloseInputStream(pipes[0]).bufferedReader().use { it.readText() }
+        val error = ParcelFileDescriptor.AutoCloseInputStream(pipes[2]).bufferedReader().use { it.readText() }
+        return output + error
+    }
     private fun hash(bytes: ByteArray) = MessageDigest.getInstance("SHA-256").digest(bytes)
     private fun activePackage() = automation.rootInActiveWindow?.packageName?.toString()
     private fun systemNodes(): List<AccessibilityNodeInfo> {

@@ -314,6 +314,10 @@ class MediaEdgeCompletionTest {
     private fun action(item: VideoItem, label: String): SemanticsNodeInteraction {
         val eligible = io { dao.getAllVideosDirect() }.filter { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed && it.status != "archived" }
         check(eligible.any { it.id == item.id } && eligible.all { it.id in ids }) { "Queue ownership not proven" }
+        val queueTag = "queue_${item.id}_${label.lowercase()}"
+        if (compose.onAllNodesWithTag(queueTag).fetchSemanticsNodes().size == 1) {
+            return compose.onNodeWithTag(queueTag).performQaQueueScrollTo(compose).assertIsDisplayed()
+        }
         val name = compose.onNodeWithText(item.displayName, substring = false).assertIsDisplayed().fetchSemanticsNode()
         val matcher = hasContentDescription(label) and hasClickAction()
         val nodes = compose.onAllNodes(matcher).fetchSemanticsNodes()

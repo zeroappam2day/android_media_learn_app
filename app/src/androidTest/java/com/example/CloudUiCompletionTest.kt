@@ -140,7 +140,7 @@ class CloudUiCompletionTest {
         val item = fixture()
         navigate("nav_queue")
         await { vm.allVideos.value.any { it.id == item.id } }
-        compose.onNodeWithContentDescription("Preview").performScrollTo().performClick()
+        compose.onNodeWithTag("queue_${item.id}_preview").performQaQueueScrollTo(compose).performClick()
         compose.onNodeWithContentDescription("Process media").performScrollTo().performClick()
         compose.onNodeWithContentDescription("Close").performClick()
         await { row(item.id).status == "processed" && vm.processor.processorState.value == VideoProcessor.State.FINISHED }
@@ -152,7 +152,7 @@ class CloudUiCompletionTest {
         assertEquals(1, wire.events.count { it == "cloud-post" })
         assertTrue(wire.events.any { it == "metadata-get" })
         assertNull("An intercepted request violated Cloud endpoint/auth constraints", wire.violation.get())
-        compose.onNodeWithContentDescription("Output").performScrollTo().performClick()
+        compose.onNodeWithTag("queue_${item.id}_output").performQaQueueScrollTo(compose).performClick()
         compose.onNodeWithText("QA cloud success").assertExists()
         compose.onNodeWithText("Deterministic fallback generated locally.").assertDoesNotExist()
         assertEquals(1, io { repo.analysisDao.getAllAnalysis().first().count { it.videoId == item.id } })

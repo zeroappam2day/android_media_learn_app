@@ -52,12 +52,29 @@ class EmulatorWorkflowTest {
     private var originalProvider: Pair<Boolean, String?>? = null
     private val createdRuleIds = mutableListOf<Long>()
     private val createdTagNames = mutableListOf<String>()
+    private val scannedRows = linkedMapOf<Long, String>()
+    private var originalFolders: Pair<Boolean, Set<String>>? = null
+    private var originalAuto: Pair<Boolean, Boolean>? = null
 
     @Before
     fun requirePreviewEmulator() {
         PreviewRuntimeGuard.requireApprovedPreviewRuntime()
         check(context.packageName.endsWith(".preview")) { "This test requires the preview package" }
         check(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) { "The fixture uses scoped MediaStore storage" }
+        val args = InstrumentationRegistry.getArguments()
+        if (args.getString("qa_scan_cleanup_records") != null) {
+            check(context.packageName.endsWith(".qa.preview"))
+            check(args.getString("class") == "com.example.EmulatorWorkflowTest#removeRecordedScanIndexMetadataOnly")
+            return
+        }
+        check(query { db.videoItemDao().getAllVideosDirect().isEmpty() }) { "Empty isolated index required before workflow fixture setup" }
+        val prefs = context.getSharedPreferences("app_prefs", 0)
+        originalFolders = prefs.contains("target_folders") to prefs.getStringSet("target_folders", emptySet()).orEmpty().toSet()
+        originalAuto = prefs.contains("auto_ingest_enabled") to prefs.getBoolean("auto_ingest_enabled", false)
+        val trees = setOf("Pictures/CodexWorkflow", "Movies/CodexWorkflow").map {
+            android.provider.DocumentsContract.buildTreeDocumentUri("com.android.externalstorage.documents", "primary:$it").toString()
+        }.toSet()
+        prefs.edit().putStringSet("target_folders", trees).putBoolean("auto_ingest_enabled", false).commit()
     }
 
     @After
@@ -76,6 +93,50 @@ class EmulatorWorkflowTest {
         query {
             createdRuleIds.forEach { db.mediaRuleDao().deleteRule(it) }
             createdTagNames.forEach { name -> db.customTagDao().byName(name)?.let { db.customTagDao().delete(it) } }
+            scannedRows.forEach { (id, uri) -> db.videoItemDao().getVideoByIdDirect(id)?.let { row ->
+                check(row.uriString == uri)
+                db.binDao().remove(id); db.analysisResultDao().deleteAnalysisForVideo(id)
+                db.extractedFrameDao().deleteFramesForVideo(id); db.videoItemDao().deleteVideo(row)
+            } }
+        }
+        val prefs = context.getSharedPreferences("app_prefs", 0)
+        prefs.edit().apply {
+            originalFolders?.let { (had, value) -> if (had) putStringSet("target_folders", value) else remove("target_folders") }
+            originalAuto?.let { (had, value) -> if (had) putBoolean("auto_ingest_enabled", value) else remove("auto_ingest_enabled") }
+        }.commit()
+    }
+
+    @Test fun removeRecordedScanIndexMetadataOnly() {
+        val encoded = requireNotNull(InstrumentationRegistry.getArguments().getString("qa_scan_cleanup_records"))
+        val records = org.json.JSONArray(String(android.util.Base64.decode(encoded, android.util.Base64.NO_WRAP), Charsets.UTF_8))
+        check(records.length() in 1..256)
+        val expected = (0 until records.length()).map { records.getJSONObject(it) }
+        val rows = query { db.videoItemDao().getAllVideosDirect() }
+        assertEquals(expected.map { it.getLong("id") }.toSet(), rows.map { it.id }.toSet())
+        fun physical(uri: String): List<String?> = requireNotNull(context.contentResolver.query(Uri.parse(uri),
+            arrayOf(MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.SIZE, MediaStore.MediaColumns.RELATIVE_PATH), null, null, null)).use { c ->
+            check(c.moveToFirst()); (0 until c.columnCount).map { c.getString(it) }
+        }
+        val before = rows.associate { it.uriString to physical(it.uriString) }
+        expected.forEach { record ->
+            val row = rows.single { it.id == record.getLong("id") }
+            assertEquals(record.getString("uri"), row.uriString)
+            assertEquals(record.getString("name"), row.displayName)
+            assertEquals(record.getLong("scan"), row.lastSeenScanToken)
+        }
+        query { rows.forEach { row ->
+            db.binDao().remove(row.id); db.analysisResultDao().deleteAnalysisForVideo(row.id)
+            db.extractedFrameDao().deleteFramesForVideo(row.id); db.videoItemDao().deleteVideo(row)
+        } }
+        assertTrue(query { db.videoItemDao().getAllVideosDirect().isEmpty() })
+        before.forEach { (uri, values) -> assertEquals("Historical physical media must remain unchanged", values, physical(uri)) }
+        println("Exact recorded scan metadata removed: ${rows.size}; all physical MediaStore records unchanged")
+    }
+
+    private fun recordScannedRows() {
+        query { db.videoItemDao().getAllVideosDirect() }.forEach { row ->
+            scannedRows[row.id] = row.uriString
+            check(row.relativePath?.trimEnd('/') in setOf("Pictures/CodexWorkflow", "Movies/CodexWorkflow"))
         }
     }
 
@@ -349,6 +410,7 @@ class EmulatorWorkflowTest {
             ?: "codex_emulator_workflow.mp4"
         await { query { db.videoItemDao().getAllVideosDirect().any { it.displayName == fixtureVideoName && it.isCurrentlyAvailable } } }
         val media = query { db.videoItemDao().getAllVideosDirect().single { it.displayName == fixtureVideoName && it.isCurrentlyAvailable } }
+        recordScannedRows()
         val model = productionViewModel()
         if (media.status != "new") {
             compose.runOnUiThread { model.resetVideo(media.id) }
@@ -414,6 +476,7 @@ class EmulatorWorkflowTest {
         compose.onNodeWithTag("inventory_scan_button").performClick()
         await { query { db.videoItemDao().getVideoByUri(uri.toString()) != null } }
         val media = requireNotNull(query { db.videoItemDao().getVideoByUri(uri.toString()) })
+        recordScannedRows()
         await { compose.onAllNodesWithTag("source_category_CodexWorkflow").fetchSemanticsNodes().isNotEmpty() }
         assertEquals("unreviewed", media.reviewDecision)
         assertNull("Inventory must not trigger AI analysis", query { db.analysisResultDao().getAnalysisForVideo(media.id).first() })

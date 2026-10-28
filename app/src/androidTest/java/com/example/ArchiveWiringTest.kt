@@ -95,10 +95,10 @@ class ArchiveWiringTest {
         query { dao.getVideoByIdDirect(ids[3])?.let { dao.updateVideo(it.copy(status = "processed", reviewDecision = "unreviewed")) } }
         navigate("Queue")
         compose.waitUntil(10000) { compose.onAllNodesWithText(queuedName).fetchSemanticsNodes().isNotEmpty() }
-        compose.onAllNodesWithContentDescription("Output")[0].performClick()
+        compose.onNodeWithTag("queue_${ids[3]}_output").performQaQueueScrollTo(compose).performClick()
         compose.onNodeWithText("Processed Result Summary: $queuedName").assertIsDisplayed()
         onView(isRoot()).inRoot(isDialog()).perform(pressBack())
-        compose.onAllNodesWithContentDescription("Preview")[0].performClick()
+        compose.onNodeWithTag("queue_${ids[3]}_preview").performQaQueueScrollTo(compose).performClick()
         compose.onNodeWithText("Media Details Preview: $queuedName").assertIsDisplayed()
         onView(isRoot()).inRoot(isDialog()).perform(pressBack())
         compose.onNodeWithText("Media Details Preview: $queuedName").assertDoesNotExist()
@@ -107,7 +107,7 @@ class ArchiveWiringTest {
     @Test fun previewDraftSurvivesMinimizeWithoutSaving() {
         navigate("Queue")
         compose.waitUntil(10000) { compose.onAllNodesWithText(queuedName).fetchSemanticsNodes().isNotEmpty() }
-        compose.onAllNodesWithContentDescription("Preview")[0].performClick()
+        compose.onNodeWithTag("queue_${ids[3]}_preview").performQaQueueScrollTo(compose).performClick()
         val notes = hasSetTextAction()
         compose.onAllNodes(notes)[0].performScrollTo().performTextReplacement("Unsaved QA draft")
         compose.onNodeWithContentDescription("Minimize").performClick()

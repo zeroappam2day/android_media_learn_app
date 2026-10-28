@@ -188,7 +188,7 @@ class TagBinCompletionTest {
         assertTagCount("QA index count", 2)
         icon("Back").performClick()
         navigate("nav_queue")
-        compose.onNodeWithContentDescription("Preview").performScrollTo().performClick()
+        compose.onNodeWithTag("queue_${removed.id}_preview").performQaQueueScrollTo(compose).performClick()
         compose.onNodeWithContentDescription("Remove index entry").performScrollTo().performClick()
         await { io { repo.videoDao.getVideoByIdDirect(removed.id) == null } }
         assertFalse(assigned(removed.id, tagId))

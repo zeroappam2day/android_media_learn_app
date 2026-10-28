@@ -409,6 +409,13 @@ class EditingCompletionTest {
     private fun openAction(label: String) { awaitName(); nearestAction(label).performClick(); compose.waitForIdle() }
     private fun close() { compose.onNodeWithContentDescription("Close").performClick(); compose.waitForIdle() }
     private fun nearestAction(label: String): SemanticsNodeInteraction {
+        val owned = io { requireNotNull(dao.getVideoByIdDirect(item.id)) }
+        check(owned.uriString == item.uriString && owned.displayName == item.displayName)
+        compose.onNodeWithText(item.displayName, substring = false).performQaQueueScrollTo(compose).assertIsDisplayed()
+        val queueTag = "queue_${item.id}_${label.lowercase()}"
+        if (compose.onAllNodesWithTag(queueTag).fetchSemanticsNodes().size == 1) {
+            return compose.onNodeWithTag(queueTag).performQaQueueScrollTo(compose).assertIsDisplayed()
+        }
         val y = compose.onNodeWithText(item.displayName, substring = false).fetchSemanticsNode().boundsInRoot.center.y
         val nodes = compose.onAllNodesWithContentDescription(label).fetchSemanticsNodes()
         check(nodes.isNotEmpty()) { "Missing owned row action: $label" }
@@ -417,12 +424,22 @@ class EditingCompletionTest {
         return compose.onAllNodesWithContentDescription(label)[index]
     }
     private fun selectOwnedRow() {
-        val y = compose.onNodeWithText(item.displayName, substring = false).fetchSemanticsNode().boundsInRoot.center.y
-        val nodes = compose.onAllNodes(isToggleable()).fetchSemanticsNodes()
-        val index = nodes.indices.minBy { kotlin.math.abs(nodes[it].boundsInRoot.center.y - y) }
-        check(kotlin.math.abs(nodes[index].boundsInRoot.center.y - y) < 70f) { "Checkbox not proven to belong to owned row" }
-        compose.onAllNodes(isToggleable())[index].performClick()
+        val nameBounds = compose.onNodeWithText(item.displayName, substring = false).getUnclippedBoundsInRoot()
+        val y = (nameBounds.top.value + nameBounds.bottom.value) / 2f
+        val checkboxes = compose.onAllNodes(isToggleable())
+        val nodes = checkboxes.fetchSemanticsNodes()
+        check(nodes.isNotEmpty()) { "Missing checkbox for owned row" }
+        val centers = nodes.indices.map { index ->
+            val bounds = checkboxes[index].getUnclippedBoundsInRoot()
+            (bounds.top.value + bounds.bottom.value) / 2f
+        }
+        val index = centers.indices.minBy { kotlin.math.abs(centers[it] - y) }
+        val distancePx = kotlin.math.abs(centers[index] - y) * context.resources.displayMetrics.density
+        check(distancePx < 70f) { "Checkbox not proven to belong to owned row" }
+        checkboxes[index].performQaQueueScrollTo(compose).assertIsDisplayed().performClick()
+        checkboxes[index].assertIsOn()
     }
+
     private fun navigate(label: String) {
         if (compose.onAllNodesWithContentDescription("Open menu").fetchSemanticsNodes().isNotEmpty()) compose.onNodeWithContentDescription("Open menu").performClick()
         compose.onNodeWithTag("nav_${label.lowercase()}").performClick()

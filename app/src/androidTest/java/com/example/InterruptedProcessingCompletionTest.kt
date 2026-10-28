@@ -81,7 +81,7 @@ class InterruptedProcessingCompletionTest {
         repo = VideoRepository(context, analysisClient = held,
             credentialPreferences = context.getSharedPreferences(credentialsName, 0))
         val note = "QA interruption note $token"
-        val uri = Uri.fromFile(fixture).toString()
+        val uri = Uri.fromFile(fixture.canonicalFile).toString()
         io { repo.videoDao.insertVideos(listOf(VideoItem(mediaStoreId = -System.nanoTime(), uriString = uri,
             displayName = fixture.name, relativePath = null, mimeType = "image/png", sizeBytes = fixture.length(),
             durationMs = null, dateAdded = null, dateModified = null, reviewDecision = "keep",
@@ -105,7 +105,7 @@ class InterruptedProcessingCompletionTest {
         mount()
         await { vm.startupReady.value && vm.allVideos.value.any { it.id == video.id } }
         navigate("nav_queue")
-        compose.onNodeWithContentDescription("Preview").performScrollTo().performClick()
+        compose.onNodeWithTag("queue_${video.id}_preview").performQaQueueScrollTo(compose).performClick()
         compose.onNodeWithContentDescription("Process media").performScrollTo().performClick()
         compose.onNodeWithContentDescription("Close").performClick()
         await { held.executed && row(video.id).status == "processing" }

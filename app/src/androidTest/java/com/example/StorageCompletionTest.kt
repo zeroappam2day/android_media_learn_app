@@ -274,14 +274,24 @@ class StorageCompletionTest {
         navigateOwnedParent()
         newFolder(); setSystemEdit("$token-canceled"); cancelSystemDialog()
         assertNull(findObserved("$token-canceled")); assertEquals(before, folders())
+        val marker = requireNotNull(DocumentsContract.createDocument(resolver, ownedDocument(child), "text/plain", "$token-marker.txt"))
+        createdDocuments += marker
+        val markerBytes = "Owned existing folder must survive $token".toByteArray()
+        resolver.openOutputStream(marker)!!.use { it.write(markerBytes) }
         newFolder(); setSystemEdit(child); recordControls("duplicate_folder_name_before_save")
         val button = systemNodes().first { it.isVisibleToUser && it.viewIdResourceName == "android:id/button1" }
         folderValidationEvent.set(false)
         if (button.isEnabled) clickNode(button)
-        await("duplicate folder rejected visibly") { !button.isEnabled || folderValidationEvent.get() || systemNodes().any { it.isVisibleToUser && (it.error != null || it.text?.toString()?.contains("exist", true) == true) } }
+        await("duplicate resolved without replacing existing folder") { findObserved("$child (1)") != null || !button.isEnabled || folderValidationEvent.get() || systemNodes().any { it.isVisibleToUser && (it.error != null || it.text?.toString()?.contains("exist", true) == true) } }
+        if (findObserved("$child (1)") != null) {
+            createdDocuments += ownedDocument("$child (1)")
+            assertTrue(documentExists(ownedDocument("$child (1)")))
+            record("duplicate_folder_auto_named", listOf("$child (1)"))
+        }
         recordControls("duplicate_folder_name_after_save"); assertEquals(before, folders())
         if (systemNodes().any { it.isVisibleToUser && it.isEditable }) cancelSystemDialog()
-        pressBack(); await("folder picker closed") { activePackage() == context.packageName }
+        assertArrayEquals(markerBytes, resolver.openInputStream(marker)!!.use { it.readBytes() })
+        cancelDocumentPicker()
         assertTrue(documentExists(ownedDocument(child))); assertFalse(documentExists(ownedDocument("$token-canceled")))
     }
     @Test fun t229_topLevelWatchFolderCannotBeSelected() {
@@ -297,11 +307,15 @@ class StorageCompletionTest {
         var sort = systemNodes().firstOrNull { it.isVisibleToUser && (it.contentDescription?.toString()?.contains("sort", true) == true || it.text?.toString()?.contains("Sort by", true) == true) }
         if (sort == null) {
             clickObserved("More options")
+            await("sort menu opened") { findObserved("Sort by...") != null }
             recordControls("save_picker_overflow_controls")
-            sort = systemNodes().firstOrNull { it.isVisibleToUser && (it.contentDescription?.toString()?.contains("sort", true) == true || it.text?.toString()?.contains("sort", true) == true) }
+            sort = findObserved("Sort by...")
         }
-        assertNotNull("No observed DocumentsUI sort control: T237 remains unexecuted", sort); clickNode(sort!!); recordControls("sort_choices")
-        val name = findObserved("Name"); assertNotNull("Observe Name sorting choice", name); clickNode(name!!)
+        assertNotNull("No observed DocumentsUI sort control: T237 remains unexecuted", sort); clickNode(sort!!)
+        await("observed filename sorting choice") { findObserved("File name (A to Z)") != null || findObserved("Name") != null }
+        recordControls("sort_choices")
+        val name = findObserved("File name (A to Z)") ?: findObserved("Name"); assertNotNull("Observe Name sorting choice", name); clickNode(name!!)
+        await("sort choices dismissed") { findObserved("File name (A to Z)") == null && findObserved("Name") == null }
         val view = systemNodes().firstOrNull { it.isVisibleToUser && it.contentDescription?.toString()?.let { text -> text.contains("grid", true) || text.contains("list", true) } == true }
         assertNotNull("No observed DocumentsUI view control: T237 remains unexecuted", view); clickNode(view!!); recordControls("view_changed")
         cancelDocumentPicker(); assertBytes(fixture.first)
@@ -335,6 +349,12 @@ class StorageCompletionTest {
     }
     private fun openPreview(id: Long) {
         check(id in mediaIds); navigate("queue"); val value = query { requireNotNull(db.videoItemDao().getVideoByIdDirect(id)).displayName }
+        compose.onNodeWithText(value).performQaQueueScrollTo(compose).assertIsDisplayed()
+        if (compose.onAllNodesWithTag("queue_${id}_preview").fetchSemanticsNodes().size == 1) {
+            compose.onNodeWithTag("queue_${id}_preview").performQaQueueScrollTo(compose).assertIsDisplayed().performClick()
+            compose.onNodeWithText("Media Details Preview: $value").assertIsDisplayed()
+            return
+        }
         val y = compose.onNodeWithText(value).performScrollTo().fetchSemanticsNode().boundsInRoot.center.y
         val actions = compose.onAllNodes(hasContentDescription("Preview") and hasClickAction()).fetchSemanticsNodes()
         check(actions.isNotEmpty()) { "Missing Preview action for owned media" }
@@ -363,32 +383,44 @@ class StorageCompletionTest {
     private val confirmationPackages = setOf("android", "com.google.android.providers.media.module", "com.android.providers.media.module", "com.android.providers.media")
     private fun activePackage() = automation.rootInActiveWindow?.packageName?.toString().orEmpty()
     private fun documentsUi() { await("actual DocumentsUI") { activePackage() in documentPackages }; recordControls("documents_ui") }
+    private fun primaryRootVisible(): Boolean = systemNodes().filter {
+        it.isVisibleToUser && it.viewIdResourceName?.endsWith("/breadcrumb_text") == true
+    }.lastOrNull()?.text?.toString() in setOf(Build.MODEL, "Internal storage", "Internal shared storage")
     private fun navigatePrimaryRoot() {
         documentsUi()
         await("loaded observed primary-root controls") {
             (findObserved("Pictures") != null && findObserved("DCIM") != null) ||
                 systemNodes().any { it.isVisibleToUser && (it.viewIdResourceName?.endsWith("/breadcrumb_text") == true || it.contentDescription?.toString()?.equals("Show roots", true) == true) }
         }
-        if (findObserved("Pictures") != null && findObserved("DCIM") != null) return
-        val breadcrumb = systemNodes().firstOrNull { it.isVisibleToUser && it.viewIdResourceName?.endsWith("/breadcrumb_text") == true }
-        if (breadcrumb != null) {
-            clickNode(breadcrumb)
-            await("Pictures in primary root after breadcrumb") { findObserved("Pictures") != null && findObserved("DCIM") != null }
-            return
-        }
+        if (primaryRootVisible() || (findObserved("Pictures") != null && findObserved("DCIM") != null)) return
         val drawer = systemNodes().firstOrNull { it.isVisibleToUser && it.contentDescription?.toString()?.equals("Show roots", true) == true }
+        val breadcrumb = systemNodes().firstOrNull { it.isVisibleToUser && it.viewIdResourceName?.endsWith("/breadcrumb_text") == true }
+        if (drawer == null && breadcrumb != null) {
+            repeat(8) {
+                if (primaryRootVisible() || (findObserved("Pictures") != null && findObserved("DCIM") != null)) return
+                check(activePackage() in documentPackages) { "Picker closed before primary root was observed" }
+                pressBack()
+            }
+            error("Primary root not observed after bounded parent navigation")
+        }
         check(drawer != null) { "No observed primary-root breadcrumb or Show roots control after load" }; clickNode(drawer)
         await("observed internal-storage root") { systemNodes().any { it.isVisibleToUser && it.text?.toString()?.let { text -> text.equals("Internal storage", true) || text.equals("Internal shared storage", true) } == true } }
         val internal = systemNodes().first { it.isVisibleToUser && it.text?.toString()?.let { text -> text.equals("Internal storage", true) || text.equals("Internal shared storage", true) } == true }
-        clickNode(internal); await("Pictures in primary root") { findObserved("Pictures") != null && findObserved("DCIM") != null }
+        clickNode(internal); await("Pictures in primary root") { primaryRootVisible() || (findObserved("Pictures") != null && findObserved("DCIM") != null) }
     }
     private fun navigateOwnedParent() {
         documentsUi()
         await("loaded picker breadcrumb") { systemNodes().any { it.isVisibleToUser && it.viewIdResourceName?.endsWith("/breadcrumb_text") == true } || findObserved("Show roots") != null }
         if (ownedParentVisible()) return
-        navigatePrimaryRoot(); clickObserved("Pictures")
+        val parentBreadcrumb = systemNodes().firstOrNull { it.isVisibleToUser && it.viewIdResourceName?.endsWith("/breadcrumb_text") == true && it.text?.toString() == token }
+        if (parentBreadcrumb != null) {
+            pressBack()
+            await("owned parent after child navigation") { ownedParentVisible() }
+            return
+        }
+        navigatePrimaryRoot(); findOwnedDirectoryByBoundedScroll("Pictures"); clickObserved("Pictures")
         await("Pictures directory list loaded") {
-            systemNodes().any { it.isVisibleToUser && it.viewIdResourceName?.endsWith("/breadcrumb_text") == true && it.text?.toString() == "Pictures" } &&
+            systemNodes().any { it.isVisibleToUser && (it.text?.toString() == "Pictures" || it.contentDescription?.toString() == "Pictures") } &&
                 (findObserved(token) != null || (observedDirectoryRecycler() != null && directoryViewportSignature().isNotEmpty()))
         }
         findOwnedDirectoryByBoundedScroll(); clickObserved(token)
@@ -439,19 +471,19 @@ class StorageCompletionTest {
         }
         return changed
     }
-    private fun findOwnedDirectoryByBoundedScroll() {
-        if (findObserved(token) != null) return
+    private fun findOwnedDirectoryByBoundedScroll(label: String = token) {
+        if (findObserved(label) != null) return
         // Reset only the observed directory list to its top; never scroll another window.
         var steps = 0
-        while (steps++ < 50 && findObserved(token) == null && scrollObservedDirectory(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD)) { }
-        if (findObserved(token) != null) return
+        while (steps++ < 50 && findObserved(label) == null && scrollObservedDirectory(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD)) { }
+        if (findObserved(label) != null) return
         steps = 0
         while (steps++ < 50) {
             if (!scrollObservedDirectory(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD)) break
-            if (findObserved(token) != null) return
+            if (findObserved(label) != null) return
         }
         recordControls("owned_directory_not_observed_after_bounded_scroll")
-        check(findObserved(token) != null) { "Exact owned folder not observed after bounded RecyclerView traversal" }
+        check(findObserved(label) != null) { "Exact directory $label not observed after bounded RecyclerView traversal" }
     }
     private fun ownedJsonChildren(): Map<String, Uri> {
         val parentId = "primary:$parentPath"

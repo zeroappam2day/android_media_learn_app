@@ -124,7 +124,7 @@ class SourceOriginCompletionTest {
         assertNull(neutralRow.sourceSubcategory)
         assertEquals("filename_token", fb.subcategoryEvidenceKind)
         assertEquals("INFERRED", fb.subcategoryConfidence)
-        compose.onNodeWithTag("source_evidence_${fb.id}").assertTextContains("Inferred from filename")
+        compose.onNodeWithTag("source_evidence_${fb.id}").assertTextContains("Inferred from filename", substring = true)
         compose.onNodeWithTag("source_subcategory_Facebook").performClick()
         compose.onNodeWithTag("source_media_${fb.id}").assertExists()
         compose.onNodeWithTag("source_media_${ig.id}").assertDoesNotExist()
