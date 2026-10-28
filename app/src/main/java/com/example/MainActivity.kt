@@ -11,6 +11,7 @@ import android.provider.Settings
 import android.widget.Toast
 import java.net.URL
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -25,16 +26,23 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items as gridItems
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
@@ -45,6 +53,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.window.SecureFlagPolicy
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.data.*
 import com.example.ui.VideoViewModel
@@ -66,6 +77,7 @@ fun WindowedModal(
     title: String,
     windowState: WindowState,
     onStateChange: (WindowState?) -> Unit,
+    secure: Boolean = false,
     content: @Composable BoxScope.() -> Unit
 ) {
     if (windowState == WindowState.MINIMIZED) return
@@ -84,6 +96,14 @@ fun WindowedModal(
             .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f), RoundedCornerShape(16.dp))
     }
 
+    Dialog(
+        onDismissRequest = { onStateChange(null) },
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false,
+            dismissOnClickOutside = false,
+            securePolicy = if (secure) SecureFlagPolicy.SecureOn else SecureFlagPolicy.Inherit
+        )
+    ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -123,7 +143,7 @@ fun WindowedModal(
                         // Minimize Button
                         IconButton(
                             onClick = { onStateChange(WindowState.MINIMIZED) },
-                            modifier = Modifier.size(28.dp)
+                            modifier = Modifier.size(48.dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Remove,
@@ -142,7 +162,7 @@ fun WindowedModal(
                                     onStateChange(WindowState.MAXIMIZED)
                                 }
                             },
-                            modifier = Modifier.size(28.dp)
+                            modifier = Modifier.size(48.dp)
                         ) {
                             Icon(
                                 imageVector = if (isMaximized) Icons.Default.FullscreenExit else Icons.Default.Fullscreen,
@@ -155,7 +175,7 @@ fun WindowedModal(
                         // Close Button
                         IconButton(
                             onClick = { onStateChange(null) },
-                            modifier = Modifier.size(28.dp)
+                            modifier = Modifier.size(48.dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Close,
@@ -180,6 +200,39 @@ fun WindowedModal(
     }
 }
 
+}
+
+@Composable
+internal fun OffCanvasPanelLayout(
+    expanded: Boolean,
+    modifier: Modifier = Modifier,
+    panel: @Composable BoxScope.() -> Unit,
+    content: @Composable BoxScope.() -> Unit
+) {
+    BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
+        val contentOffset by animateDpAsState(
+            targetValue = if (expanded) maxWidth else 0.dp,
+            animationSpec = tween(durationMillis = 240),
+            label = "panelOffset"
+        )
+        AnimatedVisibility(
+            visible = expanded,
+            enter = slideInHorizontally(initialOffsetX = { -it }),
+            exit = slideOutHorizontally(targetOffsetX = { -it }),
+            modifier = Modifier.fillMaxSize().testTag("nav_panel")
+        ) {
+            Box(modifier = Modifier.fillMaxSize(), content = panel)
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .offset(x = contentOffset)
+                .testTag("offcanvas_content"),
+            content = content
+        )
+    }
+}
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -190,6 +243,12 @@ class MainActivity : ComponentActivity() {
             val isDark = isDarkOverride ?: systemDark
 
             MyApplicationTheme(darkTheme = isDark) {
+                SideEffect {
+                    androidx.core.view.WindowCompat.getInsetsController(window, window.decorView).apply {
+                        isAppearanceLightStatusBars = !isDark
+                        isAppearanceLightNavigationBars = !isDark
+                    }
+                }
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -215,12 +274,13 @@ fun MainScreen(
     val allVideos by viewModel.allVideos.collectAsState()
     val filteredVideos by viewModel.filteredVideos.collectAsState()
     val selectedFilter by viewModel.selectedFilter.collectAsState()
+    val archiveSort by viewModel.selectedSort.collectAsState()
     val mediaAccess by viewModel.mediaAccessState.collectAsState()
     val ollamaState by viewModel.ollamaStatus.collectAsState()
     val isScanning by viewModel.isScanning.collectAsState()
     val lastScan by viewModel.lastScanResult.collectAsState()
     val llmProvider by viewModel.llmProvider.collectAsState()
-    val apiKey by viewModel.apiKey.collectAsState()
+    val hasApiKey by viewModel.hasApiKey.collectAsState()
     val llmTemperature by viewModel.llmTemperature.collectAsState()
     val systemPrompt by viewModel.systemPrompt.collectAsState()
     val availableModels by viewModel.availableModels.collectAsState()
@@ -230,6 +290,10 @@ fun MainScreen(
     val selectedFrames by viewModel.selectedVideoFrames.collectAsState()
     val selectedAnalysis by viewModel.selectedVideoAnalysis.collectAsState()
     val allAnalysisResults by viewModel.allAnalysisResults.collectAsState()
+    val inventoryTotals by viewModel.inventoryTotals.collectAsState()
+    val sourceAggregates by viewModel.sourceAggregates.collectAsState()
+    val selectedSourceCategory by viewModel.selectedSourceCategory.collectAsState()
+    val selectedSourceSubcategories by viewModel.selectedSourceSubcategories.collectAsState()
 
     val batchState by viewModel.processor.processorState.collectAsState()
     val activeVideoId by viewModel.processor.activeVideoId.collectAsState()
@@ -239,22 +303,75 @@ fun MainScreen(
     val autoIngestEnabled by viewModel.autoIngestEnabled.collectAsState()
     val autoIngestScreenshots by viewModel.autoIngestScreenshots.collectAsState()
     val autoIngestRecordings by viewModel.autoIngestRecordings.collectAsState()
+    val mediaRules by viewModel.mediaRules.collectAsState()
+    val customTags by viewModel.customTags.collectAsState()
+    val tagAssignments by viewModel.tagAssignments.collectAsState()
+    val binMedia by viewModel.binMedia.collectAsState()
+    val ruleMessage by viewModel.ruleMessage.collectAsState()
 
     var showSettings by remember { mutableStateOf(false) }
     var dismissLimitedBanner by remember { mutableStateOf(false) }
     var showEngineGuide by remember { mutableStateOf(false) }
 
+    var pendingStorageId by rememberSaveable { mutableStateOf<Long?>(null) }
+    var pendingStorageTrash by rememberSaveable { mutableStateOf(false) }
     // Intent Sender Launcher for Trashing & Deleting
     val systemActionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            Toast.makeText(context, "System storage action success!", Toast.LENGTH_SHORT).show()
-            selectedVideo?.let {
-                viewModel.markAsTrashedLocally(it.id)
+        val id = pendingStorageId
+        pendingStorageId = null
+        if (result.resultCode == Activity.RESULT_OK && id != null) {
+            viewModel.reconcileStorageAction(id, pendingStorageTrash)
+        }
+    }
+    fun requestStorageAction(id: Long, trash: Boolean) {
+        try {
+            val pending = if (trash) viewModel.createTrashPendingIntent(id) else viewModel.createDeletePendingIntent(id)
+            if (pending == null) {
+                Toast.makeText(context, "This storage action requires Android 11 or later.", Toast.LENGTH_LONG).show()
+                return
+            }
+            pendingStorageId = id
+            pendingStorageTrash = trash
+            systemActionLauncher.launch(IntentSenderRequest.Builder(pending.intentSender).build())
+        } catch (_: Exception) {
+            pendingStorageId = null
+            Toast.makeText(context, "Android could not open the storage confirmation. Scan and try again.", Toast.LENGTH_LONG).show()
+        }
+    }
+    val renameAuthorization by viewModel.renameAuthorization.collectAsState()
+    val renameLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
+        viewModel.finishRename(it.resultCode == Activity.RESULT_OK)
+    }
+    LaunchedEffect(renameAuthorization) {
+        if (renameAuthorization != null) {
+            viewModel.consumeRenameAuthorization()?.let {
+                try {
+                    renameLauncher.launch(IntentSenderRequest.Builder(it).build())
+                } catch (_: Exception) {
+                    viewModel.finishRename(false)
+                    Toast.makeText(context, "Android could not open the rename confirmation. Try again.", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
+    val operationMessage by viewModel.operationMessage.collectAsState()
+    LaunchedEffect(operationMessage) {
+        operationMessage?.let {
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            viewModel.clearOperationMessage()
+        }
+    }
+    val exportLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
+        uri?.let { viewModel.exportMetadata(it) { success ->
+            Toast.makeText(context, if (success) "Media metadata exported." else "Export failed. Choose a writable destination and retry.", Toast.LENGTH_LONG).show()
+        } }
+    }
+
+    val binDeleteLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult()
+    ) { result -> viewModel.finishBinDelete(result.resultCode == Activity.RESULT_OK) }
 
     // Storage Permission Launchers
     val requestPermissionLauncher = rememberLauncherForActivityResult(
@@ -262,14 +379,15 @@ fun MainScreen(
     ) { permissions ->
         viewModel.refreshMediaAccess()
         val readVideo = permissions[Manifest.permission.READ_MEDIA_VIDEO] ?: false
+        val readImages = permissions[Manifest.permission.READ_MEDIA_IMAGES] ?: false
         val partialRead = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             permissions[Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED] ?: false
         } else false
 
-        if (readVideo || partialRead) {
+        if (readVideo || readImages || partialRead) {
             viewModel.scanVideos()
         } else {
-            Toast.makeText(context, "Permissions denied. App needs video read access to scan.", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Permissions denied. App needs photo or video access to build the inventory.", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -277,13 +395,14 @@ fun MainScreen(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             requestPermissionLauncher.launch(
                 arrayOf(
+                    Manifest.permission.READ_MEDIA_IMAGES,
                     Manifest.permission.READ_MEDIA_VIDEO,
                     Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
                 )
             )
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requestPermissionLauncher.launch(
-                arrayOf(Manifest.permission.READ_MEDIA_VIDEO)
+                arrayOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
             )
         } else {
             requestPermissionLauncher.launch(
@@ -292,9 +411,6 @@ fun MainScreen(
         }
     }
 
-    var isTransferring by remember { mutableStateOf(false) }
-    var transferProgress by remember { mutableStateOf(0f) }
-    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -310,52 +426,21 @@ fun MainScreen(
                         Text(
                             text = stringResource(R.string.app_name),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp
+                            fontSize = 16.sp,
+                            maxLines = 2,
+                            modifier = Modifier.weight(1f)
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         
-                        val infiniteTransition = rememberInfiniteTransition()
-                        val pulseAlpha by infiniteTransition.animateFloat(
-                            initialValue = 0.5f,
-                            targetValue = 1f,
-                            animationSpec = infiniteRepeatable(
-                                animation = tween(1000, easing = LinearEasing),
-                                repeatMode = RepeatMode.Reverse
-                            ),
-                            label = "pulseAlpha"
-                        )
-                        
-                        IconButton(
-                            onClick = {
-                                if (!isTransferring) {
-                                    isTransferring = true
-                                    transferProgress = 0f
-                                    scope.launch {
-                                        for (i in 1..10) {
-                                            kotlinx.coroutines.delay(150)
-                                            transferProgress = i / 10f
-                                        }
-                                        isTransferring = false
-                                        Toast.makeText(context, "All backlog files sync-transferred to Computer successfully!", Toast.LENGTH_LONG).show()
-                                    }
-                                }
-                            },
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .background(if (isTransferring) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primary.copy(alpha = pulseAlpha))
-                                .size(32.dp)
-                                .testTag("computer_transfer_button")
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Computer,
-                                contentDescription = "Computer Sync",
-                                tint = MaterialTheme.colorScheme.onPrimary,
-                                modifier = Modifier.size(16.dp)
-                            )
-                        }
                     }
                 },
                 actions = {
+                    IconButton(
+                        onClick = { exportLauncher.launch("media-metadata.json") },
+                        modifier = Modifier.testTag("computer_transfer_button")
+                    ) {
+                        Icon(Icons.Default.FileDownload, contentDescription = "Export metadata")
+                    }
                     IconButton(onClick = onToggleTheme) {
                         val icon = if (isDark) Icons.Default.LightMode else Icons.Default.DarkMode
                         Icon(imageVector = icon, contentDescription = "Toggle Theme")
@@ -374,8 +459,10 @@ fun MainScreen(
         }
     ) { paddingValues ->
         // Modals Window States
-        var leftPanelExpanded by remember { mutableStateOf(true) }
-        var activePanelSection by remember { mutableStateOf("home") } // "home", "folders", "backlog", "archive", "settings"
+        var leftPanelExpanded by rememberSaveable { mutableStateOf(true) }
+        var activePanelSection by remember { mutableStateOf("home") } // "home", "sources", "folders", "backlog", "archive", "settings"
+        var sourceTool by rememberSaveable { mutableStateOf<String?>(null) }
+        BackHandler(enabled = sourceTool != null) { sourceTool = null }
         var folderSearchQuery by remember { mutableStateOf("") }
         
         var headerPanelExpanded by remember { mutableStateOf(true) }
@@ -383,20 +470,25 @@ fun MainScreen(
         // Custom Stateful Modals
         var previewModalState by remember { mutableStateOf<WindowState?>(null) }
         var previewModalVideoId by remember { mutableStateOf<Long?>(null) }
+        val previewDrafts = rememberSaveableStateHolder()
 
         var outputModalState by remember { mutableStateOf<WindowState?>(null) }
         var outputModalVideoId by remember { mutableStateOf<Long?>(null) }
 
         var settingsModalState by remember { mutableStateOf<WindowState?>(null) }
+        val settingsDrafts = rememberSaveableStateHolder()
+        var settingsApiKeyDraft by remember { mutableStateOf("") }
 
         // Folder selection states
         val selectedFolders = remember { mutableStateMapOf<String, Boolean>() }
         
         // Archive selection states
         // Archive selection states
-        val selectedArchiveVideos = remember { mutableStateMapOf<Long, Boolean>() }
+        val selectedArchiveVideos = remember(activePanelSection) { mutableStateMapOf<Long, Boolean>() }
 
         if (showSettings) {
+            settingsDrafts.removeState("settings")
+            settingsApiKeyDraft = ""
             settingsModalState = WindowState.STANDARD
             showSettings = false
         }
@@ -407,14 +499,11 @@ fun MainScreen(
                 .padding(paddingValues)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
-                // Split Side Panel & Main Panel layout
-                Row(modifier = Modifier.weight(1f)) {
-                    // Left Panel (Collapsible Sidebar)
-                    AnimatedVisibility(
-                        visible = leftPanelExpanded,
-                        enter = slideInHorizontally() + fadeIn(),
-                        exit = slideOutHorizontally() + fadeOut()
-                    ) {
+                // Production and evidence tests share this full-width off-canvas primitive.
+                OffCanvasPanelLayout(
+                    expanded = leftPanelExpanded,
+                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                    panel = {
                         Column(
                             modifier = Modifier
                                 .width(240.dp)
@@ -423,18 +512,19 @@ fun MainScreen(
                                 .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.12f))
                                 .padding(12.dp)
                         ) {
-                            Text("SIDE NAVIGATION", fontSize = 11.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(bottom = 8.dp))
+                            Text("MENU", fontSize = 11.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(bottom = 8.dp))
                             
                             // Navigation items list
-                            NavigationRowItem("Dashboard / Home", Icons.Default.Home, activePanelSection == "home") { activePanelSection = "home" }
-                            NavigationRowItem("Storage Folders", Icons.Default.FolderSpecial, activePanelSection == "folders") { activePanelSection = "folders" }
-                            NavigationRowItem("Active Backlog", Icons.Default.FormatListBulleted, activePanelSection == "backlog") { activePanelSection = "backlog" }
-                            NavigationRowItem("Archive (Processed)", Icons.Default.Archive, activePanelSection == "archive") { activePanelSection = "archive" }
+                            MediaManagementNavigation(activePanelSection) { destination ->
+                                activePanelSection = destination
+                                sourceTool = null
+                                leftPanelExpanded = false
+                            }
                             Divider(modifier = Modifier.padding(vertical = 12.dp))
 
                             // Dynamic Folder Multi-Selector
                             if (activePanelSection == "folders") {
-                                Text("FOLDER SELECTOR", fontSize = 11.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 6.dp))
+                                Text("Folders", fontSize = 13.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 6.dp))
                                 
                                 OutlinedTextField(
                                     value = folderSearchQuery,
@@ -460,12 +550,7 @@ fun MainScreen(
 
                                 // Extract and group folder strings from available videos
                                 val folders = remember(allVideos) {
-                                    allVideos.map {
-                                        val path = Uri.parse(it.uriString).path ?: ""
-                                        val dir = path.substringBeforeLast("/", "Internal/Media")
-                                        val cleanDir = if (dir.contains(":")) dir.substringAfter(":") else dir
-                                        cleanDir.trim('/')
-                                    }.distinct().filter { it.isNotEmpty() }
+                                    allVideos.filter { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed }.map { mediaFolderLabel(it) }.distinct().filter { it.isNotEmpty() }
                                 }
 
                                 val filteredFolders = remember(folders, folderSearchQuery) {
@@ -495,35 +580,27 @@ fun MainScreen(
                                         }
                                     }
                                     Spacer(modifier = Modifier.height(8.dp))
-                                    Button(
+                                    IconButton(
                                         onClick = {
-                                            var addCount = 0
+                                            val idsToQueue = mutableListOf<Long>()
                                             allVideos.forEach { v ->
-                                                val path = Uri.parse(v.uriString).path ?: ""
-                                                val dir = path.substringBeforeLast("/", "Internal/Media")
-                                                val cleanDir = if (dir.contains(":")) dir.substringAfter(":") else dir
-                                                val fKey = cleanDir.trim('/')
-                                                if (selectedFolders[fKey] == true) {
-                                                    viewModel.toggleQueueVideo(v.id)
-                                                    addCount++
+                                                val fKey = mediaFolderLabel(v)
+                                                if (selectedFolders[fKey] == true && v.reviewDecision == "keep") {
+                                                    idsToQueue += v.id
                                                 }
                                             }
-                                            Toast.makeText(context, "Added $addCount files to Backlog queue!", Toast.LENGTH_SHORT).show()
+                                            viewModel.enqueueVideos(idsToQueue)
                                         },
-                                        modifier = Modifier.fillMaxWidth()
+                                        modifier = Modifier.align(Alignment.End)
                                     ) {
-                                        Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(16.dp))
-                                        Spacer(modifier = Modifier.width(4.dp))
-                                        Text("Add Selected to Backlog", fontSize = 12.sp)
+                                        Icon(Icons.Default.Add, contentDescription = "Add selected to queue")
                                     }
                                 }
                             } else if (activePanelSection == "settings") {
                                 // Mini quick-settings panel in sidebar
-                                Text("QUICK PROVIDER CONFIG", fontSize = 11.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 6.dp))
-                                TextButton(onClick = { settingsModalState = WindowState.STANDARD }, modifier = Modifier.fillMaxWidth()) {
-                                    Icon(Icons.Default.OpenInNew, contentDescription = null, modifier = Modifier.size(16.dp))
-                                    Spacer(modifier = Modifier.width(6.dp))
-                                    Text("Configure LLM Panel", fontSize = 12.sp)
+                                Text("AI setup", fontSize = 13.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 6.dp))
+                                IconButton(onClick = { settingsModalState = WindowState.STANDARD }, modifier = Modifier.align(Alignment.End)) {
+                                    Icon(Icons.Default.OpenInNew, contentDescription = "Open AI settings")
                                 }
                             } else {
                                 // Default status count inside sidebar
@@ -532,24 +609,24 @@ fun MainScreen(
                                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                                 ) {
                                     Column(modifier = Modifier.padding(10.dp)) {
-                                        Text("BACKLOG SUMMARY", fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                                        Text("Summary", fontSize = 12.sp, fontWeight = FontWeight.Bold)
                                         Spacer(modifier = Modifier.height(4.dp))
-                                        Text("• Total Videos Scanned: ${allVideos.size}", fontSize = 11.sp)
+                                        Text("• Available media: ${allVideos.count { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed }}", fontSize = 11.sp)
                                         Text("• Filtered Backlog items: ${filteredVideos.size}", fontSize = 11.sp)
                                         Text("• LLM Provider: ${viewModel.llmProvider.value.replace("_", " ").uppercase()}", fontSize = 11.sp)
                                     }
                                 }
                             }
                         }
-                    }
+                    },
 
-                    // Main Content Panel (Depends on Active Navigation Section)
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight()
-                            .padding(16.dp)
-                    ) {
+                    content = {
+                        // Main Content Panel (Depends on Active Navigation Section)
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp)
+                        ) {
                         // Header info of active view
                         Row(
                             modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
@@ -557,14 +634,14 @@ fun MainScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = activePanelSection.uppercase(),
+                                text = destinationLabel(activePanelSection),
                                 fontWeight = FontWeight.Black,
                                 fontSize = 16.sp,
                                 color = MaterialTheme.colorScheme.primary
                             )
                             
                             // Sort Controls (visible on backlog & archive)
-                            if (activePanelSection == "backlog" || activePanelSection == "archive") {
+                            if (activePanelSection == "backlog" || activePanelSection.endsWith("_archive")) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Text("Sort: ", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                                     val currentSort by viewModel.selectedSort.collectAsState()
@@ -599,17 +676,23 @@ fun MainScreen(
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         Row(verticalAlignment = Alignment.CenterVertically) {
-                                            CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.primary)
+                                            if (batchState == VideoProcessor.State.PROCESSING) {
+                                                CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.primary)
+                                            } else {
+                                                Icon(if (batchState == VideoProcessor.State.FINISHED) Icons.Default.CheckCircle else Icons.Default.PauseCircle,
+                                                    contentDescription = if (batchState == VideoProcessor.State.FINISHED) "Batch finished" else "Batch paused",
+                                                    modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.primary)
+                                            }
                                             Spacer(modifier = Modifier.width(8.dp))
                                             Text("Batch: ${batchState.name}", fontWeight = FontWeight.Bold, fontSize = 13.sp)
                                         }
                                         Row {
                                             if (batchState == VideoProcessor.State.PROCESSING) {
-                                                IconButton(onClick = { viewModel.pauseBatch() }, modifier = Modifier.size(24.dp)) {
+                                                IconButton(onClick = { viewModel.pauseBatch() }, modifier = Modifier.size(48.dp)) {
                                                     Icon(Icons.Default.Pause, contentDescription = "Pause", tint = MaterialTheme.colorScheme.primary)
                                                 }
                                             } else if (batchState == VideoProcessor.State.PAUSED) {
-                                                IconButton(onClick = { viewModel.resumeBatch() }, modifier = Modifier.size(24.dp)) {
+                                                IconButton(onClick = { viewModel.resumeBatch() }, modifier = Modifier.size(48.dp)) {
                                                     Icon(Icons.Default.PlayArrow, contentDescription = "Resume", tint = MaterialTheme.colorScheme.primary)
                                                 }
                                             }
@@ -627,7 +710,7 @@ fun MainScreen(
 
                         when (activePanelSection) {
                             "home" -> {
-                                OverviewGrid(allVideos = allVideos, mediaState = mediaAccess, ollamaState = ollamaState)
+                                OverviewGrid(allVideos = allVideos, mediaState = mediaAccess, ollamaState = ollamaState, model = viewModel.settings.collectAsState().value.ollamaModelName, endpoint = viewModel.settings.collectAsState().value.ollamaEndpointUrl)
                                 
                                 if (mediaAccess == "Limited access" && !dismissLimitedBanner) {
                                     Card(
@@ -636,7 +719,7 @@ fun MainScreen(
                                     ) {
                                         Column(modifier = Modifier.padding(12.dp)) {
                                             Text("Limited Access Enabled", fontWeight = FontWeight.Bold, fontSize = 13.sp, color = MaterialTheme.colorScheme.onErrorContainer)
-                                            Text("Android has restricted gallery scans. Please grant full access for comprehensive video indexing.", fontSize = 11.sp)
+                                            Text("Android has restricted gallery scans. Headline totals include only media currently visible to this app.", fontSize = 11.sp)
                                             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                                                 TextButton(onClick = { triggerPermissionCheck() }) { Text("Change", fontSize = 11.sp) }
                                                 TextButton(onClick = { dismissLimitedBanner = true }) { Text("Dismiss", fontSize = 11.sp) }
@@ -649,11 +732,13 @@ fun MainScreen(
                                 ActionButtonsBar(
                                     onScan = { triggerPermissionCheck() },
                                     onProcessNext = {
-                                        val next = allVideos.firstOrNull { it.status == "new" || it.status == "queued" }
+                                        val next = allVideos.firstOrNull {
+                                            MediaAnalysisPolicy.canAnalyze(it) && it.status in setOf("new", "queued", "error")
+                                        }
                                         if (next != null) {
                                             viewModel.processSingle(next)
                                         } else {
-                                            Toast.makeText(context, "No unprocessed videos left.", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, "Mark media Keep before analysis.", Toast.LENGTH_SHORT).show()
                                         }
                                     },
                                     onStartBatch = { viewModel.startBatch() },
@@ -668,13 +753,72 @@ fun MainScreen(
                                 ) {
                                     Column(modifier = Modifier.padding(12.dp)) {
                                         Row(modifier = Modifier.fillMaxWidth().clickable { showEngineGuide = !showEngineGuide }, horizontalArrangement = Arrangement.SpaceBetween) {
-                                            Text("Samsung S23 Ultra Processing Guide", fontWeight = FontWeight.Bold, fontSize = 12.sp)
-                                            Text(if (showEngineGuide) "Hide" else "Show", color = MaterialTheme.colorScheme.primary, fontSize = 12.sp)
+                                            Text("Guide", fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                                            Icon(
+                                                imageVector = if (showEngineGuide) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                                                contentDescription = if (showEngineGuide) "Collapse guide" else "Expand guide"
+                                            )
                                         }
                                         if (showEngineGuide) {
                                             Spacer(modifier = Modifier.height(6.dp))
-                                            Text("• Private-First OCR: Frame extraction and text detection run offline natively on device.\n• Smart Checklist Schema: Track 8 distinct milestone check-gates from raw discovery to final computer export archiving.", fontSize = 11.sp, lineHeight = 15.sp)
+                                            Text("• Private-First OCR: Frame extraction and text detection run offline natively on device.\n• Smart Checklist Schema: Follow discovery, review, processing, saved results, and metadata export.", fontSize = 11.sp, lineHeight = 15.sp)
                                         }
+                                    }
+                                }
+                            }
+
+                            "sources" -> {
+                                AnimatedContent(targetState = sourceTool, label = "sourceTool") { tool ->
+                                    when (tool) {
+                                        "rules" -> RulesScreen(
+                                            rules = mediaRules,
+                                            message = ruleMessage,
+                                            onBack = { sourceTool = null },
+                                            onSave = viewModel::saveRule,
+                                            onEnable = viewModel::setRuleEnabled,
+                                            onPreview = viewModel::previewRule,
+                                            onRun = viewModel::runRule,
+                                            onDelete = viewModel::deleteRule
+                                        )
+                                        "tags" -> TagsScreen(
+                                            tags = customTags,
+                                            message = ruleMessage,
+                                            assignments = tagAssignments,
+                                            media = allVideos,
+                                            onBack = { sourceTool = null },
+                                            onAdd = viewModel::addTag,
+                                            onRename = viewModel::renameTag,
+                                            onDelete = viewModel::deleteTag,
+                                            onAssign = viewModel::assignTag,
+                                            onUnassign = viewModel::unassignTag
+                                        )
+                                        "bin" -> BinScreen(
+                                            media = binMedia,
+                                            message = ruleMessage,
+                                            onBack = { sourceTool = null },
+                                            onRecover = viewModel::recoverBin,
+                                            loadThumbnail = viewModel::loadThumbnail,
+                                            onDeleteAll = {
+                                                viewModel.createBinDeletePendingIntent()?.let { pending ->
+                                                    binDeleteLauncher.launch(IntentSenderRequest.Builder(pending.intentSender).build())
+                                                }
+                                            }
+                                        )
+                                        else -> MediaSourcesScreen(
+                                            totals = inventoryTotals,
+                                            aggregates = sourceAggregates,
+                                            selectedCategory = selectedSourceCategory,
+                                            subcategories = selectedSourceSubcategories,
+                                            allMedia = allVideos,
+                                            mediaAccess = mediaAccess,
+                                            isScanning = isScanning,
+                                            onScan = { triggerPermissionCheck() },
+                                            onSelectCategory = viewModel::selectSourceCategory,
+                                            onDecision = viewModel::setReviewDecision,
+                                            onOpenRules = { sourceTool = "rules" },
+                                            onOpenTags = { sourceTool = "tags" },
+                                            onOpenBin = { sourceTool = "bin" }
+                                        )
                                     }
                                 }
                             }
@@ -716,13 +860,14 @@ fun MainScreen(
                                                 onClick = { folderPickerLauncher.launch(null) },
                                                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                                             ) {
-                                                Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(16.dp))
-                                                Spacer(modifier = Modifier.width(4.dp))
-                                                Text("Register Path", fontSize = 11.sp)
+                                                Icon(Icons.Default.Add, contentDescription = "Add watch folder", modifier = Modifier.size(16.dp))
                                             }
                                         }
                                         Spacer(modifier = Modifier.height(10.dp))
                                         val targetFoldersList by viewModel.targetFolders.collectAsState()
+                                        if (targetFoldersList.isNotEmpty()) {
+                                            Text("Searches stay inside these folders and their subfolders. Tap Scan to update the list.", fontSize = 11.sp)
+                                        }
                                         if (targetFoldersList.isEmpty()) {
                                             Text(
                                                 "No specific directory register active. By default, the app scans all internal media directories.",
@@ -750,7 +895,7 @@ fun MainScreen(
                                                         }
                                                         IconButton(
                                                             onClick = { viewModel.removeTargetFolder(folderUri) },
-                                                            modifier = Modifier.size(24.dp)
+                                                            modifier = Modifier.size(48.dp)
                                                         ) {
                                                             Icon(Icons.Default.Delete, contentDescription = "Remove", tint = MaterialTheme.colorScheme.error, modifier = Modifier.size(16.dp))
                                                         }
@@ -775,12 +920,12 @@ fun MainScreen(
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
                                             Column(modifier = Modifier.weight(1f)) {
-                                                Text("Auto-Ingestion Watcher (No-Risk)", fontWeight = FontWeight.Bold, fontSize = 15.sp, color = MaterialTheme.colorScheme.primary)
-                                                Text("Automatically detect and queue new phone media for end-to-end background tag index extraction.", fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
+                                                Text("Auto add", fontWeight = FontWeight.Bold, fontSize = 15.sp, color = MaterialTheme.colorScheme.primary)
+                                                Text("Find new screenshots and screen recordings in your chosen folders while the app is running. Review and process them yourself.", fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
                                             }
                                             Switch(
                                                 checked = autoIngestEnabled,
-                                                onCheckedChange = { viewModel.setAutoIngestEnabled(it) }
+                                                onCheckedChange = { viewModel.setAutoIngestEnabled(it) }, modifier = Modifier.testTag("auto_add")
                                             )
                                         }
                                         
@@ -798,11 +943,11 @@ fun MainScreen(
                                             ) {
                                                 Checkbox(
                                                     checked = autoIngestRecordings,
-                                                    onCheckedChange = { viewModel.setAutoIngestRecordings(it) }
+                                                    onCheckedChange = { viewModel.setAutoIngestRecordings(it) }, modifier = Modifier.testTag("auto_record")
                                                 )
                                                 Spacer(modifier = Modifier.width(8.dp))
                                                 Column {
-                                                    Text("Watch for Screen Recordings", fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                                                    Text("Record", fontSize = 12.sp, fontWeight = FontWeight.Medium)
                                                     Text("Auto-links videos with 'screen', 'record', or 'cast' in filename", fontSize = 10.sp, color = MaterialTheme.colorScheme.outline)
                                                 }
                                             }
@@ -816,11 +961,11 @@ fun MainScreen(
                                             ) {
                                                 Checkbox(
                                                     checked = autoIngestScreenshots,
-                                                    onCheckedChange = { viewModel.setAutoIngestScreenshots(it) }
+                                                    onCheckedChange = { viewModel.setAutoIngestScreenshots(it) }, modifier = Modifier.testTag("auto_shots")
                                                 )
                                                 Spacer(modifier = Modifier.width(8.dp))
                                                 Column {
-                                                    Text("Watch for Screenshots", fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                                                    Text("Shots", fontSize = 12.sp, fontWeight = FontWeight.Medium)
                                                     Text("Auto-links images with 'screenshot' in filename", fontSize = 10.sp, color = MaterialTheme.colorScheme.outline)
                                                 }
                                             }
@@ -840,7 +985,7 @@ fun MainScreen(
                                                     )
                                                     Spacer(modifier = Modifier.width(8.dp))
                                                     Text(
-                                                        "Zero regression downstream: Runs safely using system-level MediaStore content observers with no battery overhead.",
+                                                        "Auto add discovers media only. It does not send files to AI or process them automatically.",
                                                         fontSize = 10.sp,
                                                         color = MaterialTheme.colorScheme.primary
                                                     )
@@ -857,37 +1002,31 @@ fun MainScreen(
                                 val allSelected = backlogList.isNotEmpty() && backlogList.all { selectedBacklogVideos[it.id] == true }
 
                                 Column(modifier = Modifier.fillMaxSize()) {
-                                    val selectedIds = remember(selectedBacklogVideos) { selectedBacklogVideos.filter { it.value }.keys }
+                                    val selectedIds = backlogList.filter { selectedBacklogVideos[it.id] == true }.map { it.id }
                                     if (selectedIds.isNotEmpty()) {
                                         Card(
                                             modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
                                             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f)),
                                             border = BorderStroke(1.dp, MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f))
                                         ) {
-                                            Row(
+                                            Column(
                                                 modifier = Modifier.padding(8.dp).fillMaxWidth(),
-                                                horizontalArrangement = Arrangement.SpaceBetween,
-                                                verticalAlignment = Alignment.CenterVertically
+                                                verticalArrangement = Arrangement.spacedBy(4.dp)
                                             ) {
                                                 Text("${selectedIds.size} files selected in backlog", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSecondaryContainer)
-                                                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                                                     Button(
                                                         onClick = {
-                                                            selectedIds.forEach { id ->
-                                                                val videoItem = backlogList.find { it.id == id }
-                                                                if (videoItem != null) {
-                                                                    viewModel.processSingle(videoItem)
-                                                                }
-                                                            }
-                                                            Toast.makeText(context, "Processing started for ${selectedIds.size} files!", Toast.LENGTH_SHORT).show()
+                                                            val keptItems = selectedIds.mapNotNull { id -> backlogList.find { it.id == id } }
+                                                                .filter { it.reviewDecision == "keep" }
+                                                            keptItems.forEach(viewModel::processSingle)
+                                                            Toast.makeText(context, "Processing started for ${keptItems.size} kept files.", Toast.LENGTH_SHORT).show()
                                                             selectedBacklogVideos.clear()
                                                         },
                                                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp),
-                                                        modifier = Modifier.height(28.dp)
+                                                        modifier = Modifier.height(48.dp)
                                                     ) {
-                                                        Icon(Icons.Default.Refresh, contentDescription = null, modifier = Modifier.size(12.dp))
-                                                        Spacer(modifier = Modifier.width(4.dp))
-                                                        Text("Process Selected", fontSize = 10.sp)
+                                                        Icon(Icons.Default.PlayArrow, contentDescription = "Process selected", modifier = Modifier.size(14.dp))
                                                     }
                                                     
                                                     Button(
@@ -899,16 +1038,14 @@ fun MainScreen(
                                                             selectedBacklogVideos.clear()
                                                         },
                                                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp),
-                                                        modifier = Modifier.height(28.dp)
+                                                        modifier = Modifier.height(48.dp)
                                                     ) {
-                                                        Icon(Icons.Default.Archive, contentDescription = null, modifier = Modifier.size(12.dp))
-                                                        Spacer(modifier = Modifier.width(4.dp))
-                                                        Text("Archive Selected", fontSize = 10.sp)
+                                                        Icon(Icons.Default.Archive, contentDescription = "Archive selected", modifier = Modifier.size(14.dp))
                                                     }
 
                                                     TextButton(
                                                         onClick = { selectedBacklogVideos.clear() },
-                                                        modifier = Modifier.height(28.dp)
+                                                        modifier = Modifier.height(48.dp)
                                                     ) {
                                                         Text("Cancel", fontSize = 10.sp)
                                                     }
@@ -939,10 +1076,10 @@ fun MainScreen(
                                                     onCheckedChange = { checked ->
                                                         backlogList.forEach { selectedBacklogVideos[it.id] = checked }
                                                     },
-                                                    modifier = Modifier.size(24.dp).padding(end = 8.dp)
+                                                    modifier = Modifier.size(48.dp).padding(end = 8.dp)
                                                 )
                                                 Text("Location", modifier = Modifier.weight(1.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                                                Text("File Name", modifier = Modifier.weight(2f), fontWeight = FontWeight.Bold, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                                Text("File", modifier = Modifier.weight(2f), fontWeight = FontWeight.Bold, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                                 Text("Size", modifier = Modifier.weight(1f), fontWeight = FontWeight.Bold, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                                 Text("Status", modifier = Modifier.weight(0.8f), fontWeight = FontWeight.Bold, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                                 Text("Actions", modifier = Modifier.weight(1.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp, textAlign = androidx.compose.ui.text.style.TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -989,7 +1126,7 @@ fun MainScreen(
                                                             Checkbox(
                                                                 checked = isChecked,
                                                                 onCheckedChange = { selectedBacklogVideos[video.id] = it },
-                                                                modifier = Modifier.size(24.dp).padding(end = 8.dp)
+                                                                modifier = Modifier.size(48.dp).padding(end = 8.dp)
                                                             )
                                                             Text(shortLoc, modifier = Modifier.weight(1.5f), fontSize = 11.sp)
                                                             Column(modifier = Modifier.weight(2f)) {
@@ -997,14 +1134,14 @@ fun MainScreen(
                                                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                                                     Text("Rename: ", fontSize = 9.sp, color = MaterialTheme.colorScheme.outline)
                                                                     Text(
-                                                                        "LLM AI",
+                                                                        "Rename",
                                                                         fontSize = 9.sp,
                                                                         color = MaterialTheme.colorScheme.primary,
                                                                         fontWeight = FontWeight.Bold,
                                                                         modifier = Modifier
                                                                             .clickable { 
                                                                                 viewModel.triggerFileRenameWithLLM(video.id)
-                                                                                Toast.makeText(context, "AI suggested 20-character rename applied!", Toast.LENGTH_SHORT).show()
+
                                                                             }
                                                                             .padding(horizontal = 4.dp)
                                                                     )
@@ -1054,6 +1191,7 @@ fun MainScreen(
                                                                     modifier = Modifier
                                                                         .size(16.dp)
                                                                         .clickable {
+                                                                            if (previewModalVideoId != video.id || previewModalState == null) previewDrafts.removeState("preview:${video.id}")
                                                                             previewModalVideoId = video.id
                                                                             previewModalState = WindowState.STANDARD
                                                                         },
@@ -1065,11 +1203,11 @@ fun MainScreen(
                                                                     contentDescription = "Process",
                                                                     modifier = Modifier
                                                                         .size(16.dp)
-                                                                        .clickable {
+                                                                        .clickable(enabled = video.reviewDecision == "keep") {
                                                                             viewModel.processSingle(video)
-                                                                            Toast.makeText(context, "Processing started for ${video.displayName}", Toast.LENGTH_SHORT).show()
+                                                                            Toast.makeText(context, "Processing started for kept media.", Toast.LENGTH_SHORT).show()
                                                                         },
-                                                                    tint = MaterialTheme.colorScheme.primary
+                                                                    tint = if (video.reviewDecision == "keep") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
                                                                 )
                                                             }
                                                         }
@@ -1081,8 +1219,23 @@ fun MainScreen(
                                 }
                             }
 
-                            "archive" -> {
+                            "video_archive", "image_archive" -> {
                                 // ARCHIVED FILES MANAGEMENT VIEW
+                                val archivedItems = remember(allVideos, activePanelSection, archiveSort) {
+                                    val archived = allVideos.filter {
+                                        it.isCurrentlyAvailable && !it.isPending && !it.isTrashed && it.status == "archived" && if (activePanelSection == "image_archive") {
+                                            it.mimeType?.startsWith("image/") == true
+                                        } else {
+                                            it.mimeType?.startsWith("video/") == true
+                                        }
+                                    }
+                                    when (archiveSort) {
+                                        "Name" -> archived.sortedBy { it.displayName.lowercase() }
+                                        "Status" -> archived.sortedBy { it.status }
+                                        "Size" -> archived.sortedBy { it.sizeBytes ?: 0L }
+                                        else -> archived
+                                    }
+                                }
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -1090,7 +1243,6 @@ fun MainScreen(
                                         .padding(8.dp),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    val archivedItems = remember(allVideos) { allVideos.filter { it.status == "archived" } }
                                     val allSelected = archivedItems.isNotEmpty() && archivedItems.all { selectedArchiveVideos[it.id] == true }
                                     Checkbox(
                                         checked = allSelected,
@@ -1099,11 +1251,11 @@ fun MainScreen(
                                         }
                                     )
                                     Text("Location", modifier = Modifier.weight(1.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                                    Text("File Name", modifier = Modifier.weight(2.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                                    Text("File", modifier = Modifier.weight(2.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
                                     Text("Size", modifier = Modifier.weight(1f), fontWeight = FontWeight.Bold, fontSize = 11.sp)
                                 }
 
-                                val archivedList = remember(allVideos) { allVideos.filter { it.status == "archived" } }
+                                val archivedList = archivedItems
 
                                 if (archivedList.isEmpty()) {
                                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -1143,23 +1295,22 @@ fun MainScreen(
                                         ) {
                                             Button(
                                                 onClick = {
-                                                    val selectedIds = selectedArchiveVideos.filter { it.value }.keys
+                                                    val selectedIds = archivedItems.filter { selectedArchiveVideos[it.id] == true }.map { it.id }
                                                     selectedIds.forEach { id ->
                                                         viewModel.restoreArchivedVideo(id)
                                                     }
                                                     Toast.makeText(context, "Restored ${selectedIds.size} files back to main backlog!", Toast.LENGTH_SHORT).show()
                                                     selectedArchiveVideos.clear()
                                                 },
-                                                modifier = Modifier.weight(1f)
+                                                modifier = Modifier.weight(1f),
+                                                enabled = archivedItems.any { selectedArchiveVideos[it.id] == true }
                                             ) {
-                                                Icon(Icons.Default.Restore, contentDescription = null, modifier = Modifier.size(16.dp))
-                                                Spacer(modifier = Modifier.width(4.dp))
-                                                Text("Restore Files", fontSize = 11.sp)
+                                                Icon(Icons.Default.Restore, contentDescription = "Restore selected", modifier = Modifier.size(16.dp))
                                             }
 
                                             Button(
                                                 onClick = {
-                                                    val selectedIds = selectedArchiveVideos.filter { it.value }.keys
+                                                    val selectedIds = archivedItems.filter { selectedArchiveVideos[it.id] == true }.map { it.id }
                                                     selectedIds.forEach { id ->
                                                         viewModel.removeVideoFromBacklog(id)
                                                     }
@@ -1167,26 +1318,26 @@ fun MainScreen(
                                                     selectedArchiveVideos.clear()
                                                 },
                                                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
-                                                modifier = Modifier.weight(1f)
+                                                modifier = Modifier.weight(1f),
+                                                enabled = archivedItems.any { selectedArchiveVideos[it.id] == true }
                                             ) {
-                                                Icon(Icons.Default.DeleteForever, contentDescription = null, modifier = Modifier.size(16.dp))
-                                                Spacer(modifier = Modifier.width(4.dp))
-                                                Text("Delete selected", fontSize = 11.sp)
+                                                Icon(Icons.Default.DeleteForever, contentDescription = "Delete selected index entries", modifier = Modifier.size(16.dp))
                                             }
                                         }
                                     }
                                 }
                             }
                         }
+                        }
                     }
-                }
+                )
             }
 
-            // Collapsible Sidebar Drawer Toggle Handle Tab
+            // Preserve the original edge-handle interaction while the current screen moves off-screen.
             Box(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
-                    .offset(x = if (leftPanelExpanded) 298.dp else 0.dp)
+                    .offset(x = if (leftPanelExpanded) 240.dp else 0.dp)
                     .clip(RoundedCornerShape(topEnd = 16.dp, bottomEnd = 16.dp))
                     .background(MaterialTheme.colorScheme.primary)
                     .clickable { leftPanelExpanded = !leftPanelExpanded }
@@ -1195,7 +1346,7 @@ fun MainScreen(
             ) {
                 Icon(
                     imageVector = if (leftPanelExpanded) Icons.Default.ChevronLeft else Icons.Default.ChevronRight,
-                    contentDescription = "Toggle Sidebar",
+                    contentDescription = if (leftPanelExpanded) "Close menu" else "Open menu",
                     tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.size(20.dp)
                 )
@@ -1219,7 +1370,7 @@ fun MainScreen(
                         Row(modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Default.Visibility, contentDescription = null, modifier = Modifier.size(14.dp))
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text("Preview (Min)", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                            Icon(Icons.Default.Preview, contentDescription = "Restore preview", modifier = Modifier.size(18.dp))
                         }
                     }
                 }
@@ -1234,7 +1385,7 @@ fun MainScreen(
                         Row(modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Default.OpenInNew, contentDescription = null, modifier = Modifier.size(14.dp))
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text("Output (Min)", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                            Icon(Icons.Default.Article, contentDescription = "Restore output", modifier = Modifier.size(18.dp))
                         }
                     }
                 }
@@ -1249,7 +1400,7 @@ fun MainScreen(
                         Row(modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Default.Settings, contentDescription = null, modifier = Modifier.size(14.dp))
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text("Settings (Min)", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                            Icon(Icons.Default.Settings, contentDescription = "Restore settings", modifier = Modifier.size(18.dp))
                         }
                     }
                 }
@@ -1265,11 +1416,12 @@ fun MainScreen(
                         windowState = previewModalState!!,
                         onStateChange = { previewModalState = it }
                     ) {
-                        val framesList = remember(pVideoId) { allVideos.flatMap { if (it.id == pVideoId) selectedFrames else emptyList() } }
+                        previewDrafts.SaveableStateProvider("preview:$pVideoId") {
+                        val framesList by remember(vItem.id) { viewModel.framesForVideo(vItem.id) }.collectAsState(initial = emptyList())
                         val analysisObj = allAnalysisResults[pVideoId]
                         VideoDetailPanel(
                             video = vItem,
-                            frames = selectedFrames, // fetches dynamically via viewModel
+                            frames = framesList, // fetches dynamically via viewModel
                             analysis = analysisObj,
                             onClose = { previewModalState = null },
                             onProcessSingle = { viewModel.processSingle(vItem) },
@@ -1285,14 +1437,13 @@ fun MainScreen(
                                 previewModalState = null
                             },
                             onMoveToTrash = {
-                                viewModel.markAsTrashedLocally(vItem.id)
-                                previewModalState = null
+                                requestStorageAction(vItem.id, true)
                             },
                             onPermanentDelete = {
-                                viewModel.markAsDeletedLocally(vItem.id)
-                                previewModalState = null
+                                requestStorageAction(vItem.id, false)
                             }
                         )
+                        }
                     }
                 }
             }
@@ -1352,19 +1503,26 @@ fun MainScreen(
                 WindowedModal(
                     title = "Ollama Advanced Connection Settings",
                     windowState = settingsModalState!!,
-                    onStateChange = { settingsModalState = it }
+                    onStateChange = { if (it == null) settingsApiKeyDraft = ""; settingsModalState = it },
+                    secure = true
                 ) {
-                    var editProvider by remember { mutableStateOf(llmProvider) }
-                    var editApiKey by remember { mutableStateOf(apiKey) }
-                    var editTemperature by remember { mutableStateOf(llmTemperature) }
-                    var editPrompt by remember { mutableStateOf(systemPrompt) }
+                    settingsDrafts.SaveableStateProvider("settings") {
+                    var editProvider by rememberSaveable { mutableStateOf(llmProvider) }
+                    val editApiKey = settingsApiKeyDraft
+                    var editTemperature by rememberSaveable { mutableStateOf(llmTemperature) }
+                    var editPrompt by rememberSaveable { mutableStateOf(systemPrompt) }
                     
                     val settingsObj = viewModel.settings.collectAsState().value
-                    var editUrl by remember { mutableStateOf(settingsObj.ollamaEndpointUrl) }
-                    var editTimeout by remember { mutableStateOf(settingsObj.requestTimeoutSeconds.toString()) }
-                    var selectedModelName by remember { mutableStateOf(settingsObj.ollamaModelName) }
+                    var editUrl by rememberSaveable { mutableStateOf(settingsObj.ollamaEndpointUrl) }
+                    var editTimeout by rememberSaveable { mutableStateOf(settingsObj.requestTimeoutSeconds.toString()) }
+                    var outsideServiceAllowed by rememberSaveable { mutableStateOf(settingsObj.confirmedNonLocalEndpointWarning) }
+                    var selectedModelName by rememberSaveable { mutableStateOf(settingsObj.ollamaModelName) }
 
                     val connSuccess by viewModel.connectionSuccess.collectAsState()
+                    val modelsProvider by viewModel.availableModelProvider.collectAsState()
+                    val modelsEndpoint by viewModel.availableModelEndpoint.collectAsState()
+                    val modelDiscoveryMessage by viewModel.modelDiscoveryMessage.collectAsState()
+                    var connectionCheckedFor by rememberSaveable { mutableStateOf<String?>(null) }
 
                     Column(
                         modifier = Modifier
@@ -1372,10 +1530,10 @@ fun MainScreen(
                             .verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        val displayModels = availableModels
+                        val displayModels = if (modelsProvider == editProvider && (editProvider == "local" || modelsEndpoint == viewModel.modelEndpointKey(editUrl))) availableModels else emptyList()
 
-                        LaunchedEffect(editProvider, availableModels) {
-                            if (!displayModels.contains(selectedModelName)) {
+                        LaunchedEffect(editProvider, editUrl, availableModels) {
+                            if (selectedModelName.isBlank() && displayModels.isNotEmpty()) {
                                 selectedModelName = displayModels.firstOrNull() ?: ""
                             }
                         }
@@ -1383,7 +1541,7 @@ fun MainScreen(
                         var providerExpanded by remember { mutableStateOf(false) }
 
                         Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            Text("LLM Configuration Profile", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                            Text("AI setup", fontWeight = FontWeight.Bold, fontSize = 14.sp)
                             
                             ExposedDropdownMenuBox(
                                 expanded = providerExpanded,
@@ -1392,11 +1550,10 @@ fun MainScreen(
                             ) {
                                 OutlinedTextField(
                                     value = when(editProvider) {
-                                        "ollama_local" -> "Ollama Local (PC/LAN)"
-                                        "ollama_cloud" -> "Ollama Cloud (Remote Host)"
-                                        "gemini" -> "Gemini API"
-                                        "local" -> "Local (On-Device)"
-                                        else -> "Ollama Local (PC/LAN)"
+                                        "ollama_local" -> "PC"
+                                        "ollama_cloud" -> "Cloud"
+                                                                                "local" -> "Device"
+                                        else -> "PC"
                                     },
                                     onValueChange = {},
                                     readOnly = true,
@@ -1412,47 +1569,54 @@ fun MainScreen(
                                     onDismissRequest = { providerExpanded = false }
                                 ) {
                                     DropdownMenuItem(
-                                        text = { Text("Ollama Local (PC/LAN)") },
-                                        onClick = { editProvider = "ollama_local"; providerExpanded = false }
+                                        text = { Text("PC") },
+                                        onClick = { editProvider = "ollama_local"; selectedModelName = ""; providerExpanded = false }
                                     )
                                     DropdownMenuItem(
-                                        text = { Text("Ollama Cloud (Remote Host)") },
-                                        onClick = { editProvider = "ollama_cloud"; providerExpanded = false }
+                                        text = { Text("Cloud") },
+                                        onClick = { editProvider = "ollama_cloud"; editUrl = "https://ollama.com"; selectedModelName = ""; providerExpanded = false }
                                     )
                                     DropdownMenuItem(
-                                        text = { Text("Gemini API") },
-                                        onClick = { editProvider = "gemini"; providerExpanded = false }
-                                    )
-                                    DropdownMenuItem(
-                                        text = { Text("Local (On-Device)") },
-                                        onClick = { editProvider = "local"; providerExpanded = false }
+                                        text = { Text("Device") },
+                                        onClick = { editProvider = "local"; selectedModelName = ""; providerExpanded = false }
                                     )
                                 }
                             }
                         }
 
                         // URL Endpoint configuration (Only for Ollama providers)
-                        if (editProvider != "gemini" && editProvider != "local") {
+                        if (editProvider != "local") {
                             OutlinedTextField(
                                 value = editUrl,
-                                onValueChange = { editUrl = it },
-                                label = { Text("HTTP API Connection Host URI") },
+                                onValueChange = { editUrl = it; selectedModelName = ""; outsideServiceAllowed = false },
+                                label = { Text("Host") },
                                 modifier = Modifier.fillMaxWidth()
                             )
 
+                            if (editProvider == "ollama_local" && viewModel.endpointNeedsConsent(editUrl)) {
+                                Text("This address can send detected words and notes outside your computer. Without permission, summaries use Device fallback.")
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Checkbox(checked = outsideServiceAllowed, onCheckedChange = { outsideServiceAllowed = it }, modifier = Modifier.testTag("allow_outside_service"))
+                                    Text("Allow this outside service")
+                                }
+                            }
+
                             // Connection Testing Action Row
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Button(onClick = { viewModel.checkConnection(editUrl, editProvider, editApiKey) }) {
-                                    Text("Test Connection Host", fontSize = 11.sp)
+                                Button(onClick = {
+                                    connectionCheckedFor = "$editProvider|$editUrl"
+                                    viewModel.checkConnection(editUrl, editProvider, editApiKey.takeIf { it.isNotBlank() })
+                                }) {
+                                    Icon(Icons.Default.NetworkCheck, contentDescription = "Test connection")
                                 }
                                 Spacer(modifier = Modifier.width(12.dp))
-                                if (connSuccess == true) {
+                                if (connectionCheckedFor == "$editProvider|$editUrl" && connSuccess == true) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Icon(Icons.Default.CheckCircle, contentDescription = "Succeeded", tint = Color(0xFF2E7D32), modifier = Modifier.size(20.dp))
                                         Spacer(modifier = Modifier.width(4.dp))
-                                        Text("Connected", color = Color(0xFF2E7D32), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                        Text(if (editProvider == "ollama_cloud") "Service reachable" else "Connected", color = Color(0xFF2E7D32), fontSize = 12.sp, fontWeight = FontWeight.Bold)
                                     }
-                                } else if (connSuccess == false) {
+                                } else if (connectionCheckedFor == "$editProvider|$editUrl" && connSuccess == false) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Icon(Icons.Default.ErrorOutline, contentDescription = "Failed", tint = Color(0xFFC62828), modifier = Modifier.size(20.dp))
                                         Spacer(modifier = Modifier.width(4.dp))
@@ -1464,10 +1628,12 @@ fun MainScreen(
                             }
                         }
 
+                        modelDiscoveryMessage?.let { Text(it, fontSize = 12.sp) }
+
                         // Model tags syncing dropdown
                         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                            Text("Selected Model:", fontSize = 12.sp, modifier = Modifier.weight(1f))
-                            IconButton(onClick = { viewModel.syncModels(editUrl, editProvider, editApiKey) }) {
+                            Text("Model", fontSize = 12.sp, modifier = Modifier.weight(1f))
+                            IconButton(onClick = { viewModel.syncModels(editUrl, editProvider, editApiKey.takeIf { it.isNotBlank() }) }) {
                                 Icon(Icons.Default.Sync, contentDescription = "Sync models tag list")
                             }
                         }
@@ -1496,7 +1662,7 @@ fun MainScreen(
                             ) {
                                 if (displayModels.isEmpty()) {
                                     DropdownMenuItem(
-                                        text = { Text("No models found. Sync first.") },
+                                        text = { Text("No model") },
                                         onClick = { modelExpanded = false }
                                     )
                                 } else {
@@ -1513,9 +1679,22 @@ fun MainScreen(
                             }
                         }
 
+                        OutlinedTextField(
+                            value = editTimeout,
+                            onValueChange = { editTimeout = it },
+                            label = { Text("Timeout") },
+                            supportingText = { Text("5–300 seconds") },
+                            isError = editTimeout.toIntOrNull() !in 5..300,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        if (editProvider == "local") {
+                            Text("Keyword fallback runs on this device. No on-device language model is installed.")
+                        }
+
                         // Temperature Slider
                         Column {
-                            Text("LLM Prompt Temperature: ${"%.2f".format(editTemperature)}", fontSize = 12.sp)
+                            Text("Temp", fontSize = 12.sp)
+                            Text("%.2f".format(editTemperature), fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
                             Slider(
                                 value = editTemperature,
                                 onValueChange = { editTemperature = it },
@@ -1525,11 +1704,12 @@ fun MainScreen(
                         }
 
                         // API Key Field for Cloud providers
-                        if (editProvider == "ollama_cloud" || editProvider == "gemini") {
+                        if (editProvider == "ollama_cloud") {
                             OutlinedTextField(
                                 value = editApiKey,
-                                onValueChange = { editApiKey = it },
-                                label = { Text(if (editProvider == "gemini") "Gemini API Key Secret" else "Cloud API secret key (Optional)") },
+                                onValueChange = { settingsApiKeyDraft = it },
+                                label = { Text("API key") },
+                                supportingText = { Text(if (hasApiKey) "Saved key is hidden. Leave blank to keep it." else "Enter your Cloud key here. It stays hidden.") },
                                 modifier = Modifier.fillMaxWidth(),
                                 visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
                                 keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Password)
@@ -1539,37 +1719,37 @@ fun MainScreen(
                         // Custom System Prompt Area
                         Column {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text("A.I. System Prompt editor:", fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                                Text(
-                                    "Reset to default",
-                                    color = MaterialTheme.colorScheme.primary,
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    modifier = Modifier.clickable { editPrompt = defaultSystemPrompt }
-                                )
+                                Text("Prompt", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                IconButton(onClick = { editPrompt = defaultSystemPrompt }) {
+                                    Icon(Icons.Default.RestartAlt, contentDescription = "Reset prompt")
+                                }
                             }
                             Spacer(modifier = Modifier.height(4.dp))
                             OutlinedTextField(
                                 value = editPrompt,
                                 onValueChange = { editPrompt = it },
-                                modifier = Modifier.fillMaxWidth().height(110.dp)
+                                label = { Text("System prompt") },
+                                modifier = Modifier.testTag("settings_prompt").fillMaxWidth().height(110.dp)
                             )
                         }
 
                         Spacer(modifier = Modifier.height(10.dp))
                         Button(
                             onClick = {
-                                viewModel.updateSettings(settingsObj.ollamaEnabled, editUrl, selectedModelName, editTimeout.toIntOrNull() ?: 30, settingsObj.confirmedNonLocalEndpointWarning)
+                                viewModel.updateSettings(editProvider == "ollama_local" || editProvider == "ollama_cloud", editUrl, selectedModelName, editTimeout.toInt(), outsideServiceAllowed)
                                 viewModel.saveExpandedSettings(editProvider, editApiKey, editTemperature, editPrompt)
+                                settingsApiKeyDraft = ""
                                 settingsModalState = null
                                 Toast.makeText(context, "Configurations sync-saved successfully!", Toast.LENGTH_SHORT).show()
                             },
+                            enabled = editTimeout.toIntOrNull() in 5..300,
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text("Save configurations")
+                            Icon(Icons.Default.Save, contentDescription = "Save settings")
                         }
                     }
                 }
+            }
             }
         }
     }
@@ -1591,6 +1771,29 @@ private fun Bottom(width: androidx.compose.ui.unit.Dp, color: Color): androidx.c
 }
 
 @Composable
+internal fun MediaManagementNavigation(
+    activeDestination: String,
+    onSelect: (String) -> Unit
+) {
+    NavigationRowItem("Home", Icons.Default.Home, activeDestination == "home") { onSelect("home") }
+    NavigationRowItem("Folders", Icons.Default.FolderSpecial, activeDestination == "folders") { onSelect("folders") }
+    NavigationRowItem("Sources", Icons.Default.Storage, activeDestination == "sources") { onSelect("sources") }
+    NavigationRowItem("Queue", Icons.Default.FormatListBulleted, activeDestination == "backlog") { onSelect("backlog") }
+    NavigationRowItem("Videos", Icons.Default.VideoLibrary, activeDestination == "video_archive") { onSelect("video_archive") }
+    NavigationRowItem("Images", Icons.Default.Image, activeDestination == "image_archive") { onSelect("image_archive") }
+}
+
+private fun destinationLabel(destination: String): String = when (destination) {
+    "home" -> "Home"
+    "folders" -> "Folders"
+    "sources" -> "Sources"
+    "backlog" -> "Queue"
+    "video_archive" -> "Videos"
+    "image_archive" -> "Images"
+    else -> "Media"
+}
+
+@Composable
 fun NavigationRowItem(
     title: String,
     icon: androidx.compose.ui.graphics.vector.ImageVector,
@@ -1602,6 +1805,7 @@ fun NavigationRowItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .testTag("nav_${title.lowercase()}")
             .clip(RoundedCornerShape(8.dp))
             .background(bg)
             .clickable(onClick = onClick)
@@ -1618,14 +1822,16 @@ fun NavigationRowItem(
 fun OverviewGrid(
     allVideos: List<VideoItem>,
     mediaState: String,
-    ollamaState: String
+    ollamaState: String,
+    model: String = "",
+    endpoint: String = ""
 ) {
     var isExpanded by remember { mutableStateOf(false) } // Default collapsed
 
-    val newCount = allVideos.count { it.status == "new" }
-    val queuedCount = allVideos.count { it.status == "queued" || it.status == "processing" }
-    val procCount = allVideos.count { it.status == "processed" || it.status == "archived" }
-    val reviewCount = allVideos.count { it.status == "ready_to_delete" || it.status == "error" }
+    val newCount = allVideos.filter { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed }.count { it.status == "new" }
+    val queuedCount = allVideos.filter { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed }.count { it.status == "queued" || it.status == "processing" }
+    val procCount = allVideos.filter { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed }.count { it.status == "processed" || it.status == "archived" }
+    val reviewCount = allVideos.filter { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed }.count { it.status == "ready_to_delete" || it.status == "error" }
 
     Column(
         modifier = Modifier
@@ -1639,7 +1845,7 @@ fun OverviewGrid(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Dashboard & Connectivity", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text("Overview", fontWeight = FontWeight.Bold, fontSize = 14.sp)
             Icon(
                 imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
                 contentDescription = if (isExpanded) "Collapse" else "Expand",
@@ -1699,14 +1905,14 @@ fun OverviewGrid(
                         text = "Queued",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Medium,
-                        color = Color(0xFF49454F)
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
                         text = "%02d".format(queuedCount),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF1D1B20)
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -1728,14 +1934,14 @@ fun OverviewGrid(
                         text = "Proc.",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Medium,
-                        color = Color(0xFF49454F)
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
                         text = "%02d".format(procCount),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF1D1B20)
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -1795,16 +2001,16 @@ fun OverviewGrid(
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = "LLM: $ollamaState (gemma3)",
+                            text = "LLM: $ollamaState ($model)",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF1D1B20)
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     }
                     Text(
-                        text = "10.0.2.2:11434",
+                        text = runCatching { Uri.parse(endpoint).authority ?: endpoint }.getOrDefault(endpoint),
                         fontSize = 11.sp,
-                        color = Color(0xFF49454F)
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
 
@@ -1826,13 +2032,13 @@ fun OverviewGrid(
                             text = "Media: $mediaState",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF1D1B20)
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     }
                     Text(
-                        text = "${allVideos.size} Videos Found",
+                        text = "${allVideos.count { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed }} Media Found",
                         fontSize = 11.sp,
-                        color = Color(0xFF49454F)
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -1966,7 +2172,9 @@ fun TargetFoldersConfig(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Default.Folder, contentDescription = null, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.primary)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Target Folders (${if (targetFolders.isEmpty()) "All" else targetFolders.size.toString()})", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                Text("Folders", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(if (targetFolders.isEmpty()) "All" else targetFolders.size.toString(), fontSize = 12.sp)
             }
             Icon(
                 imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
@@ -2010,9 +2218,7 @@ fun TargetFoldersConfig(
                     onClick = { folderPickerLauncher.launch(null) },
                     contentPadding = PaddingValues(0.dp)
                 ) {
-                    Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(16.dp))
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Add Folder", fontSize = 12.sp)
+                    Icon(Icons.Default.Add, contentDescription = "Add target folder", modifier = Modifier.size(18.dp))
                 }
             }
         }
@@ -2022,7 +2228,18 @@ fun TargetFoldersConfig(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterDropdown(selectedFilter: String, onSelect: (String) -> Unit) {
-    val filters = listOf("All", "New", "Queued", "Processed", "Error", "Archived", "Video Archive", "Image Archive", "Ready to delete")
+    val filters = listOf(
+        "All" to "All",
+        "New" to "New",
+        "Queued" to "Queued",
+        "Processed" to "Done",
+        "Error" to "Error",
+        "Archived" to "Archived",
+        "Video Archive" to "Videos",
+        "Image Archive" to "Images",
+        "Ready to delete" to "Remove"
+    )
+    val selectedLabel = filters.firstOrNull { it.first == selectedFilter }?.second ?: "All"
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
@@ -2031,10 +2248,10 @@ fun FilterDropdown(selectedFilter: String, onSelect: (String) -> Unit) {
         modifier = Modifier.fillMaxWidth()
     ) {
         OutlinedTextField(
-            value = selectedFilter,
+            value = selectedLabel,
             onValueChange = {},
             readOnly = true,
-            label = { Text("Filter Backlog List") },
+            label = { Text("Filter") },
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
@@ -2045,9 +2262,9 @@ fun FilterDropdown(selectedFilter: String, onSelect: (String) -> Unit) {
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
-            filters.forEach { filter ->
+            filters.forEach { (filter, label) ->
                 DropdownMenuItem(
-                    text = { Text(filter) },
+                    text = { Text(label) },
                     onClick = {
                         onSelect(filter)
                         expanded = false
@@ -2138,7 +2355,7 @@ fun VideoItemCard(
                     text = video.displayName,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF1D1B20),
+                    color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -2155,7 +2372,7 @@ fun VideoItemCard(
                 Text(
                     text = "${formatDuration(video.durationMs ?: 0)}s • $dateFormatted",
                     fontSize = 11.sp,
-                    color = Color(0xFF49454F)
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
                 Spacer(modifier = Modifier.height(6.dp))
@@ -2228,6 +2445,7 @@ fun VideoItemCard(
     }
 }
 
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun VideoDetailPanel(
     video: VideoItem,
@@ -2243,15 +2461,15 @@ fun VideoDetailPanel(
     onMoveToTrash: () -> Unit,
     onPermanentDelete: () -> Unit
 ) {
-    var manualNotes by remember(video.id) { mutableStateOf(video.manualTranscript ?: "") }
+    var manualNotes by rememberSaveable(video.id) { mutableStateOf(video.manualTranscript ?: "") }
     
     // Editable analysis states
-    var title1 by remember(analysis?.id) { mutableStateOf(analysis?.descriptionLine1 ?: "Deterministically Analyzed.") }
-    var title2 by remember(analysis?.id) { mutableStateOf(analysis?.descriptionLine2 ?: "Ready for review.") }
-    var cat1 by remember(analysis?.id) { mutableStateOf(analysis?.categoryLevel1 ?: "Technical") }
-    var cat2 by remember(analysis?.id) { mutableStateOf(analysis?.categoryLevel2 ?: "General") }
-    var cat3 by remember(analysis?.id) { mutableStateOf(analysis?.categoryLevel3 ?: "Workflow") }
-    var roadmapPlan by remember(analysis?.id) { mutableStateOf(analysis?.formattedActionPlan ?: "") }
+    var title1 by rememberSaveable(video.id, analysis?.id) { mutableStateOf(analysis?.descriptionLine1 ?: "Deterministically Analyzed.") }
+    var title2 by rememberSaveable(video.id, analysis?.id) { mutableStateOf(analysis?.descriptionLine2 ?: "Ready for review.") }
+    var cat1 by rememberSaveable(video.id, analysis?.id) { mutableStateOf(analysis?.categoryLevel1 ?: "Technical") }
+    var cat2 by rememberSaveable(video.id, analysis?.id) { mutableStateOf(analysis?.categoryLevel2 ?: "General") }
+    var cat3 by rememberSaveable(video.id, analysis?.id) { mutableStateOf(analysis?.categoryLevel3 ?: "Workflow") }
+    var roadmapPlan by rememberSaveable(video.id, analysis?.id) { mutableStateOf(analysis?.formattedActionPlan ?: "") }
 
     Surface(
         modifier = Modifier
@@ -2299,6 +2517,7 @@ fun VideoDetailPanel(
                     Text(text = "URI: ${video.uriString}", fontSize = 11.sp, fontFamily = FontFamily.Monospace)
                     Text(text = "Mime: ${video.mimeType}  |  Bytes: ${video.sizeBytes}", fontSize = 11.sp)
                     Text(text = "Status: ${video.status.uppercase()}  |  Completed step: ${video.lastCompletedStep}", fontSize = 11.sp)
+                    if (video.mimeType == "image/gif") Text("Animated images: only the first frame is read.", fontSize = 11.sp)
                 }
             }
             
@@ -2312,7 +2531,7 @@ fun VideoDetailPanel(
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                             Text("Processing Error", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onErrorContainer, fontSize = 14.sp)
                             val clipboardManager = LocalClipboardManager.current
-                            IconButton(onClick = { clipboardManager.setText(AnnotatedString(video.errorMessage)) }, modifier = Modifier.size(24.dp)) {
+                            IconButton(onClick = { clipboardManager.setText(AnnotatedString(video.errorMessage)) }, modifier = Modifier.size(48.dp)) {
                                 Icon(Icons.Default.ContentCopy, contentDescription = "Copy Error", tint = MaterialTheme.colorScheme.onErrorContainer)
                             }
                         }
@@ -2327,26 +2546,19 @@ fun VideoDetailPanel(
             Spacer(modifier = Modifier.height(10.dp))
 
             // Operations quick buttons
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState()),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            androidx.compose.foundation.layout.FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Button(onClick = onProcessSingle) {
-                    Icon(imageVector = Icons.Default.PlayArrow, contentDescription = null, modifier = Modifier.size(16.dp))
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Process / Re-analyze")
+                    Icon(imageVector = Icons.Default.PlayArrow, contentDescription = "Process media", modifier = Modifier.size(18.dp))
                 }
                 OutlinedButton(onClick = onResetResult) {
-                    Icon(imageVector = Icons.Default.Refresh, contentDescription = null, modifier = Modifier.size(16.dp))
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Reset Model Data")
+                    Icon(imageVector = Icons.Default.Refresh, contentDescription = "Reset model data", modifier = Modifier.size(18.dp))
                 }
                 OutlinedButton(onClick = onArchive) {
-                    Icon(imageVector = Icons.Default.Archive, contentDescription = null, modifier = Modifier.size(16.dp))
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Archive")
+                    Icon(imageVector = Icons.Default.Archive, contentDescription = "Archive media", modifier = Modifier.size(18.dp))
                 }
                 val deleteCandText = if (video.status == "ready_to_delete") "Unmark Trash Candidate" else "Mark Trash Candidate"
                 val deleteCandColor = if (video.status == "ready_to_delete") MaterialTheme.colorScheme.primary else Color(0xFFE53935)
@@ -2354,9 +2566,7 @@ fun VideoDetailPanel(
                     onClick = onToggleDeleteCandidate,
                     colors = ButtonDefaults.outlinedButtonColors(contentColor = deleteCandColor)
                 ) {
-                    Icon(imageVector = Icons.Default.DeleteSweep, contentDescription = null, modifier = Modifier.size(16.dp))
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(deleteCandText)
+                    Icon(imageVector = Icons.Default.DeleteSweep, contentDescription = deleteCandText, modifier = Modifier.size(18.dp))
                 }
             }
 
@@ -2443,21 +2653,21 @@ fun VideoDetailPanel(
                 OutlinedTextField(
                     value = cat1,
                     onValueChange = { cat1 = it },
-                    label = { Text("Category Level 1", fontSize = 11.sp) },
+                    label = { Text("Group 1", fontSize = 11.sp) },
                     modifier = Modifier.weight(1f),
                     textStyle = TextStyle(fontSize = 12.sp)
                 )
                 OutlinedTextField(
                     value = cat2,
                     onValueChange = { cat2 = it },
-                    label = { Text("Category Level 2", fontSize = 11.sp) },
+                    label = { Text("Group 2", fontSize = 11.sp) },
                     modifier = Modifier.weight(1f),
                     textStyle = TextStyle(fontSize = 12.sp)
                 )
                 OutlinedTextField(
                     value = cat3,
                     onValueChange = { cat3 = it },
-                    label = { Text("Category Level 3", fontSize = 11.sp) },
+                    label = { Text("Group 3", fontSize = 11.sp) },
                     modifier = Modifier.weight(1f),
                     textStyle = TextStyle(fontSize = 12.sp)
                 )
@@ -2467,7 +2677,7 @@ fun VideoDetailPanel(
             OutlinedTextField(
                 value = title1,
                 onValueChange = { title1 = it },
-                label = { Text("Description line 1") },
+                label = { Text("Line 1") },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(fontSize = 13.sp)
             )
@@ -2475,7 +2685,7 @@ fun VideoDetailPanel(
             OutlinedTextField(
                 value = title2,
                 onValueChange = { title2 = it },
-                label = { Text("Description line 2") },
+                label = { Text("Line 2") },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(fontSize = 13.sp)
             )
@@ -2527,17 +2737,13 @@ fun VideoDetailPanel(
                     },
                     modifier = Modifier.weight(1f)
                 ) {
-                    Icon(imageVector = Icons.Default.Save, contentDescription = null, modifier = Modifier.size(16.dp))
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Save Edits")
+                    Icon(imageVector = Icons.Default.Save, contentDescription = "Save edits", modifier = Modifier.size(18.dp))
                 }
                 OutlinedButton(
                     onClick = onDeleteFromBacklog,
                     modifier = Modifier.weight(1f)
                 ) {
-                    Icon(imageVector = Icons.Default.PlaylistRemove, contentDescription = null, modifier = Modifier.size(16.dp))
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Remove index")
+                    Icon(imageVector = Icons.Default.PlaylistRemove, contentDescription = "Remove index entry", modifier = Modifier.size(18.dp))
                 }
             }
 
@@ -2569,9 +2775,7 @@ fun VideoDetailPanel(
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFB8C00)),
                     modifier = Modifier.weight(1f)
                 ) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = null, modifier = Modifier.size(16.dp))
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Move to Trash")
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = "Move media to trash", modifier = Modifier.size(18.dp))
                 }
 
                 Button(
@@ -2579,9 +2783,7 @@ fun VideoDetailPanel(
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE53935)),
                     modifier = Modifier.weight(1f)
                 ) {
-                    Icon(imageVector = Icons.Default.DeleteForever, contentDescription = null, modifier = Modifier.size(16.dp))
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Delete Forever")
+                    Icon(imageVector = Icons.Default.DeleteForever, contentDescription = "Delete media forever", modifier = Modifier.size(18.dp))
                 }
             }
             Spacer(modifier = Modifier.height(24.dp))
@@ -2618,7 +2820,7 @@ fun SettingsDialog(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("Enable Ollama Connection", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                    Text("Enable", fontSize = 14.sp, fontWeight = FontWeight.Bold)
                     Switch(checked = enabled, onCheckedChange = { enabled = it })
                 }
 
@@ -2626,7 +2828,7 @@ fun SettingsDialog(
                     OutlinedTextField(
                         value = url,
                         onValueChange = { url = it },
-                        label = { Text("Ollama HTTP API Endpoint URL") },
+                        label = { Text("Host") },
                         modifier = Modifier.fillMaxWidth(),
                         textStyle = TextStyle(fontSize = 12.sp)
                     )
@@ -2637,22 +2839,16 @@ fun SettingsDialog(
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
                     ) {
                         Column(modifier = Modifier.padding(8.dp)) {
-                            Text("Connection Helpers (Tap to Preset):", fontSize = 10.sp, fontWeight = FontWeight.Bold)
-                            Text(
-                                "• AI Studio Emulator PC Host: http://10.0.2.2:11434/api/generate",
-                                fontSize = 9.sp,
-                                modifier = Modifier.clickable { url = "http://10.0.2.2:11434/api/generate" }
-                            )
-                            Text(
-                                "• Real Local Wi-Fi PC host: http://192.168.x.x:11434/api/generate",
-                                fontSize = 9.sp,
-                                modifier = Modifier.clickable { url = "http://192.168.0.100:11434/api/generate" }
-                            )
-                            Text(
-                                "• Running locally on Android: http://127.0.0.1:11434/api/generate",
-                                fontSize = 9.sp,
-                                modifier = Modifier.clickable { url = "http://127.0.0.1:11434/api/generate" }
-                            )
+                            Text("Presets", fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                            PresetRow("AI Studio Emulator PC Host: http://10.0.2.2:11434/api/generate", "Use emulator host") {
+                                url = "http://10.0.2.2:11434/api/generate"
+                            }
+                            PresetRow("Real Local Wi-Fi PC host: http://192.168.x.x:11434/api/generate", "Use local network host") {
+                                url = "http://192.168.0.100:11434/api/generate"
+                            }
+                            PresetRow("Running locally on Android: http://127.0.0.1:11434/api/generate", "Use device host") {
+                                url = "http://127.0.0.1:11434/api/generate"
+                            }
                         }
                     }
 
@@ -2661,7 +2857,7 @@ fun SettingsDialog(
                     OutlinedTextField(
                         value = model,
                         onValueChange = { model = it },
-                        label = { Text("Model Name") },
+                        label = { Text("Model") },
                         modifier = Modifier.fillMaxWidth(),
                         textStyle = TextStyle(fontSize = 12.sp)
                     )
@@ -2669,7 +2865,7 @@ fun SettingsDialog(
                     OutlinedTextField(
                         value = timeoutSecs,
                         onValueChange = { timeoutSecs = it },
-                        label = { Text("Timeout duration (seconds)") },
+                        label = { Text("Timeout") },
                         modifier = Modifier.fillMaxWidth()
                     )
 
@@ -2697,7 +2893,7 @@ fun SettingsDialog(
                                 )
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Checkbox(checked = confirmedWarn, onCheckedChange = { confirmedWarn = it })
-                                    Text("I confirm sending data to this public hostname", fontSize = 10.sp)
+                                    Text("I agree", fontSize = 10.sp)
                                 }
                             }
                         }
@@ -2712,7 +2908,7 @@ fun SettingsDialog(
                     onSave(enabled, url, model, timeoutVal, confirmedWarn)
                 }
             ) {
-                Text("Confirm & Save")
+                Icon(Icons.Default.Save, contentDescription = "Confirm and save")
             }
         },
         dismissButton = {
@@ -2721,6 +2917,546 @@ fun SettingsDialog(
             }
         }
     )
+}
+
+@Composable
+private fun PresetRow(text: String, actionDescription: String, onUse: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text, fontSize = 9.sp, modifier = Modifier.weight(1f))
+        IconButton(onClick = onUse) {
+            Icon(Icons.Default.Link, contentDescription = actionDescription)
+        }
+    }
+}
+
+@Composable
+internal fun MediaSourcesScreen(
+    totals: MediaInventoryTotals,
+    aggregates: List<SourceAggregate>,
+    selectedCategory: String?,
+    subcategories: List<SubcategoryAggregate>,
+    allMedia: List<VideoItem>,
+    mediaAccess: String,
+    isScanning: Boolean,
+    onScan: () -> Unit,
+    onSelectCategory: (String?) -> Unit,
+    onDecision: (Long, String) -> Unit,
+    onOpenRules: () -> Unit = {},
+    onOpenTags: () -> Unit = {},
+    onOpenBin: () -> Unit = {}
+) {
+    var selectedSubcategory by rememberSaveable(selectedCategory) { mutableStateOf<String?>(null) }
+    val eligibleMedia = remember(allMedia) {
+        allMedia.filter { !it.isPending && !it.isTrashed && it.isCurrentlyAvailable }
+    }
+    val scopedMedia = remember(eligibleMedia, selectedCategory) {
+        if (selectedCategory == null) eligibleMedia else eligibleMedia.filter {
+            if (selectedCategory == "Other") it.sourceCategory == null else it.sourceCategory == selectedCategory
+        }
+    }
+    val readyToDelete = remember(scopedMedia) { scopedMedia.filter { it.reviewDecision == "ready_to_delete" } }
+    val kept = remember(scopedMedia) { scopedMedia.count { it.reviewDecision == "keep" } }
+    val unreviewed = remember(scopedMedia) { scopedMedia.count { it.reviewDecision == "unreviewed" } }
+    val scopedBytes = remember(scopedMedia) { scopedMedia.sumOf { it.sizeBytes ?: 0L } }
+
+    Column(modifier = Modifier.fillMaxSize().testTag("media_sources_screen")) {
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.55f))
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(14.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(if (selectedCategory == null) "Phone media inventory" else selectedCategory, fontWeight = FontWeight.Black, fontSize = 18.sp)
+                    Text(
+                        "${if (selectedCategory == null) totals.itemCount else scopedMedia.size.toLong()} available items • ${formatMediaBytes(if (selectedCategory == null) totals.totalBytes else scopedBytes)}",
+                        fontSize = 13.sp,
+                        modifier = Modifier.testTag("inventory_total")
+                    )
+                    if (selectedCategory == null) {
+                        Text(
+                            "Access: $mediaAccess • Pending, trashed and unavailable media excluded",
+                            fontSize = 10.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.testTag("inventory_access")
+                        )
+                    }
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                    if (selectedCategory == null) {
+                        Button(onClick = onScan, enabled = !isScanning, modifier = Modifier.testTag("inventory_scan_button")) {
+                            if (isScanning) CircularProgressIndicator(modifier = Modifier.size(14.dp), strokeWidth = 2.dp)
+                            else Icon(Icons.Default.Refresh, contentDescription = "Refresh inventory", modifier = Modifier.size(18.dp))
+                        }
+                    } else {
+                        OutlinedButton(onClick = { onSelectCategory(null) }) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Show all sources", modifier = Modifier.size(18.dp))
+                        }
+                        IconButton(onClick = onScan, enabled = !isScanning, modifier = Modifier.testTag("inventory_scan_button")) {
+                            if (isScanning) CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp)
+                            else Icon(Icons.Default.Refresh, contentDescription = "Refresh inventory")
+                        }
+                    }
+                }
+            }
+        }
+
+        if (selectedCategory == null) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(top = 6.dp),
+                horizontalArrangement = Arrangement.End
+            ) {
+                IconButton(onClick = onOpenRules, modifier = Modifier.testTag("open_rules")) {
+                    Icon(Icons.Default.Rule, contentDescription = "Rules")
+                }
+                IconButton(onClick = onOpenTags, modifier = Modifier.testTag("open_tags")) {
+                    Icon(Icons.Default.Label, contentDescription = "Tags")
+                }
+                IconButton(onClick = onOpenBin, modifier = Modifier.testTag("open_bin")) {
+                    Icon(Icons.Default.DeleteSweep, contentDescription = "Bin")
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        if (selectedCategory == null) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                InventoryMetric("Unreviewed", unreviewed.toLong(), "Needs a decision", Modifier.weight(1f))
+                InventoryMetric("Keep", kept.toLong(), "Eligible for analysis", Modifier.weight(1f))
+                InventoryMetric("Selected to remove", readyToDelete.size.toLong(), formatMediaBytes(readyToDelete.sumOf { it.sizeBytes ?: 0L }), Modifier.weight(1f))
+            }
+        } else {
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f),
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Text(
+                    "$unreviewed unreviewed   •   $kept kept   •   ${readyToDelete.size} ready to delete (${formatMediaBytes(readyToDelete.sumOf { it.sizeBytes ?: 0L })})",
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp),
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        if (selectedCategory == null) {
+            if (aggregates.isEmpty()) {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Icon(Icons.Default.PhotoLibrary, contentDescription = null, modifier = Modifier.size(42.dp), tint = MaterialTheme.colorScheme.outline)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text("No accessible media indexed", fontWeight = FontWeight.Bold)
+                        Text("Refresh and grant photo/video access to build the inventory.", fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
+                    }
+                }
+            } else {
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(7.dp), modifier = Modifier.fillMaxSize()) {
+                    items(aggregates, key = { it.category }) { aggregate ->
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { onSelectCategory(aggregate.category) }
+                                .testTag("source_category_${aggregate.category}"),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.16f)),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 11.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(sourceIcon(aggregate.category), contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(24.dp))
+                                Spacer(modifier = Modifier.width(12.dp))
+                                Text(aggregate.category, modifier = Modifier.weight(1f), fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                                Text("${aggregate.itemCount} items", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                Spacer(modifier = Modifier.width(18.dp))
+                                Text(formatMediaBytes(aggregate.totalBytes), fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Icon(Icons.Default.ChevronRight, contentDescription = "Open ${aggregate.category}")
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            val categoryItems = remember(scopedMedia, selectedSubcategory) {
+                scopedMedia.filter { selectedSubcategory == null || it.sourceSubcategory == selectedSubcategory }
+                    .sortedWith(compareBy<VideoItem> { it.sourceSubcategory ?: "" }.thenByDescending { it.dateModified ?: 0L })
+            }
+
+            if (subcategories.isNotEmpty()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(bottom = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(7.dp)
+                ) {
+                    subcategories.forEach { subcategory ->
+                        FilterChip(
+                            selected = selectedSubcategory == subcategory.subcategory,
+                            onClick = {
+                                selectedSubcategory = if (selectedSubcategory == subcategory.subcategory) null else subcategory.subcategory
+                            },
+                            label = { Text("${subcategory.subcategory} • ${subcategory.itemCount} • ${formatMediaBytes(subcategory.totalBytes)}") },
+                            leadingIcon = { Icon(Icons.Default.Label, contentDescription = null, modifier = Modifier.size(14.dp)) },
+                            modifier = Modifier.testTag("source_subcategory_${subcategory.subcategory}")
+                        )
+                    }
+                }
+            }
+
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.fillMaxSize()) {
+                items(categoryItems, key = { it.id }) { media ->
+                    Card(
+                        modifier = Modifier.fillMaxWidth().testTag("source_media_${media.id}"),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.14f)),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                if (media.mimeType?.startsWith("image/") == true) Icons.Default.Image else Icons.Default.Movie,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(22.dp)
+                            )
+                            Spacer(modifier = Modifier.width(9.dp))
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(media.displayName, maxLines = 1, overflow = TextOverflow.Ellipsis, fontWeight = FontWeight.Medium, fontSize = 12.sp)
+                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    Text(formatMediaBytes(media.sizeBytes ?: 0L), fontSize = 10.sp, color = MaterialTheme.colorScheme.outline)
+                                    media.sourceSubcategory?.let { subcategory ->
+                                        val evidence = if (media.subcategoryEvidenceKind == "filename_token") "Inferred from filename" else media.subcategoryEvidenceKind.orEmpty()
+                                        Text(
+                                            "$subcategory • $evidence",
+                                            fontSize = 10.sp,
+                                            color = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.testTag("source_evidence_${media.id}")
+                                        )
+                                    }
+                                }
+                            }
+                            DecisionSelector(
+                                media.reviewDecision,
+                                modifier = Modifier.testTag("review_decision_${media.id}")
+                            ) { onDecision(media.id, it) }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun InventoryMetric(title: String, count: Long, supporting: String, modifier: Modifier = Modifier) {
+    Card(modifier = modifier, colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f))) {
+        Column(modifier = Modifier.padding(horizontal = 11.dp, vertical = 8.dp)) {
+            Text(title, fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(count.toString(), fontSize = 17.sp, fontWeight = FontWeight.Black)
+            Text(supporting, fontSize = 9.sp, color = MaterialTheme.colorScheme.outline, maxLines = 1)
+        }
+    }
+}
+
+@Composable
+private fun ToolHead(title: String, onBack: () -> Unit, actions: @Composable RowScope.() -> Unit = {}) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back") }
+        Text(title, fontWeight = FontWeight.Black, fontSize = 20.sp, modifier = Modifier.weight(1f))
+        actions()
+    }
+}
+
+@Composable
+private fun RulesScreen(
+    rules: List<MediaRuleCard>,
+    message: String?,
+    onBack: () -> Unit,
+    onSave: (MediaRule?, String, String, Double?) -> Unit,
+    onEnable: (MediaRule, Boolean) -> Unit,
+    onPreview: (MediaRule) -> Unit,
+    onRun: (MediaRule) -> Unit,
+    onDelete: (MediaRule) -> Unit
+) {
+    var editing by remember { mutableStateOf<MediaRuleCard?>(null) }
+    var newKind by remember { mutableStateOf<String?>(null) }
+    Column(Modifier.fillMaxSize().testTag("rules_screen")) {
+        ToolHead("Rules", onBack) {
+            IconButton(onClick = { newKind = "exact_duplicate" }, modifier = Modifier.testTag("add_copy_rule")) {
+                Icon(Icons.Default.ContentCopy, contentDescription = "Add copy rule")
+            }
+            IconButton(onClick = { newKind = "obscured" }, modifier = Modifier.testTag("add_obscured_rule")) {
+                Icon(Icons.Default.BlurOn, contentDescription = "Add obscured rule")
+            }
+        }
+        message?.let { Text(it, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)) }
+        Text("Copies matches file name and size. Contents may differ; review before deleting", fontSize = 11.sp, modifier = Modifier.padding(8.dp))
+        if (rules.isEmpty()) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("No rules") }
+        } else {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                items(rules, key = { it.rule.id }) { card ->
+                    val rule = card.rule
+                    Card(Modifier.fillMaxWidth().testTag("rule_${rule.id}")) {
+                        Column(Modifier.fillMaxWidth().padding(10.dp)) {
+                            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                                Column(Modifier.weight(1f)) {
+                                    Text(rule.name, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                    Text(if (rule.kind == "obscured") "Obscure" else "Copies", fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
+                                }
+                                Switch(checked = rule.enabled, onCheckedChange = { onEnable(rule, it) })
+                            }
+                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                                IconButton(onClick = { onPreview(rule) }) { Icon(Icons.Default.Visibility, contentDescription = "Preview") }
+                                IconButton(onClick = { onRun(rule) }, enabled = rule.enabled) { Icon(Icons.Default.PlayArrow, contentDescription = "Run") }
+                                IconButton(onClick = { editing = card }) { Icon(Icons.Default.Edit, contentDescription = "Edit") }
+                                IconButton(onClick = { onDelete(rule) }) { Icon(Icons.Default.Delete, contentDescription = "Delete") }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    val dialogRule = editing
+    val dialogKind = dialogRule?.rule?.kind ?: newKind
+    if (dialogKind != null) {
+        RuleDialog(
+            rule = dialogRule?.rule,
+            definitionJson = dialogRule?.definitionJson,
+            kind = dialogKind,
+            onDismiss = { editing = null; newKind = null },
+            onSave = { name, threshold ->
+                onSave(dialogRule?.rule, name, dialogKind, threshold)
+                editing = null
+                newKind = null
+            }
+        )
+    }
+}
+
+@Composable
+private fun RuleDialog(rule: MediaRule?, definitionJson: String?, kind: String, onDismiss: () -> Unit, onSave: (String, Double?) -> Unit) {
+    var name by remember(rule, kind) { mutableStateOf(rule?.name ?: if (kind == "obscured") "Obscure" else "Copies") }
+    val savedThreshold = remember(definitionJson) {
+        definitionJson?.let { MediaRuleSchema.parse(it).getOrNull()?.predicate as? MediaPredicate.Obscured }?.threshold
+    }
+    var thresholdText by remember(rule, savedThreshold) { mutableStateOf(savedThreshold?.toString().orEmpty()) }
+    val threshold = thresholdText.toDoubleOrNull()
+    val valid = name.trim().length in 1..40 && (kind != "obscured" || threshold != null && threshold in 0.0..1.0)
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(if (rule == null) "Add rule" else "Edit") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                androidx.compose.material3.OutlinedTextField(name, { name = it }, label = { Text("Name") }, supportingText = { Text("Name: 1–40 characters") }, isError = name.trim().length !in 1..40, singleLine = true)
+                if (kind == "obscured") {
+                    androidx.compose.material3.OutlinedTextField(
+                        thresholdText,
+                        { thresholdText = it.filter { char -> char.isDigit() || char == '.' } },
+                        label = { Text("Score") },
+                        supportingText = { Text("0–1") },
+                        singleLine = true
+                    )
+                }
+            }
+        },
+        confirmButton = { IconButton(onClick = { onSave(name, threshold) }, enabled = valid) { Icon(Icons.Default.Save, contentDescription = "Save") } },
+        dismissButton = { IconButton(onClick = onDismiss) { Icon(Icons.Default.Close, contentDescription = "Cancel") } }
+    )
+}
+
+@Composable
+private fun TagsScreen(
+    tags: List<CustomTag>, assignments: List<MediaTagCrossRef>, media: List<VideoItem>, message: String?,
+    onBack: () -> Unit, onAdd: (String) -> Unit, onRename: (CustomTag, String) -> Unit,
+    onDelete: (CustomTag) -> Unit, onAssign: (Long, Long) -> Unit, onUnassign: (Long, Long) -> Unit
+) {
+    var input by remember { mutableStateOf("") }
+    var selected by remember { mutableStateOf<CustomTag?>(null) }
+    var rename by remember { mutableStateOf<CustomTag?>(null) }
+    var onlyTagged by remember { mutableStateOf(false) }
+    fun nameError(value: String, exceptId: Long? = null): String? {
+        val clean = value.trim()
+        return when {
+            clean.length !in 1..40 -> "Name must contain 1–40 characters"
+            tags.any { it.id != exceptId && it.name.equals(clean, ignoreCase = true) } -> "Name already exists"
+            else -> null
+        }
+    }
+    val inputError = nameError(input)
+    Column(Modifier.fillMaxSize().testTag("tags_screen")) {
+        ToolHead("Tags", onBack)
+        message?.let { Text(it, modifier = Modifier.padding(8.dp)) }
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            androidx.compose.material3.OutlinedTextField(input, { input = it }, label = { Text("Tag") }, supportingText = { Text(inputError ?: "Name: 1–40 characters") }, isError = inputError != null, singleLine = true, modifier = Modifier.weight(1f))
+            IconButton(onClick = { onAdd(input); input = "" }, enabled = inputError == null) { Icon(Icons.Default.Add, contentDescription = "Add") }
+        }
+        LazyColumn(Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            items(tags, key = { "tag-${it.id}" }) { tag ->
+                val count = assignments.count { it.tagId == tag.id }
+                Card(Modifier.fillMaxWidth().clickable { selected = if (selected?.id == tag.id) null else tag }) {
+                    Row(Modifier.fillMaxWidth().padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(tag.name, Modifier.weight(1f), fontWeight = FontWeight.Bold)
+                        Text(count.toString(), fontSize = 12.sp)
+                        IconButton(onClick = { rename = tag }) { Icon(Icons.Default.Edit, contentDescription = "Edit") }
+                        IconButton(onClick = { onDelete(tag); if (selected?.id == tag.id) selected = null }) { Icon(Icons.Default.Delete, contentDescription = "Delete") }
+                    }
+                }
+            }
+            selected?.let { tag ->
+                item {
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                        Text("Media", fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f).padding(top = 8.dp))
+                        IconButton(onClick = { onlyTagged = !onlyTagged }) {
+                            Icon(if (onlyTagged) Icons.Default.FilterAltOff else Icons.Default.FilterAlt, contentDescription = if (onlyTagged) "Show all" else "Tagged")
+                        }
+                    }
+                }
+                val visibleMedia = media.filter {
+                    it.isCurrentlyAvailable && !it.isPending && !it.isTrashed &&
+                        (!onlyTagged || assignments.any { ref -> ref.tagId == tag.id && ref.mediaId == it.id })
+                }
+                items(visibleMedia, key = { "media-${tag.id}-${it.id}" }) { item ->
+                    val assigned = assignments.any { it.tagId == tag.id && it.mediaId == item.id }
+                    Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(item.displayName, Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        IconButton(onClick = { if (assigned) onUnassign(item.id, tag.id) else onAssign(item.id, tag.id) }) {
+                            Icon(if (assigned) Icons.Default.CheckCircle else Icons.Default.AddCircleOutline, contentDescription = if (assigned) "Remove tag" else "Add tag")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    rename?.let { tag ->
+        var value by remember(tag) { mutableStateOf(tag.name) }
+        AlertDialog(
+            onDismissRequest = { rename = null }, title = { Text("Edit") },
+            text = { androidx.compose.material3.OutlinedTextField(value, { value = it }, label = { Text("Tag") }, supportingText = { Text(nameError(value, tag.id) ?: "Name: 1–40 characters") }, isError = nameError(value, tag.id) != null, singleLine = true) },
+            confirmButton = { IconButton(onClick = { onRename(tag, value); rename = null }, enabled = nameError(value, tag.id) == null) { Icon(Icons.Default.Save, contentDescription = "Save") } },
+            dismissButton = { IconButton(onClick = { rename = null }) { Icon(Icons.Default.Close, contentDescription = "Cancel") } }
+        )
+    }
+}
+
+@Composable
+private fun BinScreen(
+    media: List<VideoItem>, message: String?, onBack: () -> Unit, onRecover: (Long) -> Unit,
+    loadThumbnail: suspend (String) -> android.graphics.Bitmap?, onDeleteAll: () -> Unit
+) {
+    Column(Modifier.fillMaxSize().testTag("bin_screen")) {
+        ToolHead("Bin", onBack) {
+            IconButton(onClick = onDeleteAll, enabled = media.any { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed }, modifier = Modifier.testTag("delete_bin")) {
+                Icon(Icons.Default.DeleteForever, contentDescription = "Delete all")
+            }
+        }
+        message?.let { Text(it, modifier = Modifier.padding(8.dp)) }
+        Text("${media.size} • ${formatMediaBytes(media.sumOf { it.sizeBytes ?: 0L })}", modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp))
+        if (media.isEmpty()) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("Bin empty") }
+        } else {
+            LazyVerticalGrid(columns = GridCells.Adaptive(132.dp), verticalArrangement = Arrangement.spacedBy(8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                gridItems(media, key = { it.id }) { item ->
+                    Card(Modifier.fillMaxWidth().testTag("bin_${item.id}")) {
+                        Column {
+                            MediaThumb(item.uriString, item.displayName, loadThumbnail, Modifier.fillMaxWidth().aspectRatio(1f))
+                            Row(Modifier.fillMaxWidth().padding(start = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                                Text(item.displayName, Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 11.sp)
+                                IconButton(onClick = { onRecover(item.id) }, enabled = item.isCurrentlyAvailable && !item.isPending && !item.isTrashed) { Icon(Icons.Default.RestoreFromTrash, contentDescription = "Recover") }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun MediaThumb(uri: String, description: String, loader: suspend (String) -> android.graphics.Bitmap?, modifier: Modifier = Modifier) {
+    val bitmap by produceState<android.graphics.Bitmap?>(null, uri) {
+        value = null
+        value = loader(uri)
+    }
+    // The renderer can retain this bitmap after disposal; let GC release its native allocation.
+    if (bitmap == null) {
+        Box(modifier.background(MaterialTheme.colorScheme.surfaceVariant), contentAlignment = Alignment.Center) { Icon(Icons.Default.Image, contentDescription = "Preview unavailable: $description") }
+    } else {
+        Image(bitmap!!.asImageBitmap(), contentDescription = "Preview image: $description", modifier = modifier, contentScale = ContentScale.Crop)
+    }
+}
+
+@Composable
+private fun DecisionSelector(
+    current: String,
+    modifier: Modifier = Modifier,
+    onDecision: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val label = when (current) {
+        "keep" -> "Keep"
+        "review_later" -> "Later"
+        "ready_to_delete" -> "Remove"
+        else -> "New"
+    }
+    Box(modifier = modifier) {
+        OutlinedButton(onClick = { expanded = true }, contentPadding = PaddingValues(horizontal = 9.dp, vertical = 2.dp), modifier = Modifier.height(48.dp)) {
+            Text(label, fontSize = 10.sp)
+            Icon(Icons.Default.ArrowDropDown, contentDescription = null, modifier = Modifier.size(14.dp))
+        }
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            listOf(
+                "unreviewed" to "New",
+                "keep" to "Keep",
+                "review_later" to "Later",
+                "ready_to_delete" to "Remove"
+            ).forEach { (value, text) ->
+                DropdownMenuItem(
+                    text = { Text(text) },
+                    onClick = {
+                        expanded = false
+                        onDecision(value)
+                    }
+                )
+            }
+        }
+    }
+}
+
+private fun sourceIcon(category: String) = when (category) {
+    "Camera" -> Icons.Default.PhotoCamera
+    "Screenshots" -> Icons.Default.Screenshot
+    "Screen recordings" -> Icons.Default.ScreenShare
+    "Downloads" -> Icons.Default.Download
+    "WhatsApp", "WhatsApp Business", "Messenger" -> Icons.Default.Chat
+    else -> Icons.Default.Folder
+}
+
+private fun formatMediaBytes(bytes: Long): String {
+    if (bytes < 1024L) return "$bytes B"
+    val units = arrayOf("KB", "MB", "GB", "TB")
+    var value = bytes.toDouble()
+    var unit = -1
+    while (value >= 1024.0 && unit < units.lastIndex) {
+        value /= 1024.0
+        unit++
+    }
+    return if (value >= 100) String.format(Locale.getDefault(), "%.0f %s", value, units[unit])
+    else String.format(Locale.getDefault(), "%.1f %s", value, units[unit])
 }
 
 // String format helpers
@@ -2763,3 +3499,8 @@ fun OutlinedTextField(
         textStyle = textStyle.toCompose()
     )
 }
+
+private fun mediaFolderLabel(media: VideoItem): String =
+    media.relativePath?.trim('/')?.takeIf { it.isNotEmpty() }
+        ?: media.bucketDisplayName?.takeIf { it.isNotBlank() }
+        ?: "Unknown folder"
