@@ -43,6 +43,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
@@ -387,6 +388,7 @@ fun MainScreen(
         if (readVideo || readImages || partialRead) {
             viewModel.scanVideos()
         } else {
+            viewModel.scanVideos()
             Toast.makeText(context, "Permissions denied. App needs photo or video access to build the inventory.", Toast.LENGTH_LONG).show()
         }
     }
@@ -414,8 +416,7 @@ fun MainScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
+            val appBarTitle: @Composable () -> Unit = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.VideoLibrary,
@@ -427,14 +428,13 @@ fun MainScreen(
                             text = stringResource(R.string.app_name),
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
-                            maxLines = 2,
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f).testTag("app_title")
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         
                     }
-                },
-                actions = {
+            }
+            val appBarActions: @Composable RowScope.() -> Unit = {
                     IconButton(
                         onClick = { exportLauncher.launch("media-metadata.json") },
                         modifier = Modifier.testTag("computer_transfer_button")
@@ -451,11 +451,26 @@ fun MainScreen(
                     ) {
                         Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
                     }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
-                )
-            )
+            }
+            BoxWithConstraints {
+                val compactHeader = maxWidth < 600.dp || LocalDensity.current.fontScale > 1.2f
+                if (compactHeader) {
+                    Surface(color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)) {
+                        Column(Modifier.fillMaxWidth().windowInsetsPadding(TopAppBarDefaults.windowInsets).padding(horizontal = 16.dp, vertical = 8.dp)) {
+                            appBarTitle()
+                            Row(Modifier.align(Alignment.End), content = appBarActions)
+                        }
+                    }
+                } else {
+                    TopAppBar(
+                        title = appBarTitle,
+                        actions = appBarActions,
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
+                        )
+                    )
+                }
+            }
         }
     ) { paddingValues ->
         // Modals Window States
@@ -1061,7 +1076,16 @@ fun MainScreen(
                                         border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)),
                                         colors = androidx.compose.material3.CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                                     ) {
-                                        Column(modifier = Modifier.fillMaxSize()) {
+                                        BoxWithConstraints(Modifier.fillMaxSize()) {
+                                            val queueViewportWidth = maxWidth
+                                            val queueTableWidth = maxOf(queueViewportWidth, 960.dp * LocalDensity.current.fontScale.coerceAtLeast(1f))
+                                            val queueHorizontalScroll = rememberScrollState()
+                                            Column(Modifier.fillMaxSize()) {
+                                                if (queueTableWidth > queueViewportWidth) {
+                                                    Text("Swipe horizontally for all columns.", style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp))
+                                                }
+                                                Box(Modifier.weight(1f).fillMaxWidth().horizontalScroll(queueHorizontalScroll).testTag("queue_table_viewport")) {
+                                                    Column(Modifier.width(queueTableWidth).fillMaxHeight().testTag("queue_table_content")) {
                                             // Table Header
                                             Row(
                                                 modifier = Modifier
@@ -1135,15 +1159,20 @@ fun MainScreen(
                                                                     Text("Rename: ", fontSize = 9.sp, color = MaterialTheme.colorScheme.outline)
                                                                     Text(
                                                                         "Rename",
+                                                                        maxLines = 1,
+                                                                        softWrap = false,
                                                                         fontSize = 9.sp,
                                                                         color = MaterialTheme.colorScheme.primary,
                                                                         fontWeight = FontWeight.Bold,
                                                                         modifier = Modifier
+                                                                            .testTag("queue_${video.id}_rename")
+                                                                            .heightIn(min = 48.dp)
                                                                             .clickable { 
                                                                                 viewModel.triggerFileRenameWithLLM(video.id)
 
                                                                             }
                                                                             .padding(horizontal = 4.dp)
+                                                                            .wrapContentHeight(Alignment.CenterVertically)
                                                                     )
                                                                 }
                                                             }
@@ -1168,8 +1197,8 @@ fun MainScreen(
                                                                     imageVector = Icons.Default.Folder,
                                                                     contentDescription = "Folder",
                                                                     modifier = Modifier
-                                                                        .size(16.dp)
-                                                                        .clickable { Toast.makeText(context, "Location: ${video.uriString}", Toast.LENGTH_LONG).show() },
+                                                                        .size(48.dp).testTag("queue_${video.id}_folder")
+                                                                        .clickable { Toast.makeText(context, "Location: ${video.uriString}", Toast.LENGTH_LONG).show() }.padding(16.dp),
                                                                     tint = MaterialTheme.colorScheme.primary
                                                                 )
                                                                 // Open processed output
@@ -1177,11 +1206,11 @@ fun MainScreen(
                                                                     imageVector = Icons.Default.OpenInNew,
                                                                     contentDescription = "Output",
                                                                     modifier = Modifier
-                                                                        .size(16.dp)
+                                                                        .size(48.dp).testTag("queue_${video.id}_output")
                                                                         .clickable(enabled = video.status == "processed") {
                                                                             outputModalVideoId = video.id
                                                                             outputModalState = WindowState.STANDARD
-                                                                        },
+                                                                        }.padding(16.dp),
                                                                     tint = if (video.status == "processed") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
                                                                 )
                                                                 // Open preview modal
@@ -1189,12 +1218,12 @@ fun MainScreen(
                                                                     imageVector = Icons.Default.Visibility,
                                                                     contentDescription = "Preview",
                                                                     modifier = Modifier
-                                                                        .size(16.dp)
+                                                                        .size(48.dp).testTag("queue_${video.id}_preview")
                                                                         .clickable {
                                                                             if (previewModalVideoId != video.id || previewModalState == null) previewDrafts.removeState("preview:${video.id}")
                                                                             previewModalVideoId = video.id
                                                                             previewModalState = WindowState.STANDARD
-                                                                        },
+                                                                        }.padding(16.dp),
                                                                     tint = MaterialTheme.colorScheme.primary
                                                                 )
                                                                 // Run processing
@@ -1202,15 +1231,19 @@ fun MainScreen(
                                                                     imageVector = Icons.Default.Refresh,
                                                                     contentDescription = "Process",
                                                                     modifier = Modifier
-                                                                        .size(16.dp)
+                                                                        .size(48.dp).testTag("queue_${video.id}_process")
                                                                         .clickable(enabled = video.reviewDecision == "keep") {
                                                                             viewModel.processSingle(video)
                                                                             Toast.makeText(context, "Processing started for kept media.", Toast.LENGTH_SHORT).show()
-                                                                        },
+                                                                        }.padding(16.dp),
                                                                     tint = if (video.reviewDecision == "keep") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
                                                                 )
                                                             }
                                                         }
+                                                    }
+                                                }
+                                            }
+                                        
                                                     }
                                                 }
                                             }
@@ -1532,7 +1565,7 @@ fun MainScreen(
                     ) {
                         val displayModels = if (modelsProvider == editProvider && (editProvider == "local" || modelsEndpoint == viewModel.modelEndpointKey(editUrl))) availableModels else emptyList()
 
-                        LaunchedEffect(editProvider, editUrl, availableModels) {
+                        LaunchedEffect(editProvider, editUrl, availableModels, modelsProvider, modelsEndpoint) {
                             if (selectedModelName.isBlank() && displayModels.isNotEmpty()) {
                                 selectedModelName = displayModels.firstOrNull() ?: ""
                             }
@@ -1893,7 +1926,7 @@ fun OverviewGrid(
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(12.dp),
                 border = BorderStroke(1.dp, Color(0xFFCAC4D0)),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFF3EDF7))
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
             ) {
                 Column(
                     modifier = Modifier
@@ -1922,7 +1955,7 @@ fun OverviewGrid(
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(12.dp),
                 border = BorderStroke(1.dp, Color(0xFFCAC4D0)),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFE8DEF8))
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
             ) {
                 Column(
                     modifier = Modifier
@@ -1934,14 +1967,14 @@ fun OverviewGrid(
                         text = "Proc.",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
                         text = "%02d".format(procCount),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }
             }
@@ -1980,7 +2013,7 @@ fun OverviewGrid(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
             border = BorderStroke(1.dp, Color(0xFFE7E0EC)),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFFF3EDF7))
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
         ) {
             Column(
                 modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
@@ -3374,7 +3407,7 @@ private fun BinScreen(
                     Card(Modifier.fillMaxWidth().testTag("bin_${item.id}")) {
                         Column {
                             MediaThumb(item.uriString, item.displayName, loadThumbnail, Modifier.fillMaxWidth().aspectRatio(1f))
-                            Row(Modifier.fillMaxWidth().padding(start = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Row(Modifier.fillMaxWidth().padding(start = 32.dp), verticalAlignment = Alignment.CenterVertically) {
                                 Text(item.displayName, Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 11.sp)
                                 IconButton(onClick = { onRecover(item.id) }, enabled = item.isCurrentlyAvailable && !item.isPending && !item.isTrashed) { Icon(Icons.Default.RestoreFromTrash, contentDescription = "Recover") }
                             }

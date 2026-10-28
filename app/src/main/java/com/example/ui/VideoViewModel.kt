@@ -26,7 +26,8 @@ import kotlinx.coroutines.Job
 class VideoViewModel @JvmOverloads constructor(
     private val application: Application,
     private val repo: VideoRepository = VideoRepository(application),
-    private val connectionClient: okhttp3.Call.Factory? = null
+    private val connectionClient: okhttp3.Call.Factory? = null,
+    private val storageOperations: StorageOperations = StorageOperations(application.contentResolver)
 ) : AndroidViewModel(application) {
     val processor = VideoProcessor(repo, viewModelScope)
 
@@ -251,7 +252,7 @@ class VideoViewModel @JvmOverloads constructor(
             val columns = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 arrayOf(MediaStore.MediaColumns._ID, MediaStore.MediaColumns.IS_TRASHED)
             } else arrayOf(MediaStore.MediaColumns._ID)
-            val state = application.contentResolver.query(uri, columns, null, null, null)?.use {
+            val state = storageOperations.query(uri, columns)?.use {
                 if (!it.moveToFirst()) "absent"
                 else if (trash && it.getColumnIndex(MediaStore.MediaColumns.IS_TRASHED) >= 0 &&
                     it.getInt(it.getColumnIndexOrThrow(MediaStore.MediaColumns.IS_TRASHED)) == 1) "trashed"
@@ -500,7 +501,7 @@ class VideoViewModel @JvmOverloads constructor(
     fun createBinDeletePendingIntent(): PendingIntent? {
         val candidates = binMedia.value.filter { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed }
         pendingBinDeleteIds = candidates.map { it.id }
-        return runCatching { binCoordinator.createDeleteRequest(candidates.map { it.uriString }) }
+        return runCatching { if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R || candidates.isEmpty()) null else storageOperations.request(false, candidates.map { Uri.parse(it.uriString) }.distinct()) }
             .onFailure {
                 pendingBinDeleteIds = emptyList()
                 _ruleMessage.value = "Delete failed"
@@ -623,7 +624,7 @@ class VideoViewModel @JvmOverloads constructor(
         val video = allVideos.value.find { it.id == videoId } ?: return null
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val uri = Uri.parse(video.uriString)
-            return MediaStore.createTrashRequest(getApplication<Application>().contentResolver, listOf(uri), true)
+            return storageOperations.request(true, listOf(uri))
         }
         return null
     }
@@ -632,7 +633,7 @@ class VideoViewModel @JvmOverloads constructor(
         val video = allVideos.value.find { it.id == videoId } ?: return null
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val uri = Uri.parse(video.uriString)
-            return MediaStore.createDeleteRequest(getApplication<Application>().contentResolver, listOf(uri))
+            return storageOperations.request(false, listOf(uri))
         }
         return null
     }
