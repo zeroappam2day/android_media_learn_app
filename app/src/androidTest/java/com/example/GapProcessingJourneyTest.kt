@@ -110,7 +110,7 @@ class GapProcessingJourneyTest {
         val process = action(later, "Process")
         if (!process.fetchSemanticsNode().config.contains(androidx.compose.ui.semantics.SemanticsProperties.Disabled)) process.performClick()
         action(later, "Preview").performClick()
-        val previewProcess = compose.onNode(hasContentDescription("Process media") and hasClickAction()).performScrollTo()
+        val previewProcess = compose.onNode(hasContentDescription("Process file") and hasClickAction()).performScrollTo()
         if (!previewProcess.fetchSemanticsNode().config.contains(androidx.compose.ui.semantics.SemanticsProperties.Disabled)) previewProcess.performClick()
         click("Close"); navigate("Home"); click("Process Next"); click("Start Batch")
         await { compose.onAllNodesWithText("Batch: FINISHED", substring = false).fetchSemanticsNodes().isNotEmpty() }
@@ -202,17 +202,17 @@ class GapProcessingJourneyTest {
     @Test fun t098_deviceSettingsSaveReopenAndProcessSameKeptImageWithoutNetwork() {
         val item = photo("device", "keep"); launch()
         click("Settings"); chooseProvider("Device")
-        setting("Timeout").performScrollTo().performTextReplacement("30")
+        setting("Wait limit").performScrollTo().performTextReplacement("30")
         compose.onNode(SemanticsMatcher.keyIsDefined(androidx.compose.ui.semantics.SemanticsActions.SetProgress)).performScrollTo().performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.SetProgress) { it(0.20f) }
-        setting("Prompt").performScrollTo().performTextReplacement("Summarize QA text")
+        setting("Instructions").performScrollTo().performTextReplacement("Summarize QA text")
         dismissQaKeyboard(requireNotNull(activity)); click("Save settings", scroll = true)
         await { prefs.getString("llm_provider", null) == "local" && io { db.appSettingsDao().getSettingsDirect()?.requestTimeoutSeconds == 30 } }
         click("Settings")
         compose.onNodeWithText("Device", substring = false).assertExists()
-        setting("Timeout").performScrollTo().assertTextContains("30")
-        setting("Prompt").performScrollTo().assert(SemanticsMatcher.expectValue(androidx.compose.ui.semantics.SemanticsProperties.EditableText, androidx.compose.ui.text.AnnotatedString("Summarize QA text")))
+        setting("Wait limit").performScrollTo().assertTextContains("30")
+        setting("Instructions").performScrollTo().assert(SemanticsMatcher.expectValue(androidx.compose.ui.semantics.SemanticsProperties.EditableText, androidx.compose.ui.text.AnnotatedString("Summarize QA text")))
         assertEquals(0.20f, prefs.getFloat("llm_temperature", -1f), 0.0001f)
-        compose.onNodeWithText("Keyword fallback runs on this device. No on-device language model is installed.").performScrollTo().assertIsDisplayed()
+        compose.onNodeWithText("Uses simple word matching on this phone. No AI model is installed.").performScrollTo().assertIsDisplayed()
         click("Close"); processPreview(item); click("Close"); completed(item); output(item, "fallback")
         assertTrue(server.generates.isEmpty()); assertBytes()
     }
@@ -247,15 +247,15 @@ class GapProcessingJourneyTest {
         output(item, "fallback")
         assertEquals("Deterministic fallback generated locally.", io { db.analysisResultDao().getAnalysisForVideoDirect(item.id)?.descriptionLine1 })
         val attempts = server.count(item)
-        navigate("Queue"); action(item, "Preview").performClick(); click("Reset model data", scroll = true)
+        navigate("Queue"); action(item, "Preview").performClick(); click("Clear saved result", scroll = true)
         await { row(item.id)?.status == "new" && io { db.analysisResultDao().getAnalysisForVideoDirect(item.id) == null } }
-        server.reply = Plan(); click("Process media", scroll = true); click("Close"); completed(item); output(item, "ollama")
+        server.reply = Plan(); click("Process file", scroll = true); click("Close"); completed(item); output(item, "ollama")
         assertEquals(attempts + 1, server.count(item)); assertEquals(1, io { db.analysisResultDao().getAllAnalysis().first().count { it.videoId == item.id } }); assertBytes()
     }
 
     private fun configurePc(timeout: Int) {
         click("Settings"); compose.onNodeWithText("PC", substring = false).assertExists()
-        setting("Host").performScrollTo().performTextReplacement(server.url + "/api/generate")
+        setting("AI address").performScrollTo().performTextReplacement(server.url + "/api/generate")
         dismissQaKeyboard(requireNotNull(activity)); click("Test connection", scroll = true)
         await { compose.onAllNodesWithText("Connected", substring = false).fetchSemanticsNodes().isNotEmpty() }
         click("Sync models tag list", scroll = true)
@@ -263,13 +263,13 @@ class GapProcessingJourneyTest {
         await { compose.onAllNodes(hasText(model, substring = false) and hasClickAction()).fetchSemanticsNodes().isNotEmpty() || compose.onAllNodesWithText("Select model").fetchSemanticsNodes().isNotEmpty() }
         val anchor = compose.onNode(hasClickAction() and (hasText(model, substring = false) or hasText("Select model", substring = false) or hasText("Tap sync to fetch models", substring = false)))
         anchor.performScrollTo().performClick(); compose.onAllNodesWithText(model, substring = false).onLast().performClick()
-        setting("Timeout").performScrollTo().performTextReplacement(timeout.toString())
+        setting("Wait limit").performScrollTo().performTextReplacement(timeout.toString())
         dismissQaKeyboard(requireNotNull(activity)); click("Save settings", scroll = true)
         await { io { db.appSettingsDao().getSettingsDirect()?.let { it.ollamaEndpointUrl == server.url + "/api/generate" && it.ollamaModelName == model && it.requestTimeoutSeconds == timeout } == true } }
-        click("Settings"); setting("Host").assertTextContains(server.url + "/api/generate"); setting("Timeout").performScrollTo().assertTextContains(timeout.toString())
+        click("Settings"); setting("AI address").assertTextContains(server.url + "/api/generate"); setting("Wait limit").performScrollTo().assertTextContains(timeout.toString())
         compose.onNodeWithText(model, substring = false).assertExists(); click("Close")
     }
-    private fun setting(label: String) = if (label == "Prompt") compose.onNodeWithTag("settings_prompt") else compose.onNode(hasText(label) and hasSetTextAction())
+    private fun setting(label: String) = if (label == "Instructions") compose.onNodeWithTag("settings_prompt") else compose.onNode(hasText(label) and hasSetTextAction())
     private fun chooseProvider(name: String) {
         val current = when { compose.onAllNodesWithText("PC", substring = false).fetchSemanticsNodes().isNotEmpty() -> "PC"; compose.onAllNodesWithText("Device", substring = false).fetchSemanticsNodes().isNotEmpty() -> "Device"; else -> error("Unexpected provider; direct Cloud account is out of scope") }
         compose.onNodeWithText(current, substring = false).performScrollTo().performClick(); compose.onAllNodesWithText(name, substring = false).onLast().performClick()
@@ -296,7 +296,7 @@ class GapProcessingJourneyTest {
     private fun processPreview(item: VideoItem) {
         navigate("Queue")
         action(item, "Preview").performClick()
-        click("Process media", scroll = true)
+        click("Process file", scroll = true)
     }
     private fun completed(item: VideoItem) {
         await(60000) { row(item.id)?.status in setOf("processed", "error") }

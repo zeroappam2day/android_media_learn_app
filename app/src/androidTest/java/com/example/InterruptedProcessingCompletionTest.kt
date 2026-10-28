@@ -106,7 +106,7 @@ class InterruptedProcessingCompletionTest {
         await { vm.startupReady.value && vm.allVideos.value.any { it.id == video.id } }
         navigate("nav_queue")
         compose.onNodeWithTag("queue_${video.id}_preview").performQaQueueScrollTo(compose).performClick()
-        compose.onNodeWithContentDescription("Process media").performScrollTo().performClick()
+        compose.onNodeWithContentDescription("Process file").performScrollTo().performClick()
         compose.onNodeWithContentDescription("Close").performClick()
         await { held.executed && row(video.id).status == "processing" }
         assertNull(io { repo.analysisDao.getAnalysisForVideoDirect(video.id) })

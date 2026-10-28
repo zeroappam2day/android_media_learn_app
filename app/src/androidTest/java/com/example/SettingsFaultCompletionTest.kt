@@ -238,7 +238,7 @@ class SettingsFaultCompletionTest {
         await { compose.onAllNodesWithText("AI setup").fetchSemanticsNodes().isNotEmpty() }
     }
     private fun replaceHost(value: String) {
-        compose.onNode(hasText("Host") and hasSetTextAction()).performScrollTo().performTextReplacement(value)
+        compose.onNode(hasText("AI address") and hasSetTextAction()).performScrollTo().performTextReplacement(value)
         dismissQaKeyboard(compose.activity)
         compose.waitForIdle()
     }

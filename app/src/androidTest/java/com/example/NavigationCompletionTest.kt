@@ -110,8 +110,8 @@ class NavigationCompletionTest {
         compose.onNodeWithText("Overview").performClick(); count("New", "01")
         compose.onNodeWithText("Overview").performClick(); compose.onNodeWithText("New", substring = false).assertDoesNotExist()
         compose.onNodeWithText("Guide").performClick()
-        compose.onNodeWithText("• Private-First OCR:", substring = true).assertIsDisplayed()
-        compose.onNodeWithText("Guide").performClick(); compose.onNodeWithText("• Private-First OCR:", substring = true).assertDoesNotExist()
+        compose.onNodeWithText("Text is read on your device.", substring = true).assertIsDisplayed()
+        compose.onNodeWithText("Guide").performClick(); compose.onNodeWithText("Text is read on your device.", substring = true).assertDoesNotExist()
         assertEquals(before, row(fixture.id))
     }
     @Test fun t012_overviewCountsAvailableStatesAndSidebarTotalsIndependently() {
@@ -121,31 +121,31 @@ class NavigationCompletionTest {
         image("remove", status = "ready_to_delete"); image("error", status = "error")
         image("unavailable", available = false); image("pending", pending = true); image("trashed", trashed = true)
         compose.onNodeWithText("Overview").performClick()
-        listOf("New", "Queued", "Proc.", "Review").forEach { count(it, "02") }
+        listOf("New", "Queued", "Saved", "Review").forEach { count(it, "02") }
         compose.onNodeWithText("8 Media Found").assertIsDisplayed()
         compose.onNodeWithText("Media: Full access").assertIsDisplayed()
         compose.onNodeWithText("qa-navigation-model", substring = true).assertIsDisplayed()
         openMenu(); compose.onNodeWithText("• Available media: 8").assertIsDisplayed()
-        compose.onNodeWithText("• Filtered Backlog items: 8").assertIsDisplayed()
-        compose.onNodeWithText("• LLM Provider: LOCAL").assertIsDisplayed()
+        compose.onNodeWithText("• Files in queue: 8").assertIsDisplayed()
+        compose.onNodeWithText("• AI service: LOCAL").assertIsDisplayed()
         assertEquals(11, io { repo.videoDao.getAllVideosDirect().size })
     }
     @Test fun t018_dismissLimitedBannerDoesNotChangeAccessOrRows() {
         val item = image("limited"); source.access = "Limited access"; compose.runOnUiThread { vm.refreshMediaAccess() }
         compose.onNodeWithText("Limited Access Enabled").assertIsDisplayed()
-        compose.onNodeWithText("Dismiss").performClick(); compose.onNodeWithText("Limited Access Enabled").assertDoesNotExist()
+        compose.onNodeWithContentDescription("Dismiss").performClick(); compose.onNodeWithText("Limited Access Enabled").assertDoesNotExist()
         assertEquals("Limited access", vm.mediaAccessState.value); assertEquals(item, row(item.id))
         // Injected access-state presentation only; real Android selected-media grant proof is separate.
     }
     @Test fun t021_t038_t050_t073_t155_t173_t178_emptyScreensAndToolBackAreHonest() {
-        navigate("sources"); compose.onNodeWithTag("inventory_total").assertTextEquals("0 available items • 0 B")
-        compose.onNodeWithText("No accessible media indexed").assertIsDisplayed()
+        navigate("sources"); compose.onNodeWithTag("inventory_total").assertTextEquals("0 files • 0 B")
+        compose.onNodeWithText("No photos or videos found").assertIsDisplayed()
         compose.onNodeWithTag("open_tags").performClick()
         compose.onNode(hasSetTextAction() and hasText("Tag")).assertIsDisplayed()
         button("Add").assertIsNotEnabled(); compose.onNodeWithContentDescription("Back").performClick()
         compose.onNodeWithTag("open_bin").performClick(); compose.onNodeWithText("Bin empty").assertIsDisplayed()
         compose.onNodeWithTag("delete_bin").assertIsNotEnabled(); compose.onNodeWithContentDescription("Back").performClick()
-        navigate("queue"); compose.onNodeWithText("Backlog is empty. Scan storage or clear filters.").assertIsDisplayed()
+        navigate("queue"); compose.onNodeWithText("Queue is empty. Find files or clear filters.").assertIsDisplayed()
         for (destination in listOf("videos", "images")) { navigate(destination); compose.onNodeWithText("No processed files found in Archive.").assertIsDisplayed() }
         navigate("folders"); openMenu(); compose.onNodeWithText("No folders scanned yet. Tap Scan below.").assertIsDisplayed()
     }
@@ -154,9 +154,9 @@ class NavigationCompletionTest {
         val ig = image("instagram", category = "Screenshots", subcategory = "Instagram")
         image("private", category = "Screenshots", available = false)
         val camera = image("camera", category = "Camera")
-        navigate("sources"); compose.onNodeWithTag("inventory_total").assertTextEquals("3 available items • 120 B")
+        navigate("sources"); compose.onNodeWithTag("inventory_total").assertTextEquals("3 files • 120 B")
         compose.onNodeWithTag("source_category_Screenshots").performClick()
-        compose.onNodeWithTag("inventory_total").assertTextEquals("2 available items • 80 B")
+        compose.onNodeWithTag("inventory_total").assertTextEquals("2 files • 80 B")
         compose.onNodeWithTag("source_media_${fb.id}").assertIsDisplayed(); compose.onNodeWithTag("source_media_${ig.id}").assertIsDisplayed()
         compose.onNodeWithTag("source_media_${camera.id}").assertDoesNotExist()
         compose.onNodeWithTag("source_evidence_${fb.id}").assertTextContains("Facebook • Inferred from filename")
@@ -219,10 +219,10 @@ class NavigationCompletionTest {
         val z = image("z", status = "new", bytes = 900); val a = image("a", status = "queued", bytes = 20); val m = image("m", status = "error", bytes = 100)
         val before = listOf(z, a, m).associateBy { it.id }; navigate("queue")
         sort("Name"); order(a, m, z); sort("Size"); order(a, m, z); sort("Status"); order(m, z, a)
-        val header = compose.onNode(isToggleable() and hasAnySibling(hasText("Location")))
-        header.performClick(); compose.onNodeWithText("3 files selected in backlog").assertIsDisplayed()
+        val header = compose.onNodeWithTag("queue_select_all")
+        header.performClick(); compose.onNodeWithText("3 files selected").assertIsDisplayed()
         compose.onAllNodes(isToggleable()).assertCountEquals(4); compose.onAllNodes(isToggleable()).fetchSemanticsNodes().forEachIndexed { index, _ -> compose.onAllNodes(isToggleable())[index].assertIsOn() }
-        header.performClick(); compose.onNodeWithText("3 files selected in backlog").assertDoesNotExist()
+        header.performClick(); compose.onNodeWithText("3 files selected").assertDoesNotExist()
         compose.onAllNodes(isToggleable()).fetchSemanticsNodes().forEachIndexed { index, _ -> compose.onAllNodes(isToggleable())[index].assertIsOff() }
         assertEquals(before, listOf(z, a, m).associate { it.id to row(it.id) }); assertBytes()
     }
@@ -283,7 +283,7 @@ class NavigationCompletionTest {
     private fun openMenu() { if (compose.onAllNodesWithContentDescription("Open menu").fetchSemanticsNodes().isNotEmpty()) compose.onNodeWithContentDescription("Open menu").performClick() }
     private fun closeMenu() { if (compose.onAllNodesWithContentDescription("Close menu").fetchSemanticsNodes().isNotEmpty()) compose.onNodeWithContentDescription("Close menu").performClick() }
     private fun navigate(destination: String) { openMenu(); compose.onNodeWithTag("nav_$destination").performClick(); closeMenu() }
-    private fun sort(label: String) { compose.onNode(hasText(label, substring = false) and hasClickAction()).performClick(); compose.waitForIdle() }
+    private fun sort(label: String) { compose.onNodeWithContentDescription("Sort by ${label.lowercase()}").performClick(); compose.waitForIdle() }
     private fun order(vararg items: VideoItem) { val positions = items.map { compose.onNodeWithText(it.displayName).fetchSemanticsNode().boundsInRoot.top }; assertEquals(positions.sorted(), positions) }
     private fun aligned(item: VideoItem, label: String): SemanticsNodeInteraction {
         check(item.id in ids && row(item.id).uriString == item.uriString && row(item.id).displayName == item.displayName)

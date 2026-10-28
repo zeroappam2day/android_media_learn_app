@@ -50,9 +50,9 @@ class ArchiveWiringTest {
     @Test fun archiveSortChangesVisibleOrder() {
         navigate("Images")
         compose.waitUntil(10000) { compose.onAllNodesWithText(imageA).fetchSemanticsNodes().isNotEmpty() }
-        compose.onNodeWithText("Name", substring = false).performClick()
+        compose.onNodeWithContentDescription("Sort by name").performClick()
         assertTrue(y(imageA) < y(imageZ))
-        compose.onNode(hasText("Size") and hasClickAction()).performClick()
+        compose.onNodeWithContentDescription("Sort by size").performClick()
         assertTrue("Size sort must put the 10-byte item before the 900-byte item", y(imageZ) < y(imageA))
     }
 
@@ -72,9 +72,9 @@ class ArchiveWiringTest {
         navigate("Queue")
         compose.waitUntil(10000) { compose.onAllNodesWithText(queuedName).fetchSemanticsNodes().isNotEmpty() }
         selectRow(queuedName)
-        compose.onNodeWithText("1 files selected in backlog").assertIsDisplayed()
-        compose.onNodeWithText("Cancel").performClick()
-        compose.onNodeWithText("1 files selected in backlog").assertDoesNotExist()
+        compose.onNodeWithText("1 file selected").assertIsDisplayed()
+        compose.onNodeWithContentDescription("Cancel").performClick()
+        compose.onNodeWithText("1 file selected").assertDoesNotExist()
     }
 
     @Test fun addingFolderTwiceKeepsItsItemQueued() {

@@ -211,10 +211,10 @@ class ProcessingLifecycleCompletionTest {
         val attemptsBeforeRetry = server.count(drop)
         assertTrue(attemptsBeforeRetry >= 1)
         navigate("Queue"); action(drop, "Preview").performClick()
-        click("Reset model data", scroll = true)
+        click("Clear saved result", scroll = true)
         await { row(drop.id)?.status == "new" && io { db.analysisResultDao().getAnalysisForVideoDirect(drop.id) == null } }
         server.reply = Plan()
-        click("Process media", scroll = true)
+        click("Process file", scroll = true)
         completed(drop)
         assertEquals(attemptsBeforeRetry + 1, server.count(drop))
         outputFromOpenPreview(drop, "ollama")
@@ -230,7 +230,7 @@ class ProcessingLifecycleCompletionTest {
     private fun processPreview(item: VideoItem) {
         navigate("Queue")
         action(item, "Preview").performClick()
-        click("Process media", scroll = true)
+        click("Process file", scroll = true)
     }
     private fun completed(item: VideoItem) {
         await(60000) { row(item.id)?.status in setOf("processed", "error") }

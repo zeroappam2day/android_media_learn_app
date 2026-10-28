@@ -153,7 +153,7 @@ class PersistenceCompletionTest {
             val filter = IntentFilter(Intent.ACTION_CREATE_DOCUMENT).apply { addCategory(Intent.CATEGORY_OPENABLE); addDataType("application/json") }
             val monitor = instrumentation.addMonitor(filter, android.app.Instrumentation.ActivityResult(Activity.RESULT_OK, Intent().setData(output)), true)
             try {
-                compose.onNodeWithContentDescription("Export metadata").performClick()
+                compose.onNodeWithContentDescription("Save file details").performClick()
                 await { runCatching { resolver.openInputStream(output)!!.bufferedReader().use { JSONObject(it.readText()).getJSONArray("media").length() == 1 } }.getOrDefault(false) }
                 assertEquals(1, monitor.hits)
                 val exported = resolver.openInputStream(output)!!.bufferedReader().use { JSONObject(it.readText()).getJSONArray("media").getJSONObject(0) }

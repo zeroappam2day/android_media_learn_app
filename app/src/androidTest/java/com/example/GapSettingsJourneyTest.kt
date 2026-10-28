@@ -95,14 +95,14 @@ class GapSettingsJourneyTest {
     @Test fun t076_fullScrollStandardMinimizeRestoreCloseNeverCommitsAnySetting() {
         val before = snapshot()
         compose.onNodeWithContentDescription("Full Window").performClick()
-        field("Prompt").performScrollTo().assertExists()
-        field("Host").performScrollTo().assertExists()
+        field("Instructions").performScrollTo().assertExists()
+        field("AI address").performScrollTo().assertExists()
         compose.onNodeWithContentDescription("Standard Window").performClick()
         compose.onNodeWithContentDescription("Minimize").performClick()
         assertEquals(before, snapshot())
         compose.onNodeWithContentDescription("Restore settings").performClick()
         compose.onNodeWithText("AI setup", substring = false).assertExists()
-        field("Prompt").performScrollTo().assert(editable("QA saved prompt"))
+        field("Instructions").performScrollTo().assert(editable("QA saved prompt"))
         compose.onNodeWithContentDescription("Close").performClick()
         compose.onNodeWithContentDescription("Settings").assertIsDisplayed()
         assertEquals(before, snapshot())
@@ -120,7 +120,7 @@ class GapSettingsJourneyTest {
         modelField("qa-model-b").performScrollTo()
         val instrumentation = androidx.test.platform.app.InstrumentationRegistry.getInstrumentation()
         compose.waitForIdle()
-        val titleBounds = compose.onNodeWithText("Ollama Advanced Connection Settings", substring = false)
+        val titleBounds = compose.onNodeWithText("AI settings", substring = false)
             .fetchSemanticsNode().boundsInRoot
         assertTrue("Observed Settings title must be a visible outside-popup touch target", titleBounds.width > 0f && titleBounds.height > 0f)
         val composeOrigin = IntArray(2)
@@ -153,25 +153,25 @@ class GapSettingsJourneyTest {
 
     @Test fun t111_unsavedPromptResetThenCloseRestoresExactSavedPrompt() {
         val before = snapshot()
-        replace("Prompt", "QA unsaved prompt")
-        compose.onNodeWithContentDescription("Reset prompt").performScrollTo().performClick()
-        val reset = field("Prompt").fetchSemanticsNode().config[SemanticsProperties.EditableText].text
+        replace("Instructions", "QA unsaved prompt")
+        compose.onNodeWithContentDescription("Reset instructions").performScrollTo().performClick()
+        val reset = field("Instructions").fetchSemanticsNode().config[SemanticsProperties.EditableText].text
         assertTrue(reset.isNotBlank()); assertNotEquals("QA unsaved prompt", reset)
         compose.onNodeWithContentDescription("Close").performClick(); open()
-        field("Prompt").performScrollTo().assert(editable("QA saved prompt"))
+        field("Instructions").performScrollTo().assert(editable("QA saved prompt"))
         assertEquals(before, snapshot())
     }
 
     @Test fun t167_promptDraftSurvivesMinimizeRestoreButCloseDiscardsItWithoutSaving() {
         val before = snapshot(); val draft = "QA unsaved Prompt مرحبا 😀"
-        replace("Prompt", draft)
+        replace("Instructions", draft)
         compose.onNodeWithContentDescription("Minimize").performClick()
         assertEquals(before, snapshot())
         compose.onNodeWithContentDescription("Restore settings").performClick()
-        field("Prompt").performScrollTo().assert(editable(draft))
+        field("Instructions").performScrollTo().assert(editable(draft))
         assertEquals(before, snapshot())
         compose.onNodeWithContentDescription("Close").performClick(); open()
-        field("Prompt").performScrollTo().assert(editable("QA saved prompt"))
+        field("Instructions").performScrollTo().assert(editable("QA saved prompt"))
         assertEquals(before, snapshot())
     }
 
@@ -180,14 +180,14 @@ class GapSettingsJourneyTest {
         provider("Device")
         await {
             runCatching {
-                compose.onNodeWithText("Keyword fallback runs on this device. No on-device language model is installed.")
+                compose.onNodeWithText("Uses simple word matching on this phone. No AI model is installed.")
                     .performScrollTo().assertIsDisplayed()
                 true
             }.getOrDefault(false)
         }
         compose.onNodeWithContentDescription("Close").performClick(); open()
         compose.onNodeWithText("PC", substring = false).assertExists()
-        field("Host").performScrollTo().assertTextContains(server.url)
+        field("AI address").performScrollTo().assertTextContains(server.url)
         assertEquals(before, snapshot())
     }
 
@@ -227,7 +227,7 @@ class GapSettingsJourneyTest {
         modelField("qa-model-b").assertExists()
     }
 
-    private fun field(label: String) = if (label == "Prompt") compose.onNodeWithTag("settings_prompt") else compose.onNode(hasText(label) and hasSetTextAction())
+    private fun field(label: String) = if (label == "Instructions") compose.onNodeWithTag("settings_prompt") else compose.onNode(hasText(label) and hasSetTextAction())
     private fun replace(label: String, value: String) { field(label).performScrollTo().performTextReplacement(value); dismissQaKeyboard(compose.activity); compose.waitForIdle() }
     private fun editable(value: String) = SemanticsMatcher.expectValue(SemanticsProperties.EditableText, androidx.compose.ui.text.AnnotatedString(value))
     private fun snapshot() = Triple(settings(), listOf(repo.prefs.getString("llm_provider", null), repo.prefs.getString("llm_system_prompt", null), repo.prefs.getFloat("llm_temperature", -1f).toString()), repo.prefs.getStringSet("llm_available_models", null)?.toSet())
@@ -241,7 +241,7 @@ class GapSettingsJourneyTest {
         await { compose.onAllNodesWithText("AI setup").fetchSemanticsNodes().isNotEmpty() }
     }
     private fun replaceHost(value: String) {
-        compose.onNode(hasText("Host") and hasSetTextAction()).performScrollTo().performTextReplacement(value)
+        compose.onNode(hasText("AI address") and hasSetTextAction()).performScrollTo().performTextReplacement(value)
         dismissQaKeyboard(compose.activity)
         compose.waitForIdle()
     }

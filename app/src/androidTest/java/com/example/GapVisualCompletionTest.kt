@@ -199,14 +199,19 @@ class GapVisualCompletionTest {
             assertReadableText(compose.onNodeWithTag("app_title"), label = "title-$theme")
             val rename = compose.onNodeWithTag("queue_${target.id}_rename").performQaQueueScrollTo(compose).assertIsDisplayed()
             capture("large-$theme-queue-rename-before-layout-assert")
-            assertReadableText(rename, singleLine = true, label = "rename-$theme")
-            for (heading in listOf("Location", "File", "Size", "Status", "Actions")) {
-                val header = compose.onNode(hasText(heading, substring = false) and hasAnyAncestor(hasTestTag("queue_table_content")))
-                header.performQaQueueScrollTo(compose).assertIsDisplayed()
-                assertReadableText(header, singleLine = true, label = "heading-${heading.lowercase()}-$theme")
-            }
+            assertReadableText(compose.onNodeWithText(name, substring = false).performQaQueueScrollTo(compose), label = "file-name-$theme")
+            assertTrue("Rename must remain an accessible icon action", rename.fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.ContentDescription].contains("Rename"))
+            val header = compose.onNodeWithText("Select all", substring = false)
+            header.assertIsDisplayed()
+            assertReadableText(header, singleLine = true, label = "bulk-selection-$theme")
+            val viewport = compose.onNodeWithTag("queue_table_viewport").fetchSemanticsNode().boundsInRoot
+            val content = compose.onNodeWithTag("queue_table_content").fetchSemanticsNode().boundsInRoot
+            assertEquals("All queue fields must fit without horizontal scrolling", viewport.width, content.width, 1f)
+            val folder = requireNotNull(target.relativePath).trim('/')
+            assertReadableText(compose.onNode(hasText(folder, substring = false) and hasAnyAncestor(hasTestTag("queue_row_${target.id}"))).performQaQueueScrollTo(compose), label = "folder-$theme")
+            assertReadableText(compose.onNode(hasText("New", substring = false) and hasAnyAncestor(hasTestTag("queue_row_${target.id}"))).performQaQueueScrollTo(compose), label = "status-$theme")
             rename.performQaQueueScrollTo(compose); capture("large-$theme-queue-identities")
-            val controls = listOf("folder", "output", "preview", "process").map { suffix ->
+            val controls = listOf("rename", "folder", "output", "preview", "process").map { suffix ->
                 compose.onNodeWithTag("queue_${target.id}_$suffix").performQaQueueScrollTo(compose).assertIsDisplayed()
             }
             val actionBounds = controls.map { it.fetchSemanticsNode().boundsInRoot }
@@ -303,7 +308,7 @@ class GapVisualCompletionTest {
             assertTrue("Settings privacy flag must remain enabled", secure)
             if (label.endsWith("settings-prompt")) compose.onNodeWithTag("settings_prompt").assertIsDisplayed()
             else compose.onNodeWithText("AI setup").assertIsDisplayed()
-            compose.onAllNodesWithText("API key", useUnmergedTree = true).assertCountEquals(0)
+            compose.onAllNodesWithText("Access key", useUnmergedTree = true).assertCountEquals(0)
             val observed = if (label.endsWith("settings-prompt")) compose.onNodeWithTag("settings_prompt")
                 else compose.onNodeWithText("AI setup")
             observed.assertIsDisplayed()
@@ -373,7 +378,7 @@ class GapVisualCompletionTest {
         navigate("Queue")
         await { compose.onAllNodesWithText(item.displayName, substring = false).fetchSemanticsNodes().isNotEmpty() }
         action(item, "Preview").performClick()
-        compose.onNode(hasContentDescription("Process media") and hasClickAction()).performScrollTo().assertIsDisplayed().performClick()
+        compose.onNode(hasContentDescription("Process file") and hasClickAction()).performScrollTo().assertIsDisplayed().performClick()
     }
     private fun verifyOutput(item: VideoItem) {
         val analysis = io { requireNotNull(db.analysisResultDao().getAnalysisForVideoDirect(item.id)) }

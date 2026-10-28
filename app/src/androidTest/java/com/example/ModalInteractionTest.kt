@@ -45,10 +45,10 @@ class ModalInteractionTest {
 
     @Test fun settingsDraftSurvivesMinimizeButCloseDiscardsIt() {
         compose.onNodeWithContentDescription("Settings").performClick()
-        compose.onNode(hasSetTextAction() and hasText("Host")).performTextReplacement("http://qa.invalid")
+        compose.onNode(hasSetTextAction() and hasText("AI address")).performTextReplacement("http://qa.invalid")
         compose.onNodeWithContentDescription("Minimize").performClick()
         compose.onNodeWithContentDescription("Restore settings").performClick()
-        compose.onNode(hasSetTextAction() and hasText("Host")).assertTextContains("http://qa.invalid")
+        compose.onNode(hasSetTextAction() and hasText("AI address")).assertTextContains("http://qa.invalid")
         compose.onNodeWithContentDescription("Close").performClick()
         compose.onNodeWithContentDescription("Settings").performClick()
         compose.onNodeWithText("http://qa.invalid").assertDoesNotExist()

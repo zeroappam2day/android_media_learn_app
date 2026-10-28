@@ -300,7 +300,7 @@ class GapEditingJourneyTest {
         saveAndAwait(original)
         dismissQaKeyboard(compose.activity)
         compose.waitForIdle()
-        compose.onNode(hasClickAction() and hasContentDescription("Reset model data"))
+        compose.onNode(hasClickAction() and hasContentDescription("Clear saved result"))
             .performScrollTo().assertIsDisplayed().performClick()
         try {
             await { io { dao.getVideoByIdDirect(item.id)?.status == "new" && db.analysisResultDao().getAnalysisForVideoDirect(item.id) == null } }
@@ -383,7 +383,7 @@ class GapEditingJourneyTest {
         val filter = IntentFilter(Intent.ACTION_CREATE_DOCUMENT).apply { addCategory(Intent.CATEGORY_OPENABLE); addDataType("application/json") }
         val monitor = instrumentation.addMonitor(filter, Instrumentation.ActivityResult(Activity.RESULT_OK, Intent().setData(destination)), true)
         try {
-            compose.onNodeWithContentDescription("Export metadata").performClick()
+            compose.onNodeWithContentDescription("Save file details").performClick()
             await {
                 runCatching {
                     context.contentResolver.openInputStream(destination)!!.bufferedReader().use { JSONObject(it.readText()) }

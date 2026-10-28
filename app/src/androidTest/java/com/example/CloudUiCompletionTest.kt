@@ -141,7 +141,7 @@ class CloudUiCompletionTest {
         navigate("nav_queue")
         await { vm.allVideos.value.any { it.id == item.id } }
         compose.onNodeWithTag("queue_${item.id}_preview").performQaQueueScrollTo(compose).performClick()
-        compose.onNodeWithContentDescription("Process media").performScrollTo().performClick()
+        compose.onNodeWithContentDescription("Process file").performScrollTo().performClick()
         compose.onNodeWithContentDescription("Close").performClick()
         await { row(item.id).status == "processed" && vm.processor.processorState.value == VideoProcessor.State.FINISHED }
         val result = io { requireNotNull(repo.analysisDao.getAnalysisForVideoDirect(item.id)) }
@@ -206,8 +206,8 @@ class CloudUiCompletionTest {
         ids += id
         return row(id)
     }
-    private fun host() = compose.onNode(hasSetTextAction() and hasText("Host"))
-    private fun key() = compose.onNode(hasSetTextAction() and hasText("API key"))
+    private fun host() = compose.onNode(hasSetTextAction() and hasText("AI address"))
+    private fun key() = compose.onNode(hasSetTextAction() and hasText("Access key"))
     private fun openSettings() { compose.onNodeWithContentDescription("Settings").performClick(); compose.onNodeWithText("AI setup").assertExists() }
     private fun navigate(tag: String) {
         if (compose.onAllNodesWithContentDescription("Open menu").fetchSemanticsNodes().isNotEmpty()) compose.onNodeWithContentDescription("Open menu").performClick()

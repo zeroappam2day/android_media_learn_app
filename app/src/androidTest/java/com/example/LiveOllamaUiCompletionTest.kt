@@ -161,7 +161,7 @@ class LiveOllamaUiCompletionTest {
         rowAction(ownedItem.displayName, "Preview").performClick()
         compose.onNodeWithText("Media Details Preview: ${ownedItem.displayName}").assertIsDisplayed()
         val requestsBefore = requireNotNull(repository).mediaOperationCounters.llmRequests
-        compose.onNodeWithContentDescription("Process media").performScrollTo().performClick()
+        compose.onNodeWithContentDescription("Process file").performScrollTo().performClick()
         // Poll persisted terminal state; UI remains responsive throughout real OCR/model work.
         compose.waitUntil(240000) { io { db.videoItemDao().getVideoByIdDirect(ownedId)?.status in setOf("processed", "error") } }
         val completed = io { requireNotNull(db.videoItemDao().getVideoByIdDirect(ownedId)) }

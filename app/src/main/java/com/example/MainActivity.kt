@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class, androidx.compose.material3.ExperimentalMaterial3Api::class)
+
 package com.example
 
 import android.Manifest
@@ -61,6 +63,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.data.*
 import com.example.ui.VideoViewModel
 import com.example.ui.theme.MyApplicationTheme
+import com.example.ui.theme.AppActionHint as ActionHint
+import com.example.ui.theme.AppIconAction
+import com.example.ui.theme.Presentation
+import com.example.ui.theme.canvasBrush
 import java.text.SimpleDateFormat
 import java.util.*
 import androidx.compose.foundation.shape.CircleShape
@@ -142,7 +148,7 @@ fun WindowedModal(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         // Minimize Button
-                        IconButton(
+                        ActionHint("Minimize") { IconButton(
                             onClick = { onStateChange(WindowState.MINIMIZED) },
                             modifier = Modifier.size(48.dp)
                         ) {
@@ -152,10 +158,10 @@ fun WindowedModal(
                                 modifier = Modifier.size(16.dp),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
-                        }
+                        } }
                         
                         // Full Window or Return Window Button
-                        IconButton(
+                        ActionHint(if (isMaximized) "Restore window size" else "Expand window") { IconButton(
                             onClick = { 
                                 if (isMaximized) {
                                     onStateChange(WindowState.STANDARD)
@@ -171,10 +177,10 @@ fun WindowedModal(
                                 modifier = Modifier.size(16.dp),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
-                        }
+                        } }
 
                         // Close Button
-                        IconButton(
+                        ActionHint("Close") { IconButton(
                             onClick = { onStateChange(null) },
                             modifier = Modifier.size(48.dp)
                         ) {
@@ -184,7 +190,7 @@ fun WindowedModal(
                                 modifier = Modifier.size(16.dp),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
-                        }
+                        } }
                     }
                 }
                 
@@ -415,6 +421,9 @@ fun MainScreen(
 
 
     Scaffold(
+        modifier = Modifier.fillMaxSize().background(canvasBrush()),
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = {
             val appBarTitle: @Composable () -> Unit = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -435,22 +444,22 @@ fun MainScreen(
                     }
             }
             val appBarActions: @Composable RowScope.() -> Unit = {
-                    IconButton(
+                    ActionHint("Save file details") { IconButton(
                         onClick = { exportLauncher.launch("media-metadata.json") },
                         modifier = Modifier.testTag("computer_transfer_button")
                     ) {
-                        Icon(Icons.Default.FileDownload, contentDescription = "Export metadata")
-                    }
-                    IconButton(onClick = onToggleTheme) {
+                        Icon(Icons.Default.FileDownload, contentDescription = "Save file details")
+                    } }
+                    ActionHint("Toggle Theme") { IconButton(onClick = onToggleTheme) {
                         val icon = if (isDark) Icons.Default.LightMode else Icons.Default.DarkMode
                         Icon(imageVector = icon, contentDescription = "Toggle Theme")
-                    }
-                    IconButton(
+                    } }
+                    ActionHint("Settings") { IconButton(
                         onClick = { showSettings = true },
                         modifier = Modifier.testTag("settings_button")
                     ) {
                         Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
-                    }
+                    } }
             }
             BoxWithConstraints {
                 val compactHeader = maxWidth < 600.dp || LocalDensity.current.fontScale > 1.2f
@@ -523,6 +532,7 @@ fun MainScreen(
                             modifier = Modifier
                                 .width(240.dp)
                                 .fillMaxHeight()
+                                .verticalScroll(rememberScrollState())
                                 .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
                                 .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.12f))
                                 .padding(12.dp)
@@ -550,9 +560,9 @@ fun MainScreen(
                                     textStyle = androidx.compose.ui.text.TextStyle(fontSize = 11.sp),
                                     trailingIcon = {
                                         if (folderSearchQuery.isNotEmpty()) {
-                                            IconButton(onClick = { folderSearchQuery = "" }, modifier = Modifier.size(16.dp)) {
+                                            ActionHint("Clear search") { IconButton(onClick = { folderSearchQuery = "" }, modifier = Modifier.size(16.dp)) {
                                                 Icon(Icons.Default.Close, contentDescription = "Clear search", modifier = Modifier.size(14.dp))
-                                            }
+                                            } }
                                         } else {
                                             Icon(Icons.Default.Search, contentDescription = null, modifier = Modifier.size(14.dp))
                                         }
@@ -573,11 +583,11 @@ fun MainScreen(
                                 }
 
                                 if (folders.isEmpty()) {
-                                    Text("No folders scanned yet. Tap Scan below.", fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
+                                    Text("No folders scanned yet. Tap Scan below.", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                 } else if (filteredFolders.isEmpty()) {
-                                    Text("No matching folders found.", fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
+                                    Text("No matching folders found.", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                 } else {
-                                    LazyColumn(modifier = Modifier.weight(1f)) {
+                                    LazyColumn(modifier = Modifier.heightIn(max = 240.dp)) {
                                         items(filteredFolders) { folder ->
                                             val isChecked = selectedFolders[folder] ?: false
                                             Row(
@@ -590,12 +600,12 @@ fun MainScreen(
                                                     checked = isChecked,
                                                     onCheckedChange = { selectedFolders[folder] = it }
                                                 )
-                                                Text(folder, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                                Text(folder, fontSize = 12.sp)
                                             }
                                         }
                                     }
                                     Spacer(modifier = Modifier.height(8.dp))
-                                    IconButton(
+                                    ActionHint("Add selected to queue") { IconButton(
                                         onClick = {
                                             val idsToQueue = mutableListOf<Long>()
                                             allVideos.forEach { v ->
@@ -609,14 +619,14 @@ fun MainScreen(
                                         modifier = Modifier.align(Alignment.End)
                                     ) {
                                         Icon(Icons.Default.Add, contentDescription = "Add selected to queue")
-                                    }
+                                    } }
                                 }
                             } else if (activePanelSection == "settings") {
                                 // Mini quick-settings panel in sidebar
                                 Text("AI setup", fontSize = 13.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 6.dp))
-                                IconButton(onClick = { settingsModalState = WindowState.STANDARD }, modifier = Modifier.align(Alignment.End)) {
+                                ActionHint("Open AI settings") { IconButton(onClick = { settingsModalState = WindowState.STANDARD }, modifier = Modifier.align(Alignment.End)) {
                                     Icon(Icons.Default.OpenInNew, contentDescription = "Open AI settings")
-                                }
+                                } }
                             } else {
                                 // Default status count inside sidebar
                                 Card(
@@ -627,8 +637,8 @@ fun MainScreen(
                                         Text("Summary", fontSize = 12.sp, fontWeight = FontWeight.Bold)
                                         Spacer(modifier = Modifier.height(4.dp))
                                         Text("• Available media: ${allVideos.count { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed }}", fontSize = 11.sp)
-                                        Text("• Filtered Backlog items: ${filteredVideos.size}", fontSize = 11.sp)
-                                        Text("• LLM Provider: ${viewModel.llmProvider.value.replace("_", " ").uppercase()}", fontSize = 11.sp)
+                                        Text("• Files in queue: ${filteredVideos.size}", fontSize = 11.sp)
+                                        Text("• AI service: ${viewModel.llmProvider.value.replace("_", " ").uppercase()}", fontSize = 11.sp)
                                     }
                                 }
                             }
@@ -640,7 +650,7 @@ fun MainScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(16.dp)
+                                .padding(start = Presentation.railInset, end = 12.dp, top = 12.dp, bottom = 12.dp)
                         ) {
                         // Header info of active view
                         Row(
@@ -658,19 +668,14 @@ fun MainScreen(
                             // Sort Controls (visible on backlog & archive)
                             if (activePanelSection == "backlog" || activePanelSection.endsWith("_archive")) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text("Sort: ", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                                     val currentSort by viewModel.selectedSort.collectAsState()
-                                    val sorts = listOf("Name", "Status", "Size")
-                                    sorts.forEach { s ->
-                                        Text(
-                                            text = s,
-                                            fontSize = 11.sp,
-                                            fontWeight = if (currentSort == s) FontWeight.Bold else FontWeight.Normal,
-                                            color = if (currentSort == s) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                                            modifier = Modifier
-                                                .clickable { viewModel.selectSort(s) }
-                                                .padding(horizontal = 6.dp, vertical = 2.dp)
-                                        )
+                                    listOf(
+                                        "Name" to Icons.Default.SortByAlpha,
+                                        "Status" to Icons.Default.FilterList,
+                                        "Size" to Icons.Default.Straighten
+                                    ).forEach { (sort, icon) ->
+                                        AppIconAction(icon, "Sort by ${sort.lowercase()}", { viewModel.selectSort(sort) },
+                                            selected = currentSort == sort)
                                     }
                                 }
                             }
@@ -703,13 +708,13 @@ fun MainScreen(
                                         }
                                         Row {
                                             if (batchState == VideoProcessor.State.PROCESSING) {
-                                                IconButton(onClick = { viewModel.pauseBatch() }, modifier = Modifier.size(48.dp)) {
+                                                ActionHint("Pause") { IconButton(onClick = { viewModel.pauseBatch() }, modifier = Modifier.size(48.dp)) {
                                                     Icon(Icons.Default.Pause, contentDescription = "Pause", tint = MaterialTheme.colorScheme.primary)
-                                                }
+                                                } }
                                             } else if (batchState == VideoProcessor.State.PAUSED) {
-                                                IconButton(onClick = { viewModel.resumeBatch() }, modifier = Modifier.size(48.dp)) {
+                                                ActionHint("Resume") { IconButton(onClick = { viewModel.resumeBatch() }, modifier = Modifier.size(48.dp)) {
                                                     Icon(Icons.Default.PlayArrow, contentDescription = "Resume", tint = MaterialTheme.colorScheme.primary)
-                                                }
+                                                } }
                                             }
                                         }
                                     }
@@ -723,7 +728,7 @@ fun MainScreen(
                             }
                         }
 
-                        when (activePanelSection) {
+when (activePanelSection) {
                             "home" -> {
                                 OverviewGrid(allVideos = allVideos, mediaState = mediaAccess, ollamaState = ollamaState, model = viewModel.settings.collectAsState().value.ollamaModelName, endpoint = viewModel.settings.collectAsState().value.ollamaEndpointUrl)
                                 
@@ -736,8 +741,8 @@ fun MainScreen(
                                             Text("Limited Access Enabled", fontWeight = FontWeight.Bold, fontSize = 13.sp, color = MaterialTheme.colorScheme.onErrorContainer)
                                             Text("Android has restricted gallery scans. Headline totals include only media currently visible to this app.", fontSize = 11.sp)
                                             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
-                                                TextButton(onClick = { triggerPermissionCheck() }) { Text("Change", fontSize = 11.sp) }
-                                                TextButton(onClick = { dismissLimitedBanner = true }) { Text("Dismiss", fontSize = 11.sp) }
+                                                ActionHint("Change") { TextButton(onClick = { triggerPermissionCheck() }) { Icon(Icons.Default.Tune, contentDescription = "Change") } }
+                                                ActionHint("Dismiss") { TextButton(onClick = { dismissLimitedBanner = true }) { Icon(Icons.Default.Close, contentDescription = "Dismiss") } }
                                             }
                                         }
                                     }
@@ -776,7 +781,7 @@ fun MainScreen(
                                         }
                                         if (showEngineGuide) {
                                             Spacer(modifier = Modifier.height(6.dp))
-                                            Text("• Private-First OCR: Frame extraction and text detection run offline natively on device.\n• Smart Checklist Schema: Follow discovery, review, processing, saved results, and metadata export.", fontSize = 11.sp, lineHeight = 15.sp)
+                                            Text("Text is read on your device. Review files before sending them to your selected AI service.", fontSize = 11.sp, lineHeight = 15.sp)
                                         }
                                     }
                                 }
@@ -839,11 +844,11 @@ fun MainScreen(
                             }
 
                             "folders" -> {
+                                Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
                                 val context = LocalContext.current
                                 Card(
                                     modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
-                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
-                                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.15f))
+                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                                 ) {
                                     Column(modifier = Modifier.padding(16.dp)) {
                                         Row(
@@ -851,10 +856,10 @@ fun MainScreen(
                                             horizontalArrangement = Arrangement.SpaceBetween,
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
-                                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                            Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
                                                 Icon(Icons.Default.Folder, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(24.dp))
                                                 Spacer(modifier = Modifier.width(8.dp))
-                                                Text("Target Watch Folders", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                                                Text("Folders to scan", fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
                                             }
                                             val folderPickerLauncher = rememberLauncherForActivityResult(
                                                 contract = ActivityResultContracts.OpenDocumentTree()
@@ -871,12 +876,12 @@ fun MainScreen(
                                                     viewModel.addTargetFolder(uri.toString())
                                                 }
                                             }
-                                            Button(
+                                            ActionHint("Add watch folder") { TextButton(
                                                 onClick = { folderPickerLauncher.launch(null) },
                                                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                                             ) {
                                                 Icon(Icons.Default.Add, contentDescription = "Add watch folder", modifier = Modifier.size(16.dp))
-                                            }
+                                            } }
                                         }
                                         Spacer(modifier = Modifier.height(10.dp))
                                         val targetFoldersList by viewModel.targetFolders.collectAsState()
@@ -885,10 +890,10 @@ fun MainScreen(
                                         }
                                         if (targetFoldersList.isEmpty()) {
                                             Text(
-                                                "No specific directory register active. By default, the app scans all internal media directories.",
+                                                "No folders selected. All phone folders are included.",
                                                 fontSize = 11.sp,
-                                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-                                                fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                fontStyle = androidx.compose.ui.text.font.FontStyle.Normal
                                             )
                                         } else {
                                             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -903,17 +908,17 @@ fun MainScreen(
                                                         horizontalArrangement = Arrangement.SpaceBetween,
                                                         verticalAlignment = Alignment.CenterVertically
                                                     ) {
-                                                        Row(verticalAlignment = Alignment.CenterVertically) {
-                                                            Icon(Icons.Default.CheckCircle, contentDescription = "Active", tint = Color(0xFF2E7D32), modifier = Modifier.size(14.dp))
+                                                        Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
+                                                            Icon(Icons.Default.CheckCircle, contentDescription = "Active", tint = MaterialTheme.colorScheme.tertiary, modifier = Modifier.size(14.dp))
                                                             Spacer(modifier = Modifier.width(6.dp))
                                                             Text(pathName, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onBackground)
                                                         }
-                                                        IconButton(
+                                                        ActionHint("Remove") { IconButton(
                                                             onClick = { viewModel.removeTargetFolder(folderUri) },
                                                             modifier = Modifier.size(48.dp)
                                                         ) {
                                                             Icon(Icons.Default.Delete, contentDescription = "Remove", tint = MaterialTheme.colorScheme.error, modifier = Modifier.size(16.dp))
-                                                        }
+                                                        } }
                                                     }
                                                 }
                                             }
@@ -925,8 +930,7 @@ fun MainScreen(
 
                                 Card(
                                     modifier = Modifier.fillMaxWidth(),
-                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
-                                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.15f))
+                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                                 ) {
                                     Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                         Row(
@@ -936,7 +940,7 @@ fun MainScreen(
                                         ) {
                                             Column(modifier = Modifier.weight(1f)) {
                                                 Text("Auto add", fontWeight = FontWeight.Bold, fontSize = 15.sp, color = MaterialTheme.colorScheme.primary)
-                                                Text("Find new screenshots and screen recordings in your chosen folders while the app is running. Review and process them yourself.", fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
+                                                Text("Find new screenshots and recordings while the app is open. Review them before processing.", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                             }
                                             Switch(
                                                 checked = autoIngestEnabled,
@@ -946,9 +950,9 @@ fun MainScreen(
                                         
                                         if (autoIngestEnabled) {
                                             Divider(modifier = Modifier.padding(vertical = 4.dp))
-                                            
-                                            Text("Detection Channels", fontWeight = FontWeight.Bold, fontSize = 12.sp, color = MaterialTheme.colorScheme.onBackground)
-                                            
+
+                                            Text("File types", fontWeight = FontWeight.Bold, fontSize = 12.sp, color = MaterialTheme.colorScheme.onBackground)
+
                                             Row(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
@@ -962,11 +966,11 @@ fun MainScreen(
                                                 )
                                                 Spacer(modifier = Modifier.width(8.dp))
                                                 Column {
-                                                    Text("Record", fontSize = 12.sp, fontWeight = FontWeight.Medium)
-                                                    Text("Auto-links videos with 'screen', 'record', or 'cast' in filename", fontSize = 10.sp, color = MaterialTheme.colorScheme.outline)
+                                                    Text("Screen recordings", fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                                                    Text("Find names containing 'screen', 'record', or 'cast'.", fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                                 }
                                             }
-                                            
+
                                             Row(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
@@ -980,11 +984,11 @@ fun MainScreen(
                                                 )
                                                 Spacer(modifier = Modifier.width(8.dp))
                                                 Column {
-                                                    Text("Shots", fontSize = 12.sp, fontWeight = FontWeight.Medium)
-                                                    Text("Auto-links images with 'screenshot' in filename", fontSize = 10.sp, color = MaterialTheme.colorScheme.outline)
+                                                    Text("Screenshots", fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                                                    Text("Find names containing 'screenshot'.", fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                                 }
                                             }
-                                            
+
                                             Box(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
@@ -1000,7 +1004,7 @@ fun MainScreen(
                                                     )
                                                     Spacer(modifier = Modifier.width(8.dp))
                                                     Text(
-                                                        "Auto add discovers media only. It does not send files to AI or process them automatically.",
+                                                        "Auto add only finds files. You choose what to process.",
                                                         fontSize = 10.sp,
                                                         color = MaterialTheme.colorScheme.primary
                                                     )
@@ -1008,6 +1012,8 @@ fun MainScreen(
                                             }
                                         }
                                     }
+                                }
+
                                 }
                             }
 
@@ -1028,9 +1034,9 @@ fun MainScreen(
                                                 modifier = Modifier.padding(8.dp).fillMaxWidth(),
                                                 verticalArrangement = Arrangement.spacedBy(4.dp)
                                             ) {
-                                                Text("${selectedIds.size} files selected in backlog", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSecondaryContainer)
+                                                Text("${selectedIds.size} ${if (selectedIds.size == 1) "file" else "files"} selected", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSecondaryContainer)
                                                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                                                    Button(
+                                                    ActionHint("Process selected") { TextButton(
                                                         onClick = {
                                                             val keptItems = selectedIds.mapNotNull { id -> backlogList.find { it.id == id } }
                                                                 .filter { it.reviewDecision == "keep" }
@@ -1042,9 +1048,9 @@ fun MainScreen(
                                                         modifier = Modifier.height(48.dp)
                                                     ) {
                                                         Icon(Icons.Default.PlayArrow, contentDescription = "Process selected", modifier = Modifier.size(14.dp))
-                                                    }
-                                                    
-                                                    Button(
+                                                    } }
+
+                                                    ActionHint("Archive selected") { TextButton(
                                                         onClick = {
                                                             selectedIds.forEach { id ->
                                                                 viewModel.archiveVideo(id)
@@ -1056,188 +1062,125 @@ fun MainScreen(
                                                         modifier = Modifier.height(48.dp)
                                                     ) {
                                                         Icon(Icons.Default.Archive, contentDescription = "Archive selected", modifier = Modifier.size(14.dp))
-                                                    }
+                                                    } }
 
-                                                    TextButton(
+                                                    ActionHint("Cancel") { TextButton(
                                                         onClick = { selectedBacklogVideos.clear() },
                                                         modifier = Modifier.height(48.dp)
-                                                    ) {
-                                                        Text("Cancel", fontSize = 10.sp)
-                                                    }
+                                                    ) { Icon(Icons.Default.Close, contentDescription = "Cancel") } }
                                                 }
                                             }
                                         }
                                     }
 
                                     // Modern Table Format for Backlog
-                                    androidx.compose.material3.Card(
-                                        modifier = Modifier.fillMaxSize().padding(horizontal = 4.dp),
-                                        shape = RoundedCornerShape(8.dp),
-                                        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)),
-                                        colors = androidx.compose.material3.CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-                                    ) {
+                                    Column(modifier = Modifier.fillMaxSize().padding(horizontal = 4.dp)) {
                                         BoxWithConstraints(Modifier.fillMaxSize()) {
                                             val queueViewportWidth = maxWidth
-                                            val queueTableWidth = maxOf(queueViewportWidth, 960.dp * LocalDensity.current.fontScale.coerceAtLeast(1f))
-                                            val queueHorizontalScroll = rememberScrollState()
+                                            val queueTableWidth = queueViewportWidth
+
                                             Column(Modifier.fillMaxSize()) {
-                                                if (queueTableWidth > queueViewportWidth) {
-                                                    Text("Swipe horizontally for all columns.", style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp))
-                                                }
-                                                Box(Modifier.weight(1f).fillMaxWidth().horizontalScroll(queueHorizontalScroll).testTag("queue_table_viewport")) {
+                                                Box(Modifier.weight(1f).fillMaxWidth().testTag("queue_table_viewport")) {
                                                     Column(Modifier.width(queueTableWidth).fillMaxHeight().testTag("queue_table_content")) {
                                             // Table Header
                                             Row(
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
-                                                    .then(Bottom(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)))
-                                                    .padding(horizontal = 8.dp, vertical = 10.dp),
+                                                modifier = Modifier.fillMaxWidth()
+                                                    .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f))
+                                                    .padding(horizontal = 8.dp, vertical = 2.dp),
                                                 verticalAlignment = Alignment.CenterVertically
                                             ) {
                                                 Checkbox(
                                                     checked = allSelected,
-                                                    onCheckedChange = { checked ->
-                                                        backlogList.forEach { selectedBacklogVideos[it.id] = checked }
-                                                    },
-                                                    modifier = Modifier.size(48.dp).padding(end = 8.dp)
+                                                    onCheckedChange = { checked -> backlogList.forEach { selectedBacklogVideos[it.id] = checked } },
+                                                    modifier = Modifier.size(48.dp).testTag("queue_select_all")
                                                 )
-                                                Text("Location", modifier = Modifier.weight(1.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                                                Text("File", modifier = Modifier.weight(2f), fontWeight = FontWeight.Bold, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                                                Text("Size", modifier = Modifier.weight(1f), fontWeight = FontWeight.Bold, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                                                Text("Status", modifier = Modifier.weight(0.8f), fontWeight = FontWeight.Bold, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                                                Text("Actions", modifier = Modifier.weight(1.5f), fontWeight = FontWeight.Bold, fontSize = 11.sp, textAlign = androidx.compose.ui.text.style.TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                                Text("Select all", fontSize = 12.sp, modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                                Text("${backlogList.size} ${if (backlogList.size == 1) "file" else "files"}", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                             }
 
                                             if (backlogList.isEmpty()) {
                                                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                                                    Text("Backlog is empty. Scan storage or clear filters.", fontSize = 13.sp, color = MaterialTheme.colorScheme.outline)
+                                                    Text("Queue is empty. Find files or clear filters.", fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                                 }
                                             } else {
-                                                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                                                LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                                                     itemsIndexed(backlogList, key = { _, video -> video.id }) { index, video ->
                                                         val loc = Uri.parse(video.uriString).path?.substringBeforeLast("/", "Internal") ?: "Internal"
                                                         val cleanLoc = if (loc.contains(":")) loc.substringAfterLast(":") else loc
                                                         val shortLoc = if (cleanLoc.length > 10) cleanLoc.take(10) + ".." else cleanLoc
-                                                        val sizeMB = "%.1f MB".format((video.sizeBytes ?: 0L) / 1048576f)
+                                                        val sizeMB = formatMediaBytes(video.sizeBytes ?: 0L)
                                                         val statBadge = when (video.status) {
-                                                            "processed" -> "P"
-                                                            "error" -> "F"
-                                                            else -> "NS"
+                                                            "new" -> "New"
+                                                            "queued" -> "Queued"
+                                                            "processing" -> "Processing"
+                                                            "processed" -> "Saved"
+                                                            "error" -> "Failed"
+                                                            "ready_to_delete" -> "Review"
+                                                            else -> "Waiting"
                                                         }
                                                         val badgeBg = when (statBadge) {
-                                                            "P" -> Color(0xFFD1E7DD)
-                                                            "F" -> Color(0xFFF8D7DA)
-                                                            else -> Color(0xFFE2E3E5)
+                                                            "Done" -> MaterialTheme.colorScheme.tertiaryContainer
+                                                            "Failed" -> MaterialTheme.colorScheme.errorContainer
+                                                            else -> MaterialTheme.colorScheme.surfaceVariant
                                                         }
                                                         val badgeColor = when (statBadge) {
-                                                            "P" -> Color(0xFF0F5132)
-                                                            "F" -> Color(0xFF842029)
-                                                            else -> Color(0xFF41464B)
+                                                            "Done" -> MaterialTheme.colorScheme.onTertiaryContainer
+                                                            "Failed" -> MaterialTheme.colorScheme.onErrorContainer
+                                                            else -> MaterialTheme.colorScheme.onSurfaceVariant
                                                         }
                                                         val isChecked = selectedBacklogVideos[video.id] ?: false
-                                                        
-                                                        val rowBg = if (index % 2 == 0) Color.Transparent else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.02f)
 
-                                                        Row(
-                                                            modifier = Modifier
-                                                                .fillMaxWidth()
-                                                                .background(rowBg)
-                                                                .then(Bottom(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.1f)))
-                                                                .padding(vertical = 8.dp, horizontal = 8.dp),
-                                                            verticalAlignment = Alignment.CenterVertically
+                                                        val rowBg = if (index % 2 == 0) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f)
+
+                                                        Column(
+                                                            modifier = Modifier.fillMaxWidth()
+                                                                .animateContentSize()
+                                                                .background(if (isChecked) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f) else rowBg)
+                                                                .then(Bottom(1.dp, MaterialTheme.colorScheme.outlineVariant))
+                                                                .padding(horizontal = 8.dp, vertical = 6.dp)
+                                                                .testTag("queue_row_${video.id}")
                                                         ) {
-                                                            Checkbox(
-                                                                checked = isChecked,
-                                                                onCheckedChange = { selectedBacklogVideos[video.id] = it },
-                                                                modifier = Modifier.size(48.dp).padding(end = 8.dp)
-                                                            )
-                                                            Text(shortLoc, modifier = Modifier.weight(1.5f), fontSize = 11.sp)
-                                                            Column(modifier = Modifier.weight(2f)) {
-                                                                Text(video.displayName, fontSize = 11.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                                                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                                                    Text("Rename: ", fontSize = 9.sp, color = MaterialTheme.colorScheme.outline)
-                                                                    Text(
-                                                                        "Rename",
-                                                                        maxLines = 1,
-                                                                        softWrap = false,
-                                                                        fontSize = 9.sp,
-                                                                        color = MaterialTheme.colorScheme.primary,
-                                                                        fontWeight = FontWeight.Bold,
-                                                                        modifier = Modifier
-                                                                            .testTag("queue_${video.id}_rename")
-                                                                            .heightIn(min = 48.dp)
-                                                                            .clickable { 
-                                                                                viewModel.triggerFileRenameWithLLM(video.id)
-
-                                                                            }
-                                                                            .padding(horizontal = 4.dp)
-                                                                            .wrapContentHeight(Alignment.CenterVertically)
-                                                                    )
+                                                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                                                Checkbox(
+                                                                    checked = isChecked,
+                                                                    onCheckedChange = { selectedBacklogVideos[video.id] = it },
+                                                                    modifier = Modifier.size(48.dp)
+                                                                )
+                                                                Column(Modifier.weight(1f).padding(horizontal = 4.dp)) {
+                                                                    Text(video.displayName, fontSize = 12.sp, lineHeight = 16.sp, fontWeight = FontWeight.SemiBold)
+                                                                    Text(mediaFolderLabel(video), fontSize = 11.sp, lineHeight = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                                                }
+                                                                Column(Modifier.widthIn(max = 86.dp), horizontalAlignment = Alignment.End) {
+                                                                    Text(sizeMB, fontSize = 11.sp)
+                                                                    Text(statBadge, fontSize = 11.sp, fontWeight = FontWeight.Medium,
+                                                                        color = if (video.status == "error") MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant)
                                                                 }
                                                             }
-                                                            Text(sizeMB, modifier = Modifier.weight(1f), fontSize = 11.sp)
-                                                            Box(
-                                                                modifier = Modifier
-                                                                    .weight(0.8f)
-                                                                    .clip(RoundedCornerShape(4.dp))
-                                                                    .background(badgeBg)
-                                                                    .padding(horizontal = 4.dp, vertical = 2.dp),
-                                                                contentAlignment = Alignment.Center
-                                                            ) {
-                                                                Text(statBadge, color = badgeColor, fontSize = 9.sp, fontWeight = FontWeight.Bold)
-                                                            }
-                                                            Row(
-                                                                modifier = Modifier.weight(1.5f),
-                                                                horizontalArrangement = Arrangement.SpaceEvenly,
-                                                                verticalAlignment = Alignment.CenterVertically
-                                                            ) {
+                                                            FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                                                                AppIconAction(Icons.Default.AutoFixHigh, "Rename", { viewModel.triggerFileRenameWithLLM(video.id) },
+                                                                    Modifier.testTag("queue_${video.id}_rename"), hint = "Suggest a file name")
                                                                 // Open folder location
-                                                                Icon(
-                                                                    imageVector = Icons.Default.Folder,
-                                                                    contentDescription = "Folder",
-                                                                    modifier = Modifier
-                                                                        .size(48.dp).testTag("queue_${video.id}_folder")
-                                                                        .clickable { Toast.makeText(context, "Location: ${video.uriString}", Toast.LENGTH_LONG).show() }.padding(16.dp),
-                                                                    tint = MaterialTheme.colorScheme.primary
-                                                                )
+                                                                AppIconAction(Icons.Default.Folder, "Folder", {
+                                                                    Toast.makeText(context, "Location: ${video.uriString}", Toast.LENGTH_LONG).show()
+                                                                }, Modifier.testTag("queue_${video.id}_folder"), hint = "Show file location")
                                                                 // Open processed output
-                                                                Icon(
-                                                                    imageVector = Icons.Default.OpenInNew,
-                                                                    contentDescription = "Output",
-                                                                    modifier = Modifier
-                                                                        .size(48.dp).testTag("queue_${video.id}_output")
-                                                                        .clickable(enabled = video.status == "processed") {
-                                                                            outputModalVideoId = video.id
-                                                                            outputModalState = WindowState.STANDARD
-                                                                        }.padding(16.dp),
-                                                                    tint = if (video.status == "processed") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
-                                                                )
+                                                                AppIconAction(Icons.Default.OpenInNew, "Output", {
+                                                                    outputModalVideoId = video.id
+                                                                    outputModalState = WindowState.STANDARD
+                                                                }, Modifier.testTag("queue_${video.id}_output"), enabled = video.status == "processed",
+                                                                    hint = if (video.status == "processed") "Open saved result" else "No saved result yet")
                                                                 // Open preview modal
-                                                                Icon(
-                                                                    imageVector = Icons.Default.Visibility,
-                                                                    contentDescription = "Preview",
-                                                                    modifier = Modifier
-                                                                        .size(48.dp).testTag("queue_${video.id}_preview")
-                                                                        .clickable {
-                                                                            if (previewModalVideoId != video.id || previewModalState == null) previewDrafts.removeState("preview:${video.id}")
-                                                                            previewModalVideoId = video.id
-                                                                            previewModalState = WindowState.STANDARD
-                                                                        }.padding(16.dp),
-                                                                    tint = MaterialTheme.colorScheme.primary
-                                                                )
+                                                                AppIconAction(Icons.Default.Visibility, "Preview", {
+                                                                    if (previewModalVideoId != video.id || previewModalState == null) previewDrafts.removeState("preview:${video.id}")
+                                                                    previewModalVideoId = video.id
+                                                                    previewModalState = WindowState.STANDARD
+                                                                }, Modifier.testTag("queue_${video.id}_preview"), hint = "Preview file")
                                                                 // Run processing
-                                                                Icon(
-                                                                    imageVector = Icons.Default.Refresh,
-                                                                    contentDescription = "Process",
-                                                                    modifier = Modifier
-                                                                        .size(48.dp).testTag("queue_${video.id}_process")
-                                                                        .clickable(enabled = video.reviewDecision == "keep") {
-                                                                            viewModel.processSingle(video)
-                                                                            Toast.makeText(context, "Processing started for kept media.", Toast.LENGTH_SHORT).show()
-                                                                        }.padding(16.dp),
-                                                                    tint = if (video.reviewDecision == "keep") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
-                                                                )
+                                                                AppIconAction(Icons.Default.Refresh, "Process", {
+                                                                    viewModel.processSingle(video)
+                                                                    Toast.makeText(context, "Processing started for kept media.", Toast.LENGTH_SHORT).show()
+                                                                }, Modifier.testTag("queue_${video.id}_process"), enabled = video.reviewDecision == "keep",
+                                                                    hint = if (video.reviewDecision == "keep") "Process this file" else "Mark this file Keep before processing")
                                                             }
                                                         }
                                                     }
@@ -1292,7 +1235,7 @@ fun MainScreen(
 
                                 if (archivedList.isEmpty()) {
                                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                                        Text("No processed files found in Archive.", fontSize = 13.sp, color = MaterialTheme.colorScheme.outline)
+                                        Text("No processed files found in Archive.", fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                     }
                                 } else {
                                     Column(modifier = Modifier.fillMaxSize()) {
@@ -1301,7 +1244,7 @@ fun MainScreen(
                                                 val loc = Uri.parse(video.uriString).path?.substringBeforeLast("/", "Internal") ?: "Internal"
                                                 val cleanLoc = if (loc.contains(":")) loc.substringAfterLast(":") else loc
                                                 val shortLoc = if (cleanLoc.length > 10) cleanLoc.take(10) + ".." else cleanLoc
-                                                val sizeMB = "%.1f MB".format((video.sizeBytes ?: 0L) / 1048576f)
+                                                val sizeMB = formatMediaBytes(video.sizeBytes ?: 0L)
                                                 val isChecked = selectedArchiveVideos[video.id] ?: false
 
                                                 Row(
@@ -1316,7 +1259,7 @@ fun MainScreen(
                                                         onCheckedChange = { selectedArchiveVideos[video.id] = it }
                                                     )
                                                     Text(shortLoc, modifier = Modifier.weight(1.5f), fontSize = 11.sp)
-                                                    Text(video.displayName, modifier = Modifier.weight(2.5f), fontSize = 11.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                                    Text(video.displayName, modifier = Modifier.weight(2.5f), fontSize = 11.sp, fontWeight = FontWeight.Bold)
                                                     Text(sizeMB, modifier = Modifier.weight(1f), fontSize = 11.sp)
                                                 }
                                             }
@@ -1326,7 +1269,7 @@ fun MainScreen(
                                             modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                                         ) {
-                                            Button(
+                                            ActionHint("Restore selected") { TextButton(
                                                 onClick = {
                                                     val selectedIds = archivedItems.filter { selectedArchiveVideos[it.id] == true }.map { it.id }
                                                     selectedIds.forEach { id ->
@@ -1339,9 +1282,9 @@ fun MainScreen(
                                                 enabled = archivedItems.any { selectedArchiveVideos[it.id] == true }
                                             ) {
                                                 Icon(Icons.Default.Restore, contentDescription = "Restore selected", modifier = Modifier.size(16.dp))
-                                            }
+                                            } }
 
-                                            Button(
+                                            ActionHint("Delete selected index entries") { TextButton(
                                                 onClick = {
                                                     val selectedIds = archivedItems.filter { selectedArchiveVideos[it.id] == true }.map { it.id }
                                                     selectedIds.forEach { id ->
@@ -1350,12 +1293,12 @@ fun MainScreen(
                                                     Toast.makeText(context, "Permanently deleted ${selectedIds.size} index entries from storage mapping!", Toast.LENGTH_SHORT).show()
                                                     selectedArchiveVideos.clear()
                                                 },
-                                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
+                                                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
                                                 modifier = Modifier.weight(1f),
                                                 enabled = archivedItems.any { selectedArchiveVideos[it.id] == true }
                                             ) {
                                                 Icon(Icons.Default.DeleteForever, contentDescription = "Delete selected index entries", modifier = Modifier.size(16.dp))
-                                            }
+                                            } }
                                         }
                                     }
                                 }
@@ -1367,10 +1310,10 @@ fun MainScreen(
             }
 
             // Preserve the original edge-handle interaction while the current screen moves off-screen.
+            ActionHint(if (leftPanelExpanded) "Close menu" else "Open menu",
+                modifier = Modifier.align(Alignment.CenterStart).offset(x = if (leftPanelExpanded) 240.dp else 0.dp)) {
             Box(
                 modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .offset(x = if (leftPanelExpanded) 240.dp else 0.dp)
                     .clip(RoundedCornerShape(topEnd = 16.dp, bottomEnd = 16.dp))
                     .background(MaterialTheme.colorScheme.primary)
                     .clickable { leftPanelExpanded = !leftPanelExpanded }
@@ -1383,6 +1326,7 @@ fun MainScreen(
                     tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.size(20.dp)
                 )
+            }
             }
 
             // Minimized Modals floating bar badges
@@ -1506,10 +1450,10 @@ fun MainScreen(
                                     Text("Category path:", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                                     Text("${analysisObj?.categoryLevel1 ?: "General"} > ${analysisObj?.categoryLevel2 ?: "Default"} > ${analysisObj?.categoryLevel3 ?: "Workflow"}", fontSize = 13.sp)
                                     Spacer(modifier = Modifier.height(6.dp))
-                                    Text("Summary headline 1:", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                                    Text("Summary:", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                                     Text(analysisObj?.descriptionLine1 ?: "None generated yet.", fontSize = 12.sp)
                                     Spacer(modifier = Modifier.height(4.dp))
-                                    Text("Summary headline 2:", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                                    Text("Details:", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                                     Text(analysisObj?.descriptionLine2 ?: "None generated yet.", fontSize = 12.sp)
                                 }
                             }
@@ -1524,9 +1468,7 @@ fun MainScreen(
                                 Text(analysisObj?.formattedActionPlan ?: "No commands indexed in this scene.", fontFamily = FontFamily.Monospace, fontSize = 11.sp)
                             }
                             Spacer(modifier = Modifier.height(16.dp))
-                            Button(onClick = { outputModalState = null }, modifier = Modifier.fillMaxWidth()) {
-                                Text("Done")
-                            }
+                            ActionHint("Done") { TextButton(onClick = { outputModalState = null }, modifier = Modifier.fillMaxWidth()) { Icon(Icons.Default.Check, contentDescription = "Done") } }
                         }
                     }
                 }
@@ -1534,7 +1476,7 @@ fun MainScreen(
 
             if (settingsModalState != null && settingsModalState != WindowState.MINIMIZED) {
                 WindowedModal(
-                    title = "Ollama Advanced Connection Settings",
+                    title = "AI settings",
                     windowState = settingsModalState!!,
                     onStateChange = { if (it == null) settingsApiKeyDraft = ""; settingsModalState = it },
                     secure = true
@@ -1622,8 +1564,8 @@ fun MainScreen(
                             OutlinedTextField(
                                 value = editUrl,
                                 onValueChange = { editUrl = it; selectedModelName = ""; outsideServiceAllowed = false },
-                                label = { Text("Host") },
-                                modifier = Modifier.fillMaxWidth()
+                                label = { Text("AI address") },
+                                modifier = Modifier.testTag("settings_address").fillMaxWidth()
                             )
 
                             if (editProvider == "ollama_local" && viewModel.endpointNeedsConsent(editUrl)) {
@@ -1636,27 +1578,27 @@ fun MainScreen(
 
                             // Connection Testing Action Row
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Button(onClick = {
+                                ActionHint("Test connection") { TextButton(onClick = {
                                     connectionCheckedFor = "$editProvider|$editUrl"
                                     viewModel.checkConnection(editUrl, editProvider, editApiKey.takeIf { it.isNotBlank() })
                                 }) {
                                     Icon(Icons.Default.NetworkCheck, contentDescription = "Test connection")
-                                }
+                                } }
                                 Spacer(modifier = Modifier.width(12.dp))
                                 if (connectionCheckedFor == "$editProvider|$editUrl" && connSuccess == true) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Icon(Icons.Default.CheckCircle, contentDescription = "Succeeded", tint = Color(0xFF2E7D32), modifier = Modifier.size(20.dp))
+                                        Icon(Icons.Default.CheckCircle, contentDescription = "Succeeded", tint = MaterialTheme.colorScheme.tertiary, modifier = Modifier.size(20.dp))
                                         Spacer(modifier = Modifier.width(4.dp))
-                                        Text(if (editProvider == "ollama_cloud") "Service reachable" else "Connected", color = Color(0xFF2E7D32), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                        Text(if (editProvider == "ollama_cloud") "Service reachable" else "Connected", color = MaterialTheme.colorScheme.tertiary, fontSize = 12.sp, fontWeight = FontWeight.Bold)
                                     }
                                 } else if (connectionCheckedFor == "$editProvider|$editUrl" && connSuccess == false) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Icon(Icons.Default.ErrorOutline, contentDescription = "Failed", tint = Color(0xFFC62828), modifier = Modifier.size(20.dp))
+                                        Icon(Icons.Default.ErrorOutline, contentDescription = "Failed", tint = MaterialTheme.colorScheme.error, modifier = Modifier.size(20.dp))
                                         Spacer(modifier = Modifier.width(4.dp))
-                                        Text("Unreachable", color = Color(0xFFC62828), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                        Text("Unreachable", color = MaterialTheme.colorScheme.error, fontSize = 12.sp, fontWeight = FontWeight.Bold)
                                     }
                                 } else {
-                                    Icon(Icons.Default.HelpOutline, contentDescription = "Unknown", tint = Color(0xFFEF6C00), modifier = Modifier.size(20.dp))
+                                    Icon(Icons.Default.HelpOutline, contentDescription = "Unknown", tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
                                 }
                             }
                         }
@@ -1665,10 +1607,10 @@ fun MainScreen(
 
                         // Model tags syncing dropdown
                         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                            Text("Model", fontSize = 12.sp, modifier = Modifier.weight(1f))
-                            IconButton(onClick = { viewModel.syncModels(editUrl, editProvider, editApiKey.takeIf { it.isNotBlank() }) }) {
+                            Text("AI model", fontSize = 12.sp, modifier = Modifier.weight(1f))
+                            ActionHint("Sync models tag list") { IconButton(onClick = { viewModel.syncModels(editUrl, editProvider, editApiKey.takeIf { it.isNotBlank() }) }) {
                                 Icon(Icons.Default.Sync, contentDescription = "Sync models tag list")
-                            }
+                            } }
                         }
                         
                         var modelExpanded by remember { mutableStateOf(false) }
@@ -1715,19 +1657,19 @@ fun MainScreen(
                         OutlinedTextField(
                             value = editTimeout,
                             onValueChange = { editTimeout = it },
-                            label = { Text("Timeout") },
+                            label = { Text("Wait limit") },
                             supportingText = { Text("5–300 seconds") },
                             isError = editTimeout.toIntOrNull() !in 5..300,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.testTag("settings_wait_limit").fillMaxWidth()
                         )
                         if (editProvider == "local") {
-                            Text("Keyword fallback runs on this device. No on-device language model is installed.")
+                            Text("Uses simple word matching on this phone. No AI model is installed.")
                         }
 
                         // Temperature Slider
                         Column {
-                            Text("Temp", fontSize = 12.sp)
-                            Text("%.2f".format(editTemperature), fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
+                            Text("Answer variety", fontSize = 12.sp)
+                            Text("%.2f".format(editTemperature), fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             Slider(
                                 value = editTemperature,
                                 onValueChange = { editTemperature = it },
@@ -1741,7 +1683,7 @@ fun MainScreen(
                             OutlinedTextField(
                                 value = editApiKey,
                                 onValueChange = { settingsApiKeyDraft = it },
-                                label = { Text("API key") },
+                                label = { Text("Access key") },
                                 supportingText = { Text(if (hasApiKey) "Saved key is hidden. Leave blank to keep it." else "Enter your Cloud key here. It stays hidden.") },
                                 modifier = Modifier.fillMaxWidth(),
                                 visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
@@ -1752,22 +1694,22 @@ fun MainScreen(
                         // Custom System Prompt Area
                         Column {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text("Prompt", fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                                IconButton(onClick = { editPrompt = defaultSystemPrompt }) {
-                                    Icon(Icons.Default.RestartAlt, contentDescription = "Reset prompt")
-                                }
+                                Text("Instructions", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                ActionHint("Reset instructions") { IconButton(onClick = { editPrompt = defaultSystemPrompt }) {
+                                    Icon(Icons.Default.RestartAlt, contentDescription = "Reset instructions")
+                                } }
                             }
                             Spacer(modifier = Modifier.height(4.dp))
                             OutlinedTextField(
                                 value = editPrompt,
                                 onValueChange = { editPrompt = it },
-                                label = { Text("System prompt") },
+                                label = { Text("AI instructions") },
                                 modifier = Modifier.testTag("settings_prompt").fillMaxWidth().height(110.dp)
                             )
                         }
 
                         Spacer(modifier = Modifier.height(10.dp))
-                        Button(
+                        ActionHint("Save settings") { TextButton(
                             onClick = {
                                 viewModel.updateSettings(editProvider == "ollama_local" || editProvider == "ollama_cloud", editUrl, selectedModelName, editTimeout.toInt(), outsideServiceAllowed)
                                 viewModel.saveExpandedSettings(editProvider, editApiKey, editTemperature, editPrompt)
@@ -1779,7 +1721,7 @@ fun MainScreen(
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Icon(Icons.Default.Save, contentDescription = "Save settings")
-                        }
+                        } }
                     }
                 }
             }
@@ -1833,8 +1775,15 @@ fun NavigationRowItem(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val bg = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.15f) else Color.Transparent
-    val text = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+    val bg by animateColorAsState(
+        if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.12f) else Color.Transparent,
+        animationSpec = tween(180), label = "navigation selection"
+    )
+    val text by animateColorAsState(
+        if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+        animationSpec = tween(180), label = "navigation emphasis"
+    )
+    ActionHint(title) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -1842,12 +1791,14 @@ fun NavigationRowItem(
             .clip(RoundedCornerShape(8.dp))
             .background(bg)
             .clickable(onClick = onClick)
+            .heightIn(min = Presentation.target)
             .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(imageVector = icon, contentDescription = null, tint = text, modifier = Modifier.size(18.dp))
         Spacer(modifier = Modifier.width(10.dp))
         Text(title, color = text, fontSize = 13.sp, fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal)
+    }
     }
 }
 
@@ -1897,7 +1848,7 @@ fun OverviewGrid(
                     Card(
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(12.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFFEADDFF))
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
                     ) {
                         Column(
                             modifier = Modifier
@@ -1909,14 +1860,14 @@ fun OverviewGrid(
                                 text = "New",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.SemiBold,
-                                color = Color(0xFF21005D)
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
                                 text = "%02d".format(newCount),
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF21005D)
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                         }
                     }
@@ -1925,7 +1876,7 @@ fun OverviewGrid(
             Card(
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(12.dp),
-                border = BorderStroke(1.dp, Color(0xFFCAC4D0)),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
             ) {
                 Column(
@@ -1954,7 +1905,7 @@ fun OverviewGrid(
             Card(
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(12.dp),
-                border = BorderStroke(1.dp, Color(0xFFCAC4D0)),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
             ) {
                 Column(
@@ -1964,7 +1915,7 @@ fun OverviewGrid(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Proc.",
+                        text = "Saved",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -1983,7 +1934,7 @@ fun OverviewGrid(
             Card(
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFDAD6))
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
             ) {
                 Column(
                     modifier = Modifier
@@ -1995,14 +1946,14 @@ fun OverviewGrid(
                         text = "Review",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = Color(0xFF410002)
+                        color = MaterialTheme.colorScheme.onErrorContainer
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
                         text = "%02d".format(reviewCount),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF410002)
+                        color = MaterialTheme.colorScheme.onErrorContainer
                     )
                 }
             }
@@ -2012,7 +1963,7 @@ fun OverviewGrid(
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
-            border = BorderStroke(1.dp, Color(0xFFE7E0EC)),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
         ) {
             Column(
@@ -2020,21 +1971,20 @@ fun OverviewGrid(
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 // LLM Connectivity status
-                Row(
+                FlowRow(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Box(
                             modifier = Modifier
                                 .size(8.dp)
                                 .clip(RoundedCornerShape(50))
-                                .background(if (ollamaState == "Available") Color(0xFF4CAF50) else Color(0xFFE53935))
+                                .background(if (ollamaState == "Available") MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.error)
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = "LLM: $ollamaState ($model)",
+                            text = "AI: $ollamaState ($model)",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
@@ -2048,17 +1998,16 @@ fun OverviewGrid(
                 }
 
                 // Media Library status
-                Row(
+                FlowRow(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Box(
                             modifier = Modifier
                                 .size(8.dp)
                                 .clip(RoundedCornerShape(50))
-                                .background(Color(0xFF2196F3))
+                                .background(MaterialTheme.colorScheme.primary)
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
@@ -2104,65 +2053,15 @@ fun ActionButtonsBar(
     isScanning: Boolean
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .horizontalScroll(rememberScrollState())
-            .padding(vertical = 8.dp),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        TooltipBox(
-            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-            tooltip = { PlainTooltip { Text(if (isScanning) "Scanning..." else "Scan Videos", color = MaterialTheme.colorScheme.onSurface) } },
-            state = rememberTooltipState()
-        ) {
-            IconButton(
-                onClick = onScan,
-                enabled = !isScanning,
-                modifier = Modifier.size(56.dp)
-            ) {
-                Icon(Icons.Default.YoutubeSearchedFor, contentDescription = "Scan Videos", modifier = Modifier.size(32.dp), tint = MaterialTheme.colorScheme.primary)
-            }
-        }
-
-        TooltipBox(
-            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-            tooltip = { PlainTooltip { Text("Start Batch Processing", color = MaterialTheme.colorScheme.onSurface) } },
-            state = rememberTooltipState()
-        ) {
-            IconButton(
-                onClick = onStartBatch,
-                modifier = Modifier.size(56.dp)
-            ) {
-                Icon(Icons.Default.PlayArrow, contentDescription = "Start Batch", modifier = Modifier.size(32.dp), tint = MaterialTheme.colorScheme.primary)
-            }
-        }
-
-        TooltipBox(
-            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-            tooltip = { PlainTooltip { Text("Process Next", color = MaterialTheme.colorScheme.onSurface) } },
-            state = rememberTooltipState()
-        ) {
-            IconButton(
-                onClick = onProcessNext,
-                modifier = Modifier.size(56.dp)
-            ) {
-                Icon(Icons.Default.SkipNext, contentDescription = "Process Next", modifier = Modifier.size(32.dp), tint = MaterialTheme.colorScheme.primary)
-            }
-        }
-
-        TooltipBox(
-            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-            tooltip = { PlainTooltip { Text("Pause Batch", color = MaterialTheme.colorScheme.onSurface) } },
-            state = rememberTooltipState()
-        ) {
-            IconButton(
-                onClick = onPauseBatch,
-                modifier = Modifier.size(56.dp)
-            ) {
-                Icon(Icons.Default.Pause, contentDescription = "Pause Batch", modifier = Modifier.size(32.dp), tint = MaterialTheme.colorScheme.primary)
-            }
-        }
+        AppIconAction(Icons.Default.YoutubeSearchedFor, "Scan Videos", onScan, enabled = !isScanning,
+            hint = if (isScanning) "Finding files" else "Find photos and videos")
+        AppIconAction(Icons.Default.PlayArrow, "Start Batch", onStartBatch, hint = "Process queued files")
+        AppIconAction(Icons.Default.SkipNext, "Process Next", onProcessNext, hint = "Process the next file")
+        AppIconAction(Icons.Default.Pause, "Pause Batch", onPauseBatch, hint = "Pause processing")
     }
 }
 
@@ -2238,21 +2137,21 @@ fun TargetFoldersConfig(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(pathName, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        IconButton(
+                        ActionHint("Remove") { IconButton(
                             onClick = { onRemoveFolder(folderUri) },
                             modifier = Modifier.size(20.dp)
                         ) {
                             Icon(Icons.Default.Close, contentDescription = "Remove", modifier = Modifier.size(16.dp))
-                        }
+                        } }
                     }
                 }
 
-                TextButton(
+                ActionHint("Add target folder") { TextButton(
                     onClick = { folderPickerLauncher.launch(null) },
                     contentPadding = PaddingValues(0.dp)
                 ) {
                     Icon(Icons.Default.Add, contentDescription = "Add target folder", modifier = Modifier.size(18.dp))
-                }
+                } }
             }
         }
     }
@@ -2323,19 +2222,19 @@ fun VideoItemCard(
 
     // Card background configuration
     val cardBg = if (isReadyToDelete || isError) {
-        Color(0xFFFFFBFF)
+        MaterialTheme.colorScheme.surface
     } else if (isProcessing) {
-        Color(0xFFF3EDF7)
+        MaterialTheme.colorScheme.surfaceVariant
     } else {
         Color.White
     }
 
     val cardBorder = if (isReadyToDelete || isError) {
-        BorderStroke(1.dp, Color(0xFFFFDAD6))
+        BorderStroke(1.dp, MaterialTheme.colorScheme.errorContainer)
     } else if (isProcessing) {
-        BorderStroke(1.5.dp, Color(0xFF6750A4))
+        BorderStroke(1.5.dp, MaterialTheme.colorScheme.primary)
     } else {
-        BorderStroke(1.dp, Color(0xFFE7E0EC))
+        BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     }
 
     Card(
@@ -2354,8 +2253,8 @@ fun VideoItemCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Thumbnail container box
-            val leadingBoxBg = if (isReadyToDelete || isError) Color(0xFFFFDAD6) else Color(0xFFF3EDF7)
-            val iconColor = if (isReadyToDelete || isError) Color(0xFF410002) else Color(0xFF6750A4)
+            val leadingBoxBg = if (isReadyToDelete || isError) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.surfaceVariant
+            val iconColor = if (isReadyToDelete || isError) MaterialTheme.colorScheme.onErrorContainer else MaterialTheme.colorScheme.primary
 
             Box(
                 modifier = Modifier
@@ -2416,16 +2315,16 @@ fun VideoItemCard(
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     val badgeBg = when (video.status) {
-                        "processed" -> Color(0xFFE8DEF8)
-                        "queued", "processing" -> Color(0xFFF3EDF7)
-                        "ready_to_delete", "error" -> Color(0xFFFFDAD6)
-                        else -> Color(0xFFEADDFF)
+                        "processed" -> MaterialTheme.colorScheme.secondaryContainer
+                        "queued", "processing" -> MaterialTheme.colorScheme.surfaceVariant
+                        "ready_to_delete", "error" -> MaterialTheme.colorScheme.errorContainer
+                        else -> MaterialTheme.colorScheme.primaryContainer
                     }
                     val badgeText = when (video.status) {
-                        "processed" -> Color(0xFF21005D)
-                        "queued", "processing" -> Color(0xFF49454F)
-                        "ready_to_delete", "error" -> Color(0xFF410002)
-                        else -> Color(0xFF21005D)
+                        "processed" -> MaterialTheme.colorScheme.onSecondaryContainer
+                        "queued", "processing" -> MaterialTheme.colorScheme.onSurfaceVariant
+                        "ready_to_delete", "error" -> MaterialTheme.colorScheme.onErrorContainer
+                        else -> MaterialTheme.colorScheme.onPrimaryContainer
                     }
 
                     Box(
@@ -2452,7 +2351,7 @@ fun VideoItemCard(
                             text = categoryPath,
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Medium,
-                            color = Color(0xFF6750A4),
+                            color = MaterialTheme.colorScheme.primary,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -2462,15 +2361,15 @@ fun VideoItemCard(
 
             // Tail interaction buttons
             Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = onToggleQueue) {
+                ActionHint("Add or remove from queue") { IconButton(onClick = onToggleQueue) {
                     val queueIcon = if (video.status == "queued") Icons.Default.Star else Icons.Default.StarBorder
-                    val queueColor = if (video.status == "queued") Color(0xFFFDD835) else Color(0xFF49454F)
-                    Icon(imageVector = queueIcon, contentDescription = "Queue track toggle", tint = queueColor)
-                }
+                    val queueColor = if (video.status == "queued") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                    Icon(imageVector = queueIcon, contentDescription = "Add or remove from queue", tint = queueColor)
+                } }
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = "Details",
-                    tint = Color(0xFF49454F),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.size(20.dp)
                 )
             }
@@ -2521,9 +2420,9 @@ fun VideoDetailPanel(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = onClose) {
+                ActionHint("Back") { IconButton(onClick = onClose) {
                     Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                }
+                } }
                 Text(
                     text = "Video Analysis Details",
                     fontWeight = FontWeight.Bold,
@@ -2564,14 +2463,14 @@ fun VideoDetailPanel(
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                             Text("Processing Error", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onErrorContainer, fontSize = 14.sp)
                             val clipboardManager = LocalClipboardManager.current
-                            IconButton(onClick = { clipboardManager.setText(AnnotatedString(video.errorMessage)) }, modifier = Modifier.size(48.dp)) {
+                            ActionHint("Copy Error") { IconButton(onClick = { clipboardManager.setText(AnnotatedString(video.errorMessage)) }, modifier = Modifier.size(48.dp)) {
                                 Icon(Icons.Default.ContentCopy, contentDescription = "Copy Error", tint = MaterialTheme.colorScheme.onErrorContainer)
-                            }
+                            } }
                         }
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(video.errorMessage, color = MaterialTheme.colorScheme.onErrorContainer, fontSize = 12.sp, fontFamily = FontFamily.Monospace)
                         Spacer(modifier = Modifier.height(6.dp))
-                        Text("Suggested action: Check connection settings, verify LLM endpoint formatting, or restart the batch processor.", color = MaterialTheme.colorScheme.onErrorContainer, fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                        Text("Check the AI service address in Settings, then try again.", color = MaterialTheme.colorScheme.onErrorContainer, fontSize = 11.sp, fontWeight = FontWeight.Medium)
                     }
                 }
             }
@@ -2584,20 +2483,20 @@ fun VideoDetailPanel(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Button(onClick = onProcessSingle) {
-                    Icon(imageVector = Icons.Default.PlayArrow, contentDescription = "Process media", modifier = Modifier.size(18.dp))
-                }
-                OutlinedButton(onClick = onResetResult) {
-                    Icon(imageVector = Icons.Default.Refresh, contentDescription = "Reset model data", modifier = Modifier.size(18.dp))
-                }
-                OutlinedButton(onClick = onArchive) {
+                ActionHint("Process file") { TextButton(onClick = onProcessSingle) {
+                    Icon(imageVector = Icons.Default.PlayArrow, contentDescription = "Process file", modifier = Modifier.size(18.dp))
+                } }
+                ActionHint("Clear saved result") { TextButton(onClick = onResetResult) {
+                    Icon(imageVector = Icons.Default.Refresh, contentDescription = "Clear saved result", modifier = Modifier.size(18.dp))
+                } }
+                ActionHint("Archive media") { TextButton(onClick = onArchive) {
                     Icon(imageVector = Icons.Default.Archive, contentDescription = "Archive media", modifier = Modifier.size(18.dp))
-                }
+                } }
                 val deleteCandText = if (video.status == "ready_to_delete") "Unmark Trash Candidate" else "Mark Trash Candidate"
-                val deleteCandColor = if (video.status == "ready_to_delete") MaterialTheme.colorScheme.primary else Color(0xFFE53935)
-                OutlinedButton(
+                val deleteCandColor = if (video.status == "ready_to_delete") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+                TextButton(
                     onClick = onToggleDeleteCandidate,
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor = deleteCandColor)
+                    colors = ButtonDefaults.textButtonColors(contentColor = deleteCandColor)
                 ) {
                     Icon(imageVector = Icons.Default.DeleteSweep, contentDescription = deleteCandText, modifier = Modifier.size(18.dp))
                 }
@@ -2607,7 +2506,7 @@ fun VideoDetailPanel(
 
             // User notes & transcript input box
             Text(
-                text = "Manual Transcript & Annotations",
+                text = "Notes and spoken words",
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
                 color = MaterialTheme.colorScheme.primary
@@ -2619,7 +2518,7 @@ fun VideoDetailPanel(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(90.dp),
-                placeholder = { Text("Add timestamps, keywords, custom transcripts, or editing notes...", fontSize = 12.sp) },
+                placeholder = { Text("Add notes, spoken words, or useful details.", fontSize = 12.sp) },
                 textStyle = TextStyle(fontSize = 13.sp)
             )
 
@@ -2638,7 +2537,7 @@ fun VideoDetailPanel(
                     text = "No on-screen frame text extracted yet. (Run processing to build timeline)",
                     fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
                     fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.outline,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(vertical = 4.dp)
                 )
             } else {
@@ -2710,7 +2609,7 @@ fun VideoDetailPanel(
             OutlinedTextField(
                 value = title1,
                 onValueChange = { title1 = it },
-                label = { Text("Line 1") },
+                label = { Text("Summary") },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(fontSize = 13.sp)
             )
@@ -2718,7 +2617,7 @@ fun VideoDetailPanel(
             OutlinedTextField(
                 value = title2,
                 onValueChange = { title2 = it },
-                label = { Text("Line 2") },
+                label = { Text("Details") },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(fontSize = 13.sp)
             )
@@ -2764,20 +2663,20 @@ fun VideoDetailPanel(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Button(
+                ActionHint("Save edits") { TextButton(
                     onClick = {
                         onSaveEdits(manualNotes, title1, title2, cat1, cat2, cat3, roadmapPlan)
                     },
                     modifier = Modifier.weight(1f)
                 ) {
                     Icon(imageVector = Icons.Default.Save, contentDescription = "Save edits", modifier = Modifier.size(18.dp))
-                }
-                OutlinedButton(
+                } }
+                ActionHint("Remove index entry") { TextButton(
                     onClick = onDeleteFromBacklog,
                     modifier = Modifier.weight(1f)
                 ) {
                     Icon(imageVector = Icons.Default.PlaylistRemove, contentDescription = "Remove index entry", modifier = Modifier.size(18.dp))
-                }
+                } }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -2786,16 +2685,16 @@ fun VideoDetailPanel(
 
             // Extreme Native clean action handlers
             Text(
-                text = "System Real Media Cleanup Action",
+                text = "Delete files",
                 fontWeight = FontWeight.Bold,
                 fontSize = 13.sp,
-                color = Color(0xFFE53935)
+                color = MaterialTheme.colorScheme.error
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Review these videos before deleting them from your phone. The app will open standard secure Android confirmation dialogues before executing changes.",
+                text = "Review files first. Android will ask you to confirm before deleting them.",
                 fontSize = 11.sp,
-                color = MaterialTheme.colorScheme.outline
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -2803,21 +2702,21 @@ fun VideoDetailPanel(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Button(
+                ActionHint("Move media to trash") { TextButton(
                     onClick = onMoveToTrash,
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFB8C00)),
+                    colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.weight(1f)
                 ) {
                     Icon(imageVector = Icons.Default.Delete, contentDescription = "Move media to trash", modifier = Modifier.size(18.dp))
-                }
+                } }
 
-                Button(
+                ActionHint("Delete media forever") { TextButton(
                     onClick = onPermanentDelete,
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE53935)),
+                    colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
                     modifier = Modifier.weight(1f)
                 ) {
                     Icon(imageVector = Icons.Default.DeleteForever, contentDescription = "Delete media forever", modifier = Modifier.size(18.dp))
-                }
+                } }
             }
             Spacer(modifier = Modifier.height(24.dp))
         }
@@ -2840,7 +2739,7 @@ fun SettingsDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Configure Ollama Local LLM") },
+        title = { Text("Local AI settings") },
         text = {
             Column(
                 modifier = Modifier
@@ -2861,7 +2760,7 @@ fun SettingsDialog(
                     OutlinedTextField(
                         value = url,
                         onValueChange = { url = it },
-                        label = { Text("Host") },
+                        label = { Text("AI address") },
                         modifier = Modifier.fillMaxWidth(),
                         textStyle = TextStyle(fontSize = 12.sp)
                     )
@@ -2890,7 +2789,7 @@ fun SettingsDialog(
                     OutlinedTextField(
                         value = model,
                         onValueChange = { model = it },
-                        label = { Text("Model") },
+                        label = { Text("AI model") },
                         modifier = Modifier.fillMaxWidth(),
                         textStyle = TextStyle(fontSize = 12.sp)
                     )
@@ -2898,7 +2797,7 @@ fun SettingsDialog(
                     OutlinedTextField(
                         value = timeoutSecs,
                         onValueChange = { timeoutSecs = it },
-                        label = { Text("Timeout") },
+                        label = { Text("Wait limit") },
                         modifier = Modifier.fillMaxWidth()
                     )
 
@@ -2935,19 +2834,17 @@ fun SettingsDialog(
             }
         },
         confirmButton = {
-            Button(
+            ActionHint("Confirm and save") { TextButton(
                 onClick = {
                     val timeoutVal = timeoutSecs.toIntOrNull() ?: 30
                     onSave(enabled, url, model, timeoutVal, confirmedWarn)
                 }
             ) {
                 Icon(Icons.Default.Save, contentDescription = "Confirm and save")
-            }
+            } }
         },
         dismissButton = {
-            OutlinedButton(onClick = onDismiss) {
-                Text("Cancel")
-            }
+            ActionHint("Cancel") { TextButton(onClick = onDismiss) { Icon(Icons.Default.Close, contentDescription = "Cancel") } }
         }
     )
 }
@@ -2959,13 +2856,14 @@ private fun PresetRow(text: String, actionDescription: String, onUse: () -> Unit
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text, fontSize = 9.sp, modifier = Modifier.weight(1f))
-        IconButton(onClick = onUse) {
+        ActionHint(actionDescription) { IconButton(onClick = onUse) {
             Icon(Icons.Default.Link, contentDescription = actionDescription)
-        }
+        } }
     }
 }
 
 @Composable
+@OptIn(ExperimentalLayoutApi::class)
 internal fun MediaSourcesScreen(
     totals: MediaInventoryTotals,
     aggregates: List<SourceAggregate>,
@@ -2995,7 +2893,9 @@ internal fun MediaSourcesScreen(
     val unreviewed = remember(scopedMedia) { scopedMedia.count { it.reviewDecision == "unreviewed" } }
     val scopedBytes = remember(scopedMedia) { scopedMedia.sumOf { it.sizeBytes ?: 0L } }
 
-    Column(modifier = Modifier.fillMaxSize().testTag("media_sources_screen")) {
+    BoxWithConstraints(Modifier.fillMaxSize()) {
+    val listHeight = maxHeight
+    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).testTag("media_sources_screen")) {
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.55f))
@@ -3006,16 +2906,16 @@ internal fun MediaSourcesScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(if (selectedCategory == null) "Phone media inventory" else selectedCategory, fontWeight = FontWeight.Black, fontSize = 18.sp)
+                    Text(if (selectedCategory == null) "Photos and videos" else selectedCategory, fontWeight = FontWeight.SemiBold, fontSize = 16.sp, lineHeight = 20.sp)
                     Text(
-                        "${if (selectedCategory == null) totals.itemCount else scopedMedia.size.toLong()} available items • ${formatMediaBytes(if (selectedCategory == null) totals.totalBytes else scopedBytes)}",
-                        fontSize = 13.sp,
+                        "${if (selectedCategory == null) totals.itemCount else scopedMedia.size.toLong()} files • ${formatMediaBytes(if (selectedCategory == null) totals.totalBytes else scopedBytes)}",
+                        fontSize = 12.sp, lineHeight = 16.sp,
                         modifier = Modifier.testTag("inventory_total")
                     )
                     if (selectedCategory == null) {
                         Text(
-                            "Access: $mediaAccess • Pending, trashed and unavailable media excluded",
-                            fontSize = 10.sp,
+                            "Access: $mediaAccess",
+                            fontSize = 10.sp, lineHeight = 14.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.testTag("inventory_access")
                         )
@@ -3023,18 +2923,18 @@ internal fun MediaSourcesScreen(
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                     if (selectedCategory == null) {
-                        Button(onClick = onScan, enabled = !isScanning, modifier = Modifier.testTag("inventory_scan_button")) {
+                        ActionHint("Find files") { TextButton(onClick = onScan, enabled = !isScanning, modifier = Modifier.testTag("inventory_scan_button")) {
                             if (isScanning) CircularProgressIndicator(modifier = Modifier.size(14.dp), strokeWidth = 2.dp)
-                            else Icon(Icons.Default.Refresh, contentDescription = "Refresh inventory", modifier = Modifier.size(18.dp))
-                        }
+                            else Icon(Icons.Default.Refresh, contentDescription = "Find files", modifier = Modifier.size(18.dp))
+                        } }
                     } else {
-                        OutlinedButton(onClick = { onSelectCategory(null) }) {
+                        ActionHint("Show all sources") { TextButton(onClick = { onSelectCategory(null) }) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Show all sources", modifier = Modifier.size(18.dp))
-                        }
-                        IconButton(onClick = onScan, enabled = !isScanning, modifier = Modifier.testTag("inventory_scan_button")) {
+                        } }
+                        ActionHint("Find files") { IconButton(onClick = onScan, enabled = !isScanning, modifier = Modifier.testTag("inventory_scan_button")) {
                             if (isScanning) CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp)
-                            else Icon(Icons.Default.Refresh, contentDescription = "Refresh inventory")
-                        }
+                            else Icon(Icons.Default.Refresh, contentDescription = "Find files")
+                        } }
                     }
                 }
             }
@@ -3045,25 +2945,29 @@ internal fun MediaSourcesScreen(
                 modifier = Modifier.fillMaxWidth().padding(top = 6.dp),
                 horizontalArrangement = Arrangement.End
             ) {
-                IconButton(onClick = onOpenRules, modifier = Modifier.testTag("open_rules")) {
+                ActionHint("Rules") { IconButton(onClick = onOpenRules, modifier = Modifier.testTag("open_rules")) {
                     Icon(Icons.Default.Rule, contentDescription = "Rules")
-                }
-                IconButton(onClick = onOpenTags, modifier = Modifier.testTag("open_tags")) {
+                } }
+                ActionHint("Tags") { IconButton(onClick = onOpenTags, modifier = Modifier.testTag("open_tags")) {
                     Icon(Icons.Default.Label, contentDescription = "Tags")
-                }
-                IconButton(onClick = onOpenBin, modifier = Modifier.testTag("open_bin")) {
+                } }
+                ActionHint("Bin") { IconButton(onClick = onOpenBin, modifier = Modifier.testTag("open_bin")) {
                     Icon(Icons.Default.DeleteSweep, contentDescription = "Bin")
-                }
+                } }
             }
         }
 
         Spacer(modifier = Modifier.height(10.dp))
 
         if (selectedCategory == null) {
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                InventoryMetric("Unreviewed", unreviewed.toLong(), "Needs a decision", Modifier.weight(1f))
-                InventoryMetric("Keep", kept.toLong(), "Eligible for analysis", Modifier.weight(1f))
-                InventoryMetric("Selected to remove", readyToDelete.size.toLong(), formatMediaBytes(readyToDelete.sumOf { it.sizeBytes ?: 0L }), Modifier.weight(1f))
+            BoxWithConstraints(Modifier.fillMaxWidth()) {
+                val inline = maxWidth < 360.dp && LocalDensity.current.fontScale > 1.2f
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp),
+                    maxItemsInEachRow = if (inline) 1 else 3) {
+                    InventoryMetric("To review", unreviewed.toLong(), "Choose Keep or Remove", Modifier.weight(1f), inline)
+                    InventoryMetric("Keep", kept.toLong(), "Ready to process", Modifier.weight(1f), inline)
+                    InventoryMetric("To remove", readyToDelete.size.toLong(), formatMediaBytes(readyToDelete.sumOf { it.sizeBytes ?: 0L }), Modifier.weight(1f), inline)
+                }
             }
         } else {
             Surface(
@@ -3086,14 +2990,12 @@ internal fun MediaSourcesScreen(
             if (aggregates.isEmpty()) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(Icons.Default.PhotoLibrary, contentDescription = null, modifier = Modifier.size(42.dp), tint = MaterialTheme.colorScheme.outline)
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text("No accessible media indexed", fontWeight = FontWeight.Bold)
-                        Text("Refresh and grant photo/video access to build the inventory.", fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
+                        Text("No photos or videos found", fontSize = 13.sp, lineHeight = 18.sp, fontWeight = FontWeight.SemiBold)
+                        Text("Find files, then allow photo and video access.", fontSize = 11.sp, lineHeight = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             } else {
-                LazyColumn(verticalArrangement = Arrangement.spacedBy(7.dp), modifier = Modifier.fillMaxSize()) {
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(7.dp), modifier = Modifier.fillMaxWidth().heightIn(max = listHeight)) {
                     items(aggregates, key = { it.category }) { aggregate ->
                         Card(
                             modifier = Modifier
@@ -3127,8 +3029,8 @@ internal fun MediaSourcesScreen(
             }
 
             if (subcategories.isNotEmpty()) {
-                Row(
-                    modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(bottom = 8.dp),
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(7.dp)
                 ) {
                     subcategories.forEach { subcategory ->
@@ -3145,7 +3047,7 @@ internal fun MediaSourcesScreen(
                 }
             }
 
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.fillMaxSize()) {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.fillMaxWidth().heightIn(max = listHeight)) {
                 items(categoryItems, key = { it.id }) { media ->
                     Card(
                         modifier = Modifier.fillMaxWidth().testTag("source_media_${media.id}"),
@@ -3164,9 +3066,9 @@ internal fun MediaSourcesScreen(
                             )
                             Spacer(modifier = Modifier.width(9.dp))
                             Column(modifier = Modifier.weight(1f)) {
-                                Text(media.displayName, maxLines = 1, overflow = TextOverflow.Ellipsis, fontWeight = FontWeight.Medium, fontSize = 12.sp)
+                                Text(media.displayName, fontWeight = FontWeight.Medium, fontSize = 12.sp)
                                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                    Text(formatMediaBytes(media.sizeBytes ?: 0L), fontSize = 10.sp, color = MaterialTheme.colorScheme.outline)
+                                    Text(formatMediaBytes(media.sizeBytes ?: 0L), fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                     media.sourceSubcategory?.let { subcategory ->
                                         val evidence = if (media.subcategoryEvidenceKind == "filename_token") "Inferred from filename" else media.subcategoryEvidenceKind.orEmpty()
                                         Text(
@@ -3188,15 +3090,27 @@ internal fun MediaSourcesScreen(
             }
         }
     }
+    }
 }
 
 @Composable
-private fun InventoryMetric(title: String, count: Long, supporting: String, modifier: Modifier = Modifier) {
-    Card(modifier = modifier, colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f))) {
-        Column(modifier = Modifier.padding(horizontal = 11.dp, vertical = 8.dp)) {
-            Text(title, fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(count.toString(), fontSize = 17.sp, fontWeight = FontWeight.Black)
-            Text(supporting, fontSize = 9.sp, color = MaterialTheme.colorScheme.outline, maxLines = 1)
+private fun InventoryMetric(title: String, count: Long, supporting: String, modifier: Modifier = Modifier, inline: Boolean = false) {
+    Card(modifier = modifier, colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
+        if (inline) {
+            Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f)) {
+                    Text(title, fontSize = 11.sp, lineHeight = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(supporting, fontSize = 10.sp, lineHeight = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                Spacer(Modifier.width(8.dp))
+                Text(count.toString(), fontSize = 17.sp, lineHeight = 22.sp, fontWeight = FontWeight.SemiBold)
+            }
+        } else {
+            Column(modifier = Modifier.padding(horizontal = 11.dp, vertical = 8.dp)) {
+                Text(title, fontSize = 11.sp, lineHeight = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(count.toString(), fontSize = 17.sp, lineHeight = 22.sp, fontWeight = FontWeight.SemiBold)
+                Text(supporting, fontSize = 10.sp, lineHeight = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
         }
     }
 }
@@ -3207,8 +3121,8 @@ private fun ToolHead(title: String, onBack: () -> Unit, actions: @Composable Row
         modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back") }
-        Text(title, fontWeight = FontWeight.Black, fontSize = 20.sp, modifier = Modifier.weight(1f))
+        ActionHint("Back") { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back") } }
+        Text(title, fontWeight = FontWeight.SemiBold, fontSize = 16.sp, modifier = Modifier.weight(1f))
         actions()
     }
 }
@@ -3228,12 +3142,12 @@ private fun RulesScreen(
     var newKind by remember { mutableStateOf<String?>(null) }
     Column(Modifier.fillMaxSize().testTag("rules_screen")) {
         ToolHead("Rules", onBack) {
-            IconButton(onClick = { newKind = "exact_duplicate" }, modifier = Modifier.testTag("add_copy_rule")) {
+            ActionHint("Add copy rule") { IconButton(onClick = { newKind = "exact_duplicate" }, modifier = Modifier.testTag("add_copy_rule")) {
                 Icon(Icons.Default.ContentCopy, contentDescription = "Add copy rule")
-            }
-            IconButton(onClick = { newKind = "obscured" }, modifier = Modifier.testTag("add_obscured_rule")) {
+            } }
+            ActionHint("Add obscured rule") { IconButton(onClick = { newKind = "obscured" }, modifier = Modifier.testTag("add_obscured_rule")) {
                 Icon(Icons.Default.BlurOn, contentDescription = "Add obscured rule")
-            }
+            } }
         }
         message?.let { Text(it, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)) }
         Text("Copies matches file name and size. Contents may differ; review before deleting", fontSize = 11.sp, modifier = Modifier.padding(8.dp))
@@ -3248,15 +3162,15 @@ private fun RulesScreen(
                             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                                 Column(Modifier.weight(1f)) {
                                     Text(rule.name, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                                    Text(if (rule.kind == "obscured") "Obscure" else "Copies", fontSize = 11.sp, color = MaterialTheme.colorScheme.outline)
+                                    Text(if (rule.kind == "obscured") "Obscure" else "Copies", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                 }
                                 Switch(checked = rule.enabled, onCheckedChange = { onEnable(rule, it) })
                             }
                             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                                IconButton(onClick = { onPreview(rule) }) { Icon(Icons.Default.Visibility, contentDescription = "Preview") }
-                                IconButton(onClick = { onRun(rule) }, enabled = rule.enabled) { Icon(Icons.Default.PlayArrow, contentDescription = "Run") }
-                                IconButton(onClick = { editing = card }) { Icon(Icons.Default.Edit, contentDescription = "Edit") }
-                                IconButton(onClick = { onDelete(rule) }) { Icon(Icons.Default.Delete, contentDescription = "Delete") }
+                                ActionHint("Preview") { IconButton(onClick = { onPreview(rule) }) { Icon(Icons.Default.Visibility, contentDescription = "Preview") } }
+                                ActionHint("Run") { IconButton(onClick = { onRun(rule) }, enabled = rule.enabled) { Icon(Icons.Default.PlayArrow, contentDescription = "Run") } }
+                                ActionHint("Edit") { IconButton(onClick = { editing = card }) { Icon(Icons.Default.Edit, contentDescription = "Edit") } }
+                                ActionHint("Delete") { IconButton(onClick = { onDelete(rule) }) { Icon(Icons.Default.Delete, contentDescription = "Delete") } }
                             }
                         }
                     }
@@ -3307,8 +3221,8 @@ private fun RuleDialog(rule: MediaRule?, definitionJson: String?, kind: String, 
                 }
             }
         },
-        confirmButton = { IconButton(onClick = { onSave(name, threshold) }, enabled = valid) { Icon(Icons.Default.Save, contentDescription = "Save") } },
-        dismissButton = { IconButton(onClick = onDismiss) { Icon(Icons.Default.Close, contentDescription = "Cancel") } }
+        confirmButton = { ActionHint("Save") { IconButton(onClick = { onSave(name, threshold) }, enabled = valid) { Icon(Icons.Default.Save, contentDescription = "Save") } } },
+        dismissButton = { ActionHint("Cancel") { IconButton(onClick = onDismiss) { Icon(Icons.Default.Close, contentDescription = "Cancel") } } }
     )
 }
 
@@ -3336,7 +3250,7 @@ private fun TagsScreen(
         message?.let { Text(it, modifier = Modifier.padding(8.dp)) }
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             androidx.compose.material3.OutlinedTextField(input, { input = it }, label = { Text("Tag") }, supportingText = { Text(inputError ?: "Name: 1–40 characters") }, isError = inputError != null, singleLine = true, modifier = Modifier.weight(1f))
-            IconButton(onClick = { onAdd(input); input = "" }, enabled = inputError == null) { Icon(Icons.Default.Add, contentDescription = "Add") }
+            ActionHint("Add") { IconButton(onClick = { onAdd(input); input = "" }, enabled = inputError == null) { Icon(Icons.Default.Add, contentDescription = "Add") } }
         }
         LazyColumn(Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             items(tags, key = { "tag-${it.id}" }) { tag ->
@@ -3345,8 +3259,8 @@ private fun TagsScreen(
                     Row(Modifier.fillMaxWidth().padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
                         Text(tag.name, Modifier.weight(1f), fontWeight = FontWeight.Bold)
                         Text(count.toString(), fontSize = 12.sp)
-                        IconButton(onClick = { rename = tag }) { Icon(Icons.Default.Edit, contentDescription = "Edit") }
-                        IconButton(onClick = { onDelete(tag); if (selected?.id == tag.id) selected = null }) { Icon(Icons.Default.Delete, contentDescription = "Delete") }
+                        ActionHint("Edit") { IconButton(onClick = { rename = tag }) { Icon(Icons.Default.Edit, contentDescription = "Edit") } }
+                        ActionHint("Delete") { IconButton(onClick = { onDelete(tag); if (selected?.id == tag.id) selected = null }) { Icon(Icons.Default.Delete, contentDescription = "Delete") } }
                     }
                 }
             }
@@ -3354,9 +3268,9 @@ private fun TagsScreen(
                 item {
                     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                         Text("Media", fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f).padding(top = 8.dp))
-                        IconButton(onClick = { onlyTagged = !onlyTagged }) {
+                        ActionHint(if (onlyTagged) "Show all files" else "Show tagged files") { IconButton(onClick = { onlyTagged = !onlyTagged }) {
                             Icon(if (onlyTagged) Icons.Default.FilterAltOff else Icons.Default.FilterAlt, contentDescription = if (onlyTagged) "Show all" else "Tagged")
-                        }
+                        } }
                     }
                 }
                 val visibleMedia = media.filter {
@@ -3366,10 +3280,10 @@ private fun TagsScreen(
                 items(visibleMedia, key = { "media-${tag.id}-${it.id}" }) { item ->
                     val assigned = assignments.any { it.tagId == tag.id && it.mediaId == item.id }
                     Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Text(item.displayName, Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
-                        IconButton(onClick = { if (assigned) onUnassign(item.id, tag.id) else onAssign(item.id, tag.id) }) {
+                        Text(item.displayName, Modifier.weight(1f))
+                        ActionHint(if (assigned) "Remove tag from file" else "Tag this file") { IconButton(onClick = { if (assigned) onUnassign(item.id, tag.id) else onAssign(item.id, tag.id) }) {
                             Icon(if (assigned) Icons.Default.CheckCircle else Icons.Default.AddCircleOutline, contentDescription = if (assigned) "Remove tag" else "Add tag")
-                        }
+                        } }
                     }
                 }
             }
@@ -3380,8 +3294,8 @@ private fun TagsScreen(
         AlertDialog(
             onDismissRequest = { rename = null }, title = { Text("Edit") },
             text = { androidx.compose.material3.OutlinedTextField(value, { value = it }, label = { Text("Tag") }, supportingText = { Text(nameError(value, tag.id) ?: "Name: 1–40 characters") }, isError = nameError(value, tag.id) != null, singleLine = true) },
-            confirmButton = { IconButton(onClick = { onRename(tag, value); rename = null }, enabled = nameError(value, tag.id) == null) { Icon(Icons.Default.Save, contentDescription = "Save") } },
-            dismissButton = { IconButton(onClick = { rename = null }) { Icon(Icons.Default.Close, contentDescription = "Cancel") } }
+            confirmButton = { ActionHint("Save") { IconButton(onClick = { onRename(tag, value); rename = null }, enabled = nameError(value, tag.id) == null) { Icon(Icons.Default.Save, contentDescription = "Save") } } },
+            dismissButton = { ActionHint("Cancel") { IconButton(onClick = { rename = null }) { Icon(Icons.Default.Close, contentDescription = "Cancel") } } }
         )
     }
 }
@@ -3393,9 +3307,9 @@ private fun BinScreen(
 ) {
     Column(Modifier.fillMaxSize().testTag("bin_screen")) {
         ToolHead("Bin", onBack) {
-            IconButton(onClick = onDeleteAll, enabled = media.any { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed }, modifier = Modifier.testTag("delete_bin")) {
+            ActionHint("Delete all") { IconButton(onClick = onDeleteAll, enabled = media.any { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed }, modifier = Modifier.testTag("delete_bin")) {
                 Icon(Icons.Default.DeleteForever, contentDescription = "Delete all")
-            }
+            } }
         }
         message?.let { Text(it, modifier = Modifier.padding(8.dp)) }
         Text("${media.size} • ${formatMediaBytes(media.sumOf { it.sizeBytes ?: 0L })}", modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp))
@@ -3408,8 +3322,8 @@ private fun BinScreen(
                         Column {
                             MediaThumb(item.uriString, item.displayName, loadThumbnail, Modifier.fillMaxWidth().aspectRatio(1f))
                             Row(Modifier.fillMaxWidth().padding(start = 32.dp), verticalAlignment = Alignment.CenterVertically) {
-                                Text(item.displayName, Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 11.sp)
-                                IconButton(onClick = { onRecover(item.id) }, enabled = item.isCurrentlyAvailable && !item.isPending && !item.isTrashed) { Icon(Icons.Default.RestoreFromTrash, contentDescription = "Recover") }
+                                Text(item.displayName, Modifier.weight(1f), fontSize = 11.sp)
+                                ActionHint("Recover") { IconButton(onClick = { onRecover(item.id) }, enabled = item.isCurrentlyAvailable && !item.isPending && !item.isTrashed) { Icon(Icons.Default.RestoreFromTrash, contentDescription = "Recover") } }
                             }
                         }
                     }
@@ -3447,7 +3361,7 @@ private fun DecisionSelector(
         else -> "New"
     }
     Box(modifier = modifier) {
-        OutlinedButton(onClick = { expanded = true }, contentPadding = PaddingValues(horizontal = 9.dp, vertical = 2.dp), modifier = Modifier.height(48.dp)) {
+        TextButton(onClick = { expanded = true }, contentPadding = PaddingValues(horizontal = 9.dp, vertical = 2.dp), modifier = Modifier.height(48.dp)) {
             Text(label, fontSize = 10.sp)
             Icon(Icons.Default.ArrowDropDown, contentDescription = null, modifier = Modifier.size(14.dp))
         }

@@ -37,7 +37,7 @@ class MediaInventoryRecreationUiTest {
             compose.onAllNodes(hasTestTag("inventory_total")).fetchSemanticsNodes().isNotEmpty()
         }
         compose.onNodeWithTag("inventory_total")
-            .assertTextContains("2 available items", substring = true)
+            .assertTextContains("2 files", substring = true)
             .assertTextContains("21 B", substring = true)
 
         compose.activityRule.scenario.recreate()
@@ -46,7 +46,7 @@ class MediaInventoryRecreationUiTest {
             compose.onAllNodes(hasTestTag("inventory_total")).fetchSemanticsNodes().isNotEmpty()
         }
         compose.onNodeWithTag("inventory_total")
-            .assertTextContains("2 available items", substring = true)
+            .assertTextContains("2 files", substring = true)
             .assertTextContains("21 B", substring = true)
         runBlocking {
             val rows = compose.activity.databaseRowsForTest()

@@ -266,7 +266,7 @@ class MediaEdgeCompletionTest {
         navigate("Queue")
         await { compose.onAllNodesWithText(item.displayName, substring = false).fetchSemanticsNodes().isNotEmpty() }
         action(item, "Preview").performClick()
-        compose.onNode(hasContentDescription("Process media") and hasClickAction()).performScrollTo().assertIsDisplayed().performClick()
+        compose.onNode(hasContentDescription("Process file") and hasClickAction()).performScrollTo().assertIsDisplayed().performClick()
     }
     private fun verifyOutput(item: VideoItem) {
         val analysis = io { requireNotNull(db.analysisResultDao().getAnalysisForVideoDirect(item.id)) }

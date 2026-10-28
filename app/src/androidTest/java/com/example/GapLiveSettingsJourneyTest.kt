@@ -91,7 +91,7 @@ class GapLiveSettingsJourneyTest {
         click("Close"); assertEquals(before, io { dao.getVideoByIdDirect(preview) })
         assertNull(io { db.analysisResultDao().getAnalysisForVideoDirect(preview) })
         assertTrue(io { db.extractedFrameDao().getFramesForVideoDirect(preview).isEmpty() })
-        action(preview, "Preview").performClick(); click("Process media", scroll = true); click("Close")
+        action(preview, "Preview").performClick(); click("Process file", scroll = true); click("Close")
         completed(preview); checkLiveOutput(preview); checkPreview(preview)
         for (entry in items()) {
             val id = entry.getLong("id"); val result = io { requireNotNull(db.analysisResultDao().getAnalysisForVideoDirect(id)) }
@@ -154,7 +154,7 @@ class GapLiveSettingsJourneyTest {
     private fun configureRealPcThroughSettings() {
         val existingSelection = io { db.appSettingsDao().getSettingsDirect()?.ollamaModelName } ?: AppSettings().ollamaModelName
         click("Settings"); compose.onNodeWithText("PC", substring=false).assertExists()
-        field("Host").performScrollTo().performTextReplacement(endpoint); dismissQaKeyboard(requireNotNull(activity))
+        field("AI address").performScrollTo().performTextReplacement(endpoint); dismissQaKeyboard(requireNotNull(activity))
         click("Test connection", scroll=true)
         await { compose.onAllNodesWithText("Connected", substring=false).fetchSemanticsNodes().isNotEmpty() }
         click("Sync models tag list", scroll=true)
@@ -163,9 +163,9 @@ class GapLiveSettingsJourneyTest {
         compose.onNode(modelSelector).performScrollTo().performClick()
         await { compose.onAllNodesWithText(model,substring=false).fetchSemanticsNodes().isNotEmpty() }
         compose.onAllNodesWithText(model,substring=false).onLast().performClick()
-        field("Timeout").performScrollTo().performTextReplacement("180"); dismissQaKeyboard(requireNotNull(activity)); click("Save settings",scroll=true)
+        field("Wait limit").performScrollTo().performTextReplacement("180"); dismissQaKeyboard(requireNotNull(activity)); click("Save settings",scroll=true)
         await { io { db.appSettingsDao().getSettingsDirect()?.let { it.ollamaEnabled && it.ollamaEndpointUrl==endpoint && it.ollamaModelName==model && it.requestTimeoutSeconds==180 } == true } }
-        click("Settings"); field("Host").assertTextContains(endpoint); field("Timeout").performScrollTo().assertTextContains("180")
+        click("Settings"); field("AI address").assertTextContains(endpoint); field("Wait limit").performScrollTo().assertTextContains("180")
         compose.onNodeWithText(model,substring=false).assertExists(); click("Close")
     }
     private fun createPhoto(label:String):Long {

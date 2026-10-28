@@ -44,7 +44,7 @@ class ProviderSecurityTest {
         compose.onAllNodesWithText("PC").onLast().assertIsDisplayed()
         compose.onNodeWithText("Device").assertIsDisplayed()
         compose.onAllNodesWithText("Cloud").onLast().performClick()
-        compose.onNode(hasSetTextAction() and hasText("Host")).assertTextContains("https://ollama.com")
+        compose.onNode(hasSetTextAction() and hasText("AI address")).assertTextContains("https://ollama.com")
         compose.onNodeWithContentDescription("Close").performClick()
     }
 }

@@ -192,7 +192,7 @@ class QueueCompletionTest {
         action(item, "Process").assertIsNotEnabled().performClick()
         action(item, "Preview").performClick()
         compose.onNodeWithText("Status: NEW", substring = true).assertExists()
-        compose.onNodeWithContentDescription("Process media").performScrollTo().performClick()
+        compose.onNodeWithContentDescription("Process file").performScrollTo().performClick()
         close()
         assertEquals(before, rows())
         assertNull(io { db.analysisResultDao().getAnalysisForVideoDirect(item.id) })

@@ -250,7 +250,7 @@ class RenameAuthorizationCompletionTest {
         val filter = IntentFilter(Intent.ACTION_CREATE_DOCUMENT).apply { addCategory(Intent.CATEGORY_OPENABLE); addDataType("application/json") }
         val monitor = instrumentation.addMonitor(filter, Instrumentation.ActivityResult(Activity.RESULT_OK, Intent().setData(destination)), true)
         try {
-            compose.onNode(hasContentDescription("Export metadata") and hasClickAction()).performClick()
+            compose.onNode(hasContentDescription("Save file details") and hasClickAction()).performClick()
             await { runCatching { record(context.contentResolver.openInputStream(destination)!!.use { it.readBytes() }).getString("uri") == shellUri.toString() }.getOrDefault(false) }
             assertEquals(1, monitor.hits)
         } finally { instrumentation.removeMonitor(monitor) }

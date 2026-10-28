@@ -266,8 +266,8 @@ class StateFaultCompletionTest {
         // Queue Preview is the actual production action that opens local modal state.
         // Only this test's current non-archived fixture remains in Queue.
         compose.onNodeWithContentDescription("Preview").performQaQueueScrollTo(compose).performClick()
-        compose.waitUntil(10000) { compose.onAllNodesWithContentDescription("Process media").fetchSemanticsNodes().isNotEmpty() }
-        compose.onNodeWithContentDescription("Process media").performScrollTo().performClick()
+        compose.waitUntil(10000) { compose.onAllNodesWithContentDescription("Process file").fetchSemanticsNodes().isNotEmpty() }
+        compose.onNodeWithContentDescription("Process file").performScrollTo().performClick()
         compose.onNodeWithContentDescription("Close").performClick()
     }
     private fun showOutput() {

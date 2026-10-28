@@ -631,7 +631,7 @@ class NativeStorageGapJourneyTest {
         await("watch picker returned") { activePackage() == context.packageName }
     }
     private fun exportPicker(filename: String) {
-        closePreviewIfPresent(); compose.onNodeWithContentDescription("Export metadata").performClick(); documentsUi()
+        closePreviewIfPresent(); compose.onNodeWithContentDescription("Save file details").performClick(); documentsUi()
         setSystemEdit(filename); recordControls("export_filename_set")
     }
     private fun saveDocument() { clickObserved("SAVE"); await("save returned to QA") { activePackage() == context.packageName } }

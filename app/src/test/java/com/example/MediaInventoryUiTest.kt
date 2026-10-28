@@ -231,7 +231,7 @@ class MediaInventoryUiTest {
         }
 
         compose.onNodeWithTag("inventory_total")
-            .assertTextContains("5 available items", substring = true)
+            .assertTextContains("5 files", substring = true)
             .assertTextContains("4.7 GB", substring = true)
         compose.onNodeWithTag("source_category_Screenshots")
             .assertTextContains("2 items", substring = true)

@@ -155,7 +155,7 @@ class EmulatorWorkflowTest {
                 await { controller.isAppearanceLightStatusBars == light }
                 assertEquals("Navigation icons must match the chosen theme", light,
                     controller.isAppearanceLightNavigationBars)
-                for (description in listOf("Open menu", "Toggle Theme", "Settings", "Export metadata")) {
+                for (description in listOf("Open menu", "Toggle Theme", "Settings", "Save file details")) {
                     compose.onNodeWithContentDescription(description).assertIsDisplayed().assertHasClickAction()
                 }
                 var rendered: Bitmap? = null

@@ -91,16 +91,16 @@ class SettingsCompletionTest {
         compose.waitUntil(10000) { vm.availableModels.value.contains("qa-model-a") }
         val initialDiscoveryRequests = server.requests.get()
         // T094–T098. Gemini has been retired; never require a removed provider to exist.
-        field("Host").assertExists()
+        field("AI address").assertExists()
         provider("Cloud")
-        field("Host").assertTextContains("https://ollama.com")
+        field("AI address").assertTextContains("https://ollama.com")
         // Presence-only assertion; never fetch API-key values or full semantics.
-        compose.onNodeWithText("API key", useUnmergedTree = true).assertExists()
+        compose.onNodeWithText("Access key", useUnmergedTree = true).assertExists()
         provider("Device")
-        field("Host").assertDoesNotExist()
+        field("AI address").assertDoesNotExist()
         compose.waitUntil(10000) {
             runCatching {
-                compose.onNodeWithText("Keyword fallback runs on this device. No on-device language model is installed.")
+                compose.onNodeWithText("Uses simple word matching on this phone. No AI model is installed.")
                     .performScrollTo().assertIsDisplayed()
                 true
             }.getOrDefault(false)
@@ -121,7 +121,7 @@ class SettingsCompletionTest {
         open()
         compose.onNodeWithText("qa-model-b").assertExists()
         // Change only the host; a model discovered for the old host is no evidence for this one.
-        replace("Host", server.url + "/different-instance")
+        replace("AI address", server.url + "/different-instance")
         compose.onNodeWithText("Connected").assertDoesNotExist()
         compose.onNodeWithText("qa-model-b").assertDoesNotExist()
         // Deliberately strict: stale displayed model selection is a product failure, not acceptance.
@@ -143,27 +143,27 @@ class SettingsCompletionTest {
     @Test fun timeoutBoundaryValuesSaveExactly() {
         // T104–T105.
         for (seconds in listOf("5", "300")) {
-            replace("Timeout", seconds)
+            replace("Wait limit", seconds)
             save()
             compose.waitUntil(10000) { settings().requestTimeoutSeconds == seconds.toInt() }
             open()
-            field("Timeout").performScrollTo().assertTextContains(seconds)
+            field("Wait limit").performScrollTo().assertTextContains(seconds)
         }
     }
 
     @Test fun invalidTimeoutCannotSilentlyOverwriteSavedValue() {
         // T106–T109. Independent contract: reject invalid draft and keep the saved 30 seconds.
         for (invalid in listOf("4", "301", "abc", "", "2147483648")) {
-            replace("Timeout", invalid)
+            replace("Wait limit", invalid)
             val saveButton = compose.onNode(hasContentDescription("Save settings") and hasClickAction())
             saveButton.performScrollTo()
             val enabled = saveButton.fetchSemanticsNode().config.contains(SemanticsProperties.Disabled).not()
             if (enabled) saveButton.performClick()
             compose.waitForIdle()
             assertEquals("Invalid Timeout '$invalid' was silently saved/coerced", 30, settings().requestTimeoutSeconds)
-            field("Timeout").assertExists()
+            field("Wait limit").assertExists()
             // User must remain able to correct the draft; field retains the invalid input.
-            field("Timeout").performScrollTo().assertTextContains(invalid)
+            field("Wait limit").performScrollTo().assertTextContains(invalid)
         }
     }
 
@@ -181,37 +181,37 @@ class SettingsCompletionTest {
     @Test fun promptLongDraftSavesExactlyAndCloseDiscardsUnsavedChanges() {
         // T111–T112; no arbitrary maximum: long text must be preserved or explicitly rejected.
         val prompt = "QA deterministic instruction. ".repeat(256)
-        replace("Prompt", prompt)
+        replace("Instructions", prompt)
         save()
         compose.waitUntil(10000) { repo.prefs.getString("llm_system_prompt", null) == prompt }
         open()
-        field("Prompt").performScrollTo().assertTextContains(prompt)
-        replace("Prompt", "QA unsaved prompt")
+        field("Instructions").performScrollTo().assertTextContains(prompt)
+        replace("Instructions", "QA unsaved prompt")
         compose.onNodeWithContentDescription("Close").performClick()
         open()
-        field("Prompt").performScrollTo().assertTextContains(prompt)
+        field("Instructions").performScrollTo().assertTextContains(prompt)
     }
 
     @Test fun blankPromptSavesExactlyAndResetProvidesUsableDefault() {
         // T112 explicitly permits a blank prompt: save/reopen must preserve exactly that value.
-        replace("Prompt", "")
+        replace("Instructions", "")
         save()
         compose.waitUntil(10000) { repo.prefs.getString("llm_system_prompt", null) == "" }
         open()
-        field("Prompt").performScrollTo().assert(SemanticsMatcher.expectValue(SemanticsProperties.EditableText, androidx.compose.ui.text.AnnotatedString("")))
-        compose.onNodeWithContentDescription("Reset prompt").performScrollTo().performClick()
+        field("Instructions").performScrollTo().assert(SemanticsMatcher.expectValue(SemanticsProperties.EditableText, androidx.compose.ui.text.AnnotatedString("")))
+        compose.onNodeWithContentDescription("Reset instructions").performScrollTo().performClick()
         save()
         compose.waitUntil(10000) { repo.prefs.getString("llm_system_prompt", "").orEmpty().isNotBlank() }
         val reset = repo.prefs.getString("llm_system_prompt", "").orEmpty()
         assertTrue("Reset must supply meaningful instructions", reset.isNotBlank())
         open()
-        field("Prompt").performScrollTo().assertTextContains(reset)
+        field("Instructions").performScrollTo().assertTextContains(reset)
     }
 
     @Test fun minimizeDoesNotCommitUnsavedHostOrTimeout() {
         // T094/T224 window lifecycle. Retained or discarded draft must not silently save.
-        replace("Host", server.url + "/unsaved")
-        replace("Timeout", "77")
+        replace("AI address", server.url + "/unsaved")
+        replace("Wait limit", "77")
         compose.onNodeWithContentDescription("Minimize").performClick()
         assertEquals(server.url, settings().ollamaEndpointUrl)
         assertEquals(30, settings().requestTimeoutSeconds)
@@ -221,12 +221,13 @@ class SettingsCompletionTest {
     }
 
     // The production prompt field requires testTag("settings_prompt") and label "System prompt".
+    // The presentation now labels it AI instructions; its settings_prompt identity remains stable.
     // Exact empty editable text is inspected only for this non-secret prompt field.
     private fun open() {
         compose.onNodeWithContentDescription("Settings").performClick()
         compose.waitUntil(10000) { compose.onAllNodesWithText("AI setup").fetchSemanticsNodes().isNotEmpty() }
     }
-    private fun field(label: String) = if (label == "Prompt") compose.onNodeWithTag("settings_prompt") else compose.onNode(hasText(label) and hasSetTextAction())
+    private fun field(label: String) = if (label == "Instructions") compose.onNodeWithTag("settings_prompt") else compose.onNode(hasText(label) and hasSetTextAction())
     private fun replace(label: String, value: String) = field(label).performScrollTo().performTextReplacement(value)
     private fun provider(name: String) {
         val current = when {
