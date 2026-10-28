@@ -24,14 +24,14 @@ class VideoProcessor(private val repository: VideoRepository, private val extern
     private var activeJob: Job? = null
 
     fun startBatch(videosToProcess: List<VideoItem>) {
-        if (_processorState.value == State.PROCESSING) return
+        if (_processorState.value == State.PROCESSING || activeJob?.isCompleted == false) return
         _processorState.value = State.PROCESSING
         
         activeJob = externalScope.launch {
             try {
                 val dbSettings = repository.getOrInitializeSettings()
                 
-                val targets = videosToProcess.filter {
+                val targets = MediaAnalysisPolicy.eligible(videosToProcess).filter {
                     it.status == "new" || it.status == "queued" || it.status == "error"
                 }
 
@@ -40,20 +40,22 @@ class VideoProcessor(private val repository: VideoRepository, private val extern
                     return@launch
                 }
 
-                for ((index, video) in targets.withIndex()) {
+                for ((index, queuedVideo) in targets.withIndex()) {
                     if (_processorState.value != State.PROCESSING) break
+                    val video = repository.videoDao.getVideoByIdDirect(queuedVideo.id) ?: continue
+                    if (!MediaAnalysisPolicy.canAnalyze(video) || video.status !in setOf("new", "queued", "error")) continue
                     
                     _activeVideoId.value = video.id
                     _currentStepName.value = "Processing (${index + 1}/${targets.size}): ${video.displayName}"
                     _currentVideoProgress.value = 10
 
                     val itemToUpdate = video.copy(status = "processing", errorMessage = null)
-                    repository.videoDao.updateVideo(itemToUpdate)
 
                     try {
+                        persistProcessingState(itemToUpdate)
                         _currentStepName.value = "Sampling frames..."
                         val stepFramesSampled = itemToUpdate.copy(lastCompletedStep = "frames_sampled")
-                        repository.videoDao.updateVideo(stepFramesSampled)
+                        persistProcessingState(stepFramesSampled)
 
                         val frames = repository.sampleFramesAndOCR(stepFramesSampled) { pct ->
                             _currentVideoProgress.value = 10 + (pct * 40 / 100) // maps to 10% - 50%
@@ -61,14 +63,14 @@ class VideoProcessor(private val repository: VideoRepository, private val extern
 
                         _currentStepName.value = "OCR analysis completed."
                         val stepOcrComplete = stepFramesSampled.copy(lastCompletedStep = "ocr_complete")
-                        repository.videoDao.updateVideo(stepOcrComplete)
+                        persistProcessingState(stepOcrComplete)
 
                         _currentStepName.value = "Synthesizing text with LLM/Fallback..."
                         _currentVideoProgress.value = 60
                         
                         // Mark attempting LLM
                         val stepLlmAttempted = stepOcrComplete.copy(lastCompletedStep = "llm_attempted")
-                        repository.videoDao.updateVideo(stepLlmAttempted)
+                        persistProcessingState(stepLlmAttempted)
 
                         val analysisResult = repository.analyzeVideoKnowledge(
                             video = stepOcrComplete,
@@ -81,14 +83,14 @@ class VideoProcessor(private val repository: VideoRepository, private val extern
                         _currentStepName.value = "Saving structured model analysis..."
                         
                         // If it used fallback, mark fallback generated
-                        val llmSourceStep = if (analysisResult.source == "ollama") "llm_attempted" else "fallback_generated"
+                        val llmSourceStep = if (analysisResult.source != "fallback") "llm_attempted" else "fallback_generated"
                         val stepLlmSource = stepOcrComplete.copy(lastCompletedStep = llmSourceStep)
-                        repository.videoDao.updateVideo(stepLlmSource)
+                        persistProcessingState(stepLlmSource)
 
                         repository.analysisDao.insertAnalysis(analysisResult)
 
                         // Final Step: Result Saved successfully!
-                        repository.videoDao.updateVideo(stepLlmSource.copy(
+                        persistProcessingState(stepLlmSource.copy(
                             status = "processed",
                             processedAt = System.currentTimeMillis(),
                             lastCompletedStep = "result_saved"
@@ -96,6 +98,14 @@ class VideoProcessor(private val repository: VideoRepository, private val extern
 
                         _currentVideoProgress.value = 100
                         delay(600)
+                    } catch (ce: CancellationException) {
+                        withContext(NonCancellable) {
+                            val latest = repository.videoDao.getVideoByIdDirect(video.id)
+                            if (latest?.status == "processing") {
+                                persistProcessingState(latest.copy(status = "queued", errorMessage = null))
+                            }
+                        }
+                        throw ce
                     } catch (e: Exception) {
                         val friendlyError = if (e.localizedMessage?.contains("timeout", ignoreCase = true) == true) {
                             "LLM timed out. Check Ollama host connection or increase timeout limit."
@@ -105,7 +115,7 @@ class VideoProcessor(private val repository: VideoRepository, private val extern
                             "Processing interrupted. Try running the video again."
                         }
                         
-                        repository.videoDao.updateVideo(itemToUpdate.copy(
+                        persistProcessingState(itemToUpdate.copy(
                             status = "error",
                             errorMessage = friendlyError
                         ))
@@ -130,11 +140,14 @@ class VideoProcessor(private val repository: VideoRepository, private val extern
         }
     }
 
+    private suspend fun persistProcessingState(item: VideoItem) {
+        repository.videoDao.updateProcessingState(item.id, item.status, item.errorMessage, item.processedAt, item.lastCompletedStep)
+    }
+
     fun pauseBatch() {
         if (_processorState.value == State.PROCESSING) {
             _processorState.value = State.PAUSED
             activeJob?.cancel()
-            activeJob = null
         }
     }
 
