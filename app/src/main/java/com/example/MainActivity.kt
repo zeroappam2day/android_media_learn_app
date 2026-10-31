@@ -62,11 +62,16 @@ import androidx.compose.ui.window.SecureFlagPolicy
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.data.*
 import com.example.ui.VideoViewModel
+import com.example.ui.FileTableHeader
+import com.example.ui.FileTableRow
 import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.theme.AppActionHint as ActionHint
 import com.example.ui.theme.AppIconAction
 import com.example.ui.theme.Presentation
 import com.example.ui.theme.canvasBrush
+import com.example.ui.theme.surfaceBrush
+import com.example.ui.theme.surfaceArrival
+import com.example.ui.theme.polishedActionSurface
 import java.text.SimpleDateFormat
 import java.util.*
 import androidx.compose.foundation.shape.CircleShape
@@ -446,17 +451,17 @@ fun MainScreen(
             val appBarActions: @Composable RowScope.() -> Unit = {
                     ActionHint("Save file details") { IconButton(
                         onClick = { exportLauncher.launch("media-metadata.json") },
-                        modifier = Modifier.testTag("computer_transfer_button")
+                        modifier = Modifier.polishedActionSurface().testTag("computer_transfer_button")
                     ) {
                         Icon(Icons.Default.FileDownload, contentDescription = "Save file details")
                     } }
-                    ActionHint("Toggle Theme") { IconButton(onClick = onToggleTheme) {
+                    ActionHint("Toggle Theme") { IconButton(onClick = onToggleTheme, modifier = Modifier.polishedActionSurface()) {
                         val icon = if (isDark) Icons.Default.LightMode else Icons.Default.DarkMode
                         Icon(imageVector = icon, contentDescription = "Toggle Theme")
                     } }
                     ActionHint("Settings") { IconButton(
                         onClick = { showSettings = true },
-                        modifier = Modifier.testTag("settings_button")
+                        modifier = Modifier.polishedActionSurface().testTag("settings_button")
                     ) {
                         Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
                     } }
@@ -533,7 +538,7 @@ fun MainScreen(
                                 .width(240.dp)
                                 .fillMaxHeight()
                                 .verticalScroll(rememberScrollState())
-                                .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                                .background(surfaceBrush(MaterialTheme.colorScheme.surface))
                                 .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.12f))
                                 .padding(12.dp)
                         ) {
@@ -633,7 +638,7 @@ fun MainScreen(
                                     modifier = Modifier.fillMaxWidth(),
                                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                                 ) {
-                                    Column(modifier = Modifier.padding(10.dp)) {
+                                    Column(modifier = Modifier.background(surfaceBrush(MaterialTheme.colorScheme.surfaceVariant)).padding(10.dp)) {
                                         Text("Summary", fontSize = 12.sp, fontWeight = FontWeight.Bold)
                                         Spacer(modifier = Modifier.height(4.dp))
                                         Text("• Available media: ${allVideos.count { it.isCurrentlyAvailable && !it.isPending && !it.isTrashed }}", fontSize = 11.sp)
@@ -771,7 +776,7 @@ when (activePanelSection) {
                                     modifier = Modifier.fillMaxWidth(),
                                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f))
                                 ) {
-                                    Column(modifier = Modifier.padding(12.dp)) {
+                                    Column(modifier = Modifier.background(surfaceBrush(MaterialTheme.colorScheme.surface)).padding(12.dp)) {
                                         Row(modifier = Modifier.fillMaxWidth().clickable { showEngineGuide = !showEngineGuide }, horizontalArrangement = Arrangement.SpaceBetween) {
                                             Text("Guide", fontWeight = FontWeight.Bold, fontSize = 12.sp)
                                             Icon(
@@ -1078,6 +1083,8 @@ when (activePanelSection) {
                                         BoxWithConstraints(Modifier.fillMaxSize()) {
                                             val queueViewportWidth = maxWidth
                                             val queueTableWidth = queueViewportWidth
+                                            val queueColumnsScroll = rememberScrollState()
+                                            val queueFileWidth = (queueViewportWidth * 0.56f).coerceIn(120.dp, 240.dp)
 
                                             Column(Modifier.fillMaxSize()) {
                                                 Box(Modifier.weight(1f).fillMaxWidth().testTag("queue_table_viewport")) {
@@ -1097,6 +1104,8 @@ when (activePanelSection) {
                                                 Text("Select all", fontSize = 12.sp, modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.onSurfaceVariant)
                                                 Text("${backlogList.size} ${if (backlogList.size == 1) "file" else "files"}", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                             }
+
+                                            FileTableHeader(queueFileWidth, queueColumnsScroll, "queue")
 
                                             if (backlogList.isEmpty()) {
                                                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -1132,31 +1141,22 @@ when (activePanelSection) {
 
                                                         val rowBg = if (index % 2 == 0) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f)
 
-                                                        Column(
-                                                            modifier = Modifier.fillMaxWidth()
-                                                                .animateContentSize()
-                                                                .background(if (isChecked) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f) else rowBg)
-                                                                .then(Bottom(1.dp, MaterialTheme.colorScheme.outlineVariant))
-                                                                .padding(horizontal = 8.dp, vertical = 6.dp)
-                                                                .testTag("queue_row_${video.id}")
-                                                        ) {
-                                                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                                                Checkbox(
-                                                                    checked = isChecked,
+                                                        FileTableRow(
+                                                            fileWidth = queueFileWidth,
+                                                            scroll = queueColumnsScroll,
+                                                            name = video.displayName,
+                                                            location = mediaFolderLabel(video),
+                                                            size = sizeMB,
+                                                            status = statBadge,
+                                                            statusColor = if (video.status == "error") MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
+                                                            background = if (isChecked) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f) else rowBg,
+                                                            modifier = Modifier.animateContentSize().testTag("queue_row_${video.id}"),
+                                                            leading = {
+                                                                Checkbox(checked = isChecked,
                                                                     onCheckedChange = { selectedBacklogVideos[video.id] = it },
-                                                                    modifier = Modifier.size(48.dp)
-                                                                )
-                                                                Column(Modifier.weight(1f).padding(horizontal = 4.dp)) {
-                                                                    Text(video.displayName, fontSize = 12.sp, lineHeight = 16.sp, fontWeight = FontWeight.SemiBold)
-                                                                    Text(mediaFolderLabel(video), fontSize = 11.sp, lineHeight = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                                                                }
-                                                                Column(Modifier.widthIn(max = 86.dp), horizontalAlignment = Alignment.End) {
-                                                                    Text(sizeMB, fontSize = 11.sp)
-                                                                    Text(statBadge, fontSize = 11.sp, fontWeight = FontWeight.Medium,
-                                                                        color = if (video.status == "error") MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant)
-                                                                }
+                                                                    modifier = Modifier.size(48.dp))
                                                             }
-                                                            FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                                                        ) {
                                                                 AppIconAction(Icons.Default.AutoFixHigh, "Rename", { viewModel.triggerFileRenameWithLLM(video.id) },
                                                                     Modifier.testTag("queue_${video.id}_rename"), hint = "Suggest a file name")
                                                                 // Open folder location
@@ -1181,7 +1181,6 @@ when (activePanelSection) {
                                                                     Toast.makeText(context, "Processing started for kept media.", Toast.LENGTH_SHORT).show()
                                                                 }, Modifier.testTag("queue_${video.id}_process"), enabled = video.reviewDecision == "keep",
                                                                     hint = if (video.reviewDecision == "keep") "Process this file" else "Mark this file Keep before processing")
-                                                            }
                                                         }
                                                     }
                                                 }
@@ -1780,7 +1779,7 @@ fun NavigationRowItem(
         animationSpec = tween(180), label = "navigation selection"
     )
     val text by animateColorAsState(
-        if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+        if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
         animationSpec = tween(180), label = "navigation emphasis"
     )
     ActionHint(title) {
@@ -1788,8 +1787,8 @@ fun NavigationRowItem(
         modifier = Modifier
             .fillMaxWidth()
             .testTag("nav_${title.lowercase()}")
-            .clip(RoundedCornerShape(8.dp))
-            .background(bg)
+            .clip(RoundedCornerShape(12.dp))
+            .background(if (isSelected) surfaceBrush(MaterialTheme.colorScheme.primaryContainer) else androidx.compose.ui.graphics.Brush.linearGradient(listOf(bg, bg)))
             .clickable(onClick = onClick)
             .heightIn(min = Presentation.target)
             .padding(horizontal = 12.dp, vertical = 10.dp),
@@ -1846,13 +1845,15 @@ fun OverviewGrid(
                 ) {
                     // New Card
                     Card(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.weight(1f).surfaceArrival(0),
                         shape = RoundedCornerShape(12.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
                     ) {
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .background(surfaceBrush(MaterialTheme.colorScheme.primaryContainer))
                                 .padding(vertical = 8.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -1874,14 +1875,16 @@ fun OverviewGrid(
 
             // Queued Card
             Card(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).surfaceArrival(1),
                 shape = RoundedCornerShape(12.dp),
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
+                                .background(surfaceBrush(MaterialTheme.colorScheme.surfaceVariant))
                         .padding(vertical = 8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -1903,14 +1906,16 @@ fun OverviewGrid(
 
             // Proc Card
             Card(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).surfaceArrival(2),
                 shape = RoundedCornerShape(12.dp),
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
+                                .background(surfaceBrush(MaterialTheme.colorScheme.secondaryContainer))
                         .padding(vertical = 8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -1932,13 +1937,15 @@ fun OverviewGrid(
 
             // Review Card
             Card(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).surfaceArrival(3),
                 shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
+                                .background(surfaceBrush(MaterialTheme.colorScheme.errorContainer))
                         .padding(vertical = 8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -2995,31 +3002,21 @@ internal fun MediaSourcesScreen(
                     }
                 }
             } else {
-                LazyColumn(verticalArrangement = Arrangement.spacedBy(7.dp), modifier = Modifier.fillMaxWidth().heightIn(max = listHeight)) {
-                    items(aggregates, key = { it.category }) { aggregate ->
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { onSelectCategory(aggregate.category) }
-                                .testTag("source_category_${aggregate.category}"),
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.16f)),
-                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-                        ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 11.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(sourceIcon(aggregate.category), contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(24.dp))
-                                Spacer(modifier = Modifier.width(12.dp))
-                                Text(aggregate.category, modifier = Modifier.weight(1f), fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                                Text("${aggregate.itemCount} items", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                                Spacer(modifier = Modifier.width(18.dp))
-                                Text(formatMediaBytes(aggregate.totalBytes), fontWeight = FontWeight.Bold, fontSize = 12.sp)
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Icon(Icons.Default.ChevronRight, contentDescription = "Open ${aggregate.category}")
-                            }
+                Column {
+                    Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        aggregates.forEach { aggregate ->
+                            FilterChip(selected = false, onClick = { onSelectCategory(aggregate.category) },
+                                label = {
+                                    Column {
+                                        Text(aggregate.category, fontSize = 12.sp)
+                                        Text("${aggregate.itemCount} items • ${formatMediaBytes(aggregate.totalBytes)}", fontSize = 10.sp)
+                                    }
+                                },
+                                leadingIcon = { Icon(sourceIcon(aggregate.category), contentDescription = "Open ${aggregate.category}", modifier = Modifier.size(18.dp)) },
+                                modifier = Modifier.testTag("source_category_${aggregate.category}"))
                         }
                     }
+                    SourceFileTable(eligibleMedia, listHeight, onDecision)
                 }
             }
         } else {
@@ -3047,49 +3044,53 @@ internal fun MediaSourcesScreen(
                 }
             }
 
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.fillMaxWidth().heightIn(max = listHeight)) {
-                items(categoryItems, key = { it.id }) { media ->
-                    Card(
-                        modifier = Modifier.fillMaxWidth().testTag("source_media_${media.id}"),
-                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.14f)),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                if (media.mimeType?.startsWith("image/") == true) Icons.Default.Image else Icons.Default.Movie,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(22.dp)
-                            )
-                            Spacer(modifier = Modifier.width(9.dp))
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(media.displayName, fontWeight = FontWeight.Medium, fontSize = 12.sp)
-                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                    Text(formatMediaBytes(media.sizeBytes ?: 0L), fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                                    media.sourceSubcategory?.let { subcategory ->
-                                        val evidence = if (media.subcategoryEvidenceKind == "filename_token") "Inferred from filename" else media.subcategoryEvidenceKind.orEmpty()
-                                        Text(
-                                            "$subcategory • $evidence",
-                                            fontSize = 10.sp,
-                                            color = MaterialTheme.colorScheme.primary,
-                                            modifier = Modifier.testTag("source_evidence_${media.id}")
-                                        )
-                                    }
+            SourceFileTable(categoryItems, listHeight, onDecision)
+        }
+    }
+    }
+}
+
+@Composable
+private fun SourceFileTable(media: List<VideoItem>, listHeight: Dp, onDecision: (Long, String) -> Unit) {
+    BoxWithConstraints(Modifier.fillMaxWidth().testTag("source_file_table")) {
+        val columnsScroll = rememberScrollState()
+        val fileWidth = (maxWidth * 0.56f).coerceIn(120.dp, 240.dp)
+        Column(Modifier.fillMaxWidth()) {
+            FileTableHeader(fileWidth, columnsScroll, "source")
+            if (media.isEmpty()) {
+                Text("No files in this view.", Modifier.padding(12.dp), fontSize = 12.sp)
+            } else {
+                LazyColumn(Modifier.fillMaxWidth().heightIn(max = listHeight)) {
+                    itemsIndexed(media, key = { _, item -> item.id }) { index, item ->
+                        FileTableRow(fileWidth = fileWidth, scroll = columnsScroll,
+                            name = item.displayName, location = mediaFolderLabel(item),
+                            size = formatMediaBytes(item.sizeBytes ?: 0L),
+                            status = when (item.reviewDecision) {
+                                "keep" -> "Keep"
+                                "review_later" -> "Later"
+                                "ready_to_delete" -> "Remove"
+                                else -> "New"
+                            },
+                            modifier = Modifier.testTag("source_media_${item.id}"),
+                            background = if (index % 2 == 0) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f),
+                            leading = {
+                                Icon(if (item.mimeType?.startsWith("image/") == true) Icons.Default.Image else Icons.Default.Movie,
+                                    contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(22.dp))
+                            },
+                            evidence = {
+                                item.sourceSubcategory?.let { subcategory ->
+                                    val evidence = if (item.subcategoryEvidenceKind == "filename_token") "Inferred from filename" else item.subcategoryEvidenceKind.orEmpty()
+                                    Text("$subcategory • $evidence", fontSize = 10.sp, color = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.testTag("source_evidence_${item.id}"))
                                 }
                             }
-                            DecisionSelector(
-                                media.reviewDecision,
-                                modifier = Modifier.testTag("review_decision_${media.id}")
-                            ) { onDecision(media.id, it) }
+                        ) {
+                            DecisionSelector(item.reviewDecision, Modifier.testTag("review_decision_${item.id}")) { onDecision(item.id, it) }
                         }
                     }
                 }
             }
         }
-    }
     }
 }
 
